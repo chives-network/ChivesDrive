@@ -65,50 +65,12 @@ const DriveNavMenus = [
     path: '/overview'
   },
   {
-    sectionTitle: 'Blocks & Txs'
-  },
-  {
-    title: 'Blocks',
-    icon: 'clarity:blocks-group-line',
-    path: '/blocks'
-  },
-  {
-    title: 'Transactions',
-    icon: 'grommet-icons:transaction',
-    path: '/txs'
-  },
-  {
-    title: 'Addresses',
-    icon: 'clarity:wallet-solid',
-    path: '/addresses'
+    sectionTitle: 'My Portal'
   },
   {
     title: 'Resoures',
     icon: 'mdi:file-multiple',
     path: '/files/png'
-  },
-  {
-    title: 'Staticstics',
-    icon: 'mdi:chart-areaspline',
-    path: '/statics'
-  },
-  {
-    title: 'Top Stats',
-    icon: 'mdi:poll',
-    path: '/topstats'
-  },
-  {
-    title: 'Nodes',
-    icon: 'fa6-solid:share-nodes',
-    path: '/nodes'
-  },
-  {
-    title: 'Memory Pool',
-    icon: 'mdi:pool',
-    path: '/mempool'
-  },
-  {
-    sectionTitle: 'My Portal'
   },
   {
     title: 'My Wallet',
@@ -119,6 +81,19 @@ const DriveNavMenus = [
     title: 'My Files',
     icon: 'mdi:file-multiple',
     path: '/myfiles'
+  },
+  {
+    sectionTitle: 'Blockchain'
+  },
+  {
+    title: 'Nodes',
+    icon: 'fa6-solid:share-nodes',
+    path: '/nodes'
+  },
+  {
+    title: 'Memory Pool',
+    icon: 'mdi:pool',
+    path: '/mempool'
   }
 ]
 

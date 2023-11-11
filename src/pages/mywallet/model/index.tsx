@@ -230,7 +230,6 @@ const MyWalletModel = ({ activeTab } : any) => {
         .get(authConfig.backEndApi + '/wallet/' + id + "/balance", { headers: { }, params: { } })
         .then(res => {
           setAddressBalance(winstonToAr(res.data));
-          console.log("==================", winstonToAr(res.data))
         })
         .catch(() => {
           console.log("axios.get editUrl return")

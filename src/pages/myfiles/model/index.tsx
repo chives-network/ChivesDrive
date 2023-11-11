@@ -47,7 +47,8 @@ import Icon from 'src/@core/components/icon'
 import authConfig from 'src/configs/auth'
 
 import StringDisplay from 'src/pages/preview/StringDisplay';
-import { formatXWE } from 'src/configs/functions';
+
+import { winstonToAr } from 'src/functions/ChivesweaveWallets'
 
 // ** Styled Tab component
 const TabList = styled(MuiTabList)<TabListProps>(({ theme }) => ({
@@ -94,7 +95,7 @@ const FileResourceModel = ({ activeTab } : any) => {
       axios
         .get(authConfig.backEndApi + '/wallet/' + id + "/balance", { headers: { }, params: { } })
         .then(res => {
-          setAddressBalance(res.data);
+          setAddressBalance(winstonToAr(res.data));
         })
         .catch(() => {
           console.log("axios.get editUrl return")
@@ -181,7 +182,7 @@ const FileResourceModel = ({ activeTab } : any) => {
                             Balance:
                           </Typography>
                         </TableCell>
-                        <TableCell>{formatXWE(addressBalance, 8)} XWE</TableCell>
+                        <TableCell>{addressBalance} XWE</TableCell>
                       </TableRow>
 
                       <TableRow>
