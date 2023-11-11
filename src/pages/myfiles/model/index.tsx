@@ -88,7 +88,7 @@ const FileResourceModel = ({ activeTab } : any) => {
   const dispatch = useDispatch<AppDispatch>()
   const store = useSelector((state: RootState) => state.myfiles)
 
-  const [addressBalance, setAddressBalance] = useState<number>(0)
+  const [addressBalance, setAddressBalance] = useState<string>('')
 
   useEffect(() => {
     if(id != undefined && id.length == 43) {
