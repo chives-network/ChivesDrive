@@ -47,7 +47,7 @@ const MailItem = styled(ListItem)<ListItemProps>(({ theme }) => ({
   paddingBottom: theme.spacing(3),
   justifyContent: 'space-between',
   transition: 'border 0.15s ease-in-out, transform 0.15s ease-in-out, box-shadow 0.15s ease-in-out',
-  '&:not(:first-child)': {
+  '&:not(:first-of-type)': {
     borderTop: `1px solid ${theme.palette.divider}`
   },
   '&:hover': {

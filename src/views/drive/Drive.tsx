@@ -30,7 +30,7 @@ import {
   updateMailLabel,
   handleSelectMail,
   handleSelectAllMail
-} from 'src/store/apps/email'
+} from 'src/store/apps/drive'
 
 // ** Variables
 const labelColors: MailLabelColors = {
@@ -55,7 +55,7 @@ const DriveAppLayout = ({ folder, label }: MailLayoutType) => {
   const mdAbove = useMediaQuery(theme.breakpoints.up('md'))
   const smAbove = useMediaQuery(theme.breakpoints.up('sm'))
   const hidden = useMediaQuery(theme.breakpoints.down('lg'))
-  const store = useSelector((state: RootState) => state.email)
+  const store = useSelector((state: RootState) => state.drive)
 
   // ** Vars
   const leftSidebarWidth = 260

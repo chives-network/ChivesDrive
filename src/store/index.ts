@@ -10,7 +10,7 @@ import transactionbundles from 'src/store/apps/transactionbundles'
 import addresses from 'src/store/apps/addresses'
 import files from 'src/store/apps/files'
 import myfiles from 'src/store/apps/myfiles'
-import email from 'src/store/apps/email'
+import drive from 'src/store/apps/drive'
 
 export const store = configureStore({
   reducer: {
@@ -22,7 +22,7 @@ export const store = configureStore({
     addresses,
     files,
     myfiles,
-    email
+    drive
   },
   middleware: getDefaultMiddleware =>
     getDefaultMiddleware({
