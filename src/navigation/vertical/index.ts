@@ -73,9 +73,14 @@ const DriveNavMenus = [
     path: '/files/png'
   },
   {
+    title: 'My Drive',
+    icon: 'clarity:wallet-solid',
+    path: '/drive'
+  },
+  {
     title: 'My Wallet',
     icon: 'clarity:wallet-solid',
-    path: '/mywallet'
+    path: '/wallet'
   },
   {
     title: 'My Files',
