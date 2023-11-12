@@ -8,7 +8,7 @@ import axios from 'axios'
 import { MailLayoutType, MailType } from 'src/types/apps/emailTypes'
 
 // ** Demo Components Imports
-import Email from 'src/views/drive/Email'
+import Email from 'src/views/drive/Drive'
 
 const EmailApp = ({ folder }: MailLayoutType) => {
   return <Email folder={folder} />

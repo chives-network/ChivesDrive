@@ -28,7 +28,7 @@ import OptionsMenu from 'src/@core/components/option-menu'
 
 // ** Email App Component Imports
 import { setTimeout } from 'timers'
-import MailDetails from './MailDetails'
+import MailDetails from './DriveDetail'
 
 // ** Types
 import {
