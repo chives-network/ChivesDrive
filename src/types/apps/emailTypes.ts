@@ -122,7 +122,7 @@ export type MailSidebarType = {
 export type MailLogType = {
   query: string
   hidden: boolean
-  store: MailStore
+  store: any
   lgAbove: boolean
   dispatch: Dispatch<any>
   direction: 'ltr' | 'rtl'
@@ -138,6 +138,8 @@ export type MailLogType = {
   updateMail: (data: UpdateMailParamsType) => void
   updateMailLabel: (data: UpdateMailLabelType) => void
   paginateMail: (data: PaginateMailParamsType) => void
+  paginationModel: any
+  handlePageChange: (event: any, page: number) => void
 }
 
 export type MailDetailsType = {

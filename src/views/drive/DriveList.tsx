@@ -335,7 +335,7 @@ const DriveList = (props: MailLogType) => {
             )}
             <Input
               value={query}
-              placeholder='Search mail'
+              placeholder='Search File Name'
               onChange={e => setQuery(e.target.value)}
               sx={{ width: '100%', '&:before, &:after': { display: 'none' } }}
               startAdornment={
@@ -390,7 +390,7 @@ const DriveList = (props: MailLogType) => {
           </Box>
         </Box>
         <Divider sx={{ m: '0 !important' }} />
-        <Box sx={{ p: 0, position: 'relative', overflowX: 'hidden', height: 'calc(100% - 7.25rem)' }}>
+        <Box sx={{ p: 0, position: 'relative', overflowX: 'hidden', height: 'calc(100% - 12rem)' }}>
           <ScrollWrapper hidden={hidden}>
             {store && store.data && store.data.length ? (
               <List sx={{ p: 0 }}>
@@ -513,9 +513,7 @@ const DriveList = (props: MailLogType) => {
                 })}
 
                 
-      <Grid item key={"Pagination"} xs={12} sm={12} md={12} lg={12} sx={{ padding: '10px 0 10px 0' }}>
-        <Pagination  count={Number(store.allPages)} variant='outlined' color='primary' page={paginationModel.page} onChange={handlePageChange} />
-      </Grid>
+      
 
               </List>
             ) : (
@@ -538,6 +536,16 @@ const DriveList = (props: MailLogType) => {
             <CircularProgress color='inherit' />
           </Backdrop>
         </Box>
+        
+        <Divider sx={{ m: '0 !important' }} />
+        <Box sx={{ px: 5, py: 3 }}>
+          <Box sx={{ display: 'flex', alignItems: 'center', width: '100%' }}>
+            <Grid item key={"Pagination"} xs={12} sm={12} md={12} lg={12} sx={{ padding: '10px 0 10px 0' }}>
+              <Pagination  count={Number(store.allPages)} variant='outlined' color='primary' page={paginationModel.page} onChange={handlePageChange} />
+            </Grid>
+          </Box>
+        </Box>
+
       </Box>
 
       {/* @ts-ignore */}
