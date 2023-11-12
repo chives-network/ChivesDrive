@@ -26,7 +26,7 @@ import CustomBadge from 'src/@core/components/mui/badge'
 
 // ** Types
 import { CustomBadgeProps } from 'src/@core/components/mui/badge/types'
-import { MailFolderType, MailLabelType, MailSidebarType } from 'src/types/apps/emailTypes'
+import { DriveLabelType, DriveSidebarType } from 'src/types/apps/Chivesweave'
 
 // ** Styled Components
 const ListItemStyled = styled(ListItem)<ListItemProps & { component?: ElementType; href: string }>(({ theme }) => ({
@@ -46,7 +46,7 @@ const ListBadge = styled(CustomBadge)<CustomBadgeProps>(() => ({
   }
 }))
 
-const SidebarLeft = (props: MailSidebarType) => {
+const SidebarLeft = (props: DriveSidebarType) => {
   // ** Props
   const {
     store,
@@ -72,7 +72,7 @@ const SidebarLeft = (props: MailSidebarType) => {
     }
   }
 
-  const handleActiveItem = (type: 'folder' | 'label', value: MailFolderType | MailLabelType) => {
+  const handleActiveItem = (type: 'folder' | 'label' | 'type', value: MailFolderType | DriveLabelType) => {
     if (store && store.filter[type] !== value) {
       return false
     } else {
@@ -131,7 +131,7 @@ const SidebarLeft = (props: MailSidebarType) => {
           <List component='div'>
             <ListItemStyled
               component={Link}
-              href='/email/inbox'
+              href='/drive/inbox'
               onClick={handleListItemClick}
               sx={{ borderLeftColor: activeInboxCondition ? 'primary.main' : 'transparent' }}
             >
@@ -149,7 +149,7 @@ const SidebarLeft = (props: MailSidebarType) => {
             </ListItemStyled>
             <ListItemStyled
               component={Link}
-              href='/email/sent'
+              href='/drive/sent'
               onClick={handleListItemClick}
               sx={{
                 borderLeftColor: handleActiveItem('folder', 'sent') ? 'primary.main' : 'transparent'
@@ -172,7 +172,7 @@ const SidebarLeft = (props: MailSidebarType) => {
             </ListItemStyled>
             <ListItemStyled
               component={Link}
-              href='/email/draft'
+              href='/drive/draft'
               onClick={handleListItemClick}
               sx={{
                 borderLeftColor: handleActiveItem('folder', 'draft') ? 'primary.main' : 'transparent'
@@ -196,7 +196,7 @@ const SidebarLeft = (props: MailSidebarType) => {
             </ListItemStyled>
             <ListItemStyled
               component={Link}
-              href='/email/starred'
+              href='/drive/starred'
               onClick={handleListItemClick}
               sx={{
                 borderLeftColor: handleActiveItem('folder', 'starred') ? 'primary.main' : 'transparent'
@@ -219,7 +219,7 @@ const SidebarLeft = (props: MailSidebarType) => {
             </ListItemStyled>
             <ListItemStyled
               component={Link}
-              href='/email/spam'
+              href='/drive/spam'
               onClick={handleListItemClick}
               sx={{
                 borderLeftColor: handleActiveItem('folder', 'spam') ? 'primary.main' : 'transparent'
@@ -243,7 +243,7 @@ const SidebarLeft = (props: MailSidebarType) => {
             </ListItemStyled>
             <ListItemStyled
               component={Link}
-              href='/email/trash'
+              href='/drive/trash'
               onClick={handleListItemClick}
               sx={{
                 borderLeftColor: handleActiveItem('folder', 'trash') ? 'primary.main' : 'transparent'
@@ -270,82 +270,120 @@ const SidebarLeft = (props: MailSidebarType) => {
             variant='caption'
             sx={{ mx: 6, mt: 4, mb: 0, color: 'text.disabled', letterSpacing: '0.21px', textTransform: 'uppercase' }}
           >
-            Labels
+            File Types
           </Typography>
           <List component='div'>
             <ListItemStyled
               component={Link}
-              href='/email/label/personal'
+              href='/drive/type/png'
               onClick={handleListItemClick}
               sx={{
-                borderLeftColor: handleActiveItem('label', 'personal') ? 'primary.main' : 'transparent'
+                borderLeftColor: handleActiveItem('type', 'png') ? 'primary.main' : 'transparent'
               }}
             >
               <ListItemIcon sx={{ mr: 3.5, '& svg': { color: 'success.main' } }}>
                 <Icon icon='mdi:circle' fontSize='0.75rem' />
               </ListItemIcon>
               <ListItemText
-                primary='Personal'
+                primary='Png'
                 primaryTypographyProps={{
                   noWrap: true,
-                  sx: { fontWeight: 500, ...(handleActiveItem('label', 'personal') && { color: 'primary.main' }) }
+                  sx: { fontWeight: 500, ...(handleActiveItem('type', 'png') && { color: 'primary.main' }) }
                 }}
               />
             </ListItemStyled>
             <ListItemStyled
               component={Link}
-              href='/email/label/company'
+              href='/drive/type/jpeg'
               onClick={handleListItemClick}
               sx={{
-                borderLeftColor: handleActiveItem('label', 'company') ? 'primary.main' : 'transparent'
+                borderLeftColor: handleActiveItem('type', 'jpeg') ? 'primary.main' : 'transparent'
               }}
             >
               <ListItemIcon sx={{ mr: 3.5, '& svg': { color: 'primary.main' } }}>
                 <Icon icon='mdi:circle' fontSize='0.75rem' />
               </ListItemIcon>
               <ListItemText
-                primary='Company'
+                primary='Jpeg'
                 primaryTypographyProps={{
                   noWrap: true,
-                  sx: { fontWeight: 500, ...(handleActiveItem('label', 'company') && { color: 'primary.main' }) }
+                  sx: { fontWeight: 500, ...(handleActiveItem('type', 'jpeg') && { color: 'primary.main' }) }
                 }}
               />
             </ListItemStyled>
             <ListItemStyled
               component={Link}
-              href='/email/label/important'
+              href='/drive/type/mp4'
               onClick={handleListItemClick}
               sx={{
-                borderLeftColor: handleActiveItem('label', 'important') ? 'primary.main' : 'transparent'
+                borderLeftColor: handleActiveItem('type', 'mp4') ? 'primary.main' : 'transparent'
               }}
             >
               <ListItemIcon sx={{ mr: 3.5, '& svg': { color: 'warning.main' } }}>
                 <Icon icon='mdi:circle' fontSize='0.75rem' />
               </ListItemIcon>
               <ListItemText
-                primary='Important'
+                primary='Video Mp4'
                 primaryTypographyProps={{
                   noWrap: true,
-                  sx: { fontWeight: 500, ...(handleActiveItem('label', 'important') && { color: 'primary.main' }) }
+                  sx: { fontWeight: 500, ...(handleActiveItem('type', 'mp4') && { color: 'primary.main' }) }
                 }}
               />
             </ListItemStyled>
             <ListItemStyled
               component={Link}
-              href='/email/label/private'
+              href='/drive/type/pdf'
               onClick={handleListItemClick}
               sx={{
-                borderLeftColor: handleActiveItem('label', 'private') ? 'primary.main' : 'transparent'
+                borderLeftColor: handleActiveItem('type', 'pdf') ? 'primary.main' : 'transparent'
               }}
             >
               <ListItemIcon sx={{ mr: 3.5, '& svg': { color: 'error.main' } }}>
                 <Icon icon='mdi:circle' fontSize='0.75rem' />
               </ListItemIcon>
               <ListItemText
-                primary='Private'
+                primary='Pdf'
                 primaryTypographyProps={{
                   noWrap: true,
-                  sx: { fontWeight: 500, ...(handleActiveItem('label', 'private') && { color: 'primary.main' }) }
+                  sx: { fontWeight: 500, ...(handleActiveItem('type', 'pdf') && { color: 'primary.main' }) }
+                }}
+              />
+            </ListItemStyled>
+            <ListItemStyled
+              component={Link}
+              href='/drive/type/office'
+              onClick={handleListItemClick}
+              sx={{
+                borderLeftColor: handleActiveItem('type', 'office') ? 'primary.main' : 'transparent'
+              }}
+            >
+              <ListItemIcon sx={{ mr: 3.5, '& svg': { color: 'error.main' } }}>
+                <Icon icon='mdi:circle' fontSize='0.75rem' />
+              </ListItemIcon>
+              <ListItemText
+                primary='Office'
+                primaryTypographyProps={{
+                  noWrap: true,
+                  sx: { fontWeight: 500, ...(handleActiveItem('type', 'office') && { color: 'primary.main' }) }
+                }}
+              />
+            </ListItemStyled>
+            <ListItemStyled
+              component={Link}
+              href='/drive/type/stl'
+              onClick={handleListItemClick}
+              sx={{
+                borderLeftColor: handleActiveItem('type', 'stl') ? 'primary.main' : 'transparent'
+              }}
+            >
+              <ListItemIcon sx={{ mr: 3.5, '& svg': { color: 'error.main' } }}>
+                <Icon icon='mdi:circle' fontSize='0.75rem' />
+              </ListItemIcon>
+              <ListItemText
+                primary='Stl'
+                primaryTypographyProps={{
+                  noWrap: true,
+                  sx: { fontWeight: 500, ...(handleActiveItem('type', 'stl') && { color: 'primary.main' }) }
                 }}
               />
             </ListItemStyled>

@@ -1,4 +1,4 @@
-import MyWalletModel from 'src/pages/mywallet/model';
+import MyWalletModel from 'src/pages/wallet/model';
 
 const AddressTransactionList = () => {
 

@@ -1,3 +1,25 @@
+
+// ** Types
+import { Dispatch } from 'redux'
+
+export type DriveLabelType = 'Png' | 'Jpeg' | 'Mp4' | 'Office' | 'Mp4' | 'Stl'
+
+export type DriveFolderType = 'inbox' | 'sent' | 'draft' | 'starred' | 'spam' | 'trash'
+
+export type DriveSidebarType = {
+  hidden: boolean
+  store: any
+  lgAbove: boolean
+  dispatch: Dispatch<any>
+  leftSidebarOpen: boolean
+  leftSidebarWidth: number
+  mailDetailsOpen: boolean
+  toggleComposeOpen: () => void
+  handleLeftSidebarToggle: () => void
+  setMailDetailsOpen: (val: boolean) => void
+  handleSelectAllMail: (val: boolean) => void
+}
+
 export type BlockType = {
   id: number
   height: number
