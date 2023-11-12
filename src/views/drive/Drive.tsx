@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux'
 
 // ** MUI Imports
 import Box from '@mui/material/Box'
+import Grid from '@mui/material/Grid'
 import { useTheme } from '@mui/material/styles'
 import useMediaQuery from '@mui/material/useMediaQuery'
 
@@ -23,7 +24,7 @@ import ComposePopup from 'src/views/drive/UploadFiles'
 
 // ** Actions
 import {
-  fetchMails,
+  fetchData,
   updateMail,
   paginateMail,
   getCurrentMail,
@@ -31,6 +32,18 @@ import {
   handleSelectMail,
   handleSelectAllMail
 } from 'src/store/apps/drive'
+
+
+// ** Context
+import { useAuth } from 'src/hooks/useAuth'
+
+// ** Axios Imports
+import axios from 'axios'
+
+import Pagination from '@mui/material/Pagination'
+
+// ** Next Import
+import { useRouter } from 'next/router'
 
 // ** Variables
 const labelColors: MailLabelColors = {
@@ -66,10 +79,39 @@ const DriveAppLayout = ({ folder, label }: MailLayoutType) => {
     folder: folder || 'myfiles'
   }
 
+  const activeTab = "png"
+
+  const router = useRouter();
+
+  const auth = useAuth()
+
+  const id = auth.currentAddress
+
+  // ** State
+  const [isLoading, setIsLoading] = useState(false);
+  const [paginationModel, setPaginationModel] = useState({ page: 1, pageSize: 9 })
+  
+  const [addressBalance, setAddressBalance] = useState<string>('')
+
+  const handlePageChange = (event: React.ChangeEvent<unknown>, page: number) => {
+    setPaginationModel({ ...paginationModel, page });
+    console.log("handlePageChange", event)
+  }
+
   useEffect(() => {
-    // @ts-ignore
-    dispatch(fetchMails({ q: query || '', folder: routeParams.folder, label: routeParams.label }))
-  }, [dispatch, query, routeParams.folder, routeParams.label])
+    if(true && id && id.length == 43) {
+      dispatch(
+        fetchData({
+          address: String(id),
+          pageId: paginationModel.page - 1,
+          pageSize: paginationModel.pageSize,
+          type: activeTab
+        })
+      )
+    }
+  }, [dispatch, paginationModel, activeTab, id])
+
+  console.log("store", store)
 
   const toggleComposeOpen = () => setComposeOpen(!composeOpen)
   const handleLeftSidebarToggle = () => setLeftSidebarOpen(!leftSidebarOpen)
@@ -118,6 +160,9 @@ const DriveAppLayout = ({ folder, label }: MailLayoutType) => {
         setMailDetailsOpen={setMailDetailsOpen}
         handleSelectAllMail={handleSelectAllMail}
         handleLeftSidebarToggle={handleLeftSidebarToggle}
+        
+        paginationModel={paginationModel}
+        handlePageChange={handlePageChange}
       />
       <ComposePopup
         mdAbove={mdAbove}

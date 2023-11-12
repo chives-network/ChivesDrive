@@ -19,14 +19,26 @@ interface ReduxType {
   dispatch: Dispatch<any>
 }
 
-// ** Fetch Mails
-export const fetchMails = createAsyncThunk('appEmail/fetchMails', async (params: FetchMailParamsType) => {
-  const response = await axios.get('/apps/email/emails', {
-    params
-  })
+import authConfig from 'src/configs/auth'
 
+interface DataParams1 {
+    address: string
+    pageId: number
+    pageSize: number
+    type: string
+}
+
+// ** Fetch Data
+export const fetchData = createAsyncThunk('appMyFiles/fetchData', async (params: DataParams1) => {
+  
+  const response = await axios.get(authConfig.backEndApi + '/file/'+ `${params.type}` + '/'+ `${params.address}` + '/'+ `${params.pageId}` + '/'+params.pageSize)
+
+  const NewData: any[] = response.data.data.filter((record: any) => record.id)
+  response.data.data = NewData
+  
   return { ...response.data, filter: params }
 })
+
 
 // ** Get Current Mail
 export const getCurrentMail = createAsyncThunk('appEmail/selectMail', async (id: number | string) => {
@@ -47,7 +59,7 @@ export const updateMail = createAsyncThunk(
       data: { emailIds: params.emailIds, dataToUpdate: params.dataToUpdate }
     })
 
-    await dispatch(fetchMails(getState().email.filter))
+    await dispatch(fetchData(getState().email.filter))
     if (Array.isArray(params.emailIds)) {
       await dispatch(getCurrentMail(params.emailIds[0]))
     }
@@ -64,7 +76,7 @@ export const updateMailLabel = createAsyncThunk(
       data: { emailIds: params.emailIds, label: params.label }
     })
 
-    await dispatch(fetchMails(getState().email.filter))
+    await dispatch(fetchData(getState().email.filter))
 
     if (Array.isArray(params.emailIds)) {
       await dispatch(getCurrentMail(params.emailIds[0]))
@@ -92,7 +104,13 @@ export const appEmailSlice = createSlice({
       folder: 'inbox'
     },
     currentMail: null,
-    selectedMails: []
+    selectedMails: [],
+    
+    data: [],
+    total: 1,
+    params: {},
+    allData: [],
+    allPages: 1,
   },
   reducers: {
     handleSelectMail: (state, action) => {
@@ -105,23 +123,31 @@ export const appEmailSlice = createSlice({
       state.selectedMails = mails
     },
     handleSelectAllMail: (state, action) => {
-      const selectAllMails: number[] = []
+      const selectAllDrives: number[] = []
       if (action.payload && state.mails !== null) {
-        selectAllMails.length = 0
+        selectAllDrives.length = 0
 
         // @ts-ignore
-        state.mails.forEach((mail: MailType) => selectAllMails.push(mail.id))
+        state.data.forEach((drive: MailType) => selectAllDrives.push(drive.id))
       } else {
-        selectAllMails.length = 0
+        selectAllDrives.length = 0
       }
-      state.selectedMails = selectAllMails as any
+      state.selectedMails = selectAllDrives as any
     }
   },
   extraReducers: builder => {
-    builder.addCase(fetchMails.fulfilled, (state, action) => {
+    builder.addCase(fetchData.fulfilled, (state, action) => {
       state.mails = action.payload.emails
       state.filter = action.payload.filter
       state.mailMeta = action.payload.emailsMeta
+
+      
+      state.data = action.payload.data
+      state.total = action.payload.total
+      state.params = action.payload.params
+      state.allData = action.payload.data
+      state.allPages = action.payload.allpages
+
     })
     builder.addCase(getCurrentMail.fulfilled, (state, action) => {
       state.currentMail = action.payload

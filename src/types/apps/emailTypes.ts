@@ -80,11 +80,13 @@ export type MailFoldersArrType = {
   icon: ReactElement
   name: MailFolderType
 }
+
 export type MailFoldersObjType = {
   [key: string]: any[]
 }
 
 export type MailStore = {
+  data: any[] | null
   mails: MailType[] | null
   selectedMails: number[]
   currentMail: null | MailType

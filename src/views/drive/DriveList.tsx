@@ -11,6 +11,7 @@ import Tooltip from '@mui/material/Tooltip'
 import Backdrop from '@mui/material/Backdrop'
 import Checkbox from '@mui/material/Checkbox'
 import { styled } from '@mui/material/styles'
+import Grid from '@mui/material/Grid'
 import IconButton from '@mui/material/IconButton'
 import Typography from '@mui/material/Typography'
 import InputAdornment from '@mui/material/InputAdornment'
@@ -30,6 +31,8 @@ import OptionsMenu from 'src/@core/components/option-menu'
 import { setTimeout } from 'timers'
 import MailDetails from './DriveDetail'
 
+import Pagination from '@mui/material/Pagination'
+
 // ** Types
 import {
   MailType,
@@ -40,6 +43,12 @@ import {
   MailFoldersObjType
 } from 'src/types/apps/emailTypes'
 import { OptionType } from 'src/@core/components/option-menu/types'
+
+import authConfig from 'src/configs/auth'
+
+import { formatHash, formatXWE, formatTimestamp, formatStorageSize, getContentTypeAbbreviation, formatTimestampAge } from 'src/configs/functions';
+
+import { TxRecordType } from 'src/types/apps/Chivesweave'
 
 const MailItem = styled(ListItem)<ListItemProps>(({ theme }) => ({
   cursor: 'pointer',
@@ -96,7 +105,9 @@ const DriveList = (props: MailLogType) => {
     handleSelectMail,
     setMailDetailsOpen,
     handleSelectAllMail,
-    handleLeftSidebarToggle
+    handleLeftSidebarToggle,
+    paginationModel,
+    handlePageChange
   } = props
 
   // ** State
@@ -339,21 +350,21 @@ const DriveList = (props: MailLogType) => {
         <Box sx={{ py: 2, px: { xs: 2.5, sm: 5 } }}>
           <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
             <Box sx={{ display: 'flex', alignItems: 'center' }}>
-              {store && store.mails && store.selectedMails ? (
+              {store && store.data && store.selectedMails ? (
                 <Checkbox
                   onChange={e => dispatch(handleSelectAllMail(e.target.checked))}
-                  checked={(store.mails.length && store.mails.length === store.selectedMails.length) || false}
+                  checked={(store.data.length && store.data.length === store.selectedMails.length) || false}
                   indeterminate={
                     !!(
-                      store.mails.length &&
+                      store.data.length &&
                       store.selectedMails.length &&
-                      store.mails.length !== store.selectedMails.length
+                      store.data.length !== store.selectedMails.length
                     )
                   }
                 />
               ) : null}
 
-              {store && store.selectedMails.length && store.mails && store.mails.length ? (
+              {store && store.selectedMails.length && store.data && store.data.length ? (
                 <Fragment>
                   {routeParams && routeParams.folder !== 'trash' ? (
                     <IconButton onClick={handleMoveToTrash}>
@@ -381,19 +392,19 @@ const DriveList = (props: MailLogType) => {
         <Divider sx={{ m: '0 !important' }} />
         <Box sx={{ p: 0, position: 'relative', overflowX: 'hidden', height: 'calc(100% - 7.25rem)' }}>
           <ScrollWrapper hidden={hidden}>
-            {store && store.mails && store.mails.length ? (
+            {store && store.data && store.data.length ? (
               <List sx={{ p: 0 }}>
-                {store.mails.map((mail: MailType) => {
-                  const mailReadToggleIcon = mail.isRead ? 'mdi:email-outline' : 'mdi:email-open-outline'
+                {store.data.map((drive: any) => {
+                  const mailReadToggleIcon = drive.isRead ? 'mdi:email-outline' : 'mdi:email-open-outline'
 
                   return (
                     <MailItem
-                      key={mail.id}
-                      sx={{ backgroundColor: mail.isRead ? 'action.hover' : 'background.paper' }}
+                      key={drive.id}
+                      sx={{ backgroundColor: drive.isRead ? 'action.hover' : 'background.paper' }}
                       onClick={() => {
                         setMailDetailsOpen(true)
-                        dispatch(getCurrentMail(mail.id))
-                        dispatch(updateMail({ emailIds: [mail.id], dataToUpdate: { isRead: true } }))
+                        dispatch(getCurrentMail(drive.id))
+                        dispatch(updateMail({ emailIds: [drive.id], dataToUpdate: { isRead: true } }))
                         setTimeout(() => {
                           dispatch(handleSelectAllMail(false))
                         }, 600)
@@ -402,15 +413,15 @@ const DriveList = (props: MailLogType) => {
                       <Box sx={{ mr: 4, display: 'flex', overflow: 'hidden', alignItems: 'center' }}>
                         <Checkbox
                           onClick={e => e.stopPropagation()}
-                          onChange={() => dispatch(handleSelectMail(mail.id))}
-                          checked={store.selectedMails.includes(mail.id) || false}
+                          onChange={() => dispatch(handleSelectMail(drive.id))}
+                          checked={store.selectedMails.includes(drive.id) || false}
                         />
                         <IconButton
                           size='small'
-                          onClick={e => handleStarMail(e, mail.id, !mail.isStarred)}
+                          onClick={e => handleStarMail(e, drive.id, !drive.isStarred)}
                           sx={{
                             mr: { xs: 0, sm: 3 },
-                            color: mail.isStarred ? 'warning.main' : 'text.secondary',
+                            color: drive.isStarred ? 'warning.main' : 'text.secondary',
                             '& svg': {
                               display: { xs: 'none', sm: 'block' }
                             }
@@ -419,8 +430,8 @@ const DriveList = (props: MailLogType) => {
                           <Icon icon='mdi:star-outline' />
                         </IconButton>
                         <Avatar
-                          alt={mail.from.name}
-                          src={mail.from.avatar}
+                          alt={drive.tags[2].value}
+                          src={`${authConfig.backEndApi}/${drive.id}/thumbnail`}
                           sx={{ mr: 3, width: '2rem', height: '2rem' }}
                         />
                         <Box
@@ -441,10 +452,10 @@ const DriveList = (props: MailLogType) => {
                               textOverflow: ['ellipsis', 'unset']
                             }}
                           >
-                            {mail.from.name}
+                            {drive.tags[2].value}
                           </Typography>
                           <Typography noWrap variant='body2' sx={{ width: '100%' }}>
-                            {mail.subject}
+                            {drive.subject}
                           </Typography>
                         </Box>
                       </Box>
@@ -457,7 +468,7 @@ const DriveList = (props: MailLogType) => {
                             <IconButton
                               onClick={e => {
                                 e.stopPropagation()
-                                dispatch(updateMail({ emailIds: [mail.id], dataToUpdate: { folder: 'trash' } }))
+                                dispatch(updateMail({ emailIds: [drive.id], dataToUpdate: { folder: 'trash' } }))
                               }}
                             >
                               <Icon icon='mdi:delete-outline' />
@@ -465,11 +476,11 @@ const DriveList = (props: MailLogType) => {
                           </Tooltip>
                         ) : null}
 
-                        <Tooltip placement='top' title={mail.isRead ? 'Unread Mail' : 'Read Mail'}>
+                        <Tooltip placement='top' title={drive.isRead ? 'Unread Mail' : 'Read Mail'}>
                           <IconButton
                             onClick={e => {
                               e.stopPropagation()
-                              handleReadMail([mail.id], !mail.isRead)
+                              handleReadMail([drive.id], !drive.isRead)
                             }}
                           >
                             <Icon icon={mailReadToggleIcon} />
@@ -479,7 +490,7 @@ const DriveList = (props: MailLogType) => {
                           <IconButton
                             onClick={e => {
                               e.stopPropagation()
-                              handleFolderUpdate([mail.id], 'spam')
+                              handleFolderUpdate([drive.id], 'spam')
                             }}
                           >
                             <Icon icon='mdi:alert-octagon-outline' />
@@ -490,26 +501,27 @@ const DriveList = (props: MailLogType) => {
                         className='mail-info-right'
                         sx={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end' }}
                       >
-                        <Box sx={{ display: { xs: 'none', sm: 'flex' } }}>{renderMailLabels(mail.labels)}</Box>
                         <Typography
                           variant='caption'
                           sx={{ minWidth: '50px', textAlign: 'right', whiteSpace: 'nowrap', color: 'text.disabled' }}
                         >
-                          {new Date(mail.time).toLocaleTimeString('en-US', {
-                            hour: '2-digit',
-                            minute: '2-digit',
-                            hour12: true
-                          })}
+                          {formatTimestamp(drive.block.timestamp)}
                         </Typography>
                       </Box>
                     </MailItem>
                   )
                 })}
+
+                
+      <Grid item key={"Pagination"} xs={12} sm={12} md={12} lg={12} sx={{ padding: '10px 0 10px 0' }}>
+        <Pagination  count={Number(store.allPages)} variant='outlined' color='primary' page={paginationModel.page} onChange={handlePageChange} />
+      </Grid>
+
               </List>
             ) : (
               <Box sx={{ mt: 6, display: 'flex', justifyContent: 'center', alignItems: 'center', '& svg': { mr: 2 } }}>
                 <Icon icon='mdi:alert-circle-outline' fontSize={20} />
-                <Typography>No Mails Found</Typography>
+                <Typography>No Files Found</Typography>
               </Box>
             )}
           </ScrollWrapper>
