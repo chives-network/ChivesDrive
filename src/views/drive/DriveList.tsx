@@ -129,7 +129,7 @@ const MailLog = (props: MailLogType) => {
       )
     },
     {
-      name: 'inbox',
+      name: 'myfiles',
       icon: (
         <Box component='span' sx={{ mr: 2, display: 'flex' }}>
           <Icon icon='mdi:email-outline' fontSize={20} />
@@ -163,8 +163,8 @@ const MailLog = (props: MailLogType) => {
         </Box>
       )
     },
-    inbox: {
-      name: 'inbox',
+    myfiles: {
+      name: 'myfiles',
       icon: (
         <Box component='span' sx={{ mr: 2, display: 'flex' }}>
           <Icon icon='mdi:email-outline' fontSize={20} />
@@ -174,11 +174,11 @@ const MailLog = (props: MailLogType) => {
   }
 
   const foldersObj: MailFoldersObjType = {
-    inbox: [foldersConfig.spam, foldersConfig.trash],
+    myfiles: [foldersConfig.spam, foldersConfig.trash],
     sent: [foldersConfig.trash],
     draft: [foldersConfig.trash],
-    spam: [foldersConfig.inbox, foldersConfig.trash],
-    trash: [foldersConfig.inbox, foldersConfig.spam]
+    spam: [foldersConfig.myfiles, foldersConfig.trash],
+    trash: [foldersConfig.myfiles, foldersConfig.spam]
   }
 
   const handleMoveToTrash = () => {
@@ -266,7 +266,7 @@ const MailLog = (props: MailLogType) => {
         })
       })
     } else {
-      foldersObj['inbox'].map((folder: MailFoldersArrType) => {
+      foldersObj['myfiles'].map((folder: MailFoldersArrType) => {
         array.length = 0
         array.push({
           icon: folder.icon,

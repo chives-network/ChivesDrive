@@ -26,7 +26,7 @@ import CustomBadge from 'src/@core/components/mui/badge'
 
 // ** Types
 import { CustomBadgeProps } from 'src/@core/components/mui/badge/types'
-import { DriveLabelType, DriveSidebarType } from 'src/types/apps/Chivesweave'
+import { DriveFolderType, DriveLabelType, DriveSidebarType } from 'src/types/apps/Chivesweave'
 
 // ** Styled Components
 const ListItemStyled = styled(ListItem)<ListItemProps & { component?: ElementType; href: string }>(({ theme }) => ({
@@ -62,7 +62,7 @@ const SidebarLeft = (props: DriveSidebarType) => {
   } = props
 
   const RenderBadge = (
-    folder: 'inbox' | 'draft' | 'spam',
+    folder: 'myfiles' | 'draft' | 'spam',
     color: 'default' | 'primary' | 'secondary' | 'success' | 'error' | 'warning' | 'info'
   ) => {
     if (store && store.mailMeta && store.mailMeta[folder] > 0) {
@@ -72,7 +72,7 @@ const SidebarLeft = (props: DriveSidebarType) => {
     }
   }
 
-  const handleActiveItem = (type: 'folder' | 'label' | 'type', value: MailFolderType | DriveLabelType) => {
+  const handleActiveItem = (type: 'folder' | 'label' | 'type', value: DriveFolderType | DriveLabelType) => {
     if (store && store.filter[type] !== value) {
       return false
     } else {
@@ -86,8 +86,8 @@ const SidebarLeft = (props: DriveSidebarType) => {
     handleLeftSidebarToggle()
   }
 
-  const activeInboxCondition =
-    store && handleActiveItem('folder', 'inbox') && store.filter.folder === 'inbox' && store.filter.label === ''
+  const activemyfilesCondition =
+    store && handleActiveItem('folder', 'myfiles') && store.filter.folder === 'myfiles' && store.filter.label === ''
 
   const ScrollWrapper = ({ children }: { children: ReactNode }) => {
     if (hidden) {
@@ -131,25 +131,25 @@ const SidebarLeft = (props: DriveSidebarType) => {
           <List component='div'>
             <ListItemStyled
               component={Link}
-              href='/drive/inbox'
+              href='/drive/myfiles'
               onClick={handleListItemClick}
-              sx={{ borderLeftColor: activeInboxCondition ? 'primary.main' : 'transparent' }}
+              sx={{ borderLeftColor: activemyfilesCondition ? 'primary.main' : 'transparent' }}
             >
-              <ListItemIcon sx={{ color: activeInboxCondition ? 'primary.main' : 'text.secondary' }}>
+              <ListItemIcon sx={{ color: activemyfilesCondition ? 'primary.main' : 'text.secondary' }}>
                 <Icon icon='mdi:email-outline' />
               </ListItemIcon>
               <ListItemText
-                primary='Inbox'
+                primary='My Files'
                 primaryTypographyProps={{
                   noWrap: true,
-                  sx: { fontWeight: 500, ...(activeInboxCondition && { color: 'primary.main' }) }
+                  sx: { fontWeight: 500, ...(activemyfilesCondition && { color: 'primary.main' }) }
                 }}
               />
-              {RenderBadge('inbox', 'primary')}
+              {RenderBadge('myfiles', 'primary')}
             </ListItemStyled>
             <ListItemStyled
               component={Link}
-              href='/drive/sent'
+              href='/drive/sharedfiles'
               onClick={handleListItemClick}
               sx={{
                 borderLeftColor: handleActiveItem('folder', 'sent') ? 'primary.main' : 'transparent'
@@ -163,7 +163,7 @@ const SidebarLeft = (props: DriveSidebarType) => {
                 <Icon icon='mdi:send-outline' />
               </ListItemIcon>
               <ListItemText
-                primary='Sent'
+                primary='Shared Files'
                 primaryTypographyProps={{
                   noWrap: true,
                   sx: { fontWeight: 500, ...(handleActiveItem('folder', 'sent') && { color: 'primary.main' }) }
@@ -172,7 +172,7 @@ const SidebarLeft = (props: DriveSidebarType) => {
             </ListItemStyled>
             <ListItemStyled
               component={Link}
-              href='/drive/draft'
+              href='/drive/uploaded'
               onClick={handleListItemClick}
               sx={{
                 borderLeftColor: handleActiveItem('folder', 'draft') ? 'primary.main' : 'transparent'
@@ -186,7 +186,7 @@ const SidebarLeft = (props: DriveSidebarType) => {
                 <Icon icon='mdi:pencil-outline' />
               </ListItemIcon>
               <ListItemText
-                primary='Draft'
+                primary='Uploaded'
                 primaryTypographyProps={{
                   noWrap: true,
                   sx: { fontWeight: 500, ...(handleActiveItem('folder', 'draft') && { color: 'primary.main' }) }

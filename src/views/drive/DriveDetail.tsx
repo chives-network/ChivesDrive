@@ -158,7 +158,7 @@ const MailDetails = (props: MailDetailsType) => {
         })
       })
     } else {
-      foldersObj['inbox'].map((folder: MailFoldersArrType) => {
+      foldersObj['myfiles'].map((folder: MailFoldersArrType) => {
         array.length = 0
         array.push({
           icon: folder.icon,

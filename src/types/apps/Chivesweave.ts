@@ -4,7 +4,7 @@ import { Dispatch } from 'redux'
 
 export type DriveLabelType = 'Png' | 'Jpeg' | 'Mp4' | 'Office' | 'Mp4' | 'Stl'
 
-export type DriveFolderType = 'inbox' | 'sent' | 'draft' | 'starred' | 'spam' | 'trash'
+export type DriveFolderType = 'myfiles' | 'shared' | 'draft' | 'starred' | 'spam' | 'trash'
 
 export type DriveSidebarType = {
   hidden: boolean
