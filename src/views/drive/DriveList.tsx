@@ -76,7 +76,7 @@ const ScrollWrapper = ({ children, hidden }: { children: ReactNode; hidden: bool
   }
 }
 
-const MailLog = (props: MailLogType) => {
+const DriveList = (props: MailLogType) => {
   // ** Props
   const {
     store,
@@ -534,4 +534,4 @@ const MailLog = (props: MailLogType) => {
   )
 }
 
-export default MailLog
+export default DriveList

@@ -81,7 +81,7 @@ const menuItemsArr = [
 
 const filter = createFilterOptions()
 
-const ComposePopup = (props: MailComposeType) => {
+const UploadFiles = (props: MailComposeType) => {
   // ** Props
   const { mdAbove, composeOpen, composePopupWidth, toggleComposeOpen } = props
 
@@ -452,4 +452,4 @@ const ComposePopup = (props: MailComposeType) => {
   )
 }
 
-export default ComposePopup
+export default UploadFiles

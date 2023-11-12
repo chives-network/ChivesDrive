@@ -17,7 +17,7 @@ import { RootState, AppDispatch } from 'src/store'
 import { MailLayoutType, MailLabelColors } from 'src/types/apps/emailTypes'
 
 // ** Email App Component Imports
-import MailLog from 'src/views/drive/DriveList'
+import DriveList from 'src/views/drive/DriveList'
 import SidebarLeft from 'src/views/drive/SidebarLeft'
 import ComposePopup from 'src/views/drive/UploadFiles'
 
@@ -40,7 +40,7 @@ const labelColors: MailLabelColors = {
   important: 'warning'
 }
 
-const EmailAppLayout = ({ folder, label }: MailLayoutType) => {
+const DriveAppLayout = ({ folder, label }: MailLayoutType) => {
   // ** States
   const [query, setQuery] = useState<string>('')
   const [composeOpen, setComposeOpen] = useState<boolean>(false)
@@ -99,7 +99,7 @@ const EmailAppLayout = ({ folder, label }: MailLayoutType) => {
         handleSelectAllMail={handleSelectAllMail}
         handleLeftSidebarToggle={handleLeftSidebarToggle}
       />
-      <MailLog
+      <DriveList
         query={query}
         store={store}
         hidden={hidden}
@@ -129,4 +129,4 @@ const EmailAppLayout = ({ folder, label }: MailLayoutType) => {
   )
 }
 
-export default EmailAppLayout
+export default DriveAppLayout

@@ -69,7 +69,7 @@ const HiddenReplyFront = styled(Box)<BoxProps>(({ theme }) => ({
   backgroundColor: theme.palette.background.paper
 }))
 
-const MailDetails = (props: MailDetailsType) => {
+const DriveDetail = (props: MailDetailsType) => {
   // ** Props
   const {
     mail,
@@ -564,4 +564,4 @@ const MailDetails = (props: MailDetailsType) => {
   )
 }
 
-export default MailDetails
+export default DriveDetail
