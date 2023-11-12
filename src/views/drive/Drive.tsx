@@ -44,7 +44,7 @@ const labelColors: MailLabelColors = {
   important: 'warning'
 }
 
-const DriveAppLayout = ({ folder, label }: MailLayoutType) => {
+const DriveAppLayout = ({ folder, label, type }: MailLayoutType) => {
   // ** States
   const [query, setQuery] = useState<string>('')
   const [composeOpen, setComposeOpen] = useState<boolean>(false)
@@ -67,10 +67,9 @@ const DriveAppLayout = ({ folder, label }: MailLayoutType) => {
   const composePopupWidth = mdAbove ? 754 : smAbove ? 520 : '100%'
   const routeParams = {
     label: label || '',
+    type: type || 'png',
     folder: folder || 'myfiles'
   }
-
-  const activeTab = "png"
 
   const auth = useAuth()
 
@@ -91,11 +90,11 @@ const DriveAppLayout = ({ folder, label }: MailLayoutType) => {
           address: String(id),
           pageId: paginationModel.page - 1,
           pageSize: paginationModel.pageSize,
-          type: activeTab
+          type: type
         })
       )
     }
-  }, [dispatch, paginationModel, activeTab, id])
+  }, [dispatch, paginationModel, type, id])
 
   const toggleComposeOpen = () => setComposeOpen(!composeOpen)
   const handleLeftSidebarToggle = () => setLeftSidebarOpen(!leftSidebarOpen)

@@ -293,7 +293,7 @@ const SidebarLeft = (props: DriveSidebarType) => {
           <List component='div'>
             <ListItemStyled
               component={Link}
-              href='/drive/type/png'
+              href='/drive/png'
               onClick={handleListItemClick}
               sx={{
                 borderLeftColor: handleActiveItem('type', 'png') ? 'primary.main' : 'transparent'
@@ -312,7 +312,7 @@ const SidebarLeft = (props: DriveSidebarType) => {
             </ListItemStyled>
             <ListItemStyled
               component={Link}
-              href='/drive/type/jpeg'
+              href='/drive/jpeg'
               onClick={handleListItemClick}
               sx={{
                 borderLeftColor: handleActiveItem('type', 'jpeg') ? 'primary.main' : 'transparent'
@@ -331,7 +331,7 @@ const SidebarLeft = (props: DriveSidebarType) => {
             </ListItemStyled>
             <ListItemStyled
               component={Link}
-              href='/drive/type/mp4'
+              href='/drive/mp4'
               onClick={handleListItemClick}
               sx={{
                 borderLeftColor: handleActiveItem('type', 'mp4') ? 'primary.main' : 'transparent'
@@ -350,7 +350,7 @@ const SidebarLeft = (props: DriveSidebarType) => {
             </ListItemStyled>
             <ListItemStyled
               component={Link}
-              href='/drive/type/pdf'
+              href='/drive/pdf'
               onClick={handleListItemClick}
               sx={{
                 borderLeftColor: handleActiveItem('type', 'pdf') ? 'primary.main' : 'transparent'
@@ -369,7 +369,7 @@ const SidebarLeft = (props: DriveSidebarType) => {
             </ListItemStyled>
             <ListItemStyled
               component={Link}
-              href='/drive/type/office'
+              href='/drive/office'
               onClick={handleListItemClick}
               sx={{
                 borderLeftColor: handleActiveItem('type', 'office') ? 'warning.main' : 'transparent'
@@ -388,7 +388,7 @@ const SidebarLeft = (props: DriveSidebarType) => {
             </ListItemStyled>
             <ListItemStyled
               component={Link}
-              href='/drive/type/stl'
+              href='/drive/stl'
               onClick={handleListItemClick}
               sx={{
                 borderLeftColor: handleActiveItem('type', 'stl') ? 'info.main' : 'transparent'

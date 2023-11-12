@@ -9,6 +9,7 @@ export type DriveFolderType = 'myfiles' | 'shared' | 'draft' | 'starred' | 'spam
 export type RouteParams = {
   label?: string
   folder?: string
+  type?: string
 }
 
 export type DriveSidebarType = {

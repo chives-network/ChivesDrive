@@ -8,7 +8,8 @@ export type MailFolderType = 'inbox' | 'sent' | 'draft' | 'starred' | 'spam' | '
 
 export type RouteParams = {
   label?: string
-  folder?: string
+  folder: string
+  type: string
 }
 
 export type MailLayoutType = RouteParams & {}

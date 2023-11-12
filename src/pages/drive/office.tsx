@@ -1,7 +1,7 @@
 // ** Demo Components Imports
 import Drive from 'src/views/drive/Drive'
 
-const DriveApp = () => <Drive folder='office' />
+const DriveApp = () => <Drive type='office' folder='myfiles'/>
 
 DriveApp.contentHeightFixed = true
 
