@@ -119,7 +119,7 @@ export type MailSidebarType = {
   handleSelectAllMail: (val: boolean) => void
 }
 
-export type MailLogType = {
+export type DriveListType = {
   query: string
   hidden: boolean
   store: any
@@ -155,7 +155,7 @@ export type MailDetailsType = {
   setMailDetailsOpen: (val: boolean) => void
   updateMail: (data: UpdateMailParamsType) => void
   paginateMail: (data: PaginateMailParamsType) => void
-  handleStarMail: (e: SyntheticEvent, id: number, value: boolean) => void
+  handleStarDrive: (e: SyntheticEvent, id: number, value: boolean) => void
   handleLabelUpdate: (id: number | number[], label: MailLabelType) => void
   handleFolderUpdate: (id: number | number[], folder: MailFolderType) => void
 }

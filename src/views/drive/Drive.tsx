@@ -6,7 +6,6 @@ import { useDispatch, useSelector } from 'react-redux'
 
 // ** MUI Imports
 import Box from '@mui/material/Box'
-import Grid from '@mui/material/Grid'
 import { useTheme } from '@mui/material/styles'
 import useMediaQuery from '@mui/material/useMediaQuery'
 
@@ -36,14 +35,6 @@ import {
 
 // ** Context
 import { useAuth } from 'src/hooks/useAuth'
-
-// ** Axios Imports
-import axios from 'axios'
-
-import Pagination from '@mui/material/Pagination'
-
-// ** Next Import
-import { useRouter } from 'next/router'
 
 // ** Variables
 const labelColors: MailLabelColors = {
@@ -81,18 +72,13 @@ const DriveAppLayout = ({ folder, label }: MailLayoutType) => {
 
   const activeTab = "png"
 
-  const router = useRouter();
-
   const auth = useAuth()
 
   const id = auth.currentAddress
 
   // ** State
-  const [isLoading, setIsLoading] = useState(false);
   const [paginationModel, setPaginationModel] = useState({ page: 1, pageSize: 9 })
   
-  const [addressBalance, setAddressBalance] = useState<string>('')
-
   const handlePageChange = (event: React.ChangeEvent<unknown>, page: number) => {
     setPaginationModel({ ...paginationModel, page });
     console.log("handlePageChange", event)
@@ -110,8 +96,6 @@ const DriveAppLayout = ({ folder, label }: MailLayoutType) => {
       )
     }
   }, [dispatch, paginationModel, activeTab, id])
-
-  console.log("store", store)
 
   const toggleComposeOpen = () => setComposeOpen(!composeOpen)
   const handleLeftSidebarToggle = () => setLeftSidebarOpen(!leftSidebarOpen)
@@ -133,6 +117,7 @@ const DriveAppLayout = ({ folder, label }: MailLayoutType) => {
         hidden={hidden}
         lgAbove={lgAbove}
         dispatch={dispatch}
+        routeParams={routeParams}
         mailDetailsOpen={mailDetailsOpen}
         leftSidebarOpen={leftSidebarOpen}
         leftSidebarWidth={leftSidebarWidth}
@@ -159,8 +144,7 @@ const DriveAppLayout = ({ folder, label }: MailLayoutType) => {
         handleSelectMail={handleSelectMail}
         setMailDetailsOpen={setMailDetailsOpen}
         handleSelectAllMail={handleSelectAllMail}
-        handleLeftSidebarToggle={handleLeftSidebarToggle}
-        
+        handleLeftSidebarToggle={handleLeftSidebarToggle}        
         paginationModel={paginationModel}
         handlePageChange={handlePageChange}
       />

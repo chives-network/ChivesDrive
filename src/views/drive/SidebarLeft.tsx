@@ -1,5 +1,5 @@
 // ** React Imports
-import { ElementType, ReactNode } from 'react'
+import { ElementType, ReactNode, useState, useEffect } from 'react'
 
 // ** Next Import
 import Link from 'next/link'
@@ -53,6 +53,7 @@ const SidebarLeft = (props: DriveSidebarType) => {
     hidden,
     lgAbove,
     dispatch,
+    routeParams,
     leftSidebarOpen,
     leftSidebarWidth,
     toggleComposeOpen,
@@ -61,19 +62,33 @@ const SidebarLeft = (props: DriveSidebarType) => {
     handleLeftSidebarToggle
   } = props
 
+  const [sideBarActive, setSideBarActive] = useState<{ [key: string]: string }>({"folder": "myfiles"})
+
+  const [sideBarBadge, setSideBarBadge] = useState<{ [key: string]: string }>({"folder": ""})
+
+  useEffect(() => {
+    if(routeParams && routeParams.folder) {
+      setSideBarActive({"folder": routeParams.folder})
+    }
+    if(store && store.total && routeParams && routeParams.folder) {
+      setSideBarBadge({...sideBarBadge, [routeParams.folder]: store.total})
+    }
+    console.log("sideBarBadge", sideBarBadge)
+  }, [routeParams, store])
+
   const RenderBadge = (
-    folder: 'myfiles' | 'draft' | 'spam',
+    folder: 'myfiles' | 'draft' | 'spam' | 'starred' | 'sharedfiles' | 'uploaded' | 'trash',
     color: 'default' | 'primary' | 'secondary' | 'success' | 'error' | 'warning' | 'info'
   ) => {
-    if (store && store.mailMeta && store.mailMeta[folder] > 0) {
-      return <ListBadge skin='light' color={color} sx={{ ml: 2 }} badgeContent={store.mailMeta[folder]} />
+    if (store && store.total > 0) {
+      return <ListBadge skin='light' color={color} sx={{ ml: 2 }} badgeContent={store.total} />
     } else {
       return null
     }
   }
 
-  const handleActiveItem = (type: 'folder' | 'label' | 'type', value: DriveFolderType | DriveLabelType) => {
-    if (store && store.filter[type] !== value) {
+  const handleActiveItem = (type: 'folder' | 'label' | 'type', value: string) => {
+    if (sideBarActive && sideBarActive[type] !== value) {
       return false
     } else {
       return true
@@ -87,7 +102,7 @@ const SidebarLeft = (props: DriveSidebarType) => {
   }
 
   const activemyfilesCondition =
-    store && handleActiveItem('folder', 'myfiles') && store.filter.folder === 'myfiles' && store.filter.label === ''
+    store && handleActiveItem('folder', 'myfiles')
 
   const ScrollWrapper = ({ children }: { children: ReactNode }) => {
     if (hidden) {
@@ -123,7 +138,7 @@ const SidebarLeft = (props: DriveSidebarType) => {
     >
       <Box sx={{ p: 5, overflowY: 'hidden' }}>
         <Button fullWidth variant='contained' onClick={toggleComposeOpen}>
-          Compose
+          Upload Files
         </Button>
       </Box>
       <ScrollWrapper>
@@ -152,12 +167,12 @@ const SidebarLeft = (props: DriveSidebarType) => {
               href='/drive/sharedfiles'
               onClick={handleListItemClick}
               sx={{
-                borderLeftColor: handleActiveItem('folder', 'sent') ? 'primary.main' : 'transparent'
+                borderLeftColor: handleActiveItem('folder', 'sharedfiles') ? 'primary.main' : 'transparent'
               }}
             >
               <ListItemIcon
                 sx={{
-                  color: handleActiveItem('folder', 'sent') ? 'primary.main' : 'text.secondary'
+                  color: handleActiveItem('folder', 'sharedfiles') ? 'primary.main' : 'text.secondary'
                 }}
               >
                 <Icon icon='mdi:send-outline' />
@@ -166,21 +181,22 @@ const SidebarLeft = (props: DriveSidebarType) => {
                 primary='Shared Files'
                 primaryTypographyProps={{
                   noWrap: true,
-                  sx: { fontWeight: 500, ...(handleActiveItem('folder', 'sent') && { color: 'primary.main' }) }
+                  sx: { fontWeight: 500, ...(handleActiveItem('folder', 'sharedfiles') && { color: 'primary.main' }) }
                 }}
               />
+              {RenderBadge('sharedfiles', 'warning')}
             </ListItemStyled>
             <ListItemStyled
               component={Link}
               href='/drive/uploaded'
               onClick={handleListItemClick}
               sx={{
-                borderLeftColor: handleActiveItem('folder', 'draft') ? 'primary.main' : 'transparent'
+                borderLeftColor: handleActiveItem('folder', 'uploaded') ? 'primary.main' : 'transparent'
               }}
             >
               <ListItemIcon
                 sx={{
-                  color: handleActiveItem('folder', 'draft') ? 'primary.main' : 'text.secondary'
+                  color: handleActiveItem('folder', 'uploaded') ? 'primary.main' : 'text.secondary'
                 }}
               >
                 <Icon icon='mdi:pencil-outline' />
@@ -189,10 +205,10 @@ const SidebarLeft = (props: DriveSidebarType) => {
                 primary='Uploaded'
                 primaryTypographyProps={{
                   noWrap: true,
-                  sx: { fontWeight: 500, ...(handleActiveItem('folder', 'draft') && { color: 'primary.main' }) }
+                  sx: { fontWeight: 500, ...(handleActiveItem('folder', 'uploaded') && { color: 'primary.main' }) }
                 }}
               />
-              {RenderBadge('draft', 'warning')}
+              {RenderBadge('uploaded', 'secondary')}
             </ListItemStyled>
             <ListItemStyled
               component={Link}
@@ -216,6 +232,7 @@ const SidebarLeft = (props: DriveSidebarType) => {
                   sx: { fontWeight: 500, ...(handleActiveItem('folder', 'starred') && { color: 'primary.main' }) }
                 }}
               />
+              {RenderBadge('starred', 'success')}
             </ListItemStyled>
             <ListItemStyled
               component={Link}
@@ -263,6 +280,7 @@ const SidebarLeft = (props: DriveSidebarType) => {
                   sx: { fontWeight: 500, ...(handleActiveItem('folder', 'trash') && { color: 'primary.main' }) }
                 }}
               />
+              {RenderBadge('trash', 'info')}
             </ListItemStyled>
           </List>
           <Typography
@@ -354,17 +372,17 @@ const SidebarLeft = (props: DriveSidebarType) => {
               href='/drive/type/office'
               onClick={handleListItemClick}
               sx={{
-                borderLeftColor: handleActiveItem('type', 'office') ? 'primary.main' : 'transparent'
+                borderLeftColor: handleActiveItem('type', 'office') ? 'warning.main' : 'transparent'
               }}
             >
-              <ListItemIcon sx={{ mr: 3.5, '& svg': { color: 'error.main' } }}>
+              <ListItemIcon sx={{ mr: 3.5, '& svg': { color: 'warning.main' } }}>
                 <Icon icon='mdi:circle' fontSize='0.75rem' />
               </ListItemIcon>
               <ListItemText
                 primary='Office'
                 primaryTypographyProps={{
                   noWrap: true,
-                  sx: { fontWeight: 500, ...(handleActiveItem('type', 'office') && { color: 'primary.main' }) }
+                  sx: { fontWeight: 500, ...(handleActiveItem('type', 'office') && { color: 'warning.main' }) }
                 }}
               />
             </ListItemStyled>
@@ -373,17 +391,17 @@ const SidebarLeft = (props: DriveSidebarType) => {
               href='/drive/type/stl'
               onClick={handleListItemClick}
               sx={{
-                borderLeftColor: handleActiveItem('type', 'stl') ? 'primary.main' : 'transparent'
+                borderLeftColor: handleActiveItem('type', 'stl') ? 'info.main' : 'transparent'
               }}
             >
-              <ListItemIcon sx={{ mr: 3.5, '& svg': { color: 'error.main' } }}>
+              <ListItemIcon sx={{ mr: 3.5, '& svg': { color: 'info.info' } }}>
                 <Icon icon='mdi:circle' fontSize='0.75rem' />
               </ListItemIcon>
               <ListItemText
                 primary='Stl'
                 primaryTypographyProps={{
                   noWrap: true,
-                  sx: { fontWeight: 500, ...(handleActiveItem('type', 'stl') && { color: 'primary.main' }) }
+                  sx: { fontWeight: 500, ...(handleActiveItem('type', 'stl') && { color: 'info.main' }) }
                 }}
               />
             </ListItemStyled>

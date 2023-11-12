@@ -101,7 +101,8 @@ export const appEmailSlice = createSlice({
     filter: {
       q: '',
       label: '',
-      folder: 'inbox'
+      type: '',
+      folder: 'myfiles'
     },
     currentMail: null,
     selectedMails: [],

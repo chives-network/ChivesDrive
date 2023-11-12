@@ -82,7 +82,7 @@ const DriveDetail = (props: MailDetailsType) => {
     labelColors,
     routeParams,
     paginateMail,
-    handleStarMail,
+    handleStarDrive,
     mailDetailsOpen,
     handleLabelUpdate,
     handleFolderUpdate,
@@ -100,7 +100,7 @@ const DriveDetail = (props: MailDetailsType) => {
     setMailDetailsOpen(false)
   }
 
-  const handleReadMail = () => {
+  const handleReadDrive = () => {
     dispatch(updateMail({ emailIds: [mail.id], dataToUpdate: { isRead: false } }))
     setMailDetailsOpen(false)
   }
@@ -293,7 +293,7 @@ const DriveDetail = (props: MailDetailsType) => {
                   </IconButton>
                 ) : null}
 
-                <IconButton size='small' onClick={handleReadMail}>
+                <IconButton size='small' onClick={handleReadDrive}>
                   <Icon icon='mdi:email-outline' fontSize='1.375rem' />
                 </IconButton>
                 <OptionsMenu
@@ -312,7 +312,7 @@ const DriveDetail = (props: MailDetailsType) => {
               <div>
                 <IconButton
                   size='small'
-                  onClick={e => handleStarMail(e, mail.id, !mail.isStarred)}
+                  onClick={e => handleStarDrive(e, mail.id, !mail.isStarred)}
                   sx={{ ...(mail.isStarred ? { color: 'warning.main' } : {}) }}
                 >
                   <Icon icon='mdi:star-outline' fontSize='1.375rem' />

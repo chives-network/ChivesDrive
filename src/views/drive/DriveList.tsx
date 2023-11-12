@@ -36,7 +36,7 @@ import Pagination from '@mui/material/Pagination'
 // ** Types
 import {
   MailType,
-  MailLogType,
+  DriveListType,
   MailLabelType,
   MailFolderType,
   MailFoldersArrType,
@@ -85,7 +85,7 @@ const ScrollWrapper = ({ children, hidden }: { children: ReactNode; hidden: bool
   }
 }
 
-const DriveList = (props: MailLogType) => {
+const DriveList = (props: DriveListType) => {
   // ** Props
   const {
     store,
@@ -197,12 +197,12 @@ const DriveList = (props: MailLogType) => {
     dispatch(handleSelectAllMail(false))
   }
 
-  const handleStarMail = (e: SyntheticEvent, id: number, value: boolean) => {
+  const handleStarDrive = (e: SyntheticEvent, id: number, value: boolean) => {
     e.stopPropagation()
     dispatch(updateMail({ emailIds: [id], dataToUpdate: { isStarred: value } }))
   }
 
-  const handleReadMail = (id: number | number[], value: boolean) => {
+  const handleReadDrive = (id: number | number[], value: boolean) => {
     const arr = Array.isArray(id) ? [...id] : [id]
     dispatch(updateMail({ emailIds: arr, dataToUpdate: { isRead: value } }))
     dispatch(handleSelectAllMail(false))
@@ -218,7 +218,7 @@ const DriveList = (props: MailLogType) => {
     dispatch(updateMail({ emailIds: arr, dataToUpdate: { folder } }))
   }
 
-  const handleRefreshMailsClick = () => {
+  const handleRefreshDriveClick = () => {
     setRefresh(true)
     setTimeout(() => setRefresh(false), 1000)
   }
@@ -315,7 +315,7 @@ const DriveList = (props: MailLogType) => {
     routeParams,
     labelColors,
     paginateMail,
-    handleStarMail,
+    handleStarDrive,
     mailDetailsOpen,
     handleLabelUpdate,
     handleFolderUpdate,
@@ -371,7 +371,7 @@ const DriveList = (props: MailLogType) => {
                       <Icon icon='mdi:delete-outline' />
                     </IconButton>
                   ) : null}
-                  <IconButton onClick={() => handleReadMail(store.selectedMails, false)}>
+                  <IconButton onClick={() => handleReadDrive(store.selectedMails, false)}>
                     <Icon icon='mdi:email-outline' />
                   </IconButton>
                   <OptionsMenu leftAlignMenu options={handleFoldersMenu()} icon={<Icon icon='mdi:folder-outline' />} />
@@ -380,7 +380,7 @@ const DriveList = (props: MailLogType) => {
               ) : null}
             </Box>
             <Box sx={{ display: 'flex', alignItems: 'center' }}>
-              <IconButton size='small' onClick={handleRefreshMailsClick}>
+              <IconButton size='small' onClick={handleRefreshDriveClick}>
                 <Icon icon='mdi:reload' fontSize='1.375rem' />
               </IconButton>
               <IconButton size='small'>
@@ -418,7 +418,7 @@ const DriveList = (props: MailLogType) => {
                         />
                         <IconButton
                           size='small'
-                          onClick={e => handleStarMail(e, drive.id, !drive.isStarred)}
+                          onClick={e => handleStarDrive(e, drive.id, !drive.isStarred)}
                           sx={{
                             mr: { xs: 0, sm: 3 },
                             color: drive.isStarred ? 'warning.main' : 'text.secondary',
@@ -480,7 +480,7 @@ const DriveList = (props: MailLogType) => {
                           <IconButton
                             onClick={e => {
                               e.stopPropagation()
-                              handleReadMail([drive.id], !drive.isRead)
+                              handleReadDrive([drive.id], !drive.isRead)
                             }}
                           >
                             <Icon icon={mailReadToggleIcon} />
