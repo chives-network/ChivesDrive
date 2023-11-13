@@ -7,7 +7,6 @@ import ApexChartWrapper from 'src/@core/styles/libs/react-apexcharts'
 // ** Demo Components Imports
 import AnalyticsBlockList from 'src/views/dashboards/analytics/AnalyticsBlockList'
 import AnalyticsTrophy from 'src/views/dashboards/analytics/AnalyticsTrophy'
-import AnalyticsLine from 'src/views/dashboards/analytics/AnalyticsLine'
 import AnalyticsTransactionList from 'src/views/dashboards/analytics/AnalyticsTransactionList'
 import AnalyticsTransactionsCard from 'src/views/dashboards/analytics/AnalyticsTransactionsCard'
 
@@ -35,51 +34,10 @@ interface ChainInfoType {
 const AnalyticsDashboard = () => {
 
   const [chainInfo, setChainInfo] = useState<ChainInfoType>()
-  const [isLoading, setIsLoading] = useState<boolean>(true)
-  const [dataX, setDataX] = useState<string[]>([])
-  const [dataWeaveSize, setDataWeaveSize] = useState<number[]>([])
-  const [difficulty, setDifficulty] = useState<number[]>([])
-  
-  const [blocksnumber, setblocksnumber] = useState<number[]>([])
-  const [Block_Rewards, setBlock_Rewards] = useState<number[]>([])
-
   const [blockList, setBlockList] = useState<number[]>([])
   const [transactionList, setTransactionList] = useState<number[]>([])
 
   useEffect(() => {
-    axios.get(authConfig.backEndApi + '/statistics_network', { headers: { }, params: { } })
-    .then(res => {
-      setIsLoading(false);
-      const dataX: any[] = [];
-      const dataWeaveSize: any[] = [];
-      const difficulty: any[] = [];
-      const endowment: any[] = [];
-      res.data.map((Item: {[key:string]:any}) => {
-        dataX.push(Item.Date.substring(5));
-        dataWeaveSize.push((Item.Weave_Size/(1024*1024*1024*1024)).toFixed(1))
-        difficulty.push((Item.Difficulty/(1024*1024*1024)).toFixed(1))
-        endowment.push(Math.floor(Item.Cumulative_Endowment/1000000000000))
-      })
-      setDataX(dataX.slice(1).slice().reverse().slice(1).slice(-21))
-      setDataWeaveSize(dataWeaveSize.slice(1).slice().reverse().slice(1).slice(-21))
-      setDifficulty(difficulty.slice(1).slice().reverse().slice(1).slice(-21))
-      console.log("isLoading", isLoading)
-
-      //setEndowment(endowment.slice(1).slice().reverse().slice(1).slice(-21))
-    })
-
-    axios.get(authConfig.backEndApi + '/statistics_block', { headers: { }, params: { } })
-    .then(res => {
-      setIsLoading(false);
-      const blocksnumber: any[] = [];
-      const Block_Rewards: any[] = [];
-      res.data.map((Item: {[key:string]:any}) => {
-        blocksnumber.push(Item.Blocks)
-        Block_Rewards.push(Math.floor(Item.Block_Rewards/1000000000000))
-      })
-      setblocksnumber(blocksnumber.slice(1).slice().reverse().slice(1).slice(-21))
-      setBlock_Rewards(Block_Rewards.slice(1).slice().reverse().slice(1).slice(-21))
-    })
 
     //Frist Time Api Fetch
     //Block List 
@@ -156,18 +114,6 @@ const AnalyticsDashboard = () => {
           :
             <Fragment></Fragment>
           }
-        </Grid>
-        <Grid item xs={12} md={6} lg={6}>
-          <AnalyticsLine dataX={dataX} dataY={blocksnumber} title={"Blocks Number Per Day"} bottomText={""}/>
-        </Grid>
-        <Grid item xs={12} md={6} lg={6}>
-          <AnalyticsLine dataX={dataX} dataY={Block_Rewards} title={"Block Rewards Per Day"} bottomText={""}/>
-        </Grid>
-        <Grid item xs={12} md={6} lg={6}>
-          <AnalyticsLine dataX={dataX} dataY={dataWeaveSize} title={"Weave Size"} bottomText={""}/>
-        </Grid>
-        <Grid item xs={12} md={6} lg={6}>
-          <AnalyticsLine dataX={dataX} dataY={difficulty} title={"Difficulty"} bottomText={""}/>
         </Grid>
       </Grid>
     </ApexChartWrapper>

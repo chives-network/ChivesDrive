@@ -83,7 +83,7 @@ const filter = createFilterOptions()
 
 const UploadFiles = (props: MailComposeType) => {
   // ** Props
-  const { mdAbove, composeOpen, composePopupWidth, toggleComposeOpen } = props
+  const { mdAbove, uploadFilesOpen, composePopupWidth, toggleUploadFilesOpen } = props
 
   // ** States
   const [emailTo, setEmailTo] = useState<FieldMenuItems[]>([])
@@ -118,7 +118,7 @@ const UploadFiles = (props: MailComposeType) => {
   }
 
   const handlePopupClose = () => {
-    toggleComposeOpen()
+    toggleUploadFilesOpen()
     setEmailTo([])
     setccValue([])
     setbccValue([])
@@ -131,7 +131,7 @@ const UploadFiles = (props: MailComposeType) => {
   }
 
   const handleMinimize = () => {
-    toggleComposeOpen()
+    toggleUploadFilesOpen()
     setEmailTo(emailTo)
     setccValue(ccValue)
     setbccValue(bccValue)
@@ -201,9 +201,9 @@ const UploadFiles = (props: MailComposeType) => {
     <Drawer
       hideBackdrop
       anchor='bottom'
-      open={composeOpen}
+      open={uploadFilesOpen}
       variant='temporary'
-      onClose={toggleComposeOpen}
+      onClose={toggleUploadFilesOpen}
       sx={{
         top: 'auto',
         left: 'auto',

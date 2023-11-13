@@ -9,7 +9,6 @@ import { Dispatch } from 'redux'
 import {
   MailType,
   UpdateMailLabelType,
-  FetchMailParamsType,
   UpdateMailParamsType,
   PaginateMailParamsType
 } from 'src/types/apps/emailTypes'

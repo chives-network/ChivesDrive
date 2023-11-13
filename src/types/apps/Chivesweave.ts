@@ -21,7 +21,8 @@ export type DriveSidebarType = {
   leftSidebarOpen: boolean
   leftSidebarWidth: number
   mailDetailsOpen: boolean
-  toggleComposeOpen: () => void
+  uploadFilesTitle: string
+  toggleUploadFilesOpen: () => void
   handleLeftSidebarToggle: () => void
   setMailDetailsOpen: (val: boolean) => void
   handleSelectAllMail: (val: boolean) => void

@@ -19,7 +19,9 @@ import { MailLayoutType, MailLabelColors } from 'src/types/apps/emailTypes'
 // ** Email App Component Imports
 import DriveList from 'src/views/drive/DriveList'
 import SidebarLeft from 'src/views/drive/SidebarLeft'
-import ComposePopup from 'src/views/drive/UploadFiles'
+import UploadFiles from 'src/views/form/uploadfiles';
+
+import CardContent from '@mui/material/CardContent'
 
 // ** Actions
 import {
@@ -31,7 +33,6 @@ import {
   handleSelectMail,
   handleSelectAllMail
 } from 'src/store/apps/drive'
-
 
 // ** Context
 import { useAuth } from 'src/hooks/useAuth'
@@ -47,7 +48,8 @@ const labelColors: MailLabelColors = {
 const DriveAppLayout = ({ folder, label, type }: MailLayoutType) => {
   // ** States
   const [query, setQuery] = useState<string>('')
-  const [composeOpen, setComposeOpen] = useState<boolean>(false)
+  const [uploadFilesOpen, setUploadFilesOpen] = useState<boolean>(false)
+  const [uploadFilesTitle, setUploadFilesTitle] = useState<string>("Upload Files")
   const [mailDetailsOpen, setMailDetailsOpen] = useState<boolean>(false)
   const [leftSidebarOpen, setLeftSidebarOpen] = useState<boolean>(false)
 
@@ -56,15 +58,12 @@ const DriveAppLayout = ({ folder, label, type }: MailLayoutType) => {
   const { settings } = useSettings()
   const dispatch = useDispatch<AppDispatch>()
   const lgAbove = useMediaQuery(theme.breakpoints.up('lg'))
-  const mdAbove = useMediaQuery(theme.breakpoints.up('md'))
-  const smAbove = useMediaQuery(theme.breakpoints.up('sm'))
   const hidden = useMediaQuery(theme.breakpoints.down('lg'))
   const store = useSelector((state: RootState) => state.drive)
 
   // ** Vars
   const leftSidebarWidth = 260
   const { skin, direction } = settings
-  const composePopupWidth = mdAbove ? 754 : smAbove ? 520 : '100%'
   const routeParams = {
     label: label || '',
     type: type || 'png',
@@ -93,10 +92,20 @@ const DriveAppLayout = ({ folder, label, type }: MailLayoutType) => {
           type: type
         })
       )
+      setUploadFilesOpen(false)
+      setUploadFilesTitle("Upload Files")
     }
   }, [dispatch, paginationModel, type, id])
 
-  const toggleComposeOpen = () => setComposeOpen(!composeOpen)
+  const toggleUploadFilesOpen = () => {
+    setUploadFilesOpen(!uploadFilesOpen)
+    if(uploadFilesOpen) {
+      setUploadFilesTitle("Upload Files")
+    }
+    else {
+      setUploadFilesTitle("Back To List")
+    }
+  }
   const handleLeftSidebarToggle = () => setLeftSidebarOpen(!leftSidebarOpen)
 
   return (
@@ -120,39 +129,40 @@ const DriveAppLayout = ({ folder, label, type }: MailLayoutType) => {
         mailDetailsOpen={mailDetailsOpen}
         leftSidebarOpen={leftSidebarOpen}
         leftSidebarWidth={leftSidebarWidth}
-        toggleComposeOpen={toggleComposeOpen}
+        uploadFilesTitle={uploadFilesTitle}
+        toggleUploadFilesOpen={toggleUploadFilesOpen}
         setMailDetailsOpen={setMailDetailsOpen}
         handleSelectAllMail={handleSelectAllMail}
         handleLeftSidebarToggle={handleLeftSidebarToggle}
       />
-      <DriveList
-        query={query}
-        store={store}
-        hidden={hidden}
-        lgAbove={lgAbove}
-        dispatch={dispatch}
-        setQuery={setQuery}
-        direction={direction}
-        updateMail={updateMail}
-        routeParams={routeParams}
-        labelColors={labelColors}
-        paginateMail={paginateMail}
-        getCurrentMail={getCurrentMail}
-        updateMailLabel={updateMailLabel}
-        mailDetailsOpen={mailDetailsOpen}
-        handleSelectMail={handleSelectMail}
-        setMailDetailsOpen={setMailDetailsOpen}
-        handleSelectAllMail={handleSelectAllMail}
-        handleLeftSidebarToggle={handleLeftSidebarToggle}        
-        paginationModel={paginationModel}
-        handlePageChange={handlePageChange}
-      />
-      <ComposePopup
-        mdAbove={mdAbove}
-        composeOpen={composeOpen}
-        composePopupWidth={composePopupWidth}
-        toggleComposeOpen={toggleComposeOpen}
-      />
+      { !uploadFilesOpen ?
+        <DriveList
+          query={query}
+          store={store}
+          hidden={hidden}
+          lgAbove={lgAbove}
+          dispatch={dispatch}
+          setQuery={setQuery}
+          direction={direction}
+          updateMail={updateMail}
+          routeParams={routeParams}
+          labelColors={labelColors}
+          paginateMail={paginateMail}
+          getCurrentMail={getCurrentMail}
+          updateMailLabel={updateMailLabel}
+          mailDetailsOpen={mailDetailsOpen}
+          handleSelectMail={handleSelectMail}
+          setMailDetailsOpen={setMailDetailsOpen}
+          handleSelectAllMail={handleSelectAllMail}
+          handleLeftSidebarToggle={handleLeftSidebarToggle}        
+          paginationModel={paginationModel}
+          handlePageChange={handlePageChange}
+        />
+        :
+        <CardContent>
+          <UploadFiles />
+        </CardContent>
+      }
     </Box>
   )
 }

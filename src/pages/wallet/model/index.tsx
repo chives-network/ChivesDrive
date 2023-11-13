@@ -101,7 +101,7 @@ const columns: GridColDef[] = [
       
       return (
         <Typography noWrap variant='body2'>
-          <LinkStyled href={`/mywallet/all/`}>{formatHash(row.owner.address, 7)}</LinkStyled>
+          <LinkStyled href={`/wallet/all/`}>{formatHash(row.owner.address, 7)}</LinkStyled>
         </Typography>
       )
     }
@@ -253,7 +253,7 @@ const MyWalletModel = ({ activeTab } : any) => {
   const handleChange = (event: SyntheticEvent, value: string) => {
     router
       .push({
-        pathname: `/mywallet/${value.toLowerCase()}`
+        pathname: `/wallet/${value.toLowerCase()}`
       })
       .then(() => setIsLoading(false))
       console.log("handleChangeEvent", event)

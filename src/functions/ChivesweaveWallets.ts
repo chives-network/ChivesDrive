@@ -356,28 +356,33 @@ export async function getHash (data: string | Uint8Array) {
 export async function getProcessedData(walletData: any, walletAddress: string, data: any): Promise<ArTxParams['data']> {
 	if (typeof data === 'string') { return data }
     console.log("getProcessedData Input File Data:", data)
-	if (data.length > 1) {
-		if (!walletData) { throw 'multiple files unsupported for current account' }
-		if (walletData && walletData.jwk) {
-			const bundleItems: any[] = []
-			const dataItems = await Promise.all(data.map((item: any) => createDataItem(walletData, item)))
-			const trustedAddresses = walletAddress ? [walletAddress] : []
-			const deduplicated = await deduplicate(dataItems, trustedAddresses)
-			const deduplicatedDataItems = dataItems.map((item, i) => deduplicated[i] || item)
-			bundleItems.push(...deduplicatedDataItems.filter((item): item is Exclude<typeof item, string> => typeof item !== 'string'))
-			try {
-				const paths = data.map((item: any) => item.path || '')
-				const index = paths.find((path: any) => path === 'index.html')
-				const manifest = generateManifest(paths, deduplicatedDataItems, index)
-				bundleItems.push(await createDataItem(walletData, { ...manifest }))
-			} catch (e) { console.warn('manifest generation failed') }
-			
-            return (await createBundle(walletData, bundleItems)).getRaw()
-		}
-		else { throw 'multiple files unsupported for '}
-	}
-
-	return data[0].data
+	if (!walletData) { throw 'multiple files unsupported for current account' }
+    if (walletData && walletData.jwk && data && data.length > 0) {
+        const bundleItems: any[] = []
+        const dataItems = await Promise.all(data.map((item: any) => createDataItem(walletData, item)))
+        console.log("getProcessedData dataItems:", dataItems)
+        const trustedAddresses = walletAddress ? [walletAddress] : []
+        const deduplicated = await deduplicate(dataItems, trustedAddresses)
+        const deduplicatedDataItems = dataItems.map((item, i) => deduplicated[i] || item)
+        console.log("getProcessedData deduplicatedDataItems:", deduplicatedDataItems)
+        bundleItems.push(...deduplicatedDataItems.filter((item): item is Exclude<typeof item, string> => typeof item !== 'string'))
+        console.log("getProcessedData bundleItems 1:", bundleItems)
+        try {
+            const paths = data.map((item: any) => item.path || '')
+            const index = paths.find((path: any) => path === 'index.html')
+            const manifest = generateManifest(paths, deduplicatedDataItems, index)
+            bundleItems.push(await createDataItem(walletData, { ...manifest }))
+            console.log("getProcessedData bundleItems 2:", bundleItems)
+        } 
+        catch (e) { 
+            console.warn('manifest generation failed') 
+        }
+        
+        return (await createBundle(walletData, bundleItems)).getRaw()
+    }
+    else { 
+        throw 'multiple files unsupported for '
+    }
 }
 
 

@@ -35,7 +35,6 @@ import Pagination from '@mui/material/Pagination'
 
 // ** Types
 import {
-  MailType,
   DriveListType,
   MailLabelType,
   MailFolderType,
@@ -46,9 +45,7 @@ import { OptionType } from 'src/@core/components/option-menu/types'
 
 import authConfig from 'src/configs/auth'
 
-import { formatHash, formatXWE, formatTimestamp, formatStorageSize, getContentTypeAbbreviation, formatTimestampAge } from 'src/configs/functions';
-
-import { TxRecordType } from 'src/types/apps/Chivesweave'
+import { formatTimestamp} from 'src/configs/functions';
 
 const MailItem = styled(ListItem)<ListItemProps>(({ theme }) => ({
   cursor: 'pointer',
@@ -293,16 +290,6 @@ const DriveList = (props: DriveListType) => {
     }
 
     return array
-  }
-
-  const renderMailLabels = (arr: MailLabelType[]) => {
-    return arr.map((label: MailLabelType, index: number) => {
-      return (
-        <Box key={index} component='span' sx={{ mr: 3, color: `${labelColors[label]}.main` }}>
-          <Icon icon='mdi:circle' fontSize='0.625rem' />
-        </Box>
-      )
-    })
   }
 
   const mailDetailsProps = {

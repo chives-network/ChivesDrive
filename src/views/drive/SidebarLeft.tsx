@@ -26,7 +26,7 @@ import CustomBadge from 'src/@core/components/mui/badge'
 
 // ** Types
 import { CustomBadgeProps } from 'src/@core/components/mui/badge/types'
-import { DriveFolderType, DriveLabelType, DriveSidebarType } from 'src/types/apps/Chivesweave'
+import { DriveSidebarType } from 'src/types/apps/Chivesweave'
 
 // ** Styled Components
 const ListItemStyled = styled(ListItem)<ListItemProps & { component?: ElementType; href: string }>(({ theme }) => ({
@@ -56,7 +56,8 @@ const SidebarLeft = (props: DriveSidebarType) => {
     routeParams,
     leftSidebarOpen,
     leftSidebarWidth,
-    toggleComposeOpen,
+    uploadFilesTitle,
+    toggleUploadFilesOpen,
     setMailDetailsOpen,
     handleSelectAllMail,
     handleLeftSidebarToggle
@@ -137,8 +138,8 @@ const SidebarLeft = (props: DriveSidebarType) => {
       }}
     >
       <Box sx={{ p: 5, overflowY: 'hidden' }}>
-        <Button fullWidth variant='contained' onClick={toggleComposeOpen}>
-          Upload Files
+        <Button fullWidth variant='contained' onClick={toggleUploadFilesOpen}>
+          {uploadFilesTitle}
         </Button>
       </Box>
       <ScrollWrapper>

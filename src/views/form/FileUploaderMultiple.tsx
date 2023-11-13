@@ -176,6 +176,8 @@ const FileUploaderMultiple = () => {
     const target = ""
     const amount = ""
     const data = getProcessedDataValue
+
+    console.log("getProcessedDataValue", getProcessedDataValue)
     
     //Make the tags
     const tags: any = []

@@ -4,7 +4,7 @@ import { ReactElement, SyntheticEvent } from 'react'
 
 export type MailLabelType = 'personal' | 'company' | 'important' | 'private'
 
-export type MailFolderType = 'inbox' | 'sent' | 'draft' | 'starred' | 'spam' | 'trash'
+export type MailFolderType = 'inbox' | 'sent' | 'draft' | 'starred' | 'spam' | 'trash' | 'myfiles'
 
 export type RouteParams = {
   label?: string
@@ -114,7 +114,7 @@ export type MailSidebarType = {
   leftSidebarOpen: boolean
   leftSidebarWidth: number
   mailDetailsOpen: boolean
-  toggleComposeOpen: () => void
+  toggleUploadFilesOpen: () => void
   handleLeftSidebarToggle: () => void
   setMailDetailsOpen: (val: boolean) => void
   handleSelectAllMail: (val: boolean) => void
@@ -163,7 +163,7 @@ export type MailDetailsType = {
 
 export type MailComposeType = {
   mdAbove: boolean
-  composeOpen: boolean
-  toggleComposeOpen: () => void
+  uploadFilesOpen: boolean
+  toggleUploadFilesOpen: () => void
   composePopupWidth: number | string
 }

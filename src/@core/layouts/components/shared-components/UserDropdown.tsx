@@ -69,7 +69,7 @@ const UserDropdown = (props: Props) => {
     setCurrentWallet(address)
     setAuthContextCurrentAddress(address)
     if (url) {
-      router.push(url)
+      //router.push(url)
     }
     setAnchorEl(null)
   }
