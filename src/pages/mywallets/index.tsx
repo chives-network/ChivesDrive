@@ -25,7 +25,7 @@ import { getAllWallets, getWalletBalance, setWalletNickname, getWalletNicknames,
 const MyWallets = () => {
   
   const [walletBalanceMap, setWalletBalanceMap] = useState<any>({})
-  const [getAllWalletsData, setGetAllWalletsData] = useState<any>({})
+  const [getAllWalletsData, setGetAllWalletsData] = useState<any>([])
   const [getWalletNicknamesData, setGetWalletNicknamesData] = useState<any>({})
 
   useEffect(() => {
