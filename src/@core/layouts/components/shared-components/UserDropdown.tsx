@@ -23,7 +23,7 @@ import { Settings } from 'src/@core/context/settingsContext'
 // ** Hooks
 import { useAuth } from 'src/hooks/useAuth'
 
-import { getAllWallets, getCurrentWalletAddress, setCurrentWallet } from 'src/functions/ChivesweaveWallets'
+import { getAllWallets, getCurrentWalletAddress, setCurrentWallet, getWalletNicknames } from 'src/functions/ChivesweaveWallets'
 import { formatHash} from 'src/configs/functions';
 
 interface Props {
@@ -76,7 +76,8 @@ const UserDropdown = (props: Props) => {
 
   const getAllWalletsData = getAllWallets()
   const getCurrentWalletAddressData = getCurrentWalletAddress()
-
+  const getWalletNicknamesData = getWalletNicknames()
+  
   const styles = {
     py: 2,
     px: 4,
@@ -160,7 +161,7 @@ const UserDropdown = (props: Props) => {
                 :
                 <Box sx={styles}>
                   <Icon icon='mdi:currency-usd' />
-                  {formatHash(wallet.data.arweave.key, 5)}
+                  {getWalletNicknamesData[wallet.data.arweave.key] ? getWalletNicknamesData[wallet.data.arweave.key] : formatHash(wallet.data.arweave.key, 5)}
                 </Box>
               }              
             </MenuItem>          
@@ -168,7 +169,7 @@ const UserDropdown = (props: Props) => {
         })}
         <Divider />
         { getAllWalletsData && getAllWalletsData.length > 0 ?
-          <MenuItem sx={{ p: 0 }} onClick={() => handleDropdownClose('/myprofile')}>
+          <MenuItem sx={{ p: 0 }} onClick={() => handleDropdownClose('/mywallets')}>
             <Box sx={styles}>
               <Icon icon='mdi:cog-outline' />
               Settings

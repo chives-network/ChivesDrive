@@ -21,6 +21,7 @@ const arweave = Arweave.init(urlToSettings(authConfig.backEndApi))
 
 const chivesWallets = authConfig.chivesWallets
 const chivesCurrentWallet = authConfig.chivesCurrentWallet
+const chivesWalletNickname = authConfig.chivesWalletNickname
 
 export async function generateNewMnemonicAndGetWalletData (mnemonic: string) {
     try {
@@ -158,6 +159,24 @@ export function setCurrentWallet(Address: string) {
     return true
 };
 
+export function setWalletNickname(Address: string, Nickname: string) {
+    if (Address && Address.length === 43) {
+        const chivesWalletNicknameData = window.localStorage.getItem(chivesWalletNickname)
+        const chivesWalletNicknameObject = chivesWalletNicknameData ? JSON.parse(chivesWalletNicknameData) : {}
+        chivesWalletNicknameObject[Address] = Nickname
+        window.localStorage.setItem(chivesWalletNickname, JSON.stringify(chivesWalletNicknameObject))
+    }
+    
+    return true
+}
+
+export function getWalletNicknames() {
+    const chivesWalletNicknameData = window.localStorage.getItem(chivesWalletNickname)
+    const chivesWalletNicknameObject = chivesWalletNicknameData ? JSON.parse(chivesWalletNicknameData) : {}
+    
+    return chivesWalletNicknameObject
+}
+
 export function getWalletById(WalletId: number) {
     const chivesWalletsList = window.localStorage.getItem(chivesWallets)
     const walletExists = chivesWalletsList ? JSON.parse(chivesWalletsList) : []
@@ -191,12 +210,12 @@ export function deleteWalletById(WalletId: number) {
     return true
 };
 
-export async function getWalletAddress(Address: string) {
+export async function getWalletBalance(Address: string) {
     
     return arweave.ar.winstonToAr(await arweave.wallets.getBalance(Address))
 }
 
-export async function getWalletAddressWinston(Address: string) {
+export async function getWalletBalanceWinston(Address: string) {
     
     return await arweave.wallets.getBalance(Address)
 }
@@ -226,6 +245,19 @@ export function isAddress(address: string) {
     return !!address?.match(/^[a-z0-9_-]{43}$/i)
 }
 
+export function downloadTextFile(content: string, fileName: string, mimeType: string) {
+    const blob = new Blob([content], { type: mimeType });
+    const link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.download = fileName;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+}
+
+export function removePunctuation(text: string) {
+    return text.replace(/[^\w\s\u4e00-\u9fa5]/g, '');
+}
 
 export async function sendAmount(walletData: any, target: string, amount: string, tags: any, data: string | Uint8Array | ArrayBuffer | undefined, fileName: string, setUploadProgress: React.Dispatch<React.SetStateAction<{ [key: string]: number }>>) {
     const quantity = amount && amount.length > 0 && amount != "" ? arweave.ar.arToWinston(new BigNumber(amount).toString()) : '0' ;
@@ -247,7 +279,7 @@ export async function sendAmount(walletData: any, target: string, amount: string
     
     await arweave.transactions.sign(tx, walletData.jwk);
     const currentFee = await getPriceWinston(Number(tx.data_size))
-    const currentBalance = await getWalletAddressWinston(walletData.data.arweave.key)
+    const currentBalance = await getWalletBalanceWinston(walletData.data.arweave.key)
 
     if(Number(currentBalance) < (Number(currentFee) + Number(quantity)) )       {
 

@@ -7,5 +7,6 @@ export default {
   onTokenExpiration: 'refreshToken', // logout | refreshToken
   systemType: 'drive',
   chivesWallets: 'ChivesWallets',
-  chivesCurrentWallet: 'ChivesCurrentWallet'
+  chivesCurrentWallet: 'ChivesCurrentWallet',
+  chivesWalletNickname: 'ChivesWalletNickname'
 }
