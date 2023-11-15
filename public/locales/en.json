@@ -59,5 +59,12 @@
   "No Files Found": "No Files Found",
   "Back To List": "Back To List",
   "Remove All": "Remove All",
+  "Address length must be 43": "Address length must be 43",
+  "You cannot send amounts to yourself": "You cannot send amounts to yourself",
+  "The address you entered is invalid": "The address you entered is invalid",
+  "The amount entered must be greater than 0": "The amount entered must be greater than 0",
+  "The amount sent cannot exceed the current balance": "The amount sent cannot exceed the current balance",
+  "The amount you entered is invalid": "The amount you entered is invalid",
+  "Successfully submitted to blockchain": "Successfully submitted to blockchain",
   "Chat": "Chat"
 }
