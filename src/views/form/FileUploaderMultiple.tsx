@@ -28,6 +28,9 @@ import { sendAmount, getHash, getProcessedData } from 'src/functions/Chivesweave
 // ** Third Party Components
 import toast from 'react-hot-toast'
 
+// ** Third Party Import
+import { useTranslation } from 'react-i18next'
+
 interface FileProp {
   name: string
   type: string
@@ -56,6 +59,9 @@ const HeadingTypography = styled(Typography)<TypographyProps>(({ theme }) => ({
 }))
 
 const FileUploaderMultiple = () => {
+  // ** Hook
+  const { t } = useTranslation()
+  
   // ** State
   const [files, setFiles] = useState<File[]>([])
   const [uploadProgress, setUploadProgress] = useState<{ [key: string]: number }>({})

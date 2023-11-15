@@ -43,6 +43,9 @@ import { useRouter } from 'next/router'
 
 import StringDisplay from 'src/pages/preview/StringDisplay';
 
+// ** Third Party Import
+import { useTranslation } from 'react-i18next'
+
 interface BlockViewInfoType {
   timestamp: number
   mining_time: number
@@ -182,7 +185,9 @@ const columns: GridColDef[] = [
 ]
 
 const BlockTransactionList = () => {
-
+  // ** Hook
+  const { t } = useTranslation()
+  
   const router = useRouter();
   const { id } = router.query;
   

@@ -26,7 +26,13 @@ import { sendAmount, isAddress } from 'src/functions/ChivesweaveWallets'
 // ** Third Party Components
 import toast from 'react-hot-toast'
 
+// ** Third Party Import
+import { useTranslation } from 'react-i18next'
+
 const SendOutForm = () => {
+  // ** Hook
+  const { t } = useTranslation()
+    
   // ** State
   const [uploadProgress, setUploadProgress] = useState<{ [key: string]: number }>({})
   const [uploadingButton, setUploadingButton] = useState<string>("Submit")

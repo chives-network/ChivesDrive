@@ -23,6 +23,9 @@ import UploadFiles from 'src/views/form/uploadfiles';
 
 import CardContent from '@mui/material/CardContent'
 
+// ** Third Party Import
+import { useTranslation } from 'react-i18next'
+
 // ** Actions
 import {
   fetchData,
@@ -46,6 +49,9 @@ const labelColors: MailLabelColors = {
 }
 
 const DriveAppLayout = ({ folder, label, type }: MailLayoutType) => {
+  // ** Hook
+  const { t } = useTranslation()
+  
   // ** States
   const [query, setQuery] = useState<string>('')
   const [uploadFilesOpen, setUploadFilesOpen] = useState<boolean>(false)

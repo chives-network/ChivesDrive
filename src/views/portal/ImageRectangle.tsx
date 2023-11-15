@@ -19,7 +19,13 @@ import CustomAvatar from 'src/@core/components/mui/avatar'
 import { formatHash } from 'src/configs/functions';
 import { Fragment } from 'react'
 
+// ** Third Party Import
+import { useTranslation } from 'react-i18next'
+
 const ImageRectangle = ( {item, backEndApi, FileType} : any) => {
+  // ** Hook
+  const { t } = useTranslation()
+  
   const FileMap: { [key: string]: string } = {}
   item?.tags.map((Item: { [key: string]: string }) => {
     FileMap[Item.name] = Item.value;

@@ -23,6 +23,9 @@ import { formatTimestamp, formatStorageSize } from 'src/configs/functions';
 
 import { ThemeColor } from 'src/@core/layouts/types'
 
+// ** Third Party Import
+import { useTranslation } from 'react-i18next'
+
 interface FileTypeObj {
   [key: string]: {
     icon: string
@@ -74,6 +77,9 @@ interface ChainInfoType {
 }
 
 const PeersInfo = () => {
+  // ** Hook
+  const { t } = useTranslation()
+  
   
   const [peers, setPeers] = useState<NodeInfoType[]>()
 

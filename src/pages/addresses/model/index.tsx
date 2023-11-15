@@ -50,6 +50,9 @@ import MuiTabList, { TabListProps } from '@mui/lab/TabList'
 // ** Icon Imports
 import Icon from 'src/@core/components/icon'
 
+// ** Third Party Import
+import { useTranslation } from 'react-i18next'
+
 interface TransactionCellType {
   row: TxRecordType
 }
@@ -199,7 +202,9 @@ const TabList = styled(MuiTabList)<TabListProps>(({ theme }) => ({
 
 
 const AddressTransactionListModel = ({ activeTab } : any) => {
-
+  // ** Hook
+  const { t } = useTranslation()
+  
   const router = useRouter();
   const { id } = router.query;
 

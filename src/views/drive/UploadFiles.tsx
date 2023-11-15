@@ -41,6 +41,9 @@ import { getInitials } from 'src/@core/utils/get-initials'
 // ** Styles
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css'
 
+// ** Third Party Import
+import { useTranslation } from 'react-i18next'
+
 interface MailFields {
   cc: boolean
   bcc: boolean
@@ -82,6 +85,9 @@ const menuItemsArr = [
 const filter = createFilterOptions()
 
 const UploadFiles = (props: MailComposeType) => {
+  // ** Hook
+  const { t } = useTranslation()
+  
   // ** Props
   const { mdAbove, uploadFilesOpen, composePopupWidth, toggleUploadFilesOpen } = props
 

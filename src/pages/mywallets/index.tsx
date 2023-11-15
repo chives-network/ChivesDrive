@@ -30,8 +30,13 @@ import UploadWalletJsonFile from 'src/views/form/UploadWalletJsonFile'
 
 import { getAllWallets, getWalletBalance, setWalletNickname, getWalletNicknames, getWalletByAddress, downloadTextFile, removePunctuation, deleteWalletById } from 'src/functions/ChivesweaveWallets'
 
+// ** Third Party Import
+import { useTranslation } from 'react-i18next'
+
 const MyWallets = () => {
-  
+  // ** Hook
+  const { t } = useTranslation()
+    
   const [walletBalanceMap, setWalletBalanceMap] = useState<any>({})
   const [getAllWalletsData, setGetAllWalletsData] = useState<any>([])
   const [getWalletNicknamesData, setGetWalletNicknamesData] = useState<any>({})

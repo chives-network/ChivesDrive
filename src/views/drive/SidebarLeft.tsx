@@ -28,6 +28,9 @@ import CustomBadge from 'src/@core/components/mui/badge'
 import { CustomBadgeProps } from 'src/@core/components/mui/badge/types'
 import { DriveSidebarType } from 'src/types/apps/Chivesweave'
 
+// ** Third Party Import
+import { useTranslation } from 'react-i18next'
+
 // ** Styled Components
 const ListItemStyled = styled(ListItem)<ListItemProps & { component?: ElementType; href: string }>(({ theme }) => ({
   borderLeftWidth: '3px',
@@ -47,6 +50,9 @@ const ListBadge = styled(CustomBadge)<CustomBadgeProps>(() => ({
 }))
 
 const SidebarLeft = (props: DriveSidebarType) => {
+  // ** Hook
+  const { t } = useTranslation()
+  
   // ** Props
   const {
     store,

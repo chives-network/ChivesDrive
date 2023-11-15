@@ -25,6 +25,9 @@ import { AddressType } from 'src/types/apps/Chivesweave'
 
 import { formatHash, formatXWEAddress, formatTimestampMemo } from 'src/configs/functions';
 
+// ** Third Party Import
+import { useTranslation } from 'react-i18next'
+
 interface AddressCellType {
   row: AddressType
 }
@@ -121,6 +124,9 @@ const columns: GridColDef[] = [
 ]
 
 const AddressesList = () => {
+  // ** Hook
+  const { t } = useTranslation()
+  
   // ** State
   const [isLoading, setIsLoading] = useState(false);
 

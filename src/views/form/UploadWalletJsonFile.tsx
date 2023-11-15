@@ -27,6 +27,8 @@ import CardContent from '@mui/material/CardContent'
 
 import { generateNewMnemonicAndGetWalletData, importWalletJsonFile, readFileText } from 'src/functions/ChivesweaveWallets'
 
+// ** Third Party Import
+import { useTranslation } from 'react-i18next'
 
 // Styled component for the upload image inside the dropzone area
 const Img = styled('img')(({ theme }) => ({
@@ -50,6 +52,9 @@ const HeadingTypography = styled(Typography)<TypographyProps>(({ theme }) => ({
 }))
 
 const UploadWalletJsonFile = ( { handleRefreshWalletData }: any ) => {
+  // ** Hook
+  const { t } = useTranslation()
+    
   // ** State
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [isDialog, setIsDialog] = useState<boolean>(false)

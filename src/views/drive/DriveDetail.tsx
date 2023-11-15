@@ -37,6 +37,9 @@ import {
   MailAttachmentType
 } from 'src/types/apps/emailTypes'
 
+// ** Third Party Import
+import { useTranslation } from 'react-i18next'
+
 const HiddenReplyBack = styled(Box)<BoxProps>(({ theme }) => ({
   height: 11,
   width: '90%',
@@ -70,6 +73,9 @@ const HiddenReplyFront = styled(Box)<BoxProps>(({ theme }) => ({
 }))
 
 const DriveDetail = (props: MailDetailsType) => {
+  // ** Hook
+  const { t } = useTranslation()
+  
   // ** Props
   const {
     mail,

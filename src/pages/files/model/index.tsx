@@ -34,6 +34,9 @@ import MuiTabList, { TabListProps } from '@mui/lab/TabList'
 import Icon from 'src/@core/components/icon'
 import authConfig from 'src/configs/auth'
 
+// ** Third Party Import
+import { useTranslation } from 'react-i18next'
+
 // ** Styled Tab component
 const TabList = styled(MuiTabList)<TabListProps>(({ theme }) => ({
   '& .MuiTabs-indicator': {
@@ -57,7 +60,9 @@ const TabList = styled(MuiTabList)<TabListProps>(({ theme }) => ({
 
 
 const FileResourceModel = ({ activeTab } : any) => {
-
+  // ** Hook
+  const { t } = useTranslation()
+  
   const router = useRouter();
 
   const { id } = router.query;

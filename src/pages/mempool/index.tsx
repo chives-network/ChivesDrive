@@ -25,6 +25,9 @@ import { TxRecordType } from 'src/types/apps/Chivesweave'
 
 import FormatTxInfoInRow from 'src/pages/preview/FormatTxInfoInRow';
 
+// ** Third Party Import
+import { useTranslation } from 'react-i18next'
+
 interface FileTypeObj {
   [key: string]: {
     icon: string
@@ -56,7 +59,9 @@ const FileTypeObj: FileTypeObj = {
 }
 
 const Mempool = () => {
-  
+  // ** Hook
+  const { t } = useTranslation()
+    
   const [txViewInfo, setTxViewInfo] = useState<TxRecordType[]>()
 
   useEffect(() => {

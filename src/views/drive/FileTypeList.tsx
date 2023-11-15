@@ -50,6 +50,9 @@ import StringDisplay from 'src/pages/preview/StringDisplay';
 
 import { winstonToAr } from 'src/functions/ChivesweaveWallets'
 
+// ** Third Party Import
+import { useTranslation } from 'react-i18next'
+
 // ** Styled Tab component
 const TabList = styled(MuiTabList)<TabListProps>(({ theme }) => ({
   '& .MuiTabs-indicator': {
@@ -73,7 +76,9 @@ const TabList = styled(MuiTabList)<TabListProps>(({ theme }) => ({
 
 
 const FileResourceModel = ({ activeTab } : any) => {
-
+  // ** Hook
+  const { t } = useTranslation()
+  
   const router = useRouter();
 
   const auth = useAuth()

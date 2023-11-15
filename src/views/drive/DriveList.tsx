@@ -47,6 +47,9 @@ import authConfig from 'src/configs/auth'
 
 import { formatTimestamp} from 'src/configs/functions';
 
+// ** Third Party Import
+import { useTranslation } from 'react-i18next'
+
 const MailItem = styled(ListItem)<ListItemProps>(({ theme }) => ({
   cursor: 'pointer',
   paddingTop: theme.spacing(3),
@@ -83,6 +86,9 @@ const ScrollWrapper = ({ children, hidden }: { children: ReactNode; hidden: bool
 }
 
 const DriveList = (props: DriveListType) => {
+  // ** Hook
+  const { t } = useTranslation()
+  
   // ** Props
   const {
     store,

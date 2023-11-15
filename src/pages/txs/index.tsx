@@ -27,6 +27,9 @@ import { formatHash, formatXWE, formatTimestampAge, formatStorageSize } from 'sr
 
 import FormatTxInfoInRow from 'src/pages/preview/FormatTxInfoInRow';
 
+// ** Third Party Import
+import { useTranslation } from 'react-i18next'
+
 interface TransactionCellType {
   row: TxRecordType
 }
@@ -172,6 +175,9 @@ const columns: GridColDef[] = [
 ]
 
 const TransactionList = () => {
+  // ** Hook
+  const { t } = useTranslation()
+  
   // ** State
   const [isLoading, setIsLoading] = useState(false);
 
