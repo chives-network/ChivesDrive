@@ -205,12 +205,12 @@ const TransactionList = () => {
     <Grid container spacing={6}>
       <Grid item xs={12}>
         <Card>
-          <CardHeader title='Transactions' />
+          <CardHeader title={`${t(`Transactions`)}`} />
           <Divider />
           <DataGrid
             autoHeight
             rows={store.data}
-            rowCount={store.total}
+            rowCount={store.total as number}
             columns={columns}
             sortingMode='server'
             paginationMode='server'

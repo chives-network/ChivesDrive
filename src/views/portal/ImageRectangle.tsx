@@ -104,7 +104,7 @@ const ImageRectangle = ( {item, backEndApi, FileType} : any) => {
         <Box sx={{ display: 'flex', '& svg': { mr: 3, mt: 1, fontSize: '1.375rem', color: 'text.secondary' } }}>
           <Icon icon='mdi:user' />
           <Box sx={{ display: 'flex', flexDirection: 'row', mt:'4px' }}>
-            <Typography sx={{ fontSize: '0.9rem' }}>Owner: </Typography>
+            <Typography sx={{ fontSize: '0.9rem' }}>{`${t(`Owner`)}`}: </Typography>
             <Typography variant='caption' sx={{ ml: '4px', mt: '2px' }}>{formatHash(item.owner.address, 6)}</Typography>
           </Box>
         </Box>
@@ -112,7 +112,7 @@ const ImageRectangle = ( {item, backEndApi, FileType} : any) => {
         <Box sx={{ display: 'flex', '& svg': { mr: 3, mt: 1, fontSize: '1.375rem', color: 'text.secondary' } }}>
           <Icon icon='icon-park-outline:transaction-order' />
           <Box sx={{ display: 'flex', flexDirection: 'row', mt:'4px' }}>
-            <Typography sx={{ fontSize: '0.9rem' }}>TxId: </Typography>
+            <Typography sx={{ fontSize: '0.9rem' }}>{`${t(`TxId`)}`}: </Typography>
             <Typography variant='caption' sx={{ ml: '4px', mt: '2px' }}>{formatHash(item.id, 6)}</Typography>
           </Box>
         </Box>

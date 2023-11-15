@@ -263,7 +263,7 @@ const AddressTransactionListModel = ({ activeTab } : any) => {
     {id != undefined ?
       <Grid item xs={12}>
         <Card>
-          <CardHeader title={`Address`} />
+          <CardHeader title={`${t(`Address`)}`} />
           <CardContent>
             <Grid container spacing={6}>
 
@@ -287,16 +287,22 @@ const AddressTransactionListModel = ({ activeTab } : any) => {
                       <TableRow>
                         <TableCell>
                           <Typography variant='subtitle2' sx={{ color: 'text.primary' }}>
-                            Address:
+                          {`${t(`Address`)}`}:
                           </Typography>
                         </TableCell>
-                        <TableCell><StringDisplay InputString={id} StringSize={20}/></TableCell>
+                        <TableCell>
+                          {id && id.length == 43 ?
+                            <StringDisplay InputString={id} StringSize={20}/>
+                            :
+                            <Fragment>{`${t(`No Address`)}`}</Fragment>
+                          }
+                        </TableCell>
                       </TableRow>
 
                       <TableRow>
                         <TableCell>
                           <Typography variant='subtitle2' sx={{ color: 'text.primary' }}>
-                            Balance:
+                            {`${t(`Balance`)}`}:
                           </Typography>
                         </TableCell>
                         <TableCell>{formatXWE(addressBalance, 8)} XWE</TableCell>
@@ -305,7 +311,7 @@ const AddressTransactionListModel = ({ activeTab } : any) => {
                       <TableRow>
                         <TableCell>
                           <Typography variant='subtitle2' sx={{ color: 'text.primary' }}>
-                            Total transactions:
+                            {`${t(`Total transactions`)}`}:
                           </Typography>
                         </TableCell>
                         <TableCell>{store.total}</TableCell>
@@ -373,12 +379,12 @@ const AddressTransactionListModel = ({ activeTab } : any) => {
           </TabList>
         </TabContext>
         <Card>
-          <CardHeader title='Transactions' />
+          <CardHeader title={`${t(`Transactions`)}`} />
           {store && store.data != undefined ?
             <DataGrid
               autoHeight
               rows={store.data}
-              rowCount={store.total}
+              rowCount={store.total as number}
               columns={columns}
               sortingMode='server'
               paginationMode='server'

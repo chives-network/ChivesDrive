@@ -153,12 +153,12 @@ const AddressesList = () => {
     <Grid container spacing={6}>
       <Grid item xs={12}>
         <Card>
-          <CardHeader title='Addresses' />
+          <CardHeader title={`${t('Addresses')}`} />
           <Divider />
           <DataGrid
             autoHeight
             rows={store.data}
-            rowCount={store.total}
+            rowCount={store.total as number}
             columns={columns}
             sortingMode='server'
             paginationMode='server'

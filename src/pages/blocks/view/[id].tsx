@@ -240,7 +240,7 @@ const BlockTransactionList = () => {
     {blockViewInfo && blockViewInfo != undefined  && "timestamp" in blockViewInfo ?
       <Grid item xs={12}>
         <Card>
-          <CardHeader title={`Block ${id}`} />
+          <CardHeader title={`${t(`Block`)} ${id}`} />
           <CardContent>
 
             <Grid container spacing={6}>
@@ -264,7 +264,7 @@ const BlockTransactionList = () => {
                       <TableRow>
                         <TableCell>
                           <Typography variant='subtitle2' sx={{ color: 'text.primary' }}>
-                            Block Hash:
+                            {`${t(`Block Hash`)}`}:
                           </Typography>
                         </TableCell>
                         <TableCell><StringDisplay InputString={`${blockViewInfo.indep_hash}`} StringSize={20} /></TableCell>
@@ -297,7 +297,7 @@ const BlockTransactionList = () => {
                       <TableRow>
                         <TableCell>
                           <Typography variant='subtitle2' sx={{ color: 'text.primary' }}>
-                            Timestamp:
+                            {`${t(`Timestamp`)}`}:
                           </Typography>
                         </TableCell>
                         <TableCell>{formatTimestamp(blockViewInfo.timestamp)}</TableCell>
@@ -305,7 +305,7 @@ const BlockTransactionList = () => {
                       <TableRow>
                         <TableCell>
                           <Typography variant='subtitle2' sx={{ color: 'text.primary' }}>
-                          Mined Time:
+                          {`${t(`Mined Time`)}`}:
                           </Typography>
                         </TableCell>
                         <TableCell>{formatSecondToMinute(blockViewInfo.mining_time)}</TableCell>
@@ -313,7 +313,7 @@ const BlockTransactionList = () => {
                       <TableRow>
                         <TableCell>
                           <Typography variant='subtitle2' sx={{ color: 'text.primary' }}>
-                          Size:
+                          {`${t(`Size`)}`}:
                           </Typography>
                         </TableCell>
                         <TableCell>{formatStorageSize(blockViewInfo.block_size)}</TableCell>
@@ -343,7 +343,7 @@ const BlockTransactionList = () => {
                       <TableRow>
                         <TableCell>
                           <Typography variant='subtitle2' sx={{ color: 'text.primary' }}>
-                            Age:
+                            {`${t(`Age`)}`}:
                           </Typography>
                         </TableCell>
                         <TableCell>{formatTimestampAge(blockViewInfo.timestamp)}</TableCell>
@@ -351,7 +351,7 @@ const BlockTransactionList = () => {
                       <TableRow>
                         <TableCell>
                           <Typography variant='subtitle2' sx={{ color: 'text.primary' }}>
-                          Miner:
+                          {`${t(`Miner`)}`}:
                           </Typography>
                         </TableCell>
                         <TableCell><LinkStyled href={`/addresses/all/${blockViewInfo.reward_addr}`}>{formatHash(blockViewInfo.reward_addr, 7)}</LinkStyled></TableCell>
@@ -359,7 +359,7 @@ const BlockTransactionList = () => {
                       <TableRow>
                         <TableCell>
                           <Typography variant='subtitle2' sx={{ color: 'text.primary' }}>
-                          Tx Reward Pool:
+                          {`${t(`Tx Reward Pool`)}`}:
                           </Typography>
                         </TableCell>
                         <TableCell>{formatXWE(blockViewInfo.reward_pool, 2)}</TableCell>
@@ -389,7 +389,7 @@ const BlockTransactionList = () => {
                       <TableRow>
                         <TableCell>
                           <Typography variant='subtitle2' sx={{ color: 'text.primary' }}>
-                          Transactions:
+                          {`${t(`Transactions`)}`}:
                           </Typography>
                         </TableCell>
                         <TableCell>{blockViewInfo.txs_length}</TableCell>
@@ -397,7 +397,7 @@ const BlockTransactionList = () => {
                       <TableRow>
                         <TableCell>
                           <Typography variant='subtitle2' sx={{ color: 'text.primary' }}>
-                          Confirmations:
+                          {`${t(`Confirmations`)}`}:
                           </Typography>
                         </TableCell>
                         <TableCell>{blockViewInfo.currentheight - blockViewInfo.height}</TableCell>
@@ -405,7 +405,7 @@ const BlockTransactionList = () => {
                       <TableRow>
                         <TableCell>
                           <Typography variant='subtitle2' sx={{ color: 'text.primary' }}>
-                          Miner Reward:
+                          {`${t(`Miner Reward`)}`}:
                           </Typography>
                         </TableCell>
                         <TableCell>{formatXWE(blockViewInfo.reward, 2)}</TableCell>
@@ -427,12 +427,12 @@ const BlockTransactionList = () => {
     {store && store.data != undefined ?
       <Grid item xs={12}>
         <Card>
-          <CardHeader title='Transactions' />
+          <CardHeader title={`${t(`Transactions`)}`} />
           <Divider />
           <DataGrid
             autoHeight
             rows={store.data}
-            rowCount={store.total}
+            rowCount={store.total as number}
             columns={columns}
             sortingMode='server'
             paginationMode='server'

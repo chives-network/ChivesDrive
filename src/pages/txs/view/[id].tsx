@@ -416,7 +416,7 @@ const TxView = () => {
         <Grid container spacing={6}>
           <Grid item xs={12}>
             <Card>
-              <CardHeader title={`Transaction`} />
+              <CardHeader title={`${t(`Transactions`)}`} />
               <CardContent>
                 <Grid container spacing={6}>
 
@@ -440,7 +440,7 @@ const TxView = () => {
                           <TableRow>
                             <TableCell>
                               <Typography variant='subtitle2' sx={{ color: 'text.primary' }}>
-                                ID:
+                                {`${t(`ID`)}`}:
                               </Typography>
                             </TableCell>
                             <TableCell><StringDisplay InputString={id} StringSize={20}/></TableCell>
@@ -448,7 +448,7 @@ const TxView = () => {
                           <TableRow>
                             <TableCell>
                               <Typography variant='subtitle2' sx={{ color: 'text.primary' }}>
-                              Value:
+                              {`${t(`Value`)}`}:
                               </Typography>
                             </TableCell>
                             <TableCell>{formatXWE(txViewInfo.quantity.winston, 6)}</TableCell>
@@ -456,7 +456,7 @@ const TxView = () => {
                           <TableRow>
                             <TableCell>
                               <Typography variant='subtitle2' sx={{ color: 'text.primary' }}>
-                              From:
+                              {`${t(`From`)}`}:
                               </Typography>
                             </TableCell>
                             <TableCell><LinkStyled href={`/addresses/all/${txViewInfo.owner.address}`}>{formatHash(txViewInfo.owner.address, 7)}</LinkStyled></TableCell>
@@ -464,7 +464,7 @@ const TxView = () => {
                           <TableRow>
                             <TableCell>
                               <Typography variant='subtitle2' sx={{ color: 'text.primary' }}>
-                              To:
+                              {`${t(`To`)}`}:
                               </Typography>
                             </TableCell>
                             <TableCell><LinkStyled href={`/addresses/all/${txViewInfo.recipient}`}>{formatHash(txViewInfo.recipient, 7)}</LinkStyled></TableCell>
@@ -472,7 +472,7 @@ const TxView = () => {
                           <TableRow>
                             <TableCell>
                               <Typography variant='subtitle2' sx={{ color: 'text.primary' }}>
-                              Fee:
+                              {`${t(`Fee`)}`}:
                               </Typography>
                             </TableCell>
                             <TableCell>{formatXWE(txViewInfo.fee.winston, 7)}</TableCell>
@@ -502,7 +502,7 @@ const TxView = () => {
                           <TableRow>
                             <TableCell>
                               <Typography variant='subtitle2' sx={{ color: 'text.primary' }}>
-                                Block Height:
+                                {`${t(`Block Height`)}`}:
                               </Typography>
                             </TableCell>
                             <TableCell><LinkStyled href={`/blocks/view/${txViewInfo.block.height}`}>{txViewInfo.block.height}</LinkStyled></TableCell>
@@ -510,7 +510,7 @@ const TxView = () => {
                           <TableRow>
                             <TableCell>
                               <Typography variant='subtitle2' sx={{ color: 'text.primary' }}>
-                              Block Hash:
+                              {`${t(`Block Hash`)}`}:
                               </Typography>
                             </TableCell>
                             <TableCell>{formatHash(txViewInfo.block.indep_hash, 7)}</TableCell>
@@ -518,7 +518,7 @@ const TxView = () => {
                           <TableRow>
                             <TableCell>
                               <Typography variant='subtitle2' sx={{ color: 'text.primary' }}>
-                              Block Time:
+                              {`${t(`Block Time`)}`}:
                               </Typography>
                             </TableCell>
                             <TableCell>{formatTimestamp(txViewInfo.block.timestamp)}</TableCell>
@@ -528,7 +528,7 @@ const TxView = () => {
                             <TableRow>
                               <TableCell>
                                 <Typography variant='subtitle2' sx={{ color: 'text.primary' }}>
-                                Bundled In:
+                                {`${t(`Bundled In`)}`}:
                                 </Typography>
                               </TableCell>
                               <TableCell>{formatHash(txViewInfo.bundleid, 7)}</TableCell>
@@ -540,7 +540,7 @@ const TxView = () => {
                           <TableRow>
                             <TableCell>
                               <Typography variant='subtitle2' sx={{ color: 'text.primary' }}>
-                              Data Size:
+                              {`${t(`Data Size`)}`}:
                               </Typography>
                             </TableCell>
                             <TableCell>{formatStorageSize(txViewInfo.data.size)}</TableCell>
@@ -561,7 +561,7 @@ const TxView = () => {
           {txViewInfo.tags && txViewInfo.tags.length > 0 ?
             <Grid item xs={12}>
               <Card>
-                <CardHeader title={`Tags`} />
+                <CardHeader title={`${t(`Tags`)}`} />
                 <CardContent>
                   <Grid container spacing={6}>
 
@@ -613,7 +613,7 @@ const TxView = () => {
           {txViewInfo.tags && txViewInfo.tags.length > 0 && isBundleTx == false ?
             <Grid item xs={12}>
               <Card>
-                <CardHeader title={fileName} />
+                <CardHeader title={`${t(fileName)}`} />
                 <CardContent>
                   <Grid container spacing={6}>
 
@@ -660,12 +660,12 @@ const TxView = () => {
           {store && store.data != undefined && isBundleTx ?
             <Grid item xs={12}>
               <Card>
-                <CardHeader title='Transactions' />
+                <CardHeader title={`${t(`Transactions`)}`} />
                 <Divider />
                 <DataGrid
                   autoHeight
                   rows={store.data}
-                  rowCount={store.total}
+                  rowCount={store.total as number}
                   columns={columns}
                   sortingMode='server'
                   paginationMode='server'

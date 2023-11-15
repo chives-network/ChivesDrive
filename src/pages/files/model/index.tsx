@@ -175,7 +175,7 @@ const FileResourceModel = ({ activeTab } : any) => {
         </TabContext>
 
         <Card sx={{ padding: '0 8px' }}>
-          <CardHeader title={`${activeTab?.toUpperCase()} Resources`} />
+          <CardHeader title={`${activeTab?.toUpperCase()}`} />
           {store && store.data !== undefined ? (
             <Fragment>
               <Grid container spacing={2}>

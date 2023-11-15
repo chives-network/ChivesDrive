@@ -166,7 +166,7 @@ const UploadWalletJsonFile = ( { handleRefreshWalletData }: any ) => {
 
         {isLoading == true ? 
         <Fragment>
-            <CardHeader title='Create a new wallet ...' />
+            <CardHeader title={`${t('Create a new wallet ...')}`} />
             <CardContent>
                 <Grid container spacing={5}>
                     <Grid item xs={12}>
@@ -180,7 +180,7 @@ const UploadWalletJsonFile = ( { handleRefreshWalletData }: any ) => {
         </Fragment>
         :
         <Fragment>
-            <CardHeader title='Method 1: Create a new wallet directly' />
+            <CardHeader title={`${t('Method 1: Create a new wallet directly')}`} />
             <CardContent>
                 <Grid container spacing={5}>
                     <Grid item xs={12}>
@@ -193,7 +193,7 @@ const UploadWalletJsonFile = ( { handleRefreshWalletData }: any ) => {
 
             <Divider sx={{ m: '0 !important' }} />
 
-            <CardHeader title='Method 2: Upload your wallet json file' />
+            <CardHeader title={`${t('Method 2: Upload your wallet json file')}`} />
             <CardContent>
                 <Box {...getRootProps({ className: 'dropzone' })} sx={acceptedFiles.length ? {} : {}}>
                     <input {...getInputProps()} />
@@ -208,7 +208,7 @@ const UploadWalletJsonFile = ( { handleRefreshWalletData }: any ) => {
             
             <Divider sx={{ m: '0 !important' }} />
 
-            <CardHeader title='Method 3: Input your 12 mnemonic words' />
+            <CardHeader title={`${t('Method 3: Input your 12 mnemonic words')}`} />
             <CardContent>
                 <Grid container spacing={5}>
                     <Grid item xs={12}>

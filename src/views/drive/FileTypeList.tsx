@@ -145,7 +145,7 @@ const FileResourceModel = ({ activeTab } : any) => {
     {id != undefined ?
       <Grid item xs={12}>
         <Card>
-          <CardHeader title={`My Files`} />
+          <CardHeader title={`${t(`My Files`)}`} />
           <CardContent>
             <Grid container spacing={6}>
 
@@ -169,14 +169,14 @@ const FileResourceModel = ({ activeTab } : any) => {
                       <TableRow>
                         <TableCell>
                           <Typography variant='subtitle2' sx={{ color: 'text.primary' }}>
-                            Address:
+                          {`${t(`Address`)}`}:
                           </Typography>
-                        </TableCell>                        
+                        </TableCell>
                         <TableCell>
                           {id && id.length == 43 ?
                             <StringDisplay InputString={id} StringSize={20}/>
                             :
-                            <Fragment>No Address</Fragment>
+                            <Fragment>{`${t(`No Address`)}`}</Fragment>
                           }
                         </TableCell>
                       </TableRow>
@@ -184,7 +184,7 @@ const FileResourceModel = ({ activeTab } : any) => {
                       <TableRow>
                         <TableCell>
                           <Typography variant='subtitle2' sx={{ color: 'text.primary' }}>
-                            Balance:
+                            {`${t(`Balance`)}`}:
                           </Typography>
                         </TableCell>
                         <TableCell>{addressBalance} XWE</TableCell>
@@ -193,7 +193,7 @@ const FileResourceModel = ({ activeTab } : any) => {
                       <TableRow>
                         <TableCell>
                           <Typography variant='subtitle2' sx={{ color: 'text.primary' }}>
-                            Total transactions:
+                            {`${t(`Total transactions`)}`}:
                           </Typography>
                         </TableCell>
                         <TableCell>{store.total}</TableCell>
@@ -280,7 +280,7 @@ const FileResourceModel = ({ activeTab } : any) => {
         </TabContext>
 
         <Card sx={{ padding: '0 8px' }}>
-          <CardHeader title={`${activeTab?.toUpperCase()} Resources`} />
+          <CardHeader title={`${activeTab?.toUpperCase()}`} />
           {store && store.data !== undefined ? (
             <Fragment>
               <Grid container spacing={2}>

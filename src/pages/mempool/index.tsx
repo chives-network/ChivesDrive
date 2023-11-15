@@ -89,7 +89,7 @@ const Mempool = () => {
 
     <Grid item xs={12}>
         <Card>
-        <CardHeader title='Transactions in memory' />
+        <CardHeader title={`${t(`Transactions in memory`)}`} />
 
         <Divider sx={{ m: '0 !important' }} />
 

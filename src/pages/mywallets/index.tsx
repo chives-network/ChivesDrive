@@ -143,7 +143,7 @@ const MyWallets = () => {
           
           <Grid item xs={12}>
             <Card>
-              <CardHeader title='My Wallets' 
+              <CardHeader title={`${t(`My Wallets`)}`}
                           action={
                             <div>
                               <Button size='small' variant='contained' onClick={() => setCreateWalletWindow(true)}>

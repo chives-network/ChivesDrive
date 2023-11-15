@@ -76,115 +76,6 @@ const LinkStyled = styled(Link)(({ theme }) => ({
   }
 }))
 
-const columns: GridColDef[] = [
-  {
-    flex: 0.2,
-    minWidth: 200,
-    field: 'TxId',
-    headerName: 'TxId',
-    sortable: false,
-    filterable: false,
-    renderCell: ({ row }: TransactionCellType) => {
-      
-      return (
-        <Typography noWrap variant='body2'>
-          <LinkStyled href={`/txs/view/${row.id}`}>{formatHash(row.id, 7)}</LinkStyled>
-        </Typography>
-      )
-    }
-  },
-  {
-    flex: 0.2,
-    minWidth: 200,
-    field: 'From',
-    headerName: 'From',
-    sortable: false,
-    filterable: false,
-    renderCell: ({ row }: TransactionCellType) => {
-      
-      return (
-        <Typography noWrap variant='body2'>
-          <LinkStyled href={`/wallet/all/`}>{formatHash(row.owner.address, 7)}</LinkStyled>
-        </Typography>
-      )
-    }
-  },
-  {
-    flex: 0.15,
-    minWidth: 100,
-    headerName: 'Size',
-    field: 'Size',
-    sortable: false,
-    filterable: false,
-    renderCell: ({ row }: TransactionCellType) => {
-      return (
-        <Typography noWrap variant='body2'>
-          {formatStorageSize(row.data.size)}
-        </Typography>
-      )
-    }
-  },
-  {
-    flex: 0.15,
-    minWidth: 100,
-    field: 'Fee',
-    headerName: 'Fee',
-    sortable: false,
-    filterable: false,
-    renderCell: ({ row }: TransactionCellType) => {
-      return (
-        <Typography noWrap variant='body2'>
-          {formatXWE(row.fee.winston, 6)}
-        </Typography>
-      )
-    }
-  },
-  {
-    flex: 0.3,
-    minWidth: 200,
-    field: 'Info',
-    headerName: 'Info',
-    sortable: false,
-    filterable: false,
-    renderCell: ({ row }: TransactionCellType) => {
-      return (
-        <Typography noWrap variant='body2'>
-          <FormatTxInfoInRow TxRecord={row}/>
-        </Typography>
-      )
-    }
-  },
-  {
-    flex: 0.1,
-    minWidth: 110,
-    field: 'Height',
-    headerName: 'Height',
-    sortable: false,
-    filterable: false,
-    renderCell: ({ row }: TransactionCellType) => {
-      return (
-        <Typography noWrap variant='body2'>
-          <LinkStyled href={`/blocks/view/${row.block.height}`}>{row.block.height}</LinkStyled>
-        </Typography>
-      )
-    }
-  },
-  {
-    flex: 0.15,
-    field: 'Time',
-    minWidth: 220,
-    headerName: 'Time',
-    sortable: false,
-    filterable: false,
-    renderCell: ({ row }: TransactionCellType) => {
-      return (
-        <Typography noWrap variant='body2'>
-          {formatTimestampAge(row.block.timestamp)}
-        </Typography>
-      )
-    }
-  }
-]
 
 
 // ** Styled Tab component
@@ -268,6 +159,117 @@ const MyWalletModel = ({ activeTab } : any) => {
   useEffect(() => {
     setIsLoading(false)
   }, [])
+
+  
+  const columns: GridColDef[] = [
+    {
+      flex: 0.2,
+      minWidth: 200,
+      field: 'TxId',
+      headerName: t(`TxId`) as string,
+      sortable: false,
+      filterable: false,
+      renderCell: ({ row }: TransactionCellType) => {
+        
+        return (
+          <Typography noWrap variant='body2'>
+            <LinkStyled href={`/txs/view/${row.id}`}>{formatHash(row.id, 7)}</LinkStyled>
+          </Typography>
+        )
+      }
+    },
+    {
+      flex: 0.2,
+      minWidth: 200,
+      field: 'From',
+      headerName: t(`From`) as string,
+      sortable: false,
+      filterable: false,
+      renderCell: ({ row }: TransactionCellType) => {
+        
+        return (
+          <Typography noWrap variant='body2'>
+            <LinkStyled href={`/wallet/all/`}>{formatHash(row.owner.address, 7)}</LinkStyled>
+          </Typography>
+        )
+      }
+    },
+    {
+      flex: 0.15,
+      minWidth: 100,
+      headerName: t(`Size`) as string,
+      field: 'Size',
+      sortable: false,
+      filterable: false,
+      renderCell: ({ row }: TransactionCellType) => {
+        return (
+          <Typography noWrap variant='body2'>
+            {formatStorageSize(row.data.size)}
+          </Typography>
+        )
+      }
+    },
+    {
+      flex: 0.15,
+      minWidth: 100,
+      field: 'Fee',
+      headerName: t(`Fee`) as string,
+      sortable: false,
+      filterable: false,
+      renderCell: ({ row }: TransactionCellType) => {
+        return (
+          <Typography noWrap variant='body2'>
+            {formatXWE(row.fee.winston, 6)}
+          </Typography>
+        )
+      }
+    },
+    {
+      flex: 0.3,
+      minWidth: 200,
+      field: 'Info',
+      headerName: t(`Info`) as string,
+      sortable: false,
+      filterable: false,
+      renderCell: ({ row }: TransactionCellType) => {
+        return (
+          <Typography noWrap variant='body2'>
+            <FormatTxInfoInRow TxRecord={row}/>
+          </Typography>
+        )
+      }
+    },
+    {
+      flex: 0.1,
+      minWidth: 110,
+      field: 'Height',
+      headerName: t(`Height`) as string,
+      sortable: false,
+      filterable: false,
+      renderCell: ({ row }: TransactionCellType) => {
+        return (
+          <Typography noWrap variant='body2'>
+            <LinkStyled href={`/blocks/view/${row.block.height}`}>{row.block.height}</LinkStyled>
+          </Typography>
+        )
+      }
+    },
+    {
+      flex: 0.15,
+      field: 'Time',
+      minWidth: 220,
+      headerName: t(`Time`) as string,
+      sortable: false,
+      filterable: false,
+      renderCell: ({ row }: TransactionCellType) => {
+        return (
+          <Typography noWrap variant='body2'>
+            {formatTimestampAge(row.block.timestamp)}
+          </Typography>
+        )
+      }
+    }
+  ]
 
   return (
     <Grid container spacing={6}>
@@ -410,11 +412,11 @@ const MyWalletModel = ({ activeTab } : any) => {
         <Card>
           {store && store.data != undefined && activeTab != "sendout" && activeTab !="uploadfiles" ?
             <Fragment>
-              <CardHeader title='Transactions' />
+              <CardHeader title={`${t(`Transactions`)}`} />
               <DataGrid
                 autoHeight
                 rows={store.data}
-                rowCount={store.total}
+                rowCount={store.total as number}
                 columns={columns}
                 sortingMode='server'
                 paginationMode='server'

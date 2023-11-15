@@ -313,12 +313,12 @@ const BlockList = () => {
     
       <Grid item xs={12}>
         <Card>
-          <CardHeader title='Blocks' />
+          <CardHeader title={`${t(`Blocks`)}`} />
           <Divider />
           <DataGrid
             autoHeight
             rows={store.data}
-            rowCount={store.total}
+            rowCount={store.total as number}
             columns={columns}
             sortingMode='server'
             paginationMode='server'

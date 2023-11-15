@@ -123,7 +123,7 @@ const PeersInfo = () => {
           {chainInfo != undefined ?
             <Grid item xs={12}>
               <Card>
-                <CardHeader title={`Chivesweave Blockchain`} />
+                <CardHeader title={`${t(`Blockchain`)}`} />
                 <CardContent>
                   <Grid container spacing={6}>
 
@@ -201,7 +201,7 @@ const PeersInfo = () => {
           
           <Grid item xs={12}>
             <Card>
-              <CardHeader title='Nodes' />
+              <CardHeader title={`${t(`Nodes`)}`} />
 
               <Divider sx={{ m: '0 !important' }} />
 

@@ -24,10 +24,10 @@ const UploadFiles = () => {
         <PageHeader
           title={
             <Typography variant='h5'>
-              Upload files to Blockchain
+              {`${t('Upload Files')}`}
             </Typography>
           }
-          subtitle={<Typography variant='body2'>You can choose multiple files for simultaneous uploading. Uploading files to blockchain may take 3-10 minutes.</Typography>}
+          subtitle={<Typography variant='body2'>{`${t('You can choose multiple files for simultaneous uploading. Uploading files to blockchain may take 3-10 minutes.')}`}</Typography>}
         />
         <Grid item xs={12}>
             <FileUploaderMultiple />
