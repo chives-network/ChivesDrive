@@ -1,0 +1,20 @@
+{
+    "Dashboards": "仪表盘",
+    "Resources": "门户",
+    "My Drive": "网盘",
+    "My Wallet": "钱包",
+    "My Files": "文件",
+    "Nodes": "节点",
+    "Memory Pool": "内存池",
+    "Upload Files": "上传文件",
+    "Address": "地址",
+    "No Address": "无地址",
+    "Balance": "余额",
+    "Total transactions": "总记录数",
+    "Send": "对外转账",
+    "Sent": "发送记录",
+    "Files": "文件",
+    "Received": "收到记录",
+    "All": "所有记录",
+    "Chat": "Chat"
+}

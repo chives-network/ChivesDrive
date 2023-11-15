@@ -68,7 +68,7 @@ const DriveNavMenus = [
     sectionTitle: 'My Portal'
   },
   {
-    title: 'Resoures',
+    title: 'Resources',
     icon: 'mdi:file-multiple',
     path: '/files/png'
   },

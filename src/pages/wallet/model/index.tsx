@@ -58,6 +58,9 @@ import SendOut from 'src/views/form/sendout';
 // ** Icon Imports
 import Icon from 'src/@core/components/icon'
 
+// ** Third Party Import
+import { useTranslation } from 'react-i18next'
+
 interface TransactionCellType {
   row: TxRecordType
 }
@@ -207,6 +210,9 @@ const TabList = styled(MuiTabList)<TabListProps>(({ theme }) => ({
 
 
 const MyWalletModel = ({ activeTab } : any) => {
+  // ** Hook
+  const { t } = useTranslation()
+
 
   const router = useRouter();
 
@@ -269,7 +275,7 @@ const MyWalletModel = ({ activeTab } : any) => {
     {id != undefined ?
       <Grid item xs={12}>
         <Card>
-          <CardHeader title={`My Wallet`} />
+          <CardHeader title={`${t(`My Wallet`)}`} />
           <CardContent>
             <Grid container spacing={6}>
 
@@ -293,14 +299,14 @@ const MyWalletModel = ({ activeTab } : any) => {
                       <TableRow>
                         <TableCell>
                           <Typography variant='subtitle2' sx={{ color: 'text.primary' }}>
-                            Address:
+                          {`${t(`Address`)}`}:
                           </Typography>
                         </TableCell>
                         <TableCell>
                           {id && id.length == 43 ?
                             <StringDisplay InputString={id} StringSize={20}/>
                             :
-                            <Fragment>No Address</Fragment>
+                            <Fragment>{`${t(`No Address`)}`}</Fragment>
                           }
                         </TableCell>
                       </TableRow>
@@ -308,7 +314,7 @@ const MyWalletModel = ({ activeTab } : any) => {
                       <TableRow>
                         <TableCell>
                           <Typography variant='subtitle2' sx={{ color: 'text.primary' }}>
-                            Balance:
+                          {`${t(`Balance`)}`}:
                           </Typography>
                         </TableCell>
                         <TableCell>{addressBalance} XWE</TableCell>
@@ -317,7 +323,7 @@ const MyWalletModel = ({ activeTab } : any) => {
                       <TableRow>
                         <TableCell>
                           <Typography variant='subtitle2' sx={{ color: 'text.primary' }}>
-                            Total transactions:
+                          {`${t(`Total transactions`)}`}:
                           </Typography>
                         </TableCell>
                         <TableCell>{ activeTab != 'uploadfiles' && activeTab != 'sendout' ? store.total : '' }</TableCell>
@@ -350,7 +356,7 @@ const MyWalletModel = ({ activeTab } : any) => {
               label={
                 <Box sx={{ display: 'flex', alignItems: 'center', '& svg': { mr: 2 } }}>
                   <Icon fontSize={20} icon='mdi:account-outline' />
-                  Send
+                  {`${t(`Send`)}`}
                 </Box>
               }
             />
@@ -359,7 +365,7 @@ const MyWalletModel = ({ activeTab } : any) => {
               label={
                 <Box sx={{ display: 'flex', alignItems: 'center', '& svg': { mr: 2 } }}>
                   <Icon fontSize={20} icon='mdi:account-outline' />
-                  Upload Files
+                  {`${t(`Upload Files`)}`}
                 </Box>
               }
             />
@@ -368,7 +374,7 @@ const MyWalletModel = ({ activeTab } : any) => {
               label={
                 <Box sx={{ display: 'flex', alignItems: 'center', '& svg': { mr: 2 } }}>
                   <Icon fontSize={20} icon='mdi:account-outline' />
-                  All
+                  {`${t(`All`)}`}
                 </Box>
               }
             />
@@ -377,7 +383,7 @@ const MyWalletModel = ({ activeTab } : any) => {
               label={
                 <Box sx={{ display: 'flex', alignItems: 'center', '& svg': { mr: 2 } }}>
                   <Icon fontSize={20} icon='mdi:lock-outline' />
-                  Sent
+                  {`${t(`Sent`)}`}
                 </Box>
               }
             />
@@ -386,7 +392,7 @@ const MyWalletModel = ({ activeTab } : any) => {
               label={
                 <Box sx={{ display: 'flex', alignItems: 'center', '& svg': { mr: 2 } }}>
                   <Icon fontSize={20} icon='mdi:bookmark-outline' />
-                  Received
+                  {`${t(`Received`)}`}
                 </Box>
               }
             />
@@ -395,7 +401,7 @@ const MyWalletModel = ({ activeTab } : any) => {
               label={
                 <Box sx={{ display: 'flex', alignItems: 'center', '& svg': { mr: 2 } }}>
                   <Icon fontSize={20} icon='mdi:bell-outline' />
-                  Files
+                  {`${t(`Files`)}`}
                 </Box>
               }
             />
