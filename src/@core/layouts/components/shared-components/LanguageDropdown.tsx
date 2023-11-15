@@ -25,7 +25,7 @@ const LanguageDropdown = ({ settings, saveSettings }: Props) => {
   // ** Vars
   const { layout } = settings
 
-  const handleLangItemClick = (lang: 'en' | 'zh-cn' | 'zh-tw' | 'Ru' | 'Fr' | 'De' | 'Sp') => {
+  const handleLangItemClick = (lang: 'en' | 'zh-cn' | 'zh-tw' | 'Ru' | 'Fr' | 'De' | 'Sp' | 'Kr' ) => {
     i18n.changeLanguage(lang)
   }
 
@@ -69,6 +69,17 @@ const LanguageDropdown = ({ settings, saveSettings }: Props) => {
             selected: i18n.language === 'zh-tw',
             onClick: () => {
               handleLangItemClick('zh-tw')
+              saveSettings({ ...settings, direction: 'ltr' })
+            }
+          }
+        },
+        {
+          text: 'Korean',
+          menuItemProps: {
+            sx: { py: 2 },
+            selected: i18n.language === 'Kr',
+            onClick: () => {
+              handleLangItemClick('Kr')
               saveSettings({ ...settings, direction: 'ltr' })
             }
           }
