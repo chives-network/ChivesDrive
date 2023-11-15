@@ -98,6 +98,13 @@ const MyWallets = () => {
     setRefreshWalletData(refreshWalletData+1)
   }
 
+  const handleRefreshWalletData = () => {
+    setRefreshWalletData(refreshWalletData+1)
+    setOpen(false)
+    setIsDialog(false)
+    setCreateWalletWindow(false)
+  }
+
   return (
     <Fragment>
 
@@ -195,7 +202,7 @@ const MyWallets = () => {
           
           <Grid item xs={12}>
             <Card>
-              <CardHeader title='My Wallets' 
+              <CardHeader title='Create A New Wallet' 
                           action={
                             <div>
                               <Button size='small' variant='contained' onClick={() => setCreateWalletWindow(false)}>
@@ -205,7 +212,7 @@ const MyWallets = () => {
                           }
                           />
               <Divider sx={{ m: '0 !important' }} />
-              <UploadWalletJsonFile />
+              <UploadWalletJsonFile  handleRefreshWalletData={handleRefreshWalletData} />
             </Card>
           </Grid>
         </Grid>

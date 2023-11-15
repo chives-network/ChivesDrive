@@ -25,7 +25,7 @@ import TextField, { TextFieldProps } from '@mui/material/TextField'
 import CardHeader from '@mui/material/CardHeader'
 import CardContent from '@mui/material/CardContent'
 
-import { generateNewMnemonicAndGetWalletData } from 'src/functions/ChivesweaveWallets'
+import { generateNewMnemonicAndGetWalletData, importWalletJsonFile, readFileText } from 'src/functions/ChivesweaveWallets'
 
 
 // Styled component for the upload image inside the dropzone area
@@ -49,20 +49,19 @@ const HeadingTypography = styled(Typography)<TypographyProps>(({ theme }) => ({
   }
 }))
 
-const UploadWalletJsonFile = () => {
+const UploadWalletJsonFile = ( { handleRefreshWalletData }: any ) => {
   // ** State
-  const [files, setFiles] = useState<File[]>([])
-  
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [isDialog, setIsDialog] = useState<boolean>(false)
   const [open, setOpen] = useState<boolean>(false)
   const [walletAddress, setWalletAddress] = useState<string>("")
   const [helperText, setHelperText] = useState<string>("")
   const [inputMnemonicColor, setInputMnemonicColor] = useState<TextFieldProps['color']>("primary")
-  
+
   const handleClose = () => {
     setOpen(false)
     setIsDialog(false)
+    handleRefreshWalletData()
   }
 
   // ** Hook
@@ -72,9 +71,30 @@ const UploadWalletJsonFile = () => {
       'image/*': ['.json']
     },
     onDrop: (acceptedFiles: File[]) => {
-      setFiles(acceptedFiles.map((file: File) => Object.assign(file)))
+        acceptedFiles.map((file: File) => {
+            handleImportWalletJsonFile(file)
+        })
     }
   })
+  
+  const handleImportWalletJsonFile = async (file: File) => {
+    const jsonFileContent: string = await readFileText(file)
+    const NewWalletData = await importWalletJsonFile(JSON.parse(jsonFileContent))
+    if(NewWalletData) {
+        setInputMnemonicColor("success")
+        setIsLoading(true)
+        if(true) {
+            setIsLoading(false)
+            setIsDialog(true)
+            setOpen(true)
+            setWalletAddress(NewWalletData.data.arweave.key)
+        }
+    }
+    else {
+        setHelperText("Invalid Wallet Json File")
+        setInputMnemonicColor("error")
+    }
+  };
 
   const handleImportWalletKeys = async (event: any) => {
     console.log("event", event.target.value)
@@ -94,7 +114,6 @@ const UploadWalletJsonFile = () => {
         setHelperText("Invalid mnemonic words")
         setInputMnemonicColor("error")
     }
-    console.log("files", files)
   };
 
   const generateNewWallet = async (event: any) => {

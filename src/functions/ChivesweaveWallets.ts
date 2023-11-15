@@ -31,9 +31,12 @@ export async function generateNewMnemonicAndGetWalletData (mnemonic: string) {
         }
         const isValidMnemonic = await validateMnemonic(newMnemonic);
         if(isValidMnemonic) {
-            console.log("validateMnemonic:", newMnemonic)
+            
+            //console.log("validateMnemonic:", newMnemonic)
+            
             const mnemonicToJwkValue = await mnemonicToJwk(newMnemonic)
-            console.log("mnemonicToJwkValue:", mnemonicToJwkValue)
+            
+            //console.log("mnemonicToJwkValue:", mnemonicToJwkValue)
             
             //Get Wallet Data From LocalStorage
             const chivesWalletsList = window.localStorage.getItem(chivesWallets)      
@@ -55,7 +58,8 @@ export async function generateNewMnemonicAndGetWalletData (mnemonic: string) {
             const publicKey = walletData.jwk.n
             walletData.data ??= {}
             walletData.data.arweave = { key, publicKey }            
-            console.log("walletData:", walletData)
+            
+            //console.log("walletData:", walletData)
             
             //Write New Wallet Data to LocalStorage
             walletExists.push(walletData)
@@ -76,6 +80,43 @@ export async function generateNewMnemonicAndGetWalletData (mnemonic: string) {
     }
 };
 
+export async function importWalletJsonFile (wallet: any) {
+
+    const mnemonicToJwkValue: any = {}
+    mnemonicToJwkValue.jwk = wallet
+
+    //Get Wallet Data From LocalStorage
+    const chivesWalletsList = window.localStorage.getItem(chivesWallets)      
+    const walletExists = chivesWalletsList ? JSON.parse(chivesWalletsList) : []
+    
+    //Get Wallet Max Id
+    let walletId = 0
+    while (walletExists.find((w: any) => +w.id === walletId)) { walletId++ }
+    
+    //Make walletData
+    const walletData: any = {...mnemonicToJwkValue}
+    walletData.id ??= walletId
+    walletData.uuid ??= v4() as string
+    walletData.settings ??= {}
+    walletData.state ??= {"hot": true}
+    
+    //Make Addresss From Jwk
+    const key = await arweave.wallets.jwkToAddress(walletData.jwk as any)
+    const publicKey = walletData.jwk.n
+    walletData.data ??= {}
+    walletData.data.arweave = { key, publicKey }            
+    console.log("walletData:", walletData)
+    
+    //Write New Wallet Data to LocalStorage
+    walletExists.push(walletData)
+    window.localStorage.setItem(chivesWallets, JSON.stringify(walletExists))
+
+    //const addFileToJwkValue = await addFileToJwk('')
+    //console.log("addImportDataValue:", addImportDataValue)
+
+    return walletData
+};
+
 export async function checkMnemonicValidity (newMnemonic: string) {
     try {
         return await validateMnemonic(newMnemonic);
@@ -86,11 +127,16 @@ export async function checkMnemonicValidity (newMnemonic: string) {
 
 export async function mnemonicToJwk (mnemonic: string) {
     try {
-      console.log('make keyPair waiting ......................', mnemonic);
+      
+      //console.log('make keyPair waiting ......................', mnemonic);
+      
       const keyPair = await getKeyPairFromMnemonic(mnemonic, { id: 'rsa', modulusLength: 4096 }, { privateKeyFormat: 'pkcs8-der' })
-      console.log("keyPair.privateKey", keyPair.privateKey)
+      
+      //console.log("keyPair.privateKey", keyPair.privateKey)
+      
       const jwk = await pkcs8ToJwk(keyPair.privateKey) as JWKInterface
-      console.log("jwk...............", jwk)
+      
+      //console.log("jwk...............", jwk)
       
       return { jwk }
     } catch (error) {
@@ -257,6 +303,25 @@ export function downloadTextFile(content: string, fileName: string, mimeType: st
 
 export function removePunctuation(text: string) {
     return text.replace(/[^\w\s\u4e00-\u9fa5]/g, '');
+}
+
+
+export async function readFile (file: File) {
+    return new Promise<Uint8Array>((resolve, reject) => {
+      const fileReader = new FileReader()
+      fileReader.onload = (e) => resolve(new Uint8Array(e.target?.result as any))
+      fileReader.onerror = (e) => reject(e)
+      fileReader.readAsArrayBuffer(file)
+    })
+}
+
+export async function readFileText(file: File): Promise<string> {
+    return new Promise<string>((resolve, reject) => {
+        const fileReader = new FileReader();
+        fileReader.onload = (e) => resolve(e.target?.result as string);
+        fileReader.onerror = (e) => reject(e);
+        fileReader.readAsText(file);
+    });
 }
 
 export async function sendAmount(walletData: any, target: string, amount: string, tags: any, data: string | Uint8Array | ArrayBuffer | undefined, fileName: string, setUploadProgress: React.Dispatch<React.SetStateAction<{ [key: string]: number }>>) {
