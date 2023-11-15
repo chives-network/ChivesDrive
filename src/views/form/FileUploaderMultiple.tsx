@@ -65,9 +65,9 @@ const FileUploaderMultiple = () => {
   // ** State
   const [files, setFiles] = useState<File[]>([])
   const [uploadProgress, setUploadProgress] = useState<{ [key: string]: number }>({})
-  const [uploadingButton, setUploadingButton] = useState<string>("Upload Files")
+  const [uploadingButton, setUploadingButton] = useState<string>(`${t(`Upload Files`)}`)
   const [isDisabledButton, setIsDisabledButton] = useState<boolean>(false)
-  const [removeAllButton, setRemoveAllButton] = useState<string>("Remove All")
+  const [removeAllButton, setRemoveAllButton] = useState<string>(`${t(`Remove All`)}`)
   const [isDisabledRemove, setIsDisabledRemove] = useState<boolean>(false)
   
   // ** Hooks
@@ -75,8 +75,8 @@ const FileUploaderMultiple = () => {
     onDrop: (acceptedFiles: File[]) => {
       setFiles(acceptedFiles.map((file: File) => Object.assign(file)))
       setIsDisabledButton(false)
-      setUploadingButton("Upload Files")      
-      setRemoveAllButton("Remove All")
+      setUploadingButton(`${t(`Upload Files`)}`)      
+      setRemoveAllButton(`${t(`Remove All`)}`)
     }
   })
 
@@ -147,7 +147,7 @@ const FileUploaderMultiple = () => {
     setFiles([])    
     setIsDisabledButton(false)
     setIsDisabledRemove(false)
-    setUploadingButton("Upload Files")
+    setUploadingButton(`${t(`Upload Files`)}`)
   }
 
   const auth = useAuth()
@@ -197,7 +197,7 @@ const FileUploaderMultiple = () => {
       toast.error(TxResult.statusText, { duration: 4000 })
       setIsDisabledButton(false)
       setIsDisabledRemove(false)
-      setUploadingButton("Upload Files")
+      setUploadingButton(`${t(`Upload Files`)}`)
     }
 
   };
@@ -273,7 +273,7 @@ const FileUploaderMultiple = () => {
       toast.error(TxResult.statusText, { duration: 4000 })
       setIsDisabledButton(false)
       setIsDisabledRemove(false)
-      setUploadingButton("Upload Files")
+      setUploadingButton(`${t(`Upload Files`)}`)
     }
   };
   */

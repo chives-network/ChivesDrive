@@ -328,7 +328,7 @@ const DriveList = (props: DriveListType) => {
             )}
             <Input
               value={query}
-              placeholder='Search File Name'
+              placeholder={`${t(`Search File Name`)}`}
               onChange={e => setQuery(e.target.value)}
               sx={{ width: '100%', '&:before, &:after': { display: 'none' } }}
               startAdornment={
@@ -512,7 +512,7 @@ const DriveList = (props: DriveListType) => {
             ) : (
               <Box sx={{ mt: 6, display: 'flex', justifyContent: 'center', alignItems: 'center', '& svg': { mr: 2 } }}>
                 <Icon icon='mdi:alert-circle-outline' fontSize={20} />
-                <Typography>No Files Found</Typography>
+                <Typography>{`${t(`No Files Found`)}`}</Typography>
               </Box>
             )}
           </ScrollWrapper>

@@ -55,7 +55,7 @@ const DriveAppLayout = ({ folder, label, type }: MailLayoutType) => {
   // ** States
   const [query, setQuery] = useState<string>('')
   const [uploadFilesOpen, setUploadFilesOpen] = useState<boolean>(false)
-  const [uploadFilesTitle, setUploadFilesTitle] = useState<string>("Upload Files")
+  const [uploadFilesTitle, setUploadFilesTitle] = useState<string>(`${t(`Upload Files`)}`)
   const [mailDetailsOpen, setMailDetailsOpen] = useState<boolean>(false)
   const [leftSidebarOpen, setLeftSidebarOpen] = useState<boolean>(false)
 
@@ -99,17 +99,17 @@ const DriveAppLayout = ({ folder, label, type }: MailLayoutType) => {
         })
       )
       setUploadFilesOpen(false)
-      setUploadFilesTitle("Upload Files")
+      setUploadFilesTitle(`${t(`Upload Files`)}`)
     }
   }, [dispatch, paginationModel, type, id])
 
   const toggleUploadFilesOpen = () => {
     setUploadFilesOpen(!uploadFilesOpen)
     if(uploadFilesOpen) {
-      setUploadFilesTitle("Upload Files")
+      setUploadFilesTitle(`${t(`Upload Files`)}`)
     }
     else {
-      setUploadFilesTitle("Back To List")
+      setUploadFilesTitle(`${t(`Back To List`)}`)
     }
   }
   const handleLeftSidebarToggle = () => setLeftSidebarOpen(!leftSidebarOpen)

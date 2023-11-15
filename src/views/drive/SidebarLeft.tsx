@@ -161,7 +161,7 @@ const SidebarLeft = (props: DriveSidebarType) => {
                 <Icon icon='mdi:email-outline' />
               </ListItemIcon>
               <ListItemText
-                primary='My Files'
+                primary={`${t(`My Files`)}`}
                 primaryTypographyProps={{
                   noWrap: true,
                   sx: { fontWeight: 500, ...(activemyfilesCondition && { color: 'primary.main' }) }
@@ -185,7 +185,7 @@ const SidebarLeft = (props: DriveSidebarType) => {
                 <Icon icon='mdi:send-outline' />
               </ListItemIcon>
               <ListItemText
-                primary='Shared Files'
+                primary={`${t(`Shared Files`)}`}
                 primaryTypographyProps={{
                   noWrap: true,
                   sx: { fontWeight: 500, ...(handleActiveItem('folder', 'sharedfiles') && { color: 'primary.main' }) }
@@ -209,7 +209,7 @@ const SidebarLeft = (props: DriveSidebarType) => {
                 <Icon icon='mdi:pencil-outline' />
               </ListItemIcon>
               <ListItemText
-                primary='Uploaded'
+                primary={`${t(`Uploaded`)}`}
                 primaryTypographyProps={{
                   noWrap: true,
                   sx: { fontWeight: 500, ...(handleActiveItem('folder', 'uploaded') && { color: 'primary.main' }) }
@@ -233,7 +233,7 @@ const SidebarLeft = (props: DriveSidebarType) => {
                 <Icon icon='mdi:star-outline' />
               </ListItemIcon>
               <ListItemText
-                primary='Starred'
+                primary={`${t(`Starred`)}`}
                 primaryTypographyProps={{
                   noWrap: true,
                   sx: { fontWeight: 500, ...(handleActiveItem('folder', 'starred') && { color: 'primary.main' }) }
@@ -257,7 +257,7 @@ const SidebarLeft = (props: DriveSidebarType) => {
                 <Icon icon='mdi:alert-octagon-outline' />
               </ListItemIcon>
               <ListItemText
-                primary='Spam'
+                primary={`${t(`Spam`)}`}
                 primaryTypographyProps={{
                   noWrap: true,
                   sx: { fontWeight: 500, ...(handleActiveItem('folder', 'spam') && { color: 'primary.main' }) }
@@ -281,7 +281,7 @@ const SidebarLeft = (props: DriveSidebarType) => {
                 <Icon icon='mdi:delete-outline' />
               </ListItemIcon>
               <ListItemText
-                primary='Trash'
+                primary={`${t(`Trash`)}`}
                 primaryTypographyProps={{
                   noWrap: true,
                   sx: { fontWeight: 500, ...(handleActiveItem('folder', 'trash') && { color: 'primary.main' }) }
@@ -310,7 +310,7 @@ const SidebarLeft = (props: DriveSidebarType) => {
                 <Icon icon='mdi:circle' fontSize='0.75rem' />
               </ListItemIcon>
               <ListItemText
-                primary='Png'
+                primary={`${t(`Png`)}`}
                 primaryTypographyProps={{
                   noWrap: true,
                   sx: { fontWeight: 500, ...(handleActiveItem('type', 'png') && { color: 'primary.main' }) }
@@ -329,7 +329,7 @@ const SidebarLeft = (props: DriveSidebarType) => {
                 <Icon icon='mdi:circle' fontSize='0.75rem' />
               </ListItemIcon>
               <ListItemText
-                primary='Jpeg'
+                primary={`${t(`Jpeg`)}`}
                 primaryTypographyProps={{
                   noWrap: true,
                   sx: { fontWeight: 500, ...(handleActiveItem('type', 'jpeg') && { color: 'primary.main' }) }
@@ -348,7 +348,7 @@ const SidebarLeft = (props: DriveSidebarType) => {
                 <Icon icon='mdi:circle' fontSize='0.75rem' />
               </ListItemIcon>
               <ListItemText
-                primary='Video Mp4'
+                primary={`${t(`Mp4`)}`}
                 primaryTypographyProps={{
                   noWrap: true,
                   sx: { fontWeight: 500, ...(handleActiveItem('type', 'mp4') && { color: 'primary.main' }) }
@@ -367,7 +367,7 @@ const SidebarLeft = (props: DriveSidebarType) => {
                 <Icon icon='mdi:circle' fontSize='0.75rem' />
               </ListItemIcon>
               <ListItemText
-                primary='Pdf'
+                primary={`${t(`Pdf`)}`}
                 primaryTypographyProps={{
                   noWrap: true,
                   sx: { fontWeight: 500, ...(handleActiveItem('type', 'pdf') && { color: 'primary.main' }) }
@@ -386,7 +386,7 @@ const SidebarLeft = (props: DriveSidebarType) => {
                 <Icon icon='mdi:circle' fontSize='0.75rem' />
               </ListItemIcon>
               <ListItemText
-                primary='Office'
+                primary={`${t(`Office`)}`}
                 primaryTypographyProps={{
                   noWrap: true,
                   sx: { fontWeight: 500, ...(handleActiveItem('type', 'office') && { color: 'warning.main' }) }
@@ -405,7 +405,7 @@ const SidebarLeft = (props: DriveSidebarType) => {
                 <Icon icon='mdi:circle' fontSize='0.75rem' />
               </ListItemIcon>
               <ListItemText
-                primary='Stl'
+                primary={`${t(`Stl`)}`}
                 primaryTypographyProps={{
                   noWrap: true,
                   sx: { fontWeight: 500, ...(handleActiveItem('type', 'stl') && { color: 'info.main' }) }
