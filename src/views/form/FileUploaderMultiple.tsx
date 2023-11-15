@@ -1,9 +1,8 @@
 // ** React Imports
-import { Fragment, useState, SyntheticEvent, useEffect } from 'react'
+import { Fragment, useState, useEffect } from 'react'
 
 // ** MUI Imports
 import Box from '@mui/material/Box'
-import Link from '@mui/material/Link'
 import List from '@mui/material/List'
 import Button from '@mui/material/Button'
 import ListItem from '@mui/material/ListItem'
@@ -138,10 +137,6 @@ const FileUploaderMultiple = () => {
       
     </ListItem>
   ))
-
-  const handleLinkClick = (event: SyntheticEvent) => {
-    event.preventDefault()
-  }
 
   const handleRemoveAllFiles = () => {
     setFiles([])    

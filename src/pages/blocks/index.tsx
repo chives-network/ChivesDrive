@@ -37,6 +37,9 @@ import { BlockType } from 'src/types/apps/Chivesweave'
 
 import { formatHash, formatXWE, formatSecondToMinute, formatTimestampMemo, formatStorageSize, formatTimestamp } from 'src/configs/functions';
 
+// ** Third Party Import
+import { useTranslation } from 'react-i18next'
+
 interface BlockCellType {
   row: BlockType
 }
@@ -193,6 +196,9 @@ const columns: GridColDef[] = [
 ]
 
 const BlockList = () => {
+  // ** Hook
+  const { t } = useTranslation()
+
   // ** State
   const [isLoading, setIsLoading] = useState(false);
 

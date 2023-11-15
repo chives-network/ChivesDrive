@@ -257,7 +257,7 @@ const UploadFiles = (props: MailComposeType) => {
         <Box sx={{ width: '100%', display: 'flex', alignItems: 'center' }}>
           <div>
             <InputLabel sx={{ mr: 3, fontSize: '0.875rem' }} htmlFor='email-to-select'>
-              To:
+              {`${t(`To`)}`}:
             </InputLabel>
           </div>
           <Autocomplete

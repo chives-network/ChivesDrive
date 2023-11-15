@@ -122,7 +122,7 @@ const FileResourceModel = ({ activeTab } : any) => {
               label={
                 <Box sx={{ display: 'flex', alignItems: 'center', '& svg': { mr: 2 } }}>
                   <Icon fontSize={20} icon='mdi:account-outline' />
-                  Png
+                  {`${t(`Png`)}`}
                 </Box>
               }
             />

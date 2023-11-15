@@ -515,7 +515,7 @@ const DriveDetail = (props: MailDetailsType) => {
                     <Fragment>
                       <Divider sx={{ m: '0 !important' }} />
                       <Box sx={{ p: 5 }}>
-                        <Typography variant='body2'>Attachments</Typography>
+                        <Typography variant='body2'>{`${t(`Attachments`)}`}</Typography>
                         <List>
                           {mail.attachments.map((item: MailAttachmentType) => {
                             return (

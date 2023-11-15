@@ -42,6 +42,9 @@ import { ThemeColor } from 'src/@core/layouts/types'
 
 import StringDisplay from 'src/pages/preview/StringDisplay';
 
+// ** Third Party Import
+import { useTranslation } from 'react-i18next'
+
 interface TransactionCellType {
   row: TxRecordType
 }
@@ -350,7 +353,9 @@ const columns: GridColDef[] = [
 
 
 const TxView = () => {
-  
+  // ** Hook
+  const { t } = useTranslation()
+    
   const router = useRouter();
   const { id } = router.query;
   const _GET = router.query;
