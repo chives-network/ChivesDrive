@@ -22,9 +22,8 @@ import { useAuth } from 'src/hooks/useAuth'
 import CircularProgress from '@mui/material/CircularProgress'
 
 // ** Hooks
-import { getCurrentWallet, getHash } from 'src/functions/ChivesweaveWallets'
-
-import {EncryptDataWithKey, DecryptDataAES256GCM} from 'src/functions/ChivesweaveEncrypt'
+import { sendAmount, getCurrentWallet, getHash, getProcessedData } from 'src/functions/ChivesweaveWallets'
+import {EncryptDataWithKey} from 'src/functions/ChivesweaveEncrypt'
 
 // ** Third Party Components
 import toast from 'react-hot-toast'
@@ -164,18 +163,30 @@ const FileUploaderMultiple = () => {
 
     //Make the bundle data
     const formData = (await Promise.all(files?.map(async file => {
-      const data = file instanceof File ? await readFile(file) : file
+      let data = file instanceof File ? await readFile(file) : file
       const tags = [] as Tag[]
       if(isEncryptFile)    {
         //Encrypt File Content
         const getCurrentWalletData = getCurrentWallet();
         const FileContent = new TextDecoder().decode(data);
-        const EncryptDataWithKeyData = EncryptDataWithKey(FileContent, getCurrentWalletData.jwk);
-        setBaseTags(tags, {
+        const FileEncrypt = EncryptDataWithKey(FileContent, file.name, getCurrentWalletData.jwk);
+        console.log("FileEncrypt", FileEncrypt)
+        setBaseTags(tags, {          
+          'App-Name': FileEncrypt['App-Name'],
+          'App-Platform': FileEncrypt['App-Platform'],
+          'App-Version': FileEncrypt['App-Version'],
           'Content-Type': file.type,
-          'File-Name': file.name,
-          'File-Hash': await getHash(data)
+          'File-Name': FileEncrypt['File-Name'],
+          'File-Hash': FileEncrypt['File-Hash'],
+          'Cipher-ALG': FileEncrypt['Cipher-ALG'],
+          'Cipher-IV': FileEncrypt['Cipher-IV'],
+          'Cipher-TAG': FileEncrypt['Cipher-TAG'],
+          'Cipher-UUID': FileEncrypt['Cipher-UUID'],
+          'Cipher-KEY': FileEncrypt['Cipher-KEY'],
+          'Entity-Type': FileEncrypt['Entity-Type'],
+          'Unix-Time': FileEncrypt['Unix-Time']
         })
+        data = FileEncrypt['Cipher-CONTENT']
       }
       else {
         //Not Encrypt File Content
@@ -185,6 +196,7 @@ const FileUploaderMultiple = () => {
           'File-Hash': await getHash(data)
         })
       }
+
       return { data, tags, path: file.name }
     })))
     
@@ -195,6 +207,7 @@ const FileUploaderMultiple = () => {
     const data = getProcessedDataValue
 
     console.log("getProcessedDataValue", getProcessedDataValue)
+    setIsEncryptFile(true)
     
     //Make the tags
     const tags: any = []

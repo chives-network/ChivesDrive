@@ -26,10 +26,8 @@ import { ThemeColor } from 'src/@core/layouts/types'
 // ** Third Party Import
 import { useTranslation } from 'react-i18next'
 
-import crypto from 'crypto';
-
 import {EncryptDataWithKey, DecryptDataAES256GCM, calculateSHA256} from 'src/functions/ChivesweaveEncrypt'
-import { sendAmount, getHash, getCurrentWallet } from 'src/functions/ChivesweaveWallets'
+import { getCurrentWallet } from 'src/functions/ChivesweaveWallets'
 
 interface FileTypeObj {
   [key: string]: {
@@ -99,17 +97,20 @@ const PeersInfo = () => {
         })
 
         // 示例
-        const plaintext = 'Hello, AES-GCM!Hello, AES-GCM!Hello, AES-GCM!Hello, AES-GCM!Hello, AES-GCM!Hello, AES-GCM!Hello, AES-GCM!Hello, AES-GCM!Hello, AES-GCM!';
+        const plaintext = 'Hello, AES-GCM!Hello!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!';
         
         const getCurrentWalletData = getCurrentWallet();
-        const FileEncrypt = EncryptDataWithKey(plaintext, getCurrentWalletData.jwk);
+        const FileEncrypt = EncryptDataWithKey(plaintext, "FileName001", getCurrentWalletData.jwk);
         
         console.log('EncryptDataWithKeyData:', FileEncrypt);
 
         const FileCipherKey = calculateSHA256(FileEncrypt['Cipher-IV'] + FileEncrypt['Cipher-UUID'] + getCurrentWalletData.jwk.d);
         console.log('FileCipherKey:', FileCipherKey);
 
-        const FileEncryptKey = DecryptDataAES256GCM(FileEncrypt['EncryptedKey'], FileEncrypt['Cipher-IV'], FileEncrypt['Cipher-TAG'], FileCipherKey);
+        const FileName = DecryptDataAES256GCM(FileEncrypt['File-Name'], FileEncrypt['Cipher-IV'], FileEncrypt['Cipher-TAG-FileName'], FileCipherKey);
+        console.log('FileName:', FileName);
+
+        const FileEncryptKey = DecryptDataAES256GCM(FileEncrypt['Cipher-KEY'], FileEncrypt['Cipher-IV'], FileEncrypt['Cipher-TAG'], FileCipherKey);
         console.log('FileEncryptKey:', FileEncryptKey);
 
         const IV = FileEncryptKey.slice(0,32);
@@ -118,7 +119,7 @@ const PeersInfo = () => {
         console.log('IV:', IV);
         console.log('TAG:', TAG);
         console.log('KEY:', KEY);
-        const FileContent = DecryptDataAES256GCM(FileEncrypt['EncryptedContent'], IV, TAG, KEY);
+        const FileContent = DecryptDataAES256GCM(FileEncrypt['Cipher-CONTENT'], IV, TAG, KEY);
         console.log('FileContent:', FileContent);
 
 

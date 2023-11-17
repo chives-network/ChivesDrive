@@ -5,24 +5,26 @@ import { v4 } from 'uuid'
 
 export function GetIV() {
     const iv = crypto.randomBytes(16);
+
     return iv;
 }
 
 export function calculateAES256GCMKey(iv: string, uuid: string) {
     const jwkString = "UUID";
     const key = calculateSHA256(iv + uuid + jwkString);
+
     return key;
 }
 
 
-export function EncryptDataWithKey(data: string, walletKey: any) {
+export function EncryptDataWithKey(FileContent: string, FileName: string, walletKey: any) {
     const iv = GetIV();
     const uuid = v4() as string;
     const key = calculateSHA256(iv.toString('hex') + uuid + walletKey.d);
     const keyBuffer = Buffer.from(key, 'hex');
     const cipher = crypto.createCipheriv('aes-256-gcm', keyBuffer, iv);
-    let encrypted = cipher.update(data, 'utf-8', 'hex');
-    encrypted += cipher.final('hex');
+    let encryptedContent = cipher.update(FileContent, 'utf-8', 'hex');
+    encryptedContent += cipher.final('hex');
     const tag = cipher.getAuthTag();
 
     const FileEncryptKey = iv.toString('hex') + tag.toString('hex') + key;
@@ -31,26 +33,39 @@ export function EncryptDataWithKey(data: string, walletKey: any) {
     const key2 = calculateSHA256(iv2.toString('hex') + uuid2 + walletKey.d);
     const keyBuffer2 = Buffer.from(key2, 'hex');
     const cipher2 = crypto.createCipheriv('aes-256-gcm', keyBuffer2, iv2);
-    let encrypted2 = cipher2.update(FileEncryptKey, 'utf-8', 'hex');
-    encrypted2 += cipher2.final('hex');
+    let encryptedKey = cipher2.update(FileEncryptKey, 'utf-8', 'hex');
+    encryptedKey += cipher2.final('hex');
     const tag2 = cipher2.getAuthTag();
 
+    //FileName
+    const cipherFileName = crypto.createCipheriv('aes-256-gcm', keyBuffer2, iv2);
+    let encryptedFileName = cipherFileName.update(FileName, 'utf-8', 'hex');
+    encryptedFileName += cipherFileName.final('hex');
+    const tagFileName = cipherFileName.getAuthTag();
+
     const FileEncrypt: any = {};
-    FileEncrypt['Cipher'] = "AES256-GCM";
+    FileEncrypt['Cipher-ALG'] = "AES256-GCM";
 
     //FileEncrypt['Cipher-IV'] = iv.toString('hex');
     //FileEncrypt['Cipher-TAG'] = tag.toString('hex');
     //FileEncrypt['Cipher-UUID'] = uuid;
     //FileEncrypt['Cipher-key'] = keyBuffer.toString('hex');
 
-    FileEncrypt['Cipher-IV'] = iv2.toString('hex');
-    FileEncrypt['Cipher-TAG'] = tag2.toString('hex');
-    FileEncrypt['Cipher-UUID'] = uuid2;
-    FileEncrypt['EncryptedKey'] = encrypted2;
-    FileEncrypt['EncryptedContent'] = encrypted;
+
+    FileEncrypt['File-Name']   = encryptedFileName;
+    FileEncrypt['File-Hash']   = calculateSHA256(encryptedContent);
+    FileEncrypt['Cipher-IV']    = iv2.toString('hex');
+    FileEncrypt['Cipher-TAG']   = tag2.toString('hex');
+    FileEncrypt['Cipher-UUID']  = uuid2;
+    FileEncrypt['Cipher-KEY']   = encryptedKey;
+    FileEncrypt['Cipher-CONTENT'] = encryptedContent;
+    FileEncrypt['Cipher-TAG-FileName']   = tagFileName.toString('hex');
     FileEncrypt['Content-Type'] = "<application/octet-stream>";
-    FileEncrypt['Entity-Type'] = "file";
-    FileEncrypt['Unix-Time'] = Date.now();
+    FileEncrypt['Entity-Type']  = "file";
+    FileEncrypt['Unix-Time']    = String(Date.now());
+    FileEncrypt['App-Name']     = "ChivesDrive";
+    FileEncrypt['App-Platform'] = "web";
+    FileEncrypt['App-Version']  = "0.1";
 
     return FileEncrypt;
 }
@@ -61,6 +76,7 @@ export function EncryptDataAES256GCM(text: string, IV: Buffer, key: string) {
     let encrypted = cipher.update(text, 'utf-8', 'hex');
     encrypted += cipher.final('hex');
     const tag = cipher.getAuthTag();
+
     return { iv: iv.toString('hex'), encrypted, tag: tag.toString('hex') };
 }
 
@@ -69,11 +85,13 @@ export function DecryptDataAES256GCM(encrypted: string, iv: string, tag: string,
     decipher.setAuthTag(Buffer.from(tag, 'hex'));
     let decrypted = decipher.update(encrypted, 'hex', 'utf-8');
     decrypted += decipher.final('utf-8');
+
     return decrypted;
 }
 
 export function calculateSHA256(input: string) {
   const hash = crypto.createHash('sha256');
   hash.update(input);
+  
   return hash.digest('hex');
 }

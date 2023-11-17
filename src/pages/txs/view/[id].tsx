@@ -365,6 +365,7 @@ const TxView = () => {
   const [isLoading, setIsLoading] = useState(false)
   const [isBundleTx, setIsBundleTx] = useState(false)
   const [paginationModel, setPaginationModel] = useState({ page: 0, pageSize: 15 })
+  const [tags, setTags] = useState<any>({})
 
   // ** Hooks
   const dispatch = useDispatch<AppDispatch>()
@@ -388,6 +389,14 @@ const TxView = () => {
         .get(authConfig.backEndApi + '/wallet/' + id + '/txrecord', { headers: { }, params: { } })
         .then(res => {
           setTxViewInfo(res.data);
+          
+          const tagsMap: any = {}
+          res.data && res.data.tags && res.data.tags.length > 0 && res.data.tags.map( (Tag: any) => {
+            tagsMap[Tag.name] = Tag.value;
+          })
+          setTags(tagsMap);
+          console.log("tagsMap", tagsMap)
+
           let TempFileName = '';
           setIsBundleTx(false);
           res.data && res.data.tags && res.data.tags.map((Item: { [key: string]: string }) => {
@@ -513,7 +522,7 @@ const TxView = () => {
                               {`${t(`Block Hash`)}`}:
                               </Typography>
                             </TableCell>
-                            <TableCell>{formatHash(txViewInfo.block.indep_hash, 7)}</TableCell>
+                            <TableCell><StringDisplay InputString={txViewInfo.block.indep_hash} StringSize={7}/></TableCell>
                           </TableRow>
                           <TableRow>
                             <TableCell>
@@ -531,7 +540,7 @@ const TxView = () => {
                                 {`${t(`Bundled In`)}`}:
                                 </Typography>
                               </TableCell>
-                              <TableCell>{formatHash(txViewInfo.bundleid, 7)}</TableCell>
+                              <TableCell><StringDisplay InputString={txViewInfo.bundleid} StringSize={7}/></TableCell>
                             </TableRow>
                           :
                             <Fragment></Fragment>
@@ -590,7 +599,7 @@ const TxView = () => {
                                           {Item.name}
                                         </Typography>
                                       </TableCell>
-                                      <TableCell>{formatHash(Item.value, 36)}</TableCell>
+                                      <TableCell><StringDisplay InputString={Item.value} StringSize={20}/></TableCell>
                                     </TableRow>
                                     )
                             } )}
@@ -610,7 +619,7 @@ const TxView = () => {
             <Fragment></Fragment>
           }
 
-          {txViewInfo.tags && txViewInfo.tags.length > 0 && isBundleTx == false ?
+          {txViewInfo.tags && txViewInfo.tags.length > 0 && isBundleTx == false && tags["Cipher-ALG"] == undefined  ?
             <Grid item xs={12}>
               <Card>
                 <CardHeader title={`${t(fileName)}`} />
