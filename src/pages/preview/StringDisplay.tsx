@@ -7,8 +7,12 @@ import Icon from 'src/@core/components/icon'
 
 import { isMobile } from 'src/configs/functions';
 
+interface Props {
+  InputString: string
+  StringSize: number
+}
 
-function StringDisplay({ InputString, StringSize } : any) {
+function StringDisplay({ InputString, StringSize } : Props) {
   let truncatedString = InputString;
   const IsMobile = isMobile();
   if(StringSize > 0 && IsMobile == true) {
@@ -20,7 +24,7 @@ function StringDisplay({ InputString, StringSize } : any) {
   else if(StringSize > 0 && IsMobile == false) {
     truncatedString = InputString.slice(0, StringSize) + '...' + InputString.slice(0-StringSize);
   }
-  if(InputString.length <= StringSize * 2) {
+  if(InputString && InputString.length <= StringSize * 2) {
     truncatedString = InputString;
   }
   const copyToClipboard = () => {

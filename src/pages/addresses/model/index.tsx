@@ -292,7 +292,7 @@ const AddressTransactionListModel = ({ activeTab } : any) => {
                         </TableCell>
                         <TableCell>
                           {id && id.length == 43 ?
-                            <StringDisplay InputString={id} StringSize={20}/>
+                            <StringDisplay InputString={String(id)} StringSize={20}/>
                             :
                             <Fragment>{`${t(`No Address`)}`}</Fragment>
                           }
