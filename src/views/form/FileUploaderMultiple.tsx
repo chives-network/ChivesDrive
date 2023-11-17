@@ -22,7 +22,9 @@ import { useAuth } from 'src/hooks/useAuth'
 import CircularProgress from '@mui/material/CircularProgress'
 
 // ** Hooks
-import { sendAmount, getHash, getProcessedData } from 'src/functions/ChivesweaveWallets'
+import { getCurrentWallet, getHash } from 'src/functions/ChivesweaveWallets'
+
+import {EncryptDataWithKey, DecryptDataAES256GCM} from 'src/functions/ChivesweaveEncrypt'
 
 // ** Third Party Components
 import toast from 'react-hot-toast'
@@ -68,6 +70,7 @@ const FileUploaderMultiple = () => {
   const [isDisabledButton, setIsDisabledButton] = useState<boolean>(false)
   const [removeAllButton, setRemoveAllButton] = useState<string>(`${t(`Remove All`)}`)
   const [isDisabledRemove, setIsDisabledRemove] = useState<boolean>(false)
+  const [isEncryptFile, setIsEncryptFile] = useState<boolean>(true)
   
   // ** Hooks
   const { getRootProps, getInputProps } = useDropzone({
@@ -163,12 +166,25 @@ const FileUploaderMultiple = () => {
     const formData = (await Promise.all(files?.map(async file => {
       const data = file instanceof File ? await readFile(file) : file
       const tags = [] as Tag[]
-      setBaseTags(tags, {
-        'Content-Type': file.type,
-        'File-Name': file.name,
-        'File-Hash': await getHash(data)
-      })
-
+      if(isEncryptFile)    {
+        //Encrypt File Content
+        const getCurrentWalletData = getCurrentWallet();
+        const FileContent = new TextDecoder().decode(data);
+        const EncryptDataWithKeyData = EncryptDataWithKey(FileContent, getCurrentWalletData.jwk);
+        setBaseTags(tags, {
+          'Content-Type': file.type,
+          'File-Name': file.name,
+          'File-Hash': await getHash(data)
+        })
+      }
+      else {
+        //Not Encrypt File Content
+        setBaseTags(tags, {
+          'Content-Type': file.type,
+          'File-Name': file.name,
+          'File-Hash': await getHash(data)
+        })
+      }
       return { data, tags, path: file.name }
     })))
     

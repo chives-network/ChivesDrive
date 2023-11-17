@@ -26,6 +26,11 @@ import { ThemeColor } from 'src/@core/layouts/types'
 // ** Third Party Import
 import { useTranslation } from 'react-i18next'
 
+import crypto from 'crypto';
+
+import {EncryptDataWithKey, DecryptDataAES256GCM, calculateSHA256} from 'src/functions/ChivesweaveEncrypt'
+import { sendAmount, getHash, getCurrentWallet } from 'src/functions/ChivesweaveWallets'
+
 interface FileTypeObj {
   [key: string]: {
     icon: string
@@ -80,7 +85,6 @@ const PeersInfo = () => {
   // ** Hook
   const { t } = useTranslation()
   
-  
   const [peers, setPeers] = useState<NodeInfoType[]>()
 
   const [chainInfo, setChainInfo] = useState<ChainInfoType>()
@@ -93,6 +97,31 @@ const PeersInfo = () => {
         .catch(() => {
           console.log("axios.get editUrl return")
         })
+
+        // 示例
+        const plaintext = 'Hello, AES-GCM!Hello, AES-GCM!Hello, AES-GCM!Hello, AES-GCM!Hello, AES-GCM!Hello, AES-GCM!Hello, AES-GCM!Hello, AES-GCM!Hello, AES-GCM!';
+        
+        const getCurrentWalletData = getCurrentWallet();
+        const FileEncrypt = EncryptDataWithKey(plaintext, getCurrentWalletData.jwk);
+        
+        console.log('EncryptDataWithKeyData:', FileEncrypt);
+
+        const FileCipherKey = calculateSHA256(FileEncrypt['Cipher-IV'] + FileEncrypt['Cipher-UUID'] + getCurrentWalletData.jwk.d);
+        console.log('FileCipherKey:', FileCipherKey);
+
+        const FileEncryptKey = DecryptDataAES256GCM(FileEncrypt['EncryptedKey'], FileEncrypt['Cipher-IV'], FileEncrypt['Cipher-TAG'], FileCipherKey);
+        console.log('FileEncryptKey:', FileEncryptKey);
+
+        const IV = FileEncryptKey.slice(0,32);
+        const TAG = FileEncryptKey.slice(32,64);
+        const KEY = FileEncryptKey.slice(64);
+        console.log('IV:', IV);
+        console.log('TAG:', TAG);
+        console.log('KEY:', KEY);
+        const FileContent = DecryptDataAES256GCM(FileEncrypt['EncryptedContent'], IV, TAG, KEY);
+        console.log('FileContent:', FileContent);
+
+
   }, [])
 
   useEffect(() => {
