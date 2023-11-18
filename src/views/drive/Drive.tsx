@@ -29,10 +29,9 @@ import { useTranslation } from 'react-i18next'
 // ** Actions
 import {
   fetchData,
-  updateMail,
-  paginateMail,
-  getCurrentMail,
-  updateMailLabel,
+  updateFile,
+  getCurrentFile,
+  updateFileLabel,
   handleSelectMail,
   handleSelectAllMail
 } from 'src/store/apps/drive'
@@ -56,7 +55,7 @@ const DriveAppLayout = ({ folder, label, type }: MailLayoutType) => {
   const [query, setQuery] = useState<string>('')
   const [uploadFilesOpen, setUploadFilesOpen] = useState<boolean>(false)
   const [uploadFilesTitle, setUploadFilesTitle] = useState<string>(`${t(`Upload Files`)}`)
-  const [mailDetailsOpen, setMailDetailsOpen] = useState<boolean>(false)
+  const [driveFileOpen, setFileDetailOpen] = useState<boolean>(false)
   const [leftSidebarOpen, setLeftSidebarOpen] = useState<boolean>(false)
 
   // ** Hooks
@@ -132,12 +131,12 @@ const DriveAppLayout = ({ folder, label, type }: MailLayoutType) => {
         lgAbove={lgAbove}
         dispatch={dispatch}
         routeParams={routeParams}
-        mailDetailsOpen={mailDetailsOpen}
+        driveFileOpen={driveFileOpen}
         leftSidebarOpen={leftSidebarOpen}
         leftSidebarWidth={leftSidebarWidth}
         uploadFilesTitle={uploadFilesTitle}
         toggleUploadFilesOpen={toggleUploadFilesOpen}
-        setMailDetailsOpen={setMailDetailsOpen}
+        setFileDetailOpen={setFileDetailOpen}
         handleSelectAllMail={handleSelectAllMail}
         handleLeftSidebarToggle={handleLeftSidebarToggle}
       />
@@ -150,15 +149,14 @@ const DriveAppLayout = ({ folder, label, type }: MailLayoutType) => {
           dispatch={dispatch}
           setQuery={setQuery}
           direction={direction}
-          updateMail={updateMail}
+          updateFile={updateFile}
           routeParams={routeParams}
           labelColors={labelColors}
-          paginateMail={paginateMail}
-          getCurrentMail={getCurrentMail}
-          updateMailLabel={updateMailLabel}
-          mailDetailsOpen={mailDetailsOpen}
+          getCurrentFile={getCurrentFile}
+          updateFileLabel={updateFileLabel}
+          driveFileOpen={driveFileOpen}
           handleSelectMail={handleSelectMail}
-          setMailDetailsOpen={setMailDetailsOpen}
+          setFileDetailOpen={setFileDetailOpen}
           handleSelectAllMail={handleSelectAllMail}
           handleLeftSidebarToggle={handleLeftSidebarToggle}        
           paginationModel={paginationModel}

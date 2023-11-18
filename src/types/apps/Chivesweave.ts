@@ -20,11 +20,11 @@ export type DriveSidebarType = {
   routeParams: RouteParams
   leftSidebarOpen: boolean
   leftSidebarWidth: number
-  mailDetailsOpen: boolean
+  driveFileOpen: boolean
   uploadFilesTitle: string
   toggleUploadFilesOpen: () => void
   handleLeftSidebarToggle: () => void
-  setMailDetailsOpen: (val: boolean) => void
+  setFileDetailOpen: (val: boolean) => void
   handleSelectAllMail: (val: boolean) => void
 }
 

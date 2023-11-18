@@ -64,7 +64,7 @@ const SidebarLeft = (props: DriveSidebarType) => {
     leftSidebarWidth,
     uploadFilesTitle,
     toggleUploadFilesOpen,
-    setMailDetailsOpen,
+    setFileDetailOpen,
     handleSelectAllMail,
     handleLeftSidebarToggle
   } = props
@@ -103,7 +103,7 @@ const SidebarLeft = (props: DriveSidebarType) => {
   }
 
   const handleListItemClick = () => {
-    setMailDetailsOpen(false)
+    setFileDetailOpen(false)
     setTimeout(() => dispatch(handleSelectAllMail(false)), 50)
     handleLeftSidebarToggle()
   }

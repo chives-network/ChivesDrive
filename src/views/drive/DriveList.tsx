@@ -29,7 +29,7 @@ import OptionsMenu from 'src/@core/components/option-menu'
 
 // ** Email App Component Imports
 import { setTimeout } from 'timers'
-import MailDetails from './DriveDetail'
+import DriveDetail from './DriveDetail'
 
 import Pagination from '@mui/material/Pagination'
 
@@ -50,7 +50,7 @@ import { formatTimestamp} from 'src/configs/functions';
 // ** Third Party Import
 import { useTranslation } from 'react-i18next'
 
-const MailItem = styled(ListItem)<ListItemProps>(({ theme }) => ({
+const FileItem = styled(ListItem)<ListItemProps>(({ theme }) => ({
   cursor: 'pointer',
   paddingTop: theme.spacing(3),
   paddingBottom: theme.spacing(3),
@@ -98,15 +98,14 @@ const DriveList = (props: DriveListType) => {
     dispatch,
     setQuery,
     direction,
-    updateMail,
+    updateFile,
     routeParams,
     labelColors,
-    paginateMail,
-    getCurrentMail,
-    mailDetailsOpen,
-    updateMailLabel,
+    getCurrentFile,
+    driveFileOpen,
+    updateFileLabel,
     handleSelectMail,
-    setMailDetailsOpen,
+    setFileDetailOpen,
     handleSelectAllMail,
     handleLeftSidebarToggle,
     paginationModel,
@@ -196,29 +195,29 @@ const DriveList = (props: DriveListType) => {
   }
 
   const handleMoveToTrash = () => {
-    dispatch(updateMail({ emailIds: store.selectedMails, dataToUpdate: { folder: 'trash' } }))
+    dispatch(updateFile({ emailIds: store.selectedMails, dataToUpdate: { folder: 'trash' } }))
     dispatch(handleSelectAllMail(false))
   }
 
   const handleStarDrive = (e: SyntheticEvent, id: number, value: boolean) => {
     e.stopPropagation()
-    dispatch(updateMail({ emailIds: [id], dataToUpdate: { isStarred: value } }))
+    dispatch(updateFile({ emailIds: [id], dataToUpdate: { isStarred: value } }))
   }
 
   const handleReadDrive = (id: number | number[], value: boolean) => {
     const arr = Array.isArray(id) ? [...id] : [id]
-    dispatch(updateMail({ emailIds: arr, dataToUpdate: { isRead: value } }))
+    dispatch(updateFile({ emailIds: arr, dataToUpdate: { isRead: value } }))
     dispatch(handleSelectAllMail(false))
   }
 
   const handleLabelUpdate = (id: number | number[], label: MailLabelType) => {
     const arr = Array.isArray(id) ? [...id] : [id]
-    dispatch(updateMailLabel({ emailIds: arr, label }))
+    dispatch(updateFileLabel({ emailIds: arr, label }))
   }
 
   const handleFolderUpdate = (id: number | number[], folder: MailFolderType) => {
     const arr = Array.isArray(id) ? [...id] : [id]
-    dispatch(updateMail({ emailIds: arr, dataToUpdate: { folder } }))
+    dispatch(updateFile({ emailIds: arr, dataToUpdate: { folder } }))
   }
 
   const handleRefreshDriveClick = () => {
@@ -298,22 +297,21 @@ const DriveList = (props: DriveListType) => {
     return array
   }
 
-  const mailDetailsProps = {
+  const driveDetailsProps = {
     hidden,
     folders,
     dispatch,
     direction,
     foldersObj,
-    updateMail,
+    updateFile,
     routeParams,
     labelColors,
-    paginateMail,
     handleStarDrive,
-    mailDetailsOpen,
+    driveFileOpen,
     handleLabelUpdate,
     handleFolderUpdate,
-    setMailDetailsOpen,
-    mail: store && store.currentMail ? store.currentMail : null
+    setFileDetailOpen,
+    currentFile: store && store.currentFile ? store.currentFile : null
   }
 
   return (
@@ -391,13 +389,13 @@ const DriveList = (props: DriveListType) => {
                   const mailReadToggleIcon = drive.isRead ? 'mdi:email-outline' : 'mdi:email-open-outline'
 
                   return (
-                    <MailItem
+                    <FileItem
                       key={drive.id}
                       sx={{ backgroundColor: drive.isRead ? 'action.hover' : 'background.paper' }}
                       onClick={() => {
-                        setMailDetailsOpen(true)
-                        dispatch(getCurrentMail(drive.id))
-                        dispatch(updateMail({ emailIds: [drive.id], dataToUpdate: { isRead: true } }))
+                        setFileDetailOpen(true)
+                        dispatch(getCurrentFile(drive))
+                        dispatch(updateFile({ emailIds: [drive.id], dataToUpdate: { isRead: true } }))
                         setTimeout(() => {
                           dispatch(handleSelectAllMail(false))
                         }, 600)
@@ -461,7 +459,7 @@ const DriveList = (props: DriveListType) => {
                             <IconButton
                               onClick={e => {
                                 e.stopPropagation()
-                                dispatch(updateMail({ emailIds: [drive.id], dataToUpdate: { folder: 'trash' } }))
+                                dispatch(updateFile({ emailIds: [drive.id], dataToUpdate: { folder: 'trash' } }))
                               }}
                             >
                               <Icon icon='mdi:delete-outline' />
@@ -501,7 +499,7 @@ const DriveList = (props: DriveListType) => {
                           {formatTimestamp(drive.block.timestamp)}
                         </Typography>
                       </Box>
-                    </MailItem>
+                    </FileItem>
                   )
                 })}
 
@@ -542,7 +540,7 @@ const DriveList = (props: DriveListType) => {
       </Box>
 
       {/* @ts-ignore */}
-      <MailDetails {...mailDetailsProps} />
+      <DriveDetail {...driveDetailsProps} />
     </Box>
   )
 }

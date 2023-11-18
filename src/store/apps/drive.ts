@@ -4,23 +4,11 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 // ** Axios Imports
 import axios from 'axios'
 
-// ** Types
-import { Dispatch } from 'redux'
-import {
-  MailType,
-  UpdateMailLabelType,
-  UpdateMailParamsType,
-  PaginateMailParamsType
-} from 'src/types/apps/emailTypes'
-
-interface ReduxType {
-  getState: any
-  dispatch: Dispatch<any>
-}
-
 import authConfig from 'src/configs/auth'
 
-interface DataParams1 {
+import { TxRecordType } from 'src/types/apps/Chivesweave'
+
+interface DataParams {
     address: string
     pageId: number
     pageSize: number
@@ -28,72 +16,31 @@ interface DataParams1 {
 }
 
 // ** Fetch Data
-export const fetchData = createAsyncThunk('appMyFiles/fetchData', async (params: DataParams1) => {
-  
+export const fetchData = createAsyncThunk('appMyFiles/fetchData', async (params: DataParams) => {  
   const response = await axios.get(authConfig.backEndApi + '/file/'+ `${params.type}` + '/'+ `${params.address}` + '/'+ `${params.pageId}` + '/'+params.pageSize)
-
   const NewData: any[] = response.data.data.filter((record: any) => record.id)
   response.data.data = NewData
   
   return { ...response.data, filter: params }
 })
 
+export const getCurrentFile = createAsyncThunk('appDrive/selectFile', async (FileTx: TxRecordType) => {
 
-// ** Get Current Mail
-export const getCurrentMail = createAsyncThunk('appEmail/selectMail', async (id: number | string) => {
-  const response = await axios.get('/apps/email/get-email', {
-    params: {
-      id
-    }
-  })
-
-  return response.data
+  return FileTx
 })
 
-// ** Update Mail
-export const updateMail = createAsyncThunk(
-  'appEmail/updateMail',
-  async (params: UpdateMailParamsType, { dispatch, getState }: ReduxType) => {
-    const response = await axios.post('/apps/email/update-emails', {
-      data: { emailIds: params.emailIds, dataToUpdate: params.dataToUpdate }
-    })
+export const updateFile = createAsyncThunk('appDrive/updateFile', async (FileTx: TxRecordType) => {
 
-    await dispatch(fetchData(getState().email.filter))
-    if (Array.isArray(params.emailIds)) {
-      await dispatch(getCurrentMail(params.emailIds[0]))
-    }
+  return FileTx
+})
 
-    return response.data
-  }
-)
+export const updateFileLabel = createAsyncThunk('appDrive/updateFileLabel', async (FileTx: TxRecordType) => {
 
-// ** Update Mail Label
-export const updateMailLabel = createAsyncThunk(
-  'appEmail/updateMailLabel',
-  async (params: UpdateMailLabelType, { dispatch, getState }: ReduxType) => {
-    const response = await axios.post('/apps/email/update-emails-label', {
-      data: { emailIds: params.emailIds, label: params.label }
-    })
-
-    await dispatch(fetchData(getState().email.filter))
-
-    if (Array.isArray(params.emailIds)) {
-      await dispatch(getCurrentMail(params.emailIds[0]))
-    }
-
-    return response.data
-  }
-)
-
-// ** Prev/Next Mails
-export const paginateMail = createAsyncThunk('appEmail/paginateMail', async (params: PaginateMailParamsType) => {
-  const response = await axios.get('/apps/email/paginate-email', { params })
-
-  return response.data
+  return FileTx
 })
 
 export const appEmailSlice = createSlice({
-  name: 'appEmail',
+  name: 'appDrive',
   initialState: {
     mails: null,
     mailMeta: null,
@@ -103,7 +50,7 @@ export const appEmailSlice = createSlice({
       type: '',
       folder: 'myfiles'
     },
-    currentMail: null,
+    currentFile: {},
     selectedMails: [],
     
     data: [],
@@ -128,7 +75,7 @@ export const appEmailSlice = createSlice({
         selectAllDrives.length = 0
 
         // @ts-ignore
-        state.data.forEach((drive: MailType) => selectAllDrives.push(drive.id))
+        state.data.forEach((drive: TxRecordType) => selectAllDrives.push(drive.id))
       } else {
         selectAllDrives.length = 0
       }
@@ -149,11 +96,8 @@ export const appEmailSlice = createSlice({
       state.allPages = action.payload.allpages
 
     })
-    builder.addCase(getCurrentMail.fulfilled, (state, action) => {
-      state.currentMail = action.payload
-    })
-    builder.addCase(paginateMail.fulfilled, (state, action) => {
-      state.currentMail = action.payload
+    builder.addCase(getCurrentFile.fulfilled, (state, action) => {
+      state.currentFile = action.payload
     })
   }
 })
