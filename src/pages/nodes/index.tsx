@@ -26,9 +26,6 @@ import { ThemeColor } from 'src/@core/layouts/types'
 // ** Third Party Import
 import { useTranslation } from 'react-i18next'
 
-import {EncryptDataWithKey, DecryptDataAES256GCM, calculateSHA256} from 'src/functions/ChivesweaveEncrypt'
-import { getCurrentWallet } from 'src/functions/ChivesweaveWallets'
-
 interface FileTypeObj {
   [key: string]: {
     icon: string
@@ -96,6 +93,7 @@ const PeersInfo = () => {
           console.log("axios.get editUrl return")
         })
 
+        /*
         // 示例
         const plaintext = 'Hello, AES-GCM!Hello!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!';
         
@@ -122,8 +120,21 @@ const PeersInfo = () => {
         const FileContent = DecryptDataAES256GCM(FileEncrypt['Cipher-CONTENT'], IV, TAG, KEY);
         console.log('FileContent:', FileContent);
 
+        const encryptAndDecrypt = async () => {
+          const getCurrentWalletData = getCurrentWallet();      
+          const plaintext = 'Hello, World!!!!!!!!!!!!!!!!!!!!--!!!!0';      
+          const encryptedData = await encryptWithPublicKey(getCurrentWalletData.jwk.n, plaintext);
+          console.log('Encrypted Data:', encryptedData);      
+          const decryptedText = await decryptWithPrivateKey(getCurrentWalletData.jwk, encryptedData);
+          console.log('Decrypted Text:', decryptedText);      
+        }
+        encryptAndDecrypt();
+
+        */
 
   }, [])
+
+
 
   useEffect(() => {
     

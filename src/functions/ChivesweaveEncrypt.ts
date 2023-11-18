@@ -95,3 +95,4 @@ export function calculateSHA256(input: string) {
   
   return hash.digest('hex');
 }
+

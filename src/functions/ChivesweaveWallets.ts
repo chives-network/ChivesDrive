@@ -1,8 +1,6 @@
 import { generateMnemonic, validateMnemonic } from 'bip39-web-crypto';
 import { getKeyPairFromMnemonic } from 'human-crypto-keys'
 
-import { pkcs8ToJwk } from 'src/functions/Crypto'
-
 import { PromisePool } from '@supercharge/promise-pool'
 
 import type { JWKInterface } from 'arweave/web/lib/wallet'
@@ -573,4 +571,62 @@ async function createBundle (walletData: any, items: Awaited<ReturnType<typeof c
     const signer = new signers.ArweaveSigner(walletData.jwk)
     
     return bundleAndSignData(items, signer)
+}
+
+
+export async function pkcs8ToJwk (key: Uint8Array) {
+	const imported = await window.crypto.subtle.importKey('pkcs8', key, { name: 'RSA-PSS', hash: 'SHA-256' }, true, ['sign'])
+	const jwk = await window.crypto.subtle.exportKey('jwk', imported)
+	delete jwk.key_ops
+	delete jwk.alg
+
+	return jwk
+}
+
+export async function getDecryptionKey (key: JsonWebKey, hash = 'SHA-256') {
+	const jwk = { ...key }
+	delete jwk.key_ops
+	delete jwk.alg
+
+	return window.crypto.subtle.importKey('jwk', jwk, { name: 'RSA-OAEP', hash }, false, ['decrypt'])
+}
+
+export async function getEncryptionKey (n: string, hash = 'SHA-256') {
+	const jwk = { kty: "RSA", e: "AQAB", n, alg: "RSA-OAEP-256", ext: true }
+
+	return window.crypto.subtle.importKey('jwk', jwk, { name: 'RSA-OAEP', hash }, false, ['encrypt'])
+}
+
+export async function encryptWithPublicKey(publicKeyString: string, plaintext: string) {
+	const publicKey = await getEncryptionKey(publicKeyString);
+	const encodedText = new TextEncoder().encode(plaintext);
+	const encryptedData = await window.crypto.subtle.encrypt(
+		{
+		name: 'RSA-OAEP',
+		},
+		publicKey,
+		encodedText
+	);
+    const uint8Array = new Uint8Array(encryptedData);
+    const base64String = Buffer.from(uint8Array).toString('base64');
+
+	return base64String;
+}
+
+export async function decryptWithPrivateKey(privateKeyJwk: any, encryptedData: string) {
+    const buffer = Buffer.from(encryptedData, 'base64');
+    const arrayBuffer = buffer.buffer;
+	const privateKey = await getDecryptionKey(privateKeyJwk);
+	console.log("privateKey", privateKey)
+	const decryptedData = await window.crypto.subtle.decrypt(
+		{
+		name: 'RSA-OAEP',
+		},
+		privateKey,
+		arrayBuffer
+	);
+	console.log("decryptedData", decryptedData)
+	const decryptedText = new TextDecoder().decode(decryptedData);
+
+	return decryptedText;
 }
