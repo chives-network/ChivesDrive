@@ -89,8 +89,8 @@ export type MailFoldersObjType = {
 
 export type MailStore = {
   data: any[] | null
-  mails: MailType[] | null
-  selectedMails: number[]
+  files: MailType[] | null
+  selectedFiles: number[]
   currentFile: null | MailType
   mailMeta: null | MailMetaType
   filter: {
@@ -118,7 +118,7 @@ export type MailSidebarType = {
   toggleUploadFilesOpen: () => void
   handleLeftSidebarToggle: () => void
   setFileDetailOpen: (val: boolean) => void
-  handleSelectAllMail: (val: boolean) => void
+  handleSelectAllFile: (val: boolean) => void
 }
 
 export type DriveListType = {
@@ -133,11 +133,10 @@ export type DriveListType = {
   labelColors: MailLabelColors
   setQuery: (val: string) => void
   handleLeftSidebarToggle: () => void
-  getCurrentFile: (id: number) => void
-  handleSelectMail: (id: number) => void
+  setCurrentFile: (item: TxRecordType) => void
+  handleSelectFile: (id: string) => void
   setFileDetailOpen: (val: boolean) => void
-  handleSelectAllMail: (val: boolean) => void
-  updateFile: (data: UpdateMailParamsType) => void
+  handleSelectAllFile: (val: boolean) => void
   updateFileLabel: (data: UpdateMailLabelType) => void
   paginationModel: any
   handlePageChange: (event: any, page: number) => void
@@ -154,7 +153,6 @@ export type FileDetailType = {
   folders: MailFoldersArrType[]
   foldersObj: MailFoldersObjType
   setFileDetailOpen: (val: boolean) => void
-  updateFile: (data: UpdateMailParamsType) => void
   handleStarDrive: (e: SyntheticEvent, id: string, value: boolean) => void
   handleLabelUpdate: (id: string | string[], label: MailLabelType) => void
   handleFolderUpdate: (id: string | string[], folder: MailFolderType) => void

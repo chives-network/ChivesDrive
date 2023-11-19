@@ -8,5 +8,8 @@ export default {
   systemType: 'drive',
   chivesWallets: 'ChivesWallets',
   chivesCurrentWallet: 'ChivesCurrentWallet',
-  chivesWalletNickname: 'ChivesWalletNickname'
+  chivesWalletNickname: 'ChivesWalletNickname',
+  'App-Name': 'ChivesDrive',
+  'App-Platform': 'web',
+  'App-Version': '0.1'
 }

@@ -41,6 +41,8 @@ import { TxRecordType } from 'src/types/apps/Chivesweave'
 
 import { getContentTypeAbbreviation, formatTimestampMemo } from 'src/configs/functions';
 
+import { TrashMultiFiles, SpamMultiFiles } from 'src/functions/ChivesweaveWallets'
+
 const toggleImagesPreviewDrawer = () => {
   console.log("toggleImagesPreviewDrawer")
 }
@@ -85,7 +87,7 @@ const DriveDetail = (props: FileDetailType) => {
   // ** Hook
   const { t } = useTranslation()
   console.log("t", t)
-  
+
   // ** Props
   const {
     currentFile,
@@ -93,7 +95,6 @@ const DriveDetail = (props: FileDetailType) => {
     folders,
     dispatch,
     direction,
-    updateFile,
     foldersObj,
     labelColors,
     routeParams,
@@ -111,13 +112,18 @@ const DriveDetail = (props: FileDetailType) => {
       tagsMap[Tag.name] = Tag.value;
     })
     setTags(tagsMap);
-  }, [currentFile.tags])
+  }, [currentFile])
 
   // ** Hook
   const { settings } = useSettings()
 
-  const handleMoveToTrash = () => {
-    dispatch(updateFile({ emailIds: [currentFile.id], dataToUpdate: { folder: 'trash' } }))
+  const handleMoveToTrash = (currentFile: TxRecordType) => {
+    TrashMultiFiles([currentFile]);
+    setFileDetailOpen(false)
+  }
+
+  const handleMoveToSpam = (currentFile: TxRecordType) => {
+    SpamMultiFiles([currentFile]);
     setFileDetailOpen(false)
   }
 
@@ -203,6 +209,8 @@ const DriveDetail = (props: FileDetailType) => {
     }
   }
 
+  console.log("currentFile", currentFile)
+
   return (
     <Sidebar
       hideBackdrop
@@ -256,24 +264,21 @@ const DriveDetail = (props: FileDetailType) => {
                   </Typography>
                 </Box>
                 <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                {routeParams && routeParams.folder !== 'trash' ? (
-                  <IconButton size='small' onClick={handleMoveToTrash}>
-                    <Icon icon='mdi:delete-outline' fontSize='1.375rem' />
+                  {routeParams && routeParams.folder !== 'trash' ? (
+                    <IconButton size='small' onClick={(currentFile)=>handleMoveToTrash(currentFile)}>
+                      <Icon icon='mdi:delete-outline' fontSize='1.375rem' />
+                    </IconButton>
+                  ) : null}
+                  <IconButton size='small' onClick={(currentFile)=>handleMoveToSpam(currentFile)}>
+                    <Icon icon='mdi:alert-circle-outline' fontSize='1.375rem' />
                   </IconButton>
-                ) : null}
-                <OptionsMenu
-                  leftAlignMenu
-                  options={handleFoldersMenu()}
-                  iconButtonProps={{ size: 'small' }}
-                  icon={<Icon icon='mdi:folder-outline' fontSize='1.375rem' />}
-                />
-                <OptionsMenu
-                  leftAlignMenu
-                  options={handleLabelsMenu()}
-                  iconButtonProps={{ size: 'small' }}
-                  icon={<Icon icon='mdi:label-outline' fontSize='1.375rem' />}
-                />
-              </Box>
+                  <OptionsMenu
+                    leftAlignMenu
+                    options={handleLabelsMenu()}
+                    iconButtonProps={{ size: 'small' }}
+                    icon={<Icon icon='mdi:label-outline' fontSize='1.375rem' />}
+                  />
+                </Box>
               <div>
                 <IconButton
                   size='small'
@@ -322,7 +327,7 @@ const DriveDetail = (props: FileDetailType) => {
                           sx={{ width: '2.375rem', height: '2.375rem', mr: 3 }}
                         />
                         <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-                          <Typography variant='body2'>From: {currentFile.owner.address}</Typography>
+                          <Typography variant='body2'>Owner: {currentFile.owner.address}</Typography>
                           <Typography variant='caption' sx={{ mr: 3 }}>
                             Time: {formatTimestampMemo(currentFile.block.timestamp)}</Typography>
                         </Box>

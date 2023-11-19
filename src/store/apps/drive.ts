@@ -24,12 +24,7 @@ export const fetchData = createAsyncThunk('appMyFiles/fetchData', async (params:
   return { ...response.data, filter: params }
 })
 
-export const getCurrentFile = createAsyncThunk('appDrive/selectFile', async (FileTx: TxRecordType) => {
-
-  return FileTx
-})
-
-export const updateFile = createAsyncThunk('appDrive/updateFile', async (FileTx: TxRecordType) => {
+export const setCurrentFile = createAsyncThunk('appDrive/selectFile', async (FileTx: TxRecordType) => {
 
   return FileTx
 })
@@ -39,10 +34,10 @@ export const updateFileLabel = createAsyncThunk('appDrive/updateFileLabel', asyn
   return FileTx
 })
 
-export const appEmailSlice = createSlice({
+export const appDriveSlice = createSlice({
   name: 'appDrive',
   initialState: {
-    mails: null,
+    files: null,
     mailMeta: null,
     filter: {
       q: '',
@@ -51,7 +46,7 @@ export const appEmailSlice = createSlice({
       folder: 'myfiles'
     },
     currentFile: {},
-    selectedMails: [],
+    selectedFiles: [],
     
     data: [],
     total: 1,
@@ -60,18 +55,18 @@ export const appEmailSlice = createSlice({
     allPages: 1,
   },
   reducers: {
-    handleSelectMail: (state, action) => {
-      const mails: any = state.selectedMails
-      if (!mails.includes(action.payload)) {
-        mails.push(action.payload)
+    handleSelectFile: (state, action) => {
+      const files: any = state.selectedFiles
+      if (!files.includes(action.payload)) {
+        files.push(action.payload)
       } else {
-        mails.splice(mails.indexOf(action.payload), 1)
+        files.splice(files.indexOf(action.payload), 1)
       }
-      state.selectedMails = mails
+      state.selectedFiles = files
     },
-    handleSelectAllMail: (state, action) => {
-      const selectAllDrives: number[] = []
-      if (action.payload && state.mails !== null) {
+    handleSelectAllFile: (state, action) => {
+      const selectAllDrives: string[] = []
+      if (action.payload && state.files !== null) {
         selectAllDrives.length = 0
 
         // @ts-ignore
@@ -79,12 +74,12 @@ export const appEmailSlice = createSlice({
       } else {
         selectAllDrives.length = 0
       }
-      state.selectedMails = selectAllDrives as any
+      state.selectedFiles = selectAllDrives as any
     }
   },
   extraReducers: builder => {
     builder.addCase(fetchData.fulfilled, (state, action) => {
-      state.mails = action.payload.emails
+      state.files = action.payload.emails
       state.filter = action.payload.filter
       state.mailMeta = action.payload.emailsMeta
 
@@ -96,12 +91,12 @@ export const appEmailSlice = createSlice({
       state.allPages = action.payload.allpages
 
     })
-    builder.addCase(getCurrentFile.fulfilled, (state, action) => {
+    builder.addCase(setCurrentFile.fulfilled, (state, action) => {
       state.currentFile = action.payload
     })
   }
 })
 
-export const { handleSelectMail, handleSelectAllMail } = appEmailSlice.actions
+export const { handleSelectFile, handleSelectAllFile } = appDriveSlice.actions
 
-export default appEmailSlice.reducer
+export default appDriveSlice.reducer

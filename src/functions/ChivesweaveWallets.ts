@@ -5,6 +5,8 @@ import { PromisePool } from '@supercharge/promise-pool'
 
 import type { JWKInterface } from 'arweave/web/lib/wallet'
 
+import { TxRecordType } from 'src/types/apps/Chivesweave'
+
 // @ts-ignore
 import { v4 } from 'uuid'
 import BigNumber from 'bignumber.js'
@@ -448,7 +450,7 @@ export async function getHash (data: string | Uint8Array) {
     return [...new Uint8Array(buffer)].map(x => x.toString(16).padStart(2, '0')).join('')
 }
 
-export async function getProcessedData(walletData: any, walletAddress: string, data: any): Promise<ArTxParams['data']> {
+export async function getProcessedData(walletData: any, walletAddress: string, data: any, Manifest: boolean): Promise<ArTxParams['data']> {
 	if (typeof data === 'string') { return data }
     console.log("getProcessedData Input File Data:", data)
 	if (!walletData) { throw 'multiple files unsupported for current account' }
@@ -462,15 +464,17 @@ export async function getProcessedData(walletData: any, walletAddress: string, d
         console.log("getProcessedData deduplicatedDataItems:", deduplicatedDataItems)
         bundleItems.push(...deduplicatedDataItems.filter((item): item is Exclude<typeof item, string> => typeof item !== 'string'))
         console.log("getProcessedData bundleItems 1:", bundleItems)
-        try {
-            const paths = data.map((item: any) => item.path || '')
-            const index = paths.find((path: any) => path === 'index.html')
-            const manifest = generateManifest(paths, deduplicatedDataItems, index)
-            bundleItems.push(await createDataItem(walletData, { ...manifest }))
-            console.log("getProcessedData bundleItems 2:", bundleItems)
-        } 
-        catch (e) { 
-            console.warn('manifest generation failed') 
+        if(Manifest)  {
+            try {
+                const paths = data.map((item: any) => item.path || '')
+                const index = paths.find((path: any) => path === 'index.html')
+                const manifest = generateManifest(paths, deduplicatedDataItems, index)
+                bundleItems.push(await createDataItem(walletData, { ...manifest }))
+                console.log("getProcessedData bundleItems 2:", bundleItems)
+            } 
+            catch (e) { 
+                console.warn('manifest generation failed') 
+            }
         }
         
         return (await createBundle(walletData, bundleItems)).getRaw()
@@ -630,3 +634,107 @@ export async function decryptWithPrivateKey(privateKeyJwk: any, encryptedData: s
 
 	return decryptedText;
 }
+
+
+
+
+
+//#########################################################################################################################################
+export async function TrashMultiFiles(FileTxList: TxRecordType[]) {
+    return await ChangeMultiFilesFolder(FileTxList, "Trash");
+}
+
+export async function SpamMultiFiles(FileTxList: TxRecordType[]) {
+    return await ChangeMultiFilesFolder(FileTxList, "Spam");
+}
+
+export async function StarMultiFiles(FileTxList: TxRecordType[]) {
+    return await ChangeMultiFilesFolder(FileTxList, "Star");
+}
+
+export async function UnStarMultiFiles(FileTxList: TxRecordType[]) {
+    return await ChangeMultiFilesFolder(FileTxList, "UnStar");
+}
+
+export async function ChangeMultiFilesFolder(FileTxList: TxRecordType[], EntityType: string) {
+    const formData = (await Promise.all(FileTxList?.map(async FileTx => {
+      const TagsMap: any = {}
+      FileTx && FileTx.tags && FileTx.tags.length > 0 && FileTx.tags.map( (Tag: any) => {
+        TagsMap[Tag.name] = Tag.value;
+      })
+      const tags = [] as Tag[]
+      setBaseTags(tags, {          
+        'App-Name': authConfig['App-Name'],
+        'App-Platform': authConfig['App-Platform'],
+        'App-Version': authConfig['App-Version'],
+        'Content-Type': TagsMap['Content-Type'],
+        'File-Name': TagsMap['File-Name'],
+        'File-Hash': TagsMap['File-Hash'],
+        'File-TxId': FileTx.id,
+        'File-BundleId': FileTx?.bundleid,
+        'Entity-Type': EntityType,
+        'Unix-Time': String(Date.now())
+      })
+      const data = String(FileTx.id)
+
+      return { data, tags, path: String(FileTx.id) }
+    })))
+
+    console.log("formData", formData)
+    
+    const currentWallet = getCurrentWallet()
+    const currentAddress = getCurrentWalletAddress()
+    const getProcessedDataValue = await getProcessedData(currentWallet, currentAddress, formData, false)
+
+    const target = ""
+    const amount = ""
+    const data = getProcessedDataValue
+
+    console.log("getProcessedDataValue", getProcessedDataValue)
+    
+    //Make the tags
+    const tags: any = []
+    tags.push({name: "Bundle-Format", value: 'binary'})
+    tags.push({name: "Bundle-Version", value: '2.0.0'})
+    tags.push({name: "Entity-Type", value: EntityType})
+    tags.push({name: "Entity-Number", value: String(FileTxList.length)})
+    console.log("getProcessedDataValue tags", tags)
+
+    /*
+    const TxResult: any = await sendAmount(currentWallet, target, amount, tags, data, "UploadBundleFile", setUploadProgress);
+    if(TxResult.status == 800) {
+      //Insufficient balance
+      toast.error(TxResult.statusText, { duration: 4000 })
+      setIsDisabledButton(false)
+      setIsDisabledRemove(false)
+      setUploadingButton(`${t(`Upload Files`)}`)
+    }
+    */
+
+  };
+
+  function setBaseTags (tags: Tag[], set: { [key: string]: string }) {
+    const baseTags: { [key: string]: string } = {
+      'Content-Type': '',
+      'File-Hash': '',
+      'Bundle-Format': '',
+      'Bundle-Version': '',
+      ...set
+    }
+    for (const name in baseTags) { setTag(tags, name, baseTags[name]) }
+  }
+
+  function setTag (tags: Tag[], name: string, value?: string) {
+    let currentTag = tags.find(tag => tag.name === name)
+    if (value) {
+      if (!currentTag) {
+        currentTag = { name, value: '' }
+        tags.push(currentTag)
+      }
+      currentTag.value = value
+    } else {
+      const index = tags.indexOf(currentTag!)
+      if (index !== -1) { tags.splice(index, 1) }
+    }
+  }
+

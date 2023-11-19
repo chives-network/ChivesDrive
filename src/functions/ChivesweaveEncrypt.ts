@@ -1,4 +1,6 @@
 import crypto from 'crypto';
+import authConfig from 'src/configs/auth'
+
 
 // @ts-ignore
 import { v4 } from 'uuid'
@@ -63,9 +65,9 @@ export function EncryptDataWithKey(FileContent: string, FileName: string, wallet
     FileEncrypt['Content-Type'] = "<application/octet-stream>";
     FileEncrypt['Entity-Type']  = "file";
     FileEncrypt['Unix-Time']    = String(Date.now());
-    FileEncrypt['App-Name']     = "ChivesDrive";
-    FileEncrypt['App-Platform'] = "web";
-    FileEncrypt['App-Version']  = "0.1";
+    FileEncrypt['App-Name']     = authConfig['App-Name'];
+    FileEncrypt['App-Platform'] = authConfig['App-Platform'];
+    FileEncrypt['App-Version']  = authConfig['App-Version'];
 
     return FileEncrypt;
 }

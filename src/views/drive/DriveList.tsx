@@ -1,5 +1,5 @@
 // ** React Imports
-import { Fragment, useState, SyntheticEvent, ReactNode } from 'react'
+import { Fragment, useState, SyntheticEvent, ReactNode, useEffect } from 'react'
 
 // ** MUI Imports
 import Box from '@mui/material/Box'
@@ -7,7 +7,6 @@ import List from '@mui/material/List'
 import Input from '@mui/material/Input'
 import Avatar from '@mui/material/Avatar'
 import Divider from '@mui/material/Divider'
-import Tooltip from '@mui/material/Tooltip'
 import Backdrop from '@mui/material/Backdrop'
 import Checkbox from '@mui/material/Checkbox'
 import { styled } from '@mui/material/styles'
@@ -49,6 +48,9 @@ import { formatTimestamp} from 'src/configs/functions';
 
 // ** Third Party Import
 import { useTranslation } from 'react-i18next'
+
+import { TrashMultiFiles, SpamMultiFiles, StarMultiFiles, UnStarMultiFiles } from 'src/functions/ChivesweaveWallets'
+import { TxRecordType } from 'src/types/apps/Chivesweave'
 
 const FileItem = styled(ListItem)<ListItemProps>(({ theme }) => ({
   cursor: 'pointer',
@@ -98,19 +100,22 @@ const DriveList = (props: DriveListType) => {
     dispatch,
     setQuery,
     direction,
-    updateFile,
     routeParams,
     labelColors,
-    getCurrentFile,
+    setCurrentFile,
     driveFileOpen,
     updateFileLabel,
-    handleSelectMail,
+    handleSelectFile,
     setFileDetailOpen,
-    handleSelectAllMail,
+    handleSelectAllFile,
     handleLeftSidebarToggle,
     paginationModel,
     handlePageChange
   } = props
+
+  useEffect(()=>{
+    dispatch(handleSelectAllFile(false))
+  },[paginationModel])
 
   // ** State
   const [refresh, setRefresh] = useState<boolean>(false)
@@ -195,29 +200,44 @@ const DriveList = (props: DriveListType) => {
   }
 
   const handleMoveToTrash = () => {
-    dispatch(updateFile({ emailIds: store.selectedMails, dataToUpdate: { folder: 'trash' } }))
-    dispatch(handleSelectAllMail(false))
+    console.log("store.selectedFiles", store)
+    if( store.selectedFiles && store.selectedFiles.length > 0 && store.data && store.data.length > 0) {
+      const TargetFiles: TxRecordType[] = store.data.filter((Item: TxRecordType)  => store.selectedFiles.includes(Item.id));
+      TrashMultiFiles(TargetFiles);
+      dispatch(handleSelectAllFile(false))
+    }
   }
 
-  const handleStarDrive = (e: SyntheticEvent, id: number, value: boolean) => {
+  const handleMoveToSpam = () => {
+    console.log("store.selectedFiles", store)
+    if( store.selectedFiles && store.selectedFiles.length > 0 && store.data && store.data.length > 0) {
+      const TargetFiles: TxRecordType[] = store.data.filter((Item: TxRecordType)  => store.selectedFiles.includes(Item.id));
+      SpamMultiFiles(TargetFiles);
+      dispatch(handleSelectAllFile(false))
+    }
+  }
+
+  const handleStarDrive = (e: SyntheticEvent, id: string, value: boolean) => {
     e.stopPropagation()
-    dispatch(updateFile({ emailIds: [id], dataToUpdate: { isStarred: value } }))
+    if(value) {
+      const TargetFiles: TxRecordType[] = store.data.filter((Item: TxRecordType)  => Item.id == id );
+      StarMultiFiles(TargetFiles);
+      dispatch(handleSelectAllFile(false))
+    }
+    else {
+      const TargetFiles: TxRecordType[] = store.data.filter((Item: TxRecordType)  => Item.id == id );
+      UnStarMultiFiles(TargetFiles);
+      dispatch(handleSelectAllFile(false))
+    }
   }
 
-  const handleReadDrive = (id: number | number[], value: boolean) => {
-    const arr = Array.isArray(id) ? [...id] : [id]
-    dispatch(updateFile({ emailIds: arr, dataToUpdate: { isRead: value } }))
-    dispatch(handleSelectAllMail(false))
-  }
-
-  const handleLabelUpdate = (id: number | number[], label: MailLabelType) => {
+  const handleLabelUpdate = (id: string | string[], label: MailLabelType) => {
     const arr = Array.isArray(id) ? [...id] : [id]
     dispatch(updateFileLabel({ emailIds: arr, label }))
   }
 
-  const handleFolderUpdate = (id: number | number[], folder: MailFolderType) => {
+  const handleFolderUpdate = (id: string | string[], folder: MailFolderType) => {
     const arr = Array.isArray(id) ? [...id] : [id]
-    dispatch(updateFile({ emailIds: arr, dataToUpdate: { folder } }))
   }
 
   const handleRefreshDriveClick = () => {
@@ -237,62 +257,12 @@ const DriveList = (props: DriveListType) => {
         ),
         menuItemProps: {
           onClick: () => {
-            handleLabelUpdate(store.selectedMails, key as MailLabelType)
-            dispatch(handleSelectAllMail(false))
+            handleLabelUpdate(store.selectedFiles, key as MailLabelType)
+            dispatch(handleSelectAllFile(false))
           }
         }
       })
     })
-
-    return array
-  }
-
-  const handleFoldersMenu = () => {
-    const array: OptionType[] = []
-
-    if (routeParams && routeParams.folder && !routeParams.label && foldersObj[routeParams.folder]) {
-      foldersObj[routeParams.folder].map((folder: MailFoldersArrType) => {
-        array.length = 0
-        array.push({
-          icon: folder.icon,
-          text: <Typography sx={{ textTransform: 'capitalize' }}>{folder.name}</Typography>,
-          menuItemProps: {
-            onClick: () => {
-              handleFolderUpdate(store.selectedMails, folder.name)
-              dispatch(handleSelectAllMail(false))
-            }
-          }
-        })
-      })
-    } else if (routeParams && routeParams.label) {
-      folders.map((folder: MailFoldersArrType) => {
-        array.length = 0
-        array.push({
-          icon: folder.icon,
-          text: <Typography sx={{ textTransform: 'capitalize' }}>{folder.name}</Typography>,
-          menuItemProps: {
-            onClick: () => {
-              handleFolderUpdate(store.selectedMails, folder.name)
-              dispatch(handleSelectAllMail(false))
-            }
-          }
-        })
-      })
-    } else {
-      foldersObj['myfiles'].map((folder: MailFoldersArrType) => {
-        array.length = 0
-        array.push({
-          icon: folder.icon,
-          text: <Typography sx={{ textTransform: 'capitalize' }}>{folder.name}</Typography>,
-          menuItemProps: {
-            onClick: () => {
-              handleFolderUpdate(store.selectedMails, folder.name)
-              dispatch(handleSelectAllMail(false))
-            }
-          }
-        })
-      })
-    }
 
     return array
   }
@@ -303,7 +273,6 @@ const DriveList = (props: DriveListType) => {
     dispatch,
     direction,
     foldersObj,
-    updateFile,
     routeParams,
     labelColors,
     handleStarDrive,
@@ -341,32 +310,31 @@ const DriveList = (props: DriveListType) => {
         <Box sx={{ py: 2, px: { xs: 2.5, sm: 5 } }}>
           <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
             <Box sx={{ display: 'flex', alignItems: 'center' }}>
-              {store && store.data && store.selectedMails ? (
+              {store && store.data && store.selectedFiles ? (
                 <Checkbox
-                  onChange={e => dispatch(handleSelectAllMail(e.target.checked))}
-                  checked={(store.data.length && store.data.length === store.selectedMails.length) || false}
+                  onChange={e => dispatch(handleSelectAllFile(e.target.checked))}
+                  checked={(store.data.length && store.data.length === store.selectedFiles.length) || false}
                   indeterminate={
                     !!(
                       store.data.length &&
-                      store.selectedMails.length &&
-                      store.data.length !== store.selectedMails.length
+                      store.selectedFiles.length &&
+                      store.data.length !== store.selectedFiles.length
                     )
                   }
                 />
               ) : null}
 
-              {store && store.selectedMails.length && store.data && store.data.length ? (
+              {store && store.selectedFiles.length && store.data && store.data.length ? (
                 <Fragment>
+                  <OptionsMenu leftAlignMenu options={handleLabelsMenu()} icon={<Icon icon='mdi:label-outline' />} />
                   {routeParams && routeParams.folder !== 'trash' ? (
                     <IconButton onClick={handleMoveToTrash}>
                       <Icon icon='mdi:delete-outline' />
                     </IconButton>
                   ) : null}
-                  <IconButton onClick={() => handleReadDrive(store.selectedMails, false)}>
-                    <Icon icon='mdi:email-outline' />
+                  <IconButton onClick={handleMoveToSpam}>
+                    <Icon icon='mdi:alert-octagon-outline' />
                   </IconButton>
-                  <OptionsMenu leftAlignMenu options={handleFoldersMenu()} icon={<Icon icon='mdi:folder-outline' />} />
-                  <OptionsMenu leftAlignMenu options={handleLabelsMenu()} icon={<Icon icon='mdi:label-outline' />} />
                 </Fragment>
               ) : null}
             </Box>
@@ -385,27 +353,29 @@ const DriveList = (props: DriveListType) => {
           <ScrollWrapper hidden={hidden}>
             {store && store.data && store.data.length ? (
               <List sx={{ p: 0 }}>
-                {store.data.map((drive: any) => {
-                  const mailReadToggleIcon = drive.isRead ? 'mdi:email-outline' : 'mdi:email-open-outline'
-
+                {store.data.map((drive: TxRecordType) => {
+                  const TagsMap: any = {}
+                  drive && drive.tags && drive.tags.length > 0 && drive.tags.map( (Tag: any) => {
+                    TagsMap[Tag.name] = Tag.value;
+                  })
+                  
                   return (
                     <FileItem
                       key={drive.id}
                       sx={{ backgroundColor: drive.isRead ? 'action.hover' : 'background.paper' }}
                       onClick={() => {
                         setFileDetailOpen(true)
-                        dispatch(getCurrentFile(drive))
-                        dispatch(updateFile({ emailIds: [drive.id], dataToUpdate: { isRead: true } }))
+                        dispatch(setCurrentFile(drive))
                         setTimeout(() => {
-                          dispatch(handleSelectAllMail(false))
+                          dispatch(handleSelectAllFile(false))
                         }, 600)
                       }}
                     >
                       <Box sx={{ mr: 4, display: 'flex', overflow: 'hidden', alignItems: 'center' }}>
                         <Checkbox
                           onClick={e => e.stopPropagation()}
-                          onChange={() => dispatch(handleSelectMail(drive.id))}
-                          checked={store.selectedMails.includes(drive.id) || false}
+                          onChange={() => dispatch(handleSelectFile(drive.id))}
+                          checked={store.selectedFiles.includes(drive.id) || false}
                         />
                         <IconButton
                           size='small'
@@ -421,7 +391,7 @@ const DriveList = (props: DriveListType) => {
                           <Icon icon='mdi:star-outline' />
                         </IconButton>
                         <Avatar
-                          alt={drive.tags[2].value}
+                          alt={TagsMap['File-Name']}
                           src={`${authConfig.backEndApi}/${drive.id}/thumbnail`}
                           sx={{ mr: 3, width: '2rem', height: '2rem' }}
                         />
@@ -443,50 +413,9 @@ const DriveList = (props: DriveListType) => {
                               textOverflow: ['ellipsis', 'unset']
                             }}
                           >
-                            {drive.tags[2].value}
-                          </Typography>
-                          <Typography noWrap variant='body2' sx={{ width: '100%' }}>
-                            {drive.subject}
+                            {TagsMap['File-Name']}
                           </Typography>
                         </Box>
-                      </Box>
-                      <Box
-                        className='mail-actions'
-                        sx={{ display: 'none', alignItems: 'center', justifyContent: 'flex-end' }}
-                      >
-                        {routeParams && routeParams.folder !== 'trash' ? (
-                          <Tooltip placement='top' title='Delete Mail'>
-                            <IconButton
-                              onClick={e => {
-                                e.stopPropagation()
-                                dispatch(updateFile({ emailIds: [drive.id], dataToUpdate: { folder: 'trash' } }))
-                              }}
-                            >
-                              <Icon icon='mdi:delete-outline' />
-                            </IconButton>
-                          </Tooltip>
-                        ) : null}
-
-                        <Tooltip placement='top' title={drive.isRead ? 'Unread Mail' : 'Read Mail'}>
-                          <IconButton
-                            onClick={e => {
-                              e.stopPropagation()
-                              handleReadDrive([drive.id], !drive.isRead)
-                            }}
-                          >
-                            <Icon icon={mailReadToggleIcon} />
-                          </IconButton>
-                        </Tooltip>
-                        <Tooltip placement='top' title='Move to Spam'>
-                          <IconButton
-                            onClick={e => {
-                              e.stopPropagation()
-                              handleFolderUpdate([drive.id], 'spam')
-                            }}
-                          >
-                            <Icon icon='mdi:alert-octagon-outline' />
-                          </IconButton>
-                        </Tooltip>
                       </Box>
                       <Box
                         className='mail-info-right'
@@ -502,9 +431,6 @@ const DriveList = (props: DriveListType) => {
                     </FileItem>
                   )
                 })}
-
-                
-      
 
               </List>
             ) : (

@@ -29,11 +29,10 @@ import { useTranslation } from 'react-i18next'
 // ** Actions
 import {
   fetchData,
-  updateFile,
-  getCurrentFile,
+  setCurrentFile,
   updateFileLabel,
-  handleSelectMail,
-  handleSelectAllMail
+  handleSelectFile,
+  handleSelectAllFile
 } from 'src/store/apps/drive'
 
 // ** Context
@@ -137,7 +136,7 @@ const DriveAppLayout = ({ folder, label, type }: MailLayoutType) => {
         uploadFilesTitle={uploadFilesTitle}
         toggleUploadFilesOpen={toggleUploadFilesOpen}
         setFileDetailOpen={setFileDetailOpen}
-        handleSelectAllMail={handleSelectAllMail}
+        handleSelectAllFile={handleSelectAllFile}
         handleLeftSidebarToggle={handleLeftSidebarToggle}
       />
       { !uploadFilesOpen ?
@@ -149,15 +148,14 @@ const DriveAppLayout = ({ folder, label, type }: MailLayoutType) => {
           dispatch={dispatch}
           setQuery={setQuery}
           direction={direction}
-          updateFile={updateFile}
           routeParams={routeParams}
           labelColors={labelColors}
-          getCurrentFile={getCurrentFile}
+          setCurrentFile={setCurrentFile}
           updateFileLabel={updateFileLabel}
           driveFileOpen={driveFileOpen}
-          handleSelectMail={handleSelectMail}
+          handleSelectFile={handleSelectFile}
           setFileDetailOpen={setFileDetailOpen}
-          handleSelectAllMail={handleSelectAllMail}
+          handleSelectAllFile={handleSelectAllFile}
           handleLeftSidebarToggle={handleLeftSidebarToggle}        
           paginationModel={paginationModel}
           handlePageChange={handlePageChange}

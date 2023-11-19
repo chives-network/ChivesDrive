@@ -25,7 +25,7 @@ export type DriveSidebarType = {
   toggleUploadFilesOpen: () => void
   handleLeftSidebarToggle: () => void
   setFileDetailOpen: (val: boolean) => void
-  handleSelectAllMail: (val: boolean) => void
+  handleSelectAllFile: (val: boolean) => void
 }
 
 export type BlockType = {

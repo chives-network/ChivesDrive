@@ -200,7 +200,7 @@ const FileUploaderMultiple = () => {
       return { data, tags, path: file.name }
     })))
     
-    const getProcessedDataValue = await getProcessedData(currentWallet, currentAddress, formData);
+    const getProcessedDataValue = await getProcessedData(currentWallet, currentAddress, formData, true);
 
     const target = ""
     const amount = ""
