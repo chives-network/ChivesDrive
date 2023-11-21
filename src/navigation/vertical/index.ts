@@ -32,7 +32,7 @@ const ExplorerNavMenus = [
   {
     title: 'Resoures',
     icon: 'mdi:file-multiple',
-    path: '/files/png'
+    path: '/files/image'
   },
   {
     title: 'Staticstics',
@@ -70,7 +70,7 @@ const DriveNavMenus = [
   {
     title: 'Resources',
     icon: 'mdi:file-multiple',
-    path: '/files/png'
+    path: '/files/image'
   },
   {
     title: 'My Drive',

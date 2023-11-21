@@ -42,14 +42,14 @@ const ImageRectangle = ( {item, backEndApi, FileType} : any) => {
 
   return (
     <Card>
-      {FileType && (FileType=="png" || FileType=="jpeg" || FileType=="gif") ?
+      {FileType && (FileType=="png" || FileType=="jpeg" || FileType=="gif" || FileType=="image" || FileType=="word" || FileType=="excel" || FileType=="pptx") ?
         <Link href={`/txs/view/${item.id}`}>
           <CardMedia image={`${backEndApi}/${item.id}/thumbnail`} sx={{ height: '11.25rem', objectFit: 'contain' }}/>
         </Link>
         :
         <Fragment></Fragment>
       }
-      {FileType && FileType=="mp4" ?
+      {FileType && FileType=="video" ?
         <Link href={`/txs/view/${item.id}`}>
           <CardMedia image={`${backEndApi}/${item.id}/thumbnail`} sx={{ height: '11.25rem', objectFit: 'contain' }}/>
         </Link>
@@ -57,13 +57,6 @@ const ImageRectangle = ( {item, backEndApi, FileType} : any) => {
         <Fragment></Fragment>
       }
       {FileType && FileType=="pdf" ?
-        <Link href={`/txs/view/${item.id}`}>
-          <CardMedia image={`${backEndApi}/${item.id}/thumbnail`} sx={{ height: '11.25rem', objectFit: 'contain' }}/>
-        </Link>
-        :
-        <Fragment></Fragment>
-      }
-      {FileType && FileType=="office" ?
         <Link href={`/txs/view/${item.id}`}>
           <CardMedia image={`${backEndApi}/${item.id}/thumbnail`} sx={{ height: '11.25rem', objectFit: 'contain' }}/>
         </Link>

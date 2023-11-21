@@ -1,8 +1,8 @@
-import FileResources from 'src/pages/files/model';
+import FileResources from 'src/pages/myfiles/model';
 
 const FileResourcesList = () => {
 
-  const activeTab = "office"; 
+  const activeTab = "image"; 
 
   return <FileResources activeTab={activeTab} />
 

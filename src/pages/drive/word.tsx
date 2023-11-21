@@ -1,7 +1,7 @@
 // ** Demo Components Imports
 import Drive from 'src/views/drive/Drive'
 
-const DriveApp = () => <Drive type='mp4' folder='myfiles'/>
+const DriveApp = () => <Drive type='word' folder='myfiles'/>
 
 DriveApp.contentHeightFixed = true
 

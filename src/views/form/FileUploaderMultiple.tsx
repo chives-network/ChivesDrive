@@ -28,6 +28,8 @@ import {EncryptDataWithKey} from 'src/functions/ChivesweaveEncrypt'
 // ** Third Party Components
 import toast from 'react-hot-toast'
 
+import authConfig from 'src/configs/auth'
+
 // ** Third Party Import
 import { useTranslation } from 'react-i18next'
 
@@ -193,10 +195,20 @@ const FileUploaderMultiple = () => {
         setBaseTags(tags, {
           'Content-Type': file.type,
           'File-Name': file.name,
-          'File-Hash': await getHash(data)
+          'File-Hash': await getHash(data),
+          'File-Public': 'Public',
+          'File-Summary': '',
+          'Cipher-ALG': '',
+          'File-Parent': 'Root',
+          'Entity-Type': 'file',
+          'App-Name': authConfig['App-Name'],
+          'App-Platform': authConfig['App-Platform'],
+          'App-Version': authConfig['App-Version'],
+          'Agent-Name': '',
+          'Unix-Time': String(Date.now())
         })
       }
-
+      
       return { data, tags, path: file.name }
     })))
     

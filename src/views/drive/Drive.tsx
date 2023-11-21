@@ -70,7 +70,7 @@ const DriveAppLayout = ({ folder, label, type }: MailLayoutType) => {
   const { skin, direction } = settings
   const routeParams = {
     label: label || '',
-    type: type || 'png',
+    type: type || 'image',
     folder: folder || 'myfiles'
   }
 

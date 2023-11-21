@@ -217,29 +217,20 @@ const FileResourceModel = ({ activeTab } : any) => {
             aria-label='forced scroll tabs example'
           >
             <Tab
-              value='png'
+              value='image'
               label={
                 <Box sx={{ display: 'flex', alignItems: 'center', '& svg': { mr: 2 } }}>
                   <Icon fontSize={20} icon='mdi:account-outline' />
-                  Png
+                  Image
                 </Box>
               }
             />
             <Tab
-              value='jpeg'
-              label={
-                <Box sx={{ display: 'flex', alignItems: 'center', '& svg': { mr: 2 } }}>
-                  <Icon fontSize={20} icon='mdi:lock-outline' />
-                  Jpeg
-                </Box>
-              }
-            />
-            <Tab
-              value='mp4'
+              value='video'
               label={
                 <Box sx={{ display: 'flex', alignItems: 'center', '& svg': { mr: 2 } }}>
                   <Icon fontSize={20} icon='mdi:bookmark-outline' />
-                  Mp4
+                  Video
                 </Box>
               }
             />
@@ -253,11 +244,29 @@ const FileResourceModel = ({ activeTab } : any) => {
               }
             />
             <Tab
-              value='office'
+              value='word'
               label={
                 <Box sx={{ display: 'flex', alignItems: 'center', '& svg': { mr: 2 } }}>
                   <Icon fontSize={20} icon='mdi:bell-outline' />
-                  Office
+                  Word
+                </Box>
+              }
+            />
+            <Tab
+              value='excel'
+              label={
+                <Box sx={{ display: 'flex', alignItems: 'center', '& svg': { mr: 2 } }}>
+                  <Icon fontSize={20} icon='mdi:bell-outline' />
+                  Excel
+                </Box>
+              }
+            />
+            <Tab
+              value='pptx'
+              label={
+                <Box sx={{ display: 'flex', alignItems: 'center', '& svg': { mr: 2 } }}>
+                  <Icon fontSize={20} icon='mdi:bell-outline' />
+                  PPT
                 </Box>
               }
             />

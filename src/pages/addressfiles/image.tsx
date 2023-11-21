@@ -2,7 +2,7 @@ import FileResources from 'src/pages/myfiles/model';
 
 const FileResourcesList = () => {
 
-  const activeTab = "jpeg"; 
+  const activeTab = "image"; 
 
   return <FileResources activeTab={activeTab} />
 
