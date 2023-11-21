@@ -1,5 +1,5 @@
 export default {
-  backEndApi: 'http://112.170.68.77:1985',
+  backEndApi: 'http://112.170.68.77:1987',
   meEndpoint: '/auth/me',
   loginEndpoint: '/jwt/login',
   registerEndpoint: '/jwt/register',

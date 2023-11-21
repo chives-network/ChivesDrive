@@ -66,5 +66,13 @@
   "The amount sent cannot exceed the current balance": "The amount sent cannot exceed the current balance",
   "The amount you entered is invalid": "The amount you entered is invalid",
   "Successfully submitted to blockchain": "Successfully submitted to blockchain",
-  "Chat": "Chat"
+  "Blocks Number Per Day": "Blocks Number Per Day",
+  "Block Rewards Per Day": "Block Rewards Per Day",
+  "Weave Size": "Weave Size",
+  "Difficulty": "Difficulty",
+  "Welcome to Chivesweave!": "Welcome to Chivesweave!",
+  "A PERMANENT STORAGE PUBLIC CHAIN!": "A PERMANENT STORAGE PUBLIC CHAIN!",
+  "Network Info": "Network Info",
+  "Peers": "Peers",
+  "Release": "Release"
 }

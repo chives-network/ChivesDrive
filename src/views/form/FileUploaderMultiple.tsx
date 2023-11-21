@@ -69,7 +69,7 @@ const FileUploaderMultiple = () => {
   const [isDisabledButton, setIsDisabledButton] = useState<boolean>(false)
   const [removeAllButton, setRemoveAllButton] = useState<string>(`${t(`Remove All`)}`)
   const [isDisabledRemove, setIsDisabledRemove] = useState<boolean>(false)
-  const [isEncryptFile, setIsEncryptFile] = useState<boolean>(true)
+  const [isEncryptFile, setIsEncryptFile] = useState<boolean>(false)
   
   // ** Hooks
   const { getRootProps, getInputProps } = useDropzone({
@@ -207,7 +207,7 @@ const FileUploaderMultiple = () => {
     const data = getProcessedDataValue
 
     console.log("getProcessedDataValue", getProcessedDataValue)
-    setIsEncryptFile(true)
+    setIsEncryptFile(false)
     
     //Make the tags
     const tags: any = []

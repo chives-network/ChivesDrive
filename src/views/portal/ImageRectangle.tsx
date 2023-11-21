@@ -51,7 +51,7 @@ const ImageRectangle = ( {item, backEndApi, FileType} : any) => {
       }
       {FileType && FileType=="mp4" ?
         <Link href={`/txs/view/${item.id}`}>
-          <CardMedia component="video" controls src={`${backEndApi}/${item.id}`} sx={{ height: '11.25rem', objectFit: 'contain' }} preload="none"/>
+          <CardMedia image={`${backEndApi}/${item.id}/thumbnail`} sx={{ height: '11.25rem', objectFit: 'contain' }}/>
         </Link>
         :
         <Fragment></Fragment>
