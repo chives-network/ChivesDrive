@@ -636,12 +636,13 @@ export async function decryptWithPrivateKey(privateKeyJwk: any, encryptedData: s
 }
 
 
-
-
-
 //#########################################################################################################################################
 export async function TrashMultiFiles(FileTxList: TxRecordType[]) {
     return await ChangeMultiFilesFolder(FileTxList, "Trash");
+}
+
+export async function FolderMultiFiles(FileTxList: TxRecordType[], Target: string) {
+    return await ChangeMultiFilesFolder(FileTxList, Target);
 }
 
 export async function SpamMultiFiles(FileTxList: TxRecordType[]) {
@@ -649,14 +650,92 @@ export async function SpamMultiFiles(FileTxList: TxRecordType[]) {
 }
 
 export async function StarMultiFiles(FileTxList: TxRecordType[]) {
-    return await ChangeMultiFilesFolder(FileTxList, "Star");
+    const ChivesDriveActions = authConfig.chivesDriveActions
+    const ChivesDriveActionsList = window.localStorage.getItem(ChivesDriveActions)      
+    const ChivesDriveActionsMap: any = ChivesDriveActionsList ? JSON.parse(ChivesDriveActionsList) : {}
+    FileTxList.map((FileTx: any)=>{
+        ChivesDriveActionsMap['Star'] = {...ChivesDriveActionsMap['Star'], [FileTx.id] : true}
+    })
+    window.localStorage.setItem(ChivesDriveActions, JSON.stringify(ChivesDriveActionsMap))
+    console.log("ChivesDriveActionsMap", ChivesDriveActionsMap)
 }
 
 export async function UnStarMultiFiles(FileTxList: TxRecordType[]) {
-    return await ChangeMultiFilesFolder(FileTxList, "UnStar");
+    const ChivesDriveActions = authConfig.chivesDriveActions
+    const ChivesDriveActionsList = window.localStorage.getItem(ChivesDriveActions)      
+    const ChivesDriveActionsMap: any = ChivesDriveActionsList ? JSON.parse(ChivesDriveActionsList) : {}
+    FileTxList.map((FileTx: any)=>{
+        ChivesDriveActionsMap['Star'] = {...ChivesDriveActionsMap['Star'], [FileTx.id] : false}
+    })
+    window.localStorage.setItem(ChivesDriveActions, JSON.stringify(ChivesDriveActionsMap))
+    console.log("ChivesDriveActionsMap", ChivesDriveActionsMap)
 }
 
 export async function ChangeMultiFilesFolder(FileTxList: TxRecordType[], EntityType: string) {
+    const ChivesDriveActions = authConfig.chivesDriveActions
+    const ChivesDriveActionsList = window.localStorage.getItem(ChivesDriveActions)      
+    const ChivesDriveActionsMap: any = ChivesDriveActionsList ? JSON.parse(ChivesDriveActionsList) : {}
+    FileTxList.map((FileTx: any)=>{
+        ChivesDriveActionsMap['Folder'] = {...ChivesDriveActionsMap['Folder'], [FileTx.id] : EntityType}
+    })
+    window.localStorage.setItem(ChivesDriveActions, JSON.stringify(ChivesDriveActionsMap))
+    console.log("ChivesDriveActionsMap", ChivesDriveActionsMap)
+}
+
+export async function ChangeMultiFilesLabel(FileTxList: TxRecordType[], EntityType: string) {
+    const ChivesDriveActions = authConfig.chivesDriveActions
+    const ChivesDriveActionsList = window.localStorage.getItem(ChivesDriveActions)      
+    const ChivesDriveActionsMap: any = ChivesDriveActionsList ? JSON.parse(ChivesDriveActionsList) : {}
+    FileTxList.map((FileTx: any)=>{
+        ChivesDriveActionsMap['Label'] = {...ChivesDriveActionsMap['Label'], [FileTx.id] : EntityType}
+    })
+    window.localStorage.setItem(ChivesDriveActions, JSON.stringify(ChivesDriveActionsMap))
+    console.log("ChivesDriveActionsMap", ChivesDriveActionsMap)
+}
+
+export function GetFileCacheStatus(TxId: string) {
+    const ChivesDriveActions = authConfig.chivesDriveActions
+    const ChivesDriveActionsList = window.localStorage.getItem(ChivesDriveActions)      
+    const ChivesDriveActionsMap: any = ChivesDriveActionsList ? JSON.parse(ChivesDriveActionsList) : {}
+    const FileStatus: any = {}
+    if(ChivesDriveActionsMap && ChivesDriveActionsMap['Star'] && ChivesDriveActionsMap['Star'][TxId] )  {
+        FileStatus['Star'] = ChivesDriveActionsMap['Star'][TxId];
+    }
+    if(ChivesDriveActionsMap && ChivesDriveActionsMap['Label'] && ChivesDriveActionsMap['Label'][TxId] )  {
+        FileStatus['Label'] = ChivesDriveActionsMap['Label'][TxId];
+    }
+    if(ChivesDriveActionsMap && ChivesDriveActionsMap['Folder'] && ChivesDriveActionsMap['Folder'][TxId] )  {
+        FileStatus['Folder'] = ChivesDriveActionsMap['Folder'][TxId];
+    }
+    console.log("FileStatus", FileStatus)
+    return FileStatus;
+}
+
+export function GetHaveToDoTask() {
+    const ChivesDriveActions = authConfig.chivesDriveActions
+    const ChivesDriveActionsList = window.localStorage.getItem(ChivesDriveActions)      
+    const ChivesDriveActionsMap: any = ChivesDriveActionsList ? JSON.parse(ChivesDriveActionsList) : {}
+    let HaveToDoTask: number = 0
+    if(ChivesDriveActionsMap && ChivesDriveActionsMap['Star'])  {
+        HaveToDoTask += Object.keys(ChivesDriveActionsMap['Star']).length
+    }
+    if(ChivesDriveActionsMap && ChivesDriveActionsMap['Label'])  {
+        HaveToDoTask += Object.keys(ChivesDriveActionsMap['Label']).length
+    }
+    if(ChivesDriveActionsMap && ChivesDriveActionsMap['Folder'])  {
+        HaveToDoTask += Object.keys(ChivesDriveActionsMap['Folder']).length
+    }
+    return HaveToDoTask;
+}
+
+export function ResetToDoTask() {
+    const ChivesDriveActions = authConfig.chivesDriveActions
+    const ChivesDriveActionsMap: any = {}
+    window.localStorage.setItem(ChivesDriveActions, JSON.stringify(ChivesDriveActionsMap))
+}
+
+
+export async function ChangeMultiFilesFolderSubmitBlockchain(FileTxList: TxRecordType[], EntityType: string) {
     const formData = (await Promise.all(FileTxList?.map(async FileTx => {
       const TagsMap: any = {}
       FileTx && FileTx.tags && FileTx.tags.length > 0 && FileTx.tags.map( (Tag: any) => {
@@ -664,12 +743,16 @@ export async function ChangeMultiFilesFolder(FileTxList: TxRecordType[], EntityT
       })
       const tags = [] as Tag[]
       setBaseTags(tags, {          
-        'App-Name': authConfig['App-Name'],
-        'App-Platform': authConfig['App-Platform'],
-        'App-Version': authConfig['App-Version'],
+        'App-Name': TagsMap['App-Name'],
+        'App-Platform': TagsMap['App-Platform'],
+        'App-Version': TagsMap['App-Version'],
+        'Agent-Name': TagsMap['Agent-Name'],
         'Content-Type': TagsMap['Content-Type'],
         'File-Name': TagsMap['File-Name'],
         'File-Hash': TagsMap['File-Hash'],
+        'File-Parent': TagsMap['File-Parent'],
+        'Cipher-ALG': TagsMap['Cipher-ALG'],
+        'File-Public': TagsMap['File-Public'],
         'File-TxId': FileTx.id,
         'File-BundleId': FileTx?.bundleid,
         'Entity-Type': EntityType,

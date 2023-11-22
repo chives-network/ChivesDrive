@@ -25,7 +25,7 @@ import OptionsMenu from 'src/@core/components/option-menu'
 // ** Types
 import { OptionType } from 'src/@core/components/option-menu/types'
 import {
-  MailLabelType,
+  LabelType,
   FileDetailType,
   MailFoldersArrType
 } from 'src/types/apps/emailTypes'
@@ -139,7 +139,7 @@ const DriveDetail = (props: FileDetailType) => {
         ),
         menuItemProps: {
           onClick: () => {
-            handleLabelUpdate([currentFile.id], key as MailLabelType)
+            handleLabelUpdate([currentFile.id], key as LabelType)
             setFileDetailOpen(false)
           }
         }

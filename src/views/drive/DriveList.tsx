@@ -7,10 +7,12 @@ import List from '@mui/material/List'
 import Input from '@mui/material/Input'
 import Avatar from '@mui/material/Avatar'
 import Divider from '@mui/material/Divider'
+import Tooltip from '@mui/material/Tooltip'
 import Backdrop from '@mui/material/Backdrop'
 import Checkbox from '@mui/material/Checkbox'
 import { styled } from '@mui/material/styles'
 import Grid from '@mui/material/Grid'
+import Button from '@mui/material/Button'
 import IconButton from '@mui/material/IconButton'
 import Typography from '@mui/material/Typography'
 import InputAdornment from '@mui/material/InputAdornment'
@@ -35,8 +37,8 @@ import Pagination from '@mui/material/Pagination'
 // ** Types
 import {
   DriveListType,
-  MailLabelType,
-  MailFolderType,
+  LabelType,
+  FolderType,
   MailFoldersArrType,
   MailFoldersObjType
 } from 'src/types/apps/emailTypes'
@@ -49,7 +51,7 @@ import { formatTimestamp} from 'src/configs/functions';
 // ** Third Party Import
 import { useTranslation } from 'react-i18next'
 
-import { TrashMultiFiles, SpamMultiFiles, StarMultiFiles, UnStarMultiFiles } from 'src/functions/ChivesweaveWallets'
+import { TrashMultiFiles, SpamMultiFiles, StarMultiFiles, UnStarMultiFiles, ChangeMultiFilesLabel, GetFileCacheStatus, GetHaveToDoTask,ResetToDoTask, FolderMultiFiles } from 'src/functions/ChivesweaveWallets'
 import { TxRecordType } from 'src/types/apps/Chivesweave'
 
 const FileItem = styled(ListItem)<ListItemProps>(({ theme }) => ({
@@ -116,6 +118,16 @@ const DriveList = (props: DriveListType) => {
   useEffect(()=>{
     dispatch(handleSelectAllFile(false))
   },[paginationModel])
+
+  
+  const [isHaveTaskToDo, setIsHaveTaskToDo] = useState<number>(0)
+  const [haveTaskToDoNumber, setHaveTaskToDoNumber] = useState<number>(0)
+  const [isHaveTaskToDoText, setIsHaveTaskToDoText] = useState<string>("")
+  useEffect(()=>{
+    const GetHaveToDoTaskData: number = GetHaveToDoTask()
+    setHaveTaskToDoNumber(GetHaveToDoTaskData)
+    setIsHaveTaskToDoText("Submit to blockchain")
+  },[isHaveTaskToDo])
 
   // ** State
   const [refresh, setRefresh] = useState<boolean>(false)
@@ -202,6 +214,7 @@ const DriveList = (props: DriveListType) => {
   const handleMoveToTrash = () => {
     console.log("store.selectedFiles", store)
     if( store.selectedFiles && store.selectedFiles.length > 0 && store.data && store.data.length > 0) {
+      setIsHaveTaskToDo(isHaveTaskToDo + 1);
       const TargetFiles: TxRecordType[] = store.data.filter((Item: TxRecordType)  => store.selectedFiles.includes(Item.id));
       TrashMultiFiles(TargetFiles);
       dispatch(handleSelectAllFile(false))
@@ -211,6 +224,7 @@ const DriveList = (props: DriveListType) => {
   const handleMoveToSpam = () => {
     console.log("store.selectedFiles", store)
     if( store.selectedFiles && store.selectedFiles.length > 0 && store.data && store.data.length > 0) {
+      setIsHaveTaskToDo(isHaveTaskToDo + 1);
       const TargetFiles: TxRecordType[] = store.data.filter((Item: TxRecordType)  => store.selectedFiles.includes(Item.id));
       SpamMultiFiles(TargetFiles);
       dispatch(handleSelectAllFile(false))
@@ -221,26 +235,42 @@ const DriveList = (props: DriveListType) => {
     e.stopPropagation()
     if(value) {
       const TargetFiles: TxRecordType[] = store.data.filter((Item: TxRecordType)  => Item.id == id );
+      setIsHaveTaskToDo(isHaveTaskToDo + 1);
       StarMultiFiles(TargetFiles);
       dispatch(handleSelectAllFile(false))
     }
     else {
       const TargetFiles: TxRecordType[] = store.data.filter((Item: TxRecordType)  => Item.id == id );
+      setIsHaveTaskToDo(isHaveTaskToDo + 1);
       UnStarMultiFiles(TargetFiles);
       dispatch(handleSelectAllFile(false))
     }
   }
 
-  const handleLabelUpdate = (id: string | string[], label: MailLabelType) => {
-    const arr = Array.isArray(id) ? [...id] : [id]
-    dispatch(updateFileLabel({ emailIds: arr, label }))
+  const handleLabelUpdate = (id: string | string[], label: LabelType) => {
+    const selectedFiles = Array.isArray(id) ? [...id] : [id]
+    console.log("store.selectedFiles", store)
+    if( store.selectedFiles && store.selectedFiles.length > 0 && store.data && store.data.length > 0) {
+      setIsHaveTaskToDo(isHaveTaskToDo + 1);
+      const TargetFiles: TxRecordType[] = store.data.filter((Item: TxRecordType)  => store.selectedFiles.includes(Item.id));
+      ChangeMultiFilesLabel(TargetFiles, label);
+      FolderMultiFiles(TargetFiles, "Inbox");
+      dispatch(handleSelectAllFile(false))
+    }
   }
 
-  const handleFolderUpdate = (id: string | string[], folder: MailFolderType) => {
+  const handleFolderUpdate = (id: string | string[], folder: FolderType) => {
     const arr = Array.isArray(id) ? [...id] : [id]
+  }
+
+  
+  const handleCancelOperation = () => {
+    setIsHaveTaskToDo(isHaveTaskToDo + 1);
+    ResetToDoTask();
   }
 
   const handleRefreshDriveClick = () => {
+    setIsHaveTaskToDo(isHaveTaskToDo + 1);
     setRefresh(true)
     setTimeout(() => setRefresh(false), 1000)
   }
@@ -257,7 +287,7 @@ const DriveList = (props: DriveListType) => {
         ),
         menuItemProps: {
           onClick: () => {
-            handleLabelUpdate(store.selectedFiles, key as MailLabelType)
+            handleLabelUpdate(store.selectedFiles, key as LabelType)
             dispatch(handleSelectAllFile(false))
           }
         }
@@ -282,6 +312,7 @@ const DriveList = (props: DriveListType) => {
     setFileDetailOpen,
     currentFile: store && store.currentFile ? store.currentFile : null
   }
+
 
   return (
     <Box sx={{ width: '100%', overflow: 'hidden', position: 'relative', '& .ps__rail-y': { zIndex: 5 } }}>
@@ -328,20 +359,40 @@ const DriveList = (props: DriveListType) => {
                 <Fragment>
                   <OptionsMenu leftAlignMenu options={handleLabelsMenu()} icon={<Icon icon='mdi:label-outline' />} />
                   {routeParams && routeParams.folder !== 'trash' ? (
-                    <IconButton onClick={handleMoveToTrash}>
-                      <Icon icon='mdi:delete-outline' />
-                    </IconButton>
+                    <Tooltip title={`${t(`Move to Trash`)}`} arrow>
+                      <IconButton onClick={handleMoveToTrash}>
+                        <Icon icon='mdi:delete-outline' />
+                      </IconButton>
+                    </Tooltip>
                   ) : null}
-                  <IconButton onClick={handleMoveToSpam}>
-                    <Icon icon='mdi:alert-octagon-outline' />
-                  </IconButton>
+                  <Tooltip title={`${t(`Move to Spam`)}`} arrow>
+                    <IconButton onClick={handleMoveToSpam}>
+                      <Icon icon='mdi:alert-octagon-outline' />
+                    </IconButton>
+                  </Tooltip>
                 </Fragment>
               ) : null}
             </Box>
             <Box sx={{ display: 'flex', alignItems: 'center' }}>
-              <IconButton size='small' onClick={handleRefreshDriveClick}>
-                <Icon icon='mdi:reload' fontSize='1.375rem' />
-              </IconButton>
+              {haveTaskToDoNumber && haveTaskToDoNumber>0 ?
+                <Fragment>
+                  <Tooltip title={isHaveTaskToDoText} arrow>
+                    <Button fullWidth color={'primary'} variant={'contained'}> {isHaveTaskToDoText} ({haveTaskToDoNumber}) </Button>
+                  </Tooltip>
+                  <Tooltip title={`${t(`Cancel Operation`)}`} arrow>
+                    <IconButton size='small' onClick={handleCancelOperation}>
+                      <Icon icon='mdi-redo-variant' fontSize='1.375rem' />
+                    </IconButton>
+                  </Tooltip>
+                </Fragment>
+                :
+                <Fragment></Fragment>
+              }
+              <Tooltip title={`${t(`Refresh`)}`} arrow>
+                <IconButton size='small' onClick={handleRefreshDriveClick}>
+                  <Icon icon='mdi:reload' fontSize='1.375rem' />
+                </IconButton>
+              </Tooltip>
               <IconButton size='small'>
                 <Icon icon='mdi:dots-vertical' fontSize='1.375rem' />
               </IconButton>
@@ -358,65 +409,77 @@ const DriveList = (props: DriveListType) => {
                   drive && drive.tags && drive.tags.length > 0 && drive.tags.map( (Tag: any) => {
                     TagsMap[Tag.name] = Tag.value;
                   })
+
+                  const FileCacheStatus = GetFileCacheStatus(drive.id)
                   
                   return (
                     <FileItem
                       key={drive.id}
-                      sx={{ backgroundColor: drive.isRead ? 'action.hover' : 'background.paper' }}
+                      sx={{ backgroundColor: true ? 'action.hover' : 'background.paper' }}
                       onClick={() => {
-                        setFileDetailOpen(true)
-                        dispatch(setCurrentFile(drive))
-                        setTimeout(() => {
-                          dispatch(handleSelectAllFile(false))
-                        }, 600)
+                        if(FileCacheStatus.Folder == "Trash" || FileCacheStatus.Folder == "Spam") {
+                        }
+                        else {
+                          setFileDetailOpen(true)
+                          dispatch(setCurrentFile(drive))
+                          setTimeout(() => {
+                            dispatch(handleSelectAllFile(false))
+                          }, 600)
+                        }
                       }}
                     >
-                      <Box sx={{ mr: 4, display: 'flex', overflow: 'hidden', alignItems: 'center' }}>
-                        <Checkbox
-                          onClick={e => e.stopPropagation()}
-                          onChange={() => dispatch(handleSelectFile(drive.id))}
-                          checked={store.selectedFiles.includes(drive.id) || false}
-                        />
-                        <IconButton
-                          size='small'
-                          onClick={e => handleStarDrive(e, drive.id, !drive.isStarred)}
-                          sx={{
-                            mr: { xs: 0, sm: 3 },
-                            color: drive.isStarred ? 'warning.main' : 'text.secondary',
-                            '& svg': {
-                              display: { xs: 'none', sm: 'block' }
-                            }
-                          }}
-                        >
-                          <Icon icon='mdi:star-outline' />
-                        </IconButton>
-                        <Avatar
-                          alt={TagsMap['File-Name']}
-                          src={`${authConfig.backEndApi}/${drive.id}/thumbnail`}
-                          sx={{ mr: 3, width: '2rem', height: '2rem' }}
-                        />
-                        <Box
-                          sx={{
-                            display: 'flex',
-                            overflow: 'hidden',
-                            flexDirection: { xs: 'column', sm: 'row' },
-                            alignItems: { xs: 'flex-start', sm: 'center' }
-                          }}
-                        >
-                          <Typography
+                      <Tooltip title={(FileCacheStatus.Folder == "Trash" || FileCacheStatus.Folder == "Spam")?'Trash or Spam file can not operation again':''} arrow>
+                        <Box sx={{ mr: 4, display: 'flex', overflow: 'hidden', alignItems: 'center' }}>
+                          
+                            <Checkbox
+                              onClick={e => e.stopPropagation()}
+                              onChange={() => dispatch(handleSelectFile(drive.id))}
+                              checked={store.selectedFiles.includes(drive.id) || false}
+                              disabled={(FileCacheStatus.Folder == "Trash" || FileCacheStatus.Folder == "Spam")}
+                            />
+                          
+                          <IconButton
+                            size='small'
+                            onClick={e => handleStarDrive(e, drive.id, !FileCacheStatus['Star'])}
+                            disabled={(FileCacheStatus.Folder == "Trash" || FileCacheStatus.Folder == "Spam")}
                             sx={{
-                              mr: 4,
-                              fontWeight: 500,
-                              whiteSpace: 'nowrap',
-                              width: ['100%', 'auto'],
-                              overflow: ['hidden', 'unset'],
-                              textOverflow: ['ellipsis', 'unset']
+                              mr: { xs: 0, sm: 3 },
+                              color: FileCacheStatus['Star'] ? 'warning.main' : 'text.secondary',
+                              '& svg': {
+                                display: { xs: 'none', sm: 'block' }
+                              }
                             }}
                           >
-                            {TagsMap['File-Name']}
-                          </Typography>
+                            <Icon icon={FileCacheStatus['Star'] ? 'mdi:star' : 'mdi:star-outline'} />
+                          </IconButton>
+                          <Avatar
+                            alt={TagsMap['File-Name']}
+                            src={`${authConfig.backEndApi}/${drive.id}/thumbnail`}
+                            sx={{ mr: 3, width: '2rem', height: '2rem' }}
+                          />
+                          <Box
+                            sx={{
+                              display: 'flex',
+                              overflow: 'hidden',
+                              flexDirection: { xs: 'column', sm: 'row' },
+                              alignItems: { xs: 'flex-start', sm: 'center' }
+                            }}
+                          >
+                            <Typography
+                              sx={{
+                                mr: 4,
+                                fontWeight: 500,
+                                whiteSpace: 'nowrap',
+                                width: ['100%', 'auto'],
+                                overflow: ['hidden', 'unset'],
+                                textOverflow: ['ellipsis', 'unset']
+                              }}
+                            >
+                              {TagsMap['File-Name']}
+                            </Typography>
+                          </Box>
                         </Box>
-                      </Box>
+                      </Tooltip>
                       <Box
                         className='mail-info-right'
                         sx={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end' }}

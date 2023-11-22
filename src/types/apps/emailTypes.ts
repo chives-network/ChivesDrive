@@ -3,9 +3,9 @@ import { Dispatch } from 'redux'
 import { ReactElement, SyntheticEvent } from 'react'
 import { TxRecordType } from 'src/types/apps/Chivesweave'
 
-export type MailLabelType = 'personal' | 'company' | 'important' | 'private'
+export type LabelType = 'personal' | 'company' | 'important' | 'private'
 
-export type MailFolderType = 'inbox' | 'sent' | 'draft' | 'starred' | 'spam' | 'trash' | 'myfiles' | 'uploaded'
+export type FolderType = 'inbox' | 'sent' | 'draft' | 'starred' | 'spam' | 'trash' | 'myfiles' | 'uploaded'
 
 export type RouteParams = {
   label?: string
@@ -28,17 +28,17 @@ export type FieldMenuItems = {
   value: string
 }
 
-export type FetchMailParamsType = { q: string; folder: MailFolderType; label: MailLabelType }
+export type FetchMailParamsType = { q: string; folder: FolderType; label: LabelType }
 
 export type PaginateMailParamsType = { dir: 'next' | 'previous'; emailId: string }
 
 export type UpdateMailParamsType = {
   emailIds: string[] | string | []
-  dataToUpdate: { folder?: MailFolderType; isStarred?: boolean; isRead?: boolean; label?: MailLabelType }
+  dataToUpdate: { folder?: FolderType; isStarred?: boolean; isRead?: boolean; label?: LabelType }
 }
 
-export type UpdateMailLabelType = {
-  label: MailLabelType
+export type UpdateLabelType = {
+  label: LabelType
   emailIds: string[] | string | []
 }
 
@@ -72,15 +72,15 @@ export type MailType = {
   time: Date | string
   replies: MailType[]
   hasNextMail?: boolean
-  folder: MailFolderType
-  labels: MailLabelType[]
+  folder: FolderType
+  labels: LabelType[]
   hasPreviousMail?: boolean
   attachments: MailAttachmentType[]
 }
 
 export type MailFoldersArrType = {
   icon: ReactElement
-  name: MailFolderType
+  name: FolderType
 }
 
 export type MailFoldersObjType = {
@@ -137,7 +137,7 @@ export type DriveListType = {
   handleSelectFile: (id: string) => void
   setFileDetailOpen: (val: boolean) => void
   handleSelectAllFile: (val: boolean) => void
-  updateFileLabel: (data: UpdateMailLabelType) => void
+  updateFileLabel: (data: UpdateLabelType) => void
   paginationModel: any
   handlePageChange: (event: any, page: number) => void
 }
@@ -154,8 +154,8 @@ export type FileDetailType = {
   foldersObj: MailFoldersObjType
   setFileDetailOpen: (val: boolean) => void
   handleStarDrive: (e: SyntheticEvent, id: string, value: boolean) => void
-  handleLabelUpdate: (id: string | string[], label: MailLabelType) => void
-  handleFolderUpdate: (id: string | string[], folder: MailFolderType) => void
+  handleLabelUpdate: (id: string | string[], label: LabelType) => void
+  handleFolderUpdate: (id: string | string[], folder: FolderType) => void
 }
 
 export type MailComposeType = {
