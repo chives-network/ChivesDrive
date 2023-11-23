@@ -117,7 +117,7 @@ const LinkStyled = styled(Link)(({ theme }) => ({
 }))
 
 
-function ImagePreview(ImageSource: string) {
+function ImagePreview(ImageSource: string, EntityType: string, EntityAction: string, EntityTarget: string) {
   const [isHovered, setIsHovered] = useState(false);
   const [imageError, setImageError] = useState(false);
 
@@ -140,10 +140,15 @@ function ImagePreview(ImageSource: string) {
     };
   }, [ImageSource]);
 
+  console.log("EntityType", EntityType)
+
   return (
     <div onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} >
       {!imageError && !isHovered && (
-        <Img src={ImageSource} />
+        <Fragment>
+          <Img src={ImageSource} />
+          {EntityAction} -> {EntityTarget}
+        </Fragment>
       )}
       {!imageError && isHovered && (
         <div className="preview">
@@ -160,6 +165,17 @@ function parseTxAndGetMemoFileInfoInTags(TxRecord: TxRecordType) {
     FileMap[Item.name] = Item.value;
   });
   const FileType = getContentTypeAbbreviation(FileMap['Content-Type']);
+  const FileTxId = FileMap['File-TxId'];
+  const EntityType = FileMap['Entity-Type'];
+  const EntityAction = FileMap['Entity-Action'];
+  const EntityTarget = FileMap['Entity-Target'];
+  let ImageUrl = ""
+  if(FileTxId && FileTxId.length == 43) {
+    ImageUrl = FileTxId
+  }
+  else {
+    ImageUrl = TxRecord.id
+  }
   
   //console.log("FileType", `${authConfig.backEndApi}/${TxRecord.id}`)
   switch(FileType) {
@@ -168,7 +184,7 @@ function parseTxAndGetMemoFileInfoInTags(TxRecord: TxRecordType) {
     case 'JPEG':
     case 'JPG':
     case 'WEBM':
-      return <ImgPreview src={`${authConfig.backEndApi}/${TxRecord.id}`}/>
+      return <ImgPreview src={`${authConfig.backEndApi}/${ImageUrl}`}/>
     case 'PDF':
       return <ImagesPreview key={TxRecord.id} open={true} toggleImagesPreviewDrawer={toggleImagesPreviewDrawer} imagesList={[`${authConfig.backEndApi}/${TxRecord.id}`]} imagesType={['pdf']} />;
     case 'JSON':
@@ -195,15 +211,24 @@ function parseTxAndGetMemoFileInfoInDataGrid(TxRecord: TxRecordType) {
     FileMap[Item.name] = Item.value;
   });
   const FileType = getContentTypeAbbreviation(FileMap['Content-Type']);
-  
-  //console.log("FileType", FileType)
+  const FileTxId = FileMap['File-TxId'];
+  const EntityType = FileMap['Entity-Type'];
+  const EntityAction = FileMap['Entity-Action'];
+  const EntityTarget = FileMap['Entity-Target'];
+  let ImageUrl = ""
+  if(FileTxId && FileTxId.length == 43) {
+    ImageUrl = FileTxId
+  }
+  else {
+    ImageUrl = TxRecord.id
+  }
   switch(FileType) {
     case 'PNG':
     case 'GIF':
     case 'JPEG':
     case 'JPG':
     case 'WEBM':
-      return ImagePreview(`${authConfig.backEndApi}/${TxRecord.id}/thumbnail`)
+      return ImagePreview(`${authConfig.backEndApi}/${ImageUrl}/thumbnail`, EntityType, EntityAction, EntityTarget)
     case 'PDF':
       return <LinkStyled href={`/txs/view/${TxRecord.id}`}>{FileMap['File-Name']}</LinkStyled>
     case 'XLS':
