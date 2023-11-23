@@ -19,6 +19,12 @@ import InputAdornment from '@mui/material/InputAdornment'
 import CircularProgress from '@mui/material/CircularProgress'
 import ListItem, { ListItemProps } from '@mui/material/ListItem'
 
+import Dialog from '@mui/material/Dialog'
+import DialogTitle from '@mui/material/DialogTitle'
+import DialogContent from '@mui/material/DialogContent'
+import DialogActions from '@mui/material/DialogActions'
+import DialogContentText from '@mui/material/DialogContentText'
+
 // ** Icon Imports
 import Icon from 'src/@core/components/icon'
 
@@ -33,6 +39,8 @@ import { setTimeout } from 'timers'
 import DriveDetail from './DriveDetail'
 
 import Pagination from '@mui/material/Pagination'
+
+import toast from 'react-hot-toast'
 
 // ** Types
 import {
@@ -51,7 +59,7 @@ import { formatTimestamp} from 'src/configs/functions';
 // ** Third Party Import
 import { useTranslation } from 'react-i18next'
 
-import { TrashMultiFiles, SpamMultiFiles, StarMultiFiles, UnStarMultiFiles, ChangeMultiFilesLabel, GetFileCacheStatus, GetHaveToDoTask,ResetToDoTask, FolderMultiFiles } from 'src/functions/ChivesweaveWallets'
+import { TrashMultiFiles, SpamMultiFiles, StarMultiFiles, UnStarMultiFiles, ChangeMultiFilesLabel, GetFileCacheStatus, GetHaveToDoTask,ResetToDoTask, FolderMultiFiles, ActionsSubmitToBlockchain } from 'src/functions/ChivesweaveWallets'
 import { TxRecordType } from 'src/types/apps/Chivesweave'
 
 const FileItem = styled(ListItem)<ListItemProps>(({ theme }) => ({
@@ -118,8 +126,12 @@ const DriveList = (props: DriveListType) => {
   useEffect(()=>{
     dispatch(handleSelectAllFile(false))
   },[paginationModel])
-
   
+  const [uploadProgress, setUploadProgress] = useState<{ [key: string]: number }>({})
+  const [isDialog, setIsDialog] = useState<boolean>(false)
+  const [open, setOpen] = useState<boolean>(false)
+  const [isProgress, setIsProgress] = useState<boolean>(false)
+  const [haveSubmitTextTip, setHaveSubmitTextTip] = useState<string>("")
   const [isHaveTaskToDo, setIsHaveTaskToDo] = useState<number>(0)
   const [haveTaskToDoNumber, setHaveTaskToDoNumber] = useState<number>(0)
   const [isHaveTaskToDoText, setIsHaveTaskToDoText] = useState<string>("")
@@ -254,7 +266,7 @@ const DriveList = (props: DriveListType) => {
       setIsHaveTaskToDo(isHaveTaskToDo + 1);
       const TargetFiles: TxRecordType[] = store.data.filter((Item: TxRecordType)  => store.selectedFiles.includes(Item.id));
       ChangeMultiFilesLabel(TargetFiles, label);
-      FolderMultiFiles(TargetFiles, "Inbox");
+      //FolderMultiFiles(TargetFiles, "Myfiles");
       dispatch(handleSelectAllFile(false))
     }
   }
@@ -263,10 +275,44 @@ const DriveList = (props: DriveListType) => {
     const arr = Array.isArray(id) ? [...id] : [id]
   }
 
-  
+  const handleActionsSubmitToBlockchain = () => {
+    setIsDialog(true);
+    setOpen(true);
+  }
+
+  const handleActionsSubmitToBlockchainYes = async () => {
+    setIsProgress(true)
+    const ActionsSubmitToBlockchainResult = await ActionsSubmitToBlockchain(setUploadProgress);
+    console.log("ActionsSubmitToBlockchainResult", ActionsSubmitToBlockchainResult)
+    if(ActionsSubmitToBlockchainResult && ActionsSubmitToBlockchainResult.id) {
+      setHaveSubmitTextTip(`${t(`Submitted successfully`)}`)
+      //setOpen(false)
+      //setIsDialog(false)
+      //setIsProgress(false)
+
+      const delayExecution = setTimeout(() => {
+        setOpen(false);
+        setIsDialog(false);
+        setIsProgress(false);
+        ResetToDoTask();
+        setIsHaveTaskToDo(isHaveTaskToDo + 1);
+        toast.success(t(`Submitted successfully`), {
+          duration: 2000
+        })
+      }, 2000);
+
+      return () => clearTimeout(delayExecution);
+    }
+  }
+
+  const handleNoClose = () => {
+    setOpen(false)
+    setIsDialog(false)
+  }
+
   const handleCancelOperation = () => {
-    setIsHaveTaskToDo(isHaveTaskToDo + 1);
     ResetToDoTask();
+    setIsHaveTaskToDo(isHaveTaskToDo + 1);
   }
 
   const handleRefreshDriveClick = () => {
@@ -316,6 +362,61 @@ const DriveList = (props: DriveListType) => {
 
   return (
     <Box sx={{ width: '100%', overflow: 'hidden', position: 'relative', '& .ps__rail-y': { zIndex: 5 } }}>
+      {isDialog == true ? 
+        <Fragment>
+          <Dialog
+              open={open}
+              disableEscapeKeyDown
+              aria-labelledby='alert-dialog-title'
+              aria-describedby='alert-dialog-description'
+              >
+              <DialogTitle id='alert-dialog-title'>{`${t(`Submit to Blockchain`)}`}</DialogTitle>
+              <DialogContent>
+                  <DialogContentText id='alert-dialog-description'>
+                    {`${t(`Would you like to submit your operations to the blockchain? This process may take 3-5 minutes.`)}`}
+                  </DialogContentText>
+              </DialogContent>
+              <DialogActions className='dialog-actions-dense'>
+                  {isProgress == true && haveSubmitTextTip == "" ? 
+                    <Fragment>
+                      <CircularProgress disableShrink sx={{ m: 6 }} />
+                    </Fragment>
+                  :
+                  <Fragment></Fragment>
+                  }
+                  {isProgress == true && haveSubmitTextTip != "" ? 
+                    <Fragment>
+                      <Typography
+                              sx={{
+                                mr: 4,
+                                fontWeight: 500,
+                                whiteSpace: 'nowrap',
+                                width: ['100%', 'auto'],
+                                overflow: ['hidden', 'unset'],
+                                textOverflow: ['ellipsis', 'unset']
+                              }}
+                            >
+                              {haveSubmitTextTip}
+                            </Typography>
+                    </Fragment>
+                  :
+                  <Fragment></Fragment>
+                  }
+                  {isProgress == false ? 
+                    <Fragment>
+                      <Button onClick={handleActionsSubmitToBlockchainYes} color="error" size='large' variant='contained' >{`${t(`Yes`)}`}</Button>
+                      <Button onClick={handleNoClose} color="primary">{`${t(`No`)}`}</Button>
+                    </Fragment>
+                  :
+                  <Fragment></Fragment>
+                  }
+                  
+              </DialogActions>
+          </Dialog>
+        </Fragment>
+      :
+      <Fragment></Fragment>
+      }
       <Box sx={{ height: '100%', backgroundColor: 'background.paper' }}>
         <Box sx={{ px: 5, py: 3 }}>
           <Box sx={{ display: 'flex', alignItems: 'center', width: '100%' }}>
@@ -377,7 +478,7 @@ const DriveList = (props: DriveListType) => {
               {haveTaskToDoNumber && haveTaskToDoNumber>0 ?
                 <Fragment>
                   <Tooltip title={isHaveTaskToDoText} arrow>
-                    <Button fullWidth color={'primary'} variant={'contained'}> {isHaveTaskToDoText} ({haveTaskToDoNumber}) </Button>
+                    <Button fullWidth color={'primary'} variant={'contained'} onClick={handleActionsSubmitToBlockchain}> {isHaveTaskToDoText} ({haveTaskToDoNumber}) </Button>
                   </Tooltip>
                   <Tooltip title={`${t(`Cancel Operation`)}`} arrow>
                     <IconButton size='small' onClick={handleCancelOperation}>
@@ -428,7 +529,7 @@ const DriveList = (props: DriveListType) => {
                         }
                       }}
                     >
-                      <Tooltip title={(FileCacheStatus.Folder == "Trash" || FileCacheStatus.Folder == "Spam")?'Trash or Spam file can not operation again':''} arrow>
+                      <Tooltip title={(FileCacheStatus.Folder == "Trash" || FileCacheStatus.Folder == "Spam") ? `${t(`You cannot perform operations on files in the Trash or Spam`)}` :''} arrow>
                         <Box sx={{ mr: 4, display: 'flex', overflow: 'hidden', alignItems: 'center' }}>
                           
                             <Checkbox

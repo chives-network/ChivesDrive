@@ -655,6 +655,7 @@ export async function StarMultiFiles(FileTxList: TxRecordType[]) {
     const ChivesDriveActionsMap: any = ChivesDriveActionsList ? JSON.parse(ChivesDriveActionsList) : {}
     FileTxList.map((FileTx: any)=>{
         ChivesDriveActionsMap['Star'] = {...ChivesDriveActionsMap['Star'], [FileTx.id] : true}
+        ChivesDriveActionsMap['Data'] = {...ChivesDriveActionsMap['Data'], [FileTx.id] : FileTx}
     })
     window.localStorage.setItem(ChivesDriveActions, JSON.stringify(ChivesDriveActionsMap))
     console.log("ChivesDriveActionsMap", ChivesDriveActionsMap)
@@ -666,6 +667,7 @@ export async function UnStarMultiFiles(FileTxList: TxRecordType[]) {
     const ChivesDriveActionsMap: any = ChivesDriveActionsList ? JSON.parse(ChivesDriveActionsList) : {}
     FileTxList.map((FileTx: any)=>{
         ChivesDriveActionsMap['Star'] = {...ChivesDriveActionsMap['Star'], [FileTx.id] : false}
+        ChivesDriveActionsMap['Data'] = {...ChivesDriveActionsMap['Data'], [FileTx.id] : FileTx}
     })
     window.localStorage.setItem(ChivesDriveActions, JSON.stringify(ChivesDriveActionsMap))
     console.log("ChivesDriveActionsMap", ChivesDriveActionsMap)
@@ -677,6 +679,7 @@ export async function ChangeMultiFilesFolder(FileTxList: TxRecordType[], EntityT
     const ChivesDriveActionsMap: any = ChivesDriveActionsList ? JSON.parse(ChivesDriveActionsList) : {}
     FileTxList.map((FileTx: any)=>{
         ChivesDriveActionsMap['Folder'] = {...ChivesDriveActionsMap['Folder'], [FileTx.id] : EntityType}
+        ChivesDriveActionsMap['Data'] = {...ChivesDriveActionsMap['Data'], [FileTx.id] : FileTx}
     })
     window.localStorage.setItem(ChivesDriveActions, JSON.stringify(ChivesDriveActionsMap))
     console.log("ChivesDriveActionsMap", ChivesDriveActionsMap)
@@ -688,6 +691,7 @@ export async function ChangeMultiFilesLabel(FileTxList: TxRecordType[], EntityTy
     const ChivesDriveActionsMap: any = ChivesDriveActionsList ? JSON.parse(ChivesDriveActionsList) : {}
     FileTxList.map((FileTx: any)=>{
         ChivesDriveActionsMap['Label'] = {...ChivesDriveActionsMap['Label'], [FileTx.id] : EntityType}
+        ChivesDriveActionsMap['Data'] = {...ChivesDriveActionsMap['Data'], [FileTx.id] : FileTx}
     })
     window.localStorage.setItem(ChivesDriveActions, JSON.stringify(ChivesDriveActionsMap))
     console.log("ChivesDriveActionsMap", ChivesDriveActionsMap)
@@ -735,32 +739,107 @@ export function ResetToDoTask() {
 }
 
 
-export async function ChangeMultiFilesFolderSubmitBlockchain(FileTxList: TxRecordType[], EntityType: string) {
-    const formData = (await Promise.all(FileTxList?.map(async FileTx => {
+export async function ActionsSubmitToBlockchain(setUploadProgress: React.Dispatch<React.SetStateAction<{ [key: string]: number }>>) {
+    const ChivesDriveActions = authConfig.chivesDriveActions
+    const ChivesDriveActionsList = window.localStorage.getItem(ChivesDriveActions)      
+    const ChivesDriveActionsMap: any = ChivesDriveActionsList ? JSON.parse(ChivesDriveActionsList) : {}
+    const FileTxData: any = ChivesDriveActionsMap['Data']
+    const FileTxLabel: any = ChivesDriveActionsMap['Label']
+    const FileTxStar: any = ChivesDriveActionsMap['Star']
+    const FileTxFolder: any = ChivesDriveActionsMap['Folder']
+
+    const FileTxList: any = []
+    FileTxLabel && Object.keys(FileTxLabel).forEach(TxId => {
+        if (FileTxLabel[TxId] != undefined) {
+            FileTxList.push({TxId: TxId, Action: "Label", Target: FileTxLabel[TxId], TxRecord: FileTxData[TxId]})
+        }
+    })
+    FileTxStar && Object.keys(FileTxStar).forEach(TxId => {
+        if (FileTxStar[TxId] != true) {
+            FileTxList.push({TxId: TxId, Action: "Star", Target: FileTxStar[TxId], TxRecord: FileTxData[TxId]})
+        }
+        if (FileTxStar[TxId] != false) {
+            FileTxList.push({TxId: TxId, Action: "UnStar", Target: FileTxStar[TxId], TxRecord: FileTxData[TxId]})
+        }
+    })
+    FileTxFolder && Object.keys(FileTxFolder).forEach(TxId => {
+        if (FileTxFolder[TxId] != undefined) {
+            FileTxList.push({TxId: TxId, Action: "Folder", Target: FileTxFolder[TxId], TxRecord: FileTxData[TxId]})
+        }
+    })
+    
+    //Make Tx List
+    const formData = (await Promise.all(FileTxList?.map(async (FileTx: any) => {
+      const TxRecord = FileTx.TxRecord
       const TagsMap: any = {}
-      FileTx && FileTx.tags && FileTx.tags.length > 0 && FileTx.tags.map( (Tag: any) => {
+      TxRecord && TxRecord.tags && TxRecord.tags.length > 0 && TxRecord.tags.map( (Tag: any) => {
         TagsMap[Tag.name] = Tag.value;
       })
       const tags = [] as Tag[]
-      setBaseTags(tags, {          
-        'App-Name': TagsMap['App-Name'],
-        'App-Platform': TagsMap['App-Platform'],
-        'App-Version': TagsMap['App-Version'],
-        'Agent-Name': TagsMap['Agent-Name'],
-        'Content-Type': TagsMap['Content-Type'],
-        'File-Name': TagsMap['File-Name'],
-        'File-Hash': TagsMap['File-Hash'],
-        'File-Parent': TagsMap['File-Parent'],
-        'Cipher-ALG': TagsMap['Cipher-ALG'],
-        'File-Public': TagsMap['File-Public'],
-        'File-TxId': FileTx.id,
-        'File-BundleId': FileTx?.bundleid,
-        'Entity-Type': EntityType,
-        'Unix-Time': String(Date.now())
-      })
-      const data = String(FileTx.id)
+      if(FileTx.Action=="Label") {
+        setBaseTags(tags, {          
+            'App-Name': TagsMap['App-Name'],
+            'App-Platform': TagsMap['App-Platform'],
+            'App-Version': TagsMap['App-Version'],
+            'Agent-Name': TagsMap['Agent-Name'],
+            'Content-Type': TagsMap['Content-Type'],
+            'File-Name': TagsMap['File-Name'],
+            'File-Hash': TagsMap['File-Hash'],
+            'File-Parent': TagsMap['File-Parent'],
+            'Cipher-ALG': TagsMap['Cipher-ALG'],
+            'File-Public': TagsMap['File-Public'],
+            'File-TxId': TxRecord.id,
+            'File-BundleId': TxRecord?.bundleid,
+            'Entity-Type': "Action",
+            'Entity-Action': FileTx.Action,
+            'Entity-Target': FileTx.Target,
+            'Unix-Time': String(Date.now())
+          })
+      }
+      if(FileTx.Action=="Folder") {
+        setBaseTags(tags, {          
+            'App-Name': TagsMap['App-Name'],
+            'App-Platform': TagsMap['App-Platform'],
+            'App-Version': TagsMap['App-Version'],
+            'Agent-Name': TagsMap['Agent-Name'],
+            'Content-Type': TagsMap['Content-Type'],
+            'File-Name': TagsMap['File-Name'],
+            'File-Hash': TagsMap['File-Hash'],
+            'File-Parent': TagsMap['File-Parent'],
+            'Cipher-ALG': TagsMap['Cipher-ALG'],
+            'File-Public': TagsMap['File-Public'],
+            'File-TxId': TxRecord.id,
+            'File-BundleId': TxRecord?.bundleid,
+            'Entity-Type': "Action",
+            'Entity-Action': FileTx.Action,
+            'Entity-Target': FileTx.Target,
+            'Unix-Time': String(Date.now())
+          })
+      }
+      if(FileTx.Action=="Star") {
+        setBaseTags(tags, {          
+            'App-Name': TagsMap['App-Name'],
+            'App-Platform': TagsMap['App-Platform'],
+            'App-Version': TagsMap['App-Version'],
+            'Agent-Name': TagsMap['Agent-Name'],
+            'Content-Type': TagsMap['Content-Type'],
+            'File-Name': TagsMap['File-Name'],
+            'File-Hash': TagsMap['File-Hash'],
+            'File-Parent': TagsMap['File-Parent'],
+            'Cipher-ALG': TagsMap['Cipher-ALG'],
+            'File-Public': TagsMap['File-Public'],
+            'File-TxId': TxRecord.id,
+            'File-BundleId': TxRecord?.bundleid,
+            'Entity-Type': "Action",
+            'Entity-Action': FileTx.Action,
+            'Entity-Target': FileTx.Target,
+            'Unix-Time': String(Date.now())
+          })
+      }
 
-      return { data, tags, path: String(FileTx.id) }
+      const data = String(TxRecord.id)
+
+      return { data, tags, path: String(TxRecord.id) }
     })))
 
     console.log("formData", formData)
@@ -779,20 +858,13 @@ export async function ChangeMultiFilesFolderSubmitBlockchain(FileTxList: TxRecor
     const tags: any = []
     tags.push({name: "Bundle-Format", value: 'binary'})
     tags.push({name: "Bundle-Version", value: '2.0.0'})
-    tags.push({name: "Entity-Type", value: EntityType})
+    tags.push({name: "Entity-Type", value: "Action"})
     tags.push({name: "Entity-Number", value: String(FileTxList.length)})
     console.log("getProcessedDataValue tags", tags)
 
-    /*
     const TxResult: any = await sendAmount(currentWallet, target, amount, tags, data, "UploadBundleFile", setUploadProgress);
-    if(TxResult.status == 800) {
-      //Insufficient balance
-      toast.error(TxResult.statusText, { duration: 4000 })
-      setIsDisabledButton(false)
-      setIsDisabledRemove(false)
-      setUploadingButton(`${t(`Upload Files`)}`)
-    }
-    */
+    
+    return TxResult;
 
   };
 
