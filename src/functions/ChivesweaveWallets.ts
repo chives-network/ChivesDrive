@@ -789,6 +789,8 @@ export async function ActionsSubmitToBlockchain(setUploadProgress: React.Dispatc
             'Cipher-ALG': TagsMap['Cipher-ALG'],
             'File-Public': TagsMap['File-Public'],
             'File-TxId': TxRecord.id,
+            'File-Language': TagsMap['File-Language'],
+            'File-Pages': TagsMap['File-Pages'],
             'File-BundleId': TxRecord?.bundleid,
             'Entity-Type': "Action",
             'Entity-Action': FileTx.Action,
@@ -809,6 +811,8 @@ export async function ActionsSubmitToBlockchain(setUploadProgress: React.Dispatc
             'Cipher-ALG': TagsMap['Cipher-ALG'],
             'File-Public': TagsMap['File-Public'],
             'File-TxId': TxRecord.id,
+            'File-Language': TagsMap['File-Language'],
+            'File-Pages': TagsMap['File-Pages'],
             'File-BundleId': TxRecord?.bundleid,
             'Entity-Type': "Action",
             'Entity-Action': FileTx.Action,
@@ -829,10 +833,12 @@ export async function ActionsSubmitToBlockchain(setUploadProgress: React.Dispatc
             'Cipher-ALG': TagsMap['Cipher-ALG'],
             'File-Public': TagsMap['File-Public'],
             'File-TxId': TxRecord.id,
+            'File-Language': TagsMap['File-Language'],
+            'File-Pages': TagsMap['File-Pages'],
             'File-BundleId': TxRecord?.bundleid,
             'Entity-Type': "Action",
             'Entity-Action': FileTx.Action,
-            'Entity-Target': FileTx.Target,
+            'Entity-Target': FileTx.Target ? "Star" : "", // only record the Star status
             'Unix-Time': String(Date.now())
           })
       }

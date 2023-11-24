@@ -200,6 +200,8 @@ const FileUploaderMultiple = () => {
           'File-Summary': '',
           'Cipher-ALG': '',
           'File-Parent': 'Root',
+          'File-Language': 'en',
+          'File-Pages': '',
           'Entity-Type': 'file',
           'App-Name': authConfig['App-Name'],
           'App-Platform': authConfig['App-Platform'],
