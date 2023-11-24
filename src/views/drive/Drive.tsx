@@ -71,7 +71,7 @@ const DriveAppLayout = ({ folder, label, type }: MailLayoutType) => {
   const routeParams = {
     label: label || '',
     type: type || 'image',
-    folder: folder || 'myfiles'
+    folder: folder || 'Root'
   }
 
   const auth = useAuth()
@@ -93,13 +93,14 @@ const DriveAppLayout = ({ folder, label, type }: MailLayoutType) => {
           address: String(id),
           pageId: paginationModel.page - 1,
           pageSize: paginationModel.pageSize,
-          type: type
+          type: type,
+          folder: folder
         })
       )
       setUploadFilesOpen(false)
       setUploadFilesTitle(`${t(`Upload Files`)}`)
     }
-  }, [dispatch, paginationModel, type, id])
+  }, [dispatch, paginationModel, type, folder, id])
 
   const toggleUploadFilesOpen = () => {
     setUploadFilesOpen(!uploadFilesOpen)

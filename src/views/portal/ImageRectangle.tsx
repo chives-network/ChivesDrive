@@ -34,38 +34,51 @@ const ImageRectangle = ( {item, backEndApi, FileType} : any) => {
   const timestamp = item.block.timestamp;
   const date = new Date(timestamp * 1000);
 
+  const EntityType = FileMap['Entity-Type'];
+  const EntityAction = FileMap['Entity-Action'];
+  const EntityTarget = FileMap['Entity-Target'];
+  const FileTxId = FileMap['File-TxId'];
+  let ImageUrl = ""
+  if(FileTxId && FileTxId.length == 43) {
+    ImageUrl = FileTxId
+  }
+  else {
+    ImageUrl = item.id
+  }
+
   const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
   const monthAbbreviation = monthNames[date.getMonth()];
   const day = date.getDate();
 
   console.log("FileType", FileType)
 
+
   return (
     <Card>
       {FileType && (FileType=="png" || FileType=="jpeg" || FileType=="gif" || FileType=="image" || FileType=="word" || FileType=="excel" || FileType=="pptx") ?
         <Link href={`/txs/view/${item.id}`}>
-          <CardMedia image={`${backEndApi}/${item.id}/thumbnail`} sx={{ height: '11.25rem', objectFit: 'contain' }}/>
+          <CardMedia image={`${backEndApi}/${ImageUrl}/thumbnail`} sx={{ height: '11.25rem', objectFit: 'contain' }}/>
         </Link>
         :
         <Fragment></Fragment>
       }
       {FileType && FileType=="video" ?
-        <Link href={`/txs/view/${item.id}`}>
-          <CardMedia image={`${backEndApi}/${item.id}/thumbnail`} sx={{ height: '11.25rem', objectFit: 'contain' }}/>
+        <Link href={`/txs/view/${ImageUrl}`}>
+          <CardMedia image={`${backEndApi}/${ImageUrl}/thumbnail`} sx={{ height: '11.25rem', objectFit: 'contain' }}/>
         </Link>
         :
         <Fragment></Fragment>
       }
       {FileType && FileType=="pdf" ?
-        <Link href={`/txs/view/${item.id}`}>
-          <CardMedia image={`${backEndApi}/${item.id}/thumbnail`} sx={{ height: '11.25rem', objectFit: 'contain' }}/>
+        <Link href={`/txs/view/${ImageUrl}`}>
+          <CardMedia image={`${backEndApi}/${ImageUrl}/thumbnail`} sx={{ height: '11.25rem', objectFit: 'contain' }}/>
         </Link>
         :
         <Fragment></Fragment>
       }
       {FileType && FileType=="stl" ?
-        <Link href={`/txs/view/${item.id}`}>
-          <CardMedia image={`${backEndApi}/${item.id}/thumbnail`} sx={{ height: '11.25rem', objectFit: 'contain' }}/>
+        <Link href={`/txs/view/${ImageUrl}`}>
+          <CardMedia image={`${backEndApi}/${ImageUrl}/thumbnail`} sx={{ height: '11.25rem', objectFit: 'contain' }}/>
         </Link>
         :
         <Fragment></Fragment>
@@ -101,14 +114,43 @@ const ImageRectangle = ( {item, backEndApi, FileType} : any) => {
             <Typography variant='caption' sx={{ ml: '4px', mt: '2px' }}>{formatHash(item.owner.address, 6)}</Typography>
           </Box>
         </Box>
-
-        <Box sx={{ display: 'flex', '& svg': { mr: 3, mt: 1, fontSize: '1.375rem', color: 'text.secondary' } }}>
-          <Icon icon='icon-park-outline:transaction-order' />
-          <Box sx={{ display: 'flex', flexDirection: 'row', mt:'4px' }}>
-            <Typography sx={{ fontSize: '0.9rem' }}>{`${t(`TxId`)}`}: </Typography>
-            <Typography variant='caption' sx={{ ml: '4px', mt: '2px' }}>{formatHash(item.id, 6)}</Typography>
+        
+        {EntityType != "Action" ?
+          <Box sx={{ display: 'flex', '& svg': { mr: 3, mt: 1, fontSize: '1.375rem', color: 'text.secondary' } }}>
+            <Icon icon='icon-park-outline:transaction-order' />
+            <Box sx={{ display: 'flex', flexDirection: 'row', mt:'4px' }}>
+              <Typography sx={{ fontSize: '0.9rem' }}>{`${t(`TxId`)}`}: </Typography>
+              <Typography variant='caption' sx={{ ml: '4px', mt: '2px' }}>{formatHash(ImageUrl, 6)}</Typography>
+            </Box>
           </Box>
-        </Box>
+          :
+          <Fragment></Fragment>
+        }
+        {EntityType == "Action" ?
+          <Box sx={{ display: 'flex', '& svg': { mr: 3, mt: 1, fontSize: '1.375rem', color: 'text.secondary' } }}>
+            <Icon icon='icon-park-outline:transaction-order' />
+            <Box sx={{ display: 'flex', flexDirection: 'row', mt:'4px' }}>
+              <Typography sx={{ fontSize: '0.9rem' }}>{EntityType}: </Typography>
+              {EntityAction=="Folder" ?
+                <Typography variant='caption' sx={{ ml: '4px', mt: '2px' }}>{EntityTarget}</Typography>
+                :
+                <Fragment></Fragment>
+              }
+              {EntityAction=="Star" ?
+                <Typography variant='caption' sx={{ ml: '4px', mt: '2px' }}>{EntityTarget}</Typography>
+                :
+                <Fragment></Fragment>
+              }
+              {EntityAction=="Label" ?
+                <Typography variant='caption' sx={{ ml: '4px', mt: '2px' }}>Label ({EntityTarget})</Typography>
+                :
+                <Fragment></Fragment>
+              }
+            </Box>
+          </Box>
+          :
+          <Fragment></Fragment>
+        }
 
       </CardContent>
     </Card>
