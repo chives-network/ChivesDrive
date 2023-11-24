@@ -295,7 +295,94 @@ const SidebarLeft = (props: DriveSidebarType) => {
             variant='caption'
             sx={{ mx: 6, mt: 4, mb: 0, color: 'text.disabled', letterSpacing: '0.21px', textTransform: 'uppercase' }}
           >
-            File Types
+          Labels
+          </Typography>
+          <List component='div'>
+            <ListItemStyled
+              component={Link}
+              href='/drive/personal'
+              onClick={handleListItemClick}
+              sx={{
+                borderLeftColor: handleActiveItem('type', 'image') ? 'primary.main' : 'transparent'
+              }}
+            >
+              <ListItemIcon sx={{ mr: 3.5, '& svg': { color: 'success.main' } }}>
+                <Icon icon='mdi:circle' fontSize='0.75rem' />
+              </ListItemIcon>
+              <ListItemText
+                primary={`${t(`Personal`)}`}
+                primaryTypographyProps={{
+                  noWrap: true,
+                  sx: { fontWeight: 500, ...(handleActiveItem('type', 'image') && { color: 'primary.main' }) }
+                }}
+              />
+            </ListItemStyled>
+            <ListItemStyled
+              component={Link}
+              href='/drive/company'
+              onClick={handleListItemClick}
+              sx={{
+                borderLeftColor: handleActiveItem('type', 'word') ? 'primary.main' : 'transparent'
+              }}
+            >
+              <ListItemIcon sx={{ mr: 3.5, '& svg': { color: 'primary.main' } }}>
+                <Icon icon='mdi:circle' fontSize='0.75rem' />
+              </ListItemIcon>
+              <ListItemText
+                primary={`${t(`Company`)}`}
+                primaryTypographyProps={{
+                  noWrap: true,
+                  sx: { fontWeight: 500, ...(handleActiveItem('type', 'word') && { color: 'primary.main' }) }
+                }}
+              />
+            </ListItemStyled>
+            <ListItemStyled
+              component={Link}
+              href='/drive/important'
+              onClick={handleListItemClick}
+              sx={{
+                borderLeftColor: handleActiveItem('type', 'excel') ? 'warning.main' : 'transparent'
+              }}
+            >
+              <ListItemIcon sx={{ mr: 3.5, '& svg': { color: 'warning.main' } }}>
+                <Icon icon='mdi:circle' fontSize='0.75rem' />
+              </ListItemIcon>
+              <ListItemText
+                primary={`${t(`Important`)}`}
+                primaryTypographyProps={{
+                  noWrap: true,
+                  sx: { fontWeight: 500, ...(handleActiveItem('type', 'excel') && { color: 'warning.main' }) }
+                }}
+              />
+            </ListItemStyled>
+            <ListItemStyled
+              component={Link}
+              href='/drive/private'
+              onClick={handleListItemClick}
+              sx={{
+                borderLeftColor: handleActiveItem('type', 'pptx') ? 'primary.main' : 'transparent'
+              }}
+            >
+              <ListItemIcon sx={{ mr: 3.5, '& svg': { color: 'error.main' } }}>
+                <Icon icon='mdi:circle' fontSize='0.75rem' />
+              </ListItemIcon>
+              <ListItemText
+                primary={`${t(`Private`)}`}
+                primaryTypographyProps={{
+                  noWrap: true,
+                  sx: { fontWeight: 500, ...(handleActiveItem('type', 'pptx') && { color: 'primary.main' }) }
+                }}
+              />
+            </ListItemStyled>
+          </List>
+
+          
+          <Typography
+            component='h6'
+            variant='caption'
+            sx={{ mx: 6, mt: 4, mb: 0, color: 'text.disabled', letterSpacing: '0.21px', textTransform: 'uppercase' }}
+          >
+          File Types
           </Typography>
           <List component='div'>
             <ListItemStyled
@@ -432,6 +519,7 @@ const SidebarLeft = (props: DriveSidebarType) => {
               />
             </ListItemStyled>
           </List>
+
         </Box>
       </ScrollWrapper>
     </Drawer>

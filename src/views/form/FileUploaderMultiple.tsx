@@ -202,7 +202,7 @@ const FileUploaderMultiple = () => {
           'File-Parent': 'Root',
           'File-Language': 'en',
           'File-Pages': '',
-          'Entity-Type': 'file',
+          'Entity-Type': 'File',
           'App-Name': authConfig['App-Name'],
           'App-Platform': authConfig['App-Platform'],
           'App-Version': authConfig['App-Version'],

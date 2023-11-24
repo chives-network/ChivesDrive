@@ -1,7 +1,7 @@
 // ** Demo Components Imports
 import Drive from 'src/views/drive/Drive'
 
-const DriveApp = () => <Drive type='*' folder='sharedfiles' label='*'/>
+const DriveApp = () => <Drive type='*' folder='*' label="important"/>
 
 DriveApp.contentHeightFixed = true
 

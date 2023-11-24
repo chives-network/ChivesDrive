@@ -94,13 +94,14 @@ const DriveAppLayout = ({ folder, label, type }: MailLayoutType) => {
           pageId: paginationModel.page - 1,
           pageSize: paginationModel.pageSize,
           type: type,
-          folder: folder
+          folder: folder,
+          label: label
         })
       )
       setUploadFilesOpen(false)
       setUploadFilesTitle(`${t(`Upload Files`)}`)
     }
-  }, [dispatch, paginationModel, type, folder, id])
+  }, [dispatch, paginationModel, type, folder, label, id])
 
   const toggleUploadFilesOpen = () => {
     setUploadFilesOpen(!uploadFilesOpen)

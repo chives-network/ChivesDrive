@@ -14,16 +14,20 @@ interface DataParams {
     pageSize: number
     type: string
     folder: string
+    label: string
 }
 
 // ** Fetch Data
 export const fetchData = createAsyncThunk('appMyFiles/fetchData', async (params: DataParams) => {  
 
   let Url = authConfig.backEndApi + '/file/'+ `${params.type}` + '/'+ `${params.address}` + '/'+ `${params.pageId}` + '/'+params.pageSize;
-  if(params.type == "*" && params.folder !="*")  {
+  if(params.type == "*" && params.folder !="*" && params.label == "*")  {
     Url = authConfig.backEndApi + '/file/folder/'+ `${params.folder}` + '/'+ `${params.address}` + '/'+ `${params.pageId}` + '/'+params.pageSize;
   }
-  
+  if(params.type == "*" && params.folder =="*" && params.label != "*")  {
+    Url = authConfig.backEndApi + '/file/label/'+ `${params.label}` + '/'+ `${params.address}` + '/'+ `${params.pageId}` + '/'+params.pageSize;
+  }
+
   const response = await axios.get(Url)
   const NewData: any[] = response.data.data.filter((record: any) => record.id)
   response.data.data = NewData
