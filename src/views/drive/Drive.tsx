@@ -14,7 +14,7 @@ import { useSettings } from 'src/@core/hooks/useSettings'
 
 // ** Types
 import { RootState, AppDispatch } from 'src/store'
-import { MailLayoutType, MailLabelColors } from 'src/types/apps/emailTypes'
+import { DriveLayoutType, DriveLabelColors } from 'src/types/apps/emailTypes'
 
 // ** Email App Component Imports
 import DriveList from 'src/views/drive/DriveList'
@@ -30,7 +30,6 @@ import { useTranslation } from 'react-i18next'
 import {
   fetchData,
   setCurrentFile,
-  updateFileLabel,
   handleSelectFile,
   handleSelectAllFile
 } from 'src/store/apps/drive'
@@ -39,14 +38,14 @@ import {
 import { useAuth } from 'src/hooks/useAuth'
 
 // ** Variables
-const labelColors: MailLabelColors = {
+const labelColors: DriveLabelColors = {
   private: 'error',
   personal: 'success',
   company: 'primary',
   important: 'warning'
 }
 
-const DriveAppLayout = ({ folder, label, type }: MailLayoutType) => {
+const DriveAppLayout = ({ folder, label, type }: DriveLayoutType) => {
   // ** Hook
   const { t } = useTranslation()
   
@@ -69,7 +68,7 @@ const DriveAppLayout = ({ folder, label, type }: MailLayoutType) => {
   const leftSidebarWidth = 260
   const { skin, direction } = settings
   const routeParams = {
-    label: label || '',
+    label: label || 'Personal',
     type: type || 'image',
     folder: folder || 'Root'
   }
@@ -153,7 +152,6 @@ const DriveAppLayout = ({ folder, label, type }: MailLayoutType) => {
           routeParams={routeParams}
           labelColors={labelColors}
           setCurrentFile={setCurrentFile}
-          updateFileLabel={updateFileLabel}
           driveFileOpen={driveFileOpen}
           handleSelectFile={handleSelectFile}
           setFileDetailOpen={setFileDetailOpen}

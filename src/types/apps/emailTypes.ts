@@ -8,12 +8,12 @@ export type LabelType = 'personal' | 'company' | 'important' | 'private'
 export type FolderType = 'inbox' | 'sent' | 'draft' | 'starred' | 'spam' | 'trash' | 'myfiles' | 'uploaded'
 
 export type RouteParams = {
-  label?: string
+  label: string
   folder: string
   type: string
 }
 
-export type MailLayoutType = RouteParams & {}
+export type DriveLayoutType = RouteParams & {}
 
 export type MailAttachmentType = {
   url: string
@@ -100,7 +100,7 @@ export type MailStore = {
   }
 }
 
-export type MailLabelColors = {
+export type DriveLabelColors = {
   personal: string
   company: string
   private: string
@@ -130,14 +130,13 @@ export type DriveListType = {
   direction: 'ltr' | 'rtl'
   driveFileOpen: boolean
   routeParams: RouteParams
-  labelColors: MailLabelColors
+  labelColors: DriveLabelColors
   setQuery: (val: string) => void
   handleLeftSidebarToggle: () => void
   setCurrentFile: (item: TxRecordType) => void
   handleSelectFile: (id: string) => void
   setFileDetailOpen: (val: boolean) => void
   handleSelectAllFile: (val: boolean) => void
-  updateFileLabel: (data: UpdateLabelType) => void
   paginationModel: any
   handlePageChange: (event: any, page: number) => void
 }
@@ -149,7 +148,7 @@ export type FileDetailType = {
   direction: 'ltr' | 'rtl'
   driveFileOpen: boolean
   routeParams: RouteParams
-  labelColors: MailLabelColors
+  labelColors: DriveLabelColors
   folders: MailFoldersArrType[]
   foldersObj: MailFoldersObjType
   setFileDetailOpen: (val: boolean) => void

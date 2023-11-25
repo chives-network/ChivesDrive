@@ -114,7 +114,6 @@ const DriveList = (props: DriveListType) => {
     labelColors,
     setCurrentFile,
     driveFileOpen,
-    updateFileLabel,
     handleSelectFile,
     setFileDetailOpen,
     handleSelectAllFile,

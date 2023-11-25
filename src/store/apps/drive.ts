@@ -40,11 +40,6 @@ export const setCurrentFile = createAsyncThunk('appDrive/selectFile', async (Fil
   return FileTx
 })
 
-export const updateFileLabel = createAsyncThunk('appDrive/updateFileLabel', async (FileTx: TxRecordType) => {
-
-  return FileTx
-})
-
 export const appDriveSlice = createSlice({
   name: 'appDrive',
   initialState: {
