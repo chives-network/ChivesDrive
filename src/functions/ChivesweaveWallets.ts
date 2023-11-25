@@ -711,7 +711,7 @@ export function GetFileCacheStatus(TxId: string) {
     if(ChivesDriveActionsMap && ChivesDriveActionsMap['Folder'] && ChivesDriveActionsMap['Folder'][TxId] )  {
         FileStatus['Folder'] = ChivesDriveActionsMap['Folder'][TxId];
     }
-    console.log("FileStatus", FileStatus)
+    //console.log("FileStatus", FileStatus)
     return FileStatus;
 }
 
@@ -755,11 +755,11 @@ export async function ActionsSubmitToBlockchain(setUploadProgress: React.Dispatc
         }
     })
     FileTxStar && Object.keys(FileTxStar).forEach(TxId => {
-        if (FileTxStar[TxId] != true) {
+        if (FileTxStar[TxId] == true) {
             FileTxList.push({TxId: TxId, Action: "Star", Target: FileTxStar[TxId], TxRecord: FileTxData[TxId]})
         }
-        if (FileTxStar[TxId] != false) {
-            FileTxList.push({TxId: TxId, Action: "UnStar", Target: FileTxStar[TxId], TxRecord: FileTxData[TxId]})
+        if (FileTxStar[TxId] == false) {
+            FileTxList.push({TxId: TxId, Action: "Star", Target: FileTxStar[TxId], TxRecord: FileTxData[TxId]})
         }
     })
     FileTxFolder && Object.keys(FileTxFolder).forEach(TxId => {

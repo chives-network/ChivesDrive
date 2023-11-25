@@ -358,6 +358,7 @@ const DriveList = (props: DriveListType) => {
     currentFile: store && store.currentFile ? store.currentFile : null
   }
 
+  console.log("labelColors", labelColors)
 
   return (
     <Box sx={{ width: '100%', overflow: 'hidden', position: 'relative', '& .ps__rail-y': { zIndex: 5 } }}>
@@ -531,13 +532,12 @@ const DriveList = (props: DriveListType) => {
                       <Tooltip title={(FileCacheStatus.Folder == "Trash" || FileCacheStatus.Folder == "Spam") ? `${t(`You cannot perform operations on files in the Trash or Spam`)}` :''} arrow>
                         <Box sx={{ mr: 4, display: 'flex', overflow: 'hidden', alignItems: 'center' }}>
                           
-                            <Checkbox
-                              onClick={e => e.stopPropagation()}
-                              onChange={() => dispatch(handleSelectFile(drive.id))}
-                              checked={store.selectedFiles.includes(drive.id) || false}
-                              disabled={(FileCacheStatus.Folder == "Trash" || FileCacheStatus.Folder == "Spam")}
-                            />
-                          
+                          <Checkbox
+                            onClick={e => e.stopPropagation()}
+                            onChange={() => dispatch(handleSelectFile(drive.id))}
+                            checked={store.selectedFiles.includes(drive.id) || false}
+                            disabled={(FileCacheStatus.Folder == "Trash" || FileCacheStatus.Folder == "Spam")}
+                          />
                           <IconButton
                             size='small'
                             onClick={e => handleStarDrive(e, drive.id, !FileCacheStatus['Star'])}
@@ -552,6 +552,20 @@ const DriveList = (props: DriveListType) => {
                           >
                             <Icon icon={FileCacheStatus['Star'] ? 'mdi:star' : 'mdi:star-outline'} />
                           </IconButton>
+                          {store.table[drive.id] && store.table[drive.id]['item_label'] && labelColors[store.table[drive.id]['item_label']] ?
+                            <Tooltip title={store.table[drive.id]['item_label']} arrow>
+                              <Box component='span' sx={{ mr: 2, ml: -2, color: `${labelColors[store.table[drive.id]['item_label']]}.main` }}>
+                                <Icon icon='mdi:circle' fontSize='0.75rem' />
+                              </Box>
+                            </Tooltip>
+                          :
+                            <Tooltip title={'No label'} arrow>
+                              <Box component='span' sx={{ mr: 2, ml: -2, color: `text.secondary` }}>
+                                <Icon icon='mdi:circle' fontSize='0.75rem' />
+                              </Box>
+                            </Tooltip>
+                          }
+                          
                           <Avatar
                             alt={TagsMap['File-Name']}
                             src={`${authConfig.backEndApi}/${drive.id}/thumbnail`}

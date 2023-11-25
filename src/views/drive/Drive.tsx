@@ -31,14 +31,15 @@ import {
   fetchData,
   setCurrentFile,
   handleSelectFile,
-  handleSelectAllFile
+  handleSelectAllFile,
+  fetchTotalNumber
 } from 'src/store/apps/drive'
 
 // ** Context
 import { useAuth } from 'src/hooks/useAuth'
 
 // ** Variables
-const labelColors: DriveLabelColors = {
+const labelColors: any = {
   private: 'error',
   personal: 'success',
   company: 'primary',
@@ -97,6 +98,16 @@ const DriveAppLayout = ({ folder, label, type }: DriveLayoutType) => {
           label: label
         })
       )
+      dispatch(
+        fetchTotalNumber({
+          address: String(id),
+          pageId: paginationModel.page - 1,
+          pageSize: paginationModel.pageSize,
+          type: type,
+          folder: folder,
+          label: label
+        })
+      )
       setUploadFilesOpen(false)
       setUploadFilesTitle(`${t(`Upload Files`)}`)
     }
@@ -112,6 +123,8 @@ const DriveAppLayout = ({ folder, label, type }: DriveLayoutType) => {
     }
   }
   const handleLeftSidebarToggle = () => setLeftSidebarOpen(!leftSidebarOpen)
+
+  console.log("store", store);
 
   return (
     <Box

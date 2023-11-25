@@ -209,7 +209,7 @@ const DriveDetail = (props: FileDetailType) => {
     }
   }
 
-  console.log("currentFile", currentFile)
+  //console.log("currentFile", currentFile)
 
   return (
     <Sidebar

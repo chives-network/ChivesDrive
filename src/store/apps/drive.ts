@@ -21,18 +21,52 @@ interface DataParams {
 export const fetchData = createAsyncThunk('appMyFiles/fetchData', async (params: DataParams) => {  
 
   let Url = authConfig.backEndApi + '/file/'+ `${params.type}` + '/'+ `${params.address}` + '/'+ `${params.pageId}` + '/'+params.pageSize;
-  if(params.type == "*" && params.folder !="*" && params.label == "*")  {
-    Url = authConfig.backEndApi + '/file/folder/'+ `${params.folder}` + '/'+ `${params.address}` + '/'+ `${params.pageId}` + '/'+params.pageSize;
-  }
   if(params.type == "*" && params.folder =="*" && params.label != "*")  {
     Url = authConfig.backEndApi + '/file/label/'+ `${params.label}` + '/'+ `${params.address}` + '/'+ `${params.pageId}` + '/'+params.pageSize;
   }
+  if(params.type == "*" && params.folder !="*" && params.folder !="Star" && params.label == "*")  {
+    Url = authConfig.backEndApi + '/file/folder/'+ `${params.folder}` + '/'+ `${params.address}` + '/'+ `${params.pageId}` + '/'+params.pageSize;
+  }
+  if(params.type == "*" && params.folder =="Star" && params.label == "*")  {
+    Url = authConfig.backEndApi + '/file/star/Star/'+ `${params.address}` + '/'+ `${params.pageId}` + '/'+params.pageSize;
+  }
+  
 
   const response = await axios.get(Url)
   const NewData: any[] = response.data.data.filter((record: any) => record.id)
   response.data.data = NewData
   
   return { ...response.data, filter: params }
+})
+
+// ** Fetch Data
+export const fetchTotalNumber = createAsyncThunk('appMyFiles/fetchTotalNumber', async (params: DataParams) => {  
+
+  const TotalNumber: any = {};
+
+  const Url1 = authConfig.backEndApi + '/file/folder/Root/'+ `${params.address}` + '/'+ `${params.pageId}` + '/'+params.pageSize;
+  const response1 = await axios.get(Url1)
+  TotalNumber['Root'] = response1.data.total
+
+  const Url2 = authConfig.backEndApi + '/file/folder/Trash/'+ `${params.address}` + '/'+ `${params.pageId}` + '/'+params.pageSize;
+  const response2 = await axios.get(Url2)
+  TotalNumber['Trash'] = response2.data.total
+
+  const Url3 = authConfig.backEndApi + '/file/folder/Spam/'+ `${params.address}` + '/'+ `${params.pageId}` + '/'+params.pageSize;
+  const response3 = await axios.get(Url3)
+  TotalNumber['Spam'] = response3.data.total
+
+  const Url4 = authConfig.backEndApi + '/file/star/Star/'+ `${params.address}` + '/'+ `${params.pageId}` + '/'+params.pageSize;
+  const response4 = await axios.get(Url4)
+  TotalNumber['Star'] = response4.data.total
+
+  const Url5 = authConfig.backEndApi + '/file/group/label/'+ `${params.address}`;
+  const response5 = await axios.get(Url5)
+  const ItemLabelMap: any = {}
+  response5.data.map((Item: any)=>(ItemLabelMap[Item.item_label] = Item.number))
+  TotalNumber['label'] = ItemLabelMap
+  
+  return TotalNumber
 })
 
 export const setCurrentFile = createAsyncThunk('appDrive/selectFile', async (FileTx: TxRecordType) => {
@@ -58,7 +92,9 @@ export const appDriveSlice = createSlice({
     total: 1,
     params: {},
     allData: [],
+    table: [],
     allPages: 1,
+    totalnumber: [],
   },
   reducers: {
     handleSelectFile: (state, action) => {
@@ -89,16 +125,23 @@ export const appDriveSlice = createSlice({
       state.filter = action.payload.filter
       state.mailMeta = action.payload.emailsMeta
 
-      
+      const tableMap: any = {}
+      action.payload.table && action.payload.table.length > 0 && action.payload.table.map((Item: any)=>{
+        tableMap[Item.id] = Item;
+      })
       state.data = action.payload.data
       state.total = action.payload.total
       state.params = action.payload.params
       state.allData = action.payload.data
+      state.table = tableMap
       state.allPages = action.payload.allpages
 
     })
     builder.addCase(setCurrentFile.fulfilled, (state, action) => {
       state.currentFile = action.payload
+    })
+    builder.addCase(fetchTotalNumber.fulfilled, (state, action) => {
+      state.totalnumber = action.payload
     })
   }
 })

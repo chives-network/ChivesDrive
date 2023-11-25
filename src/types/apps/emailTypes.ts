@@ -130,7 +130,7 @@ export type DriveListType = {
   direction: 'ltr' | 'rtl'
   driveFileOpen: boolean
   routeParams: RouteParams
-  labelColors: DriveLabelColors
+  labelColors: any
   setQuery: (val: string) => void
   handleLeftSidebarToggle: () => void
   setCurrentFile: (item: TxRecordType) => void
@@ -148,7 +148,7 @@ export type FileDetailType = {
   direction: 'ltr' | 'rtl'
   driveFileOpen: boolean
   routeParams: RouteParams
-  labelColors: DriveLabelColors
+  labelColors: any
   folders: MailFoldersArrType[]
   foldersObj: MailFoldersObjType
   setFileDetailOpen: (val: boolean) => void

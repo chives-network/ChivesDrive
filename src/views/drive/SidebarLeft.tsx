@@ -84,12 +84,16 @@ const SidebarLeft = (props: DriveSidebarType) => {
   }, [routeParams, store])
 
   const RenderBadge = (
-    folder: 'myfiles' | 'draft' | 'spam' | 'starred' | 'sharedfiles' | 'uploaded' | 'trash',
+    folder: string,
     color: 'default' | 'primary' | 'secondary' | 'success' | 'error' | 'warning' | 'info'
   ) => {
-    if (store && store.total > 0) {
-      return <ListBadge skin='light' color={color} sx={{ ml: 2 }} badgeContent={store.total} />
-    } else {
+    if (store && store.totalnumber && store.totalnumber[folder]) {
+      return <ListBadge skin='light' color={color} sx={{ ml: 2 }} badgeContent={store.totalnumber[folder]} />
+    }
+    else if (store && store.totalnumber.label && store.totalnumber.label[folder]) {
+      return <ListBadge skin='light' color={color} sx={{ ml: 2 }} badgeContent={store.totalnumber.label[folder]} />
+    }
+    else {
       return null
     }
   }
@@ -167,7 +171,7 @@ const SidebarLeft = (props: DriveSidebarType) => {
                   sx: { fontWeight: 500, ...(activemyfilesCondition && { color: 'primary.main' }) }
                 }}
               />
-              {RenderBadge('myfiles', 'primary')}
+              {RenderBadge('Root', 'primary')}
             </ListItemStyled>
             <ListItemStyled
               component={Link}
@@ -239,7 +243,7 @@ const SidebarLeft = (props: DriveSidebarType) => {
                   sx: { fontWeight: 500, ...(handleActiveItem('folder', 'starred') && { color: 'primary.main' }) }
                 }}
               />
-              {RenderBadge('starred', 'success')}
+              {RenderBadge('Star', 'success')}
             </ListItemStyled>
             <ListItemStyled
               component={Link}
@@ -263,7 +267,7 @@ const SidebarLeft = (props: DriveSidebarType) => {
                   sx: { fontWeight: 500, ...(handleActiveItem('folder', 'spam') && { color: 'primary.main' }) }
                 }}
               />
-              {RenderBadge('spam', 'error')}
+              {RenderBadge('Spam', 'error')}
             </ListItemStyled>
             <ListItemStyled
               component={Link}
@@ -287,7 +291,7 @@ const SidebarLeft = (props: DriveSidebarType) => {
                   sx: { fontWeight: 500, ...(handleActiveItem('folder', 'trash') && { color: 'primary.main' }) }
                 }}
               />
-              {RenderBadge('trash', 'info')}
+              {RenderBadge('Trash', 'info')}
             </ListItemStyled>
           </List>
           <Typography
@@ -316,6 +320,7 @@ const SidebarLeft = (props: DriveSidebarType) => {
                   sx: { fontWeight: 500, ...(handleActiveItem('type', 'image') && { color: 'primary.main' }) }
                 }}
               />
+              {RenderBadge('personal', 'success')}
             </ListItemStyled>
             <ListItemStyled
               component={Link}
@@ -335,6 +340,7 @@ const SidebarLeft = (props: DriveSidebarType) => {
                   sx: { fontWeight: 500, ...(handleActiveItem('type', 'word') && { color: 'primary.main' }) }
                 }}
               />
+              {RenderBadge('company', 'primary')}
             </ListItemStyled>
             <ListItemStyled
               component={Link}
@@ -354,6 +360,7 @@ const SidebarLeft = (props: DriveSidebarType) => {
                   sx: { fontWeight: 500, ...(handleActiveItem('type', 'excel') && { color: 'warning.main' }) }
                 }}
               />
+              {RenderBadge('important', 'warning')}
             </ListItemStyled>
             <ListItemStyled
               component={Link}
@@ -373,6 +380,7 @@ const SidebarLeft = (props: DriveSidebarType) => {
                   sx: { fontWeight: 500, ...(handleActiveItem('type', 'pptx') && { color: 'primary.main' }) }
                 }}
               />
+              {RenderBadge('private', 'error')}
             </ListItemStyled>
           </List>
 

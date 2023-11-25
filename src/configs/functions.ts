@@ -125,10 +125,7 @@ export function formatTimestampAge(timestamp: number): string {
 export function formatTimestamp(timestamp: number): string {
   const date = new Date(timestamp * 1000);
   if(timestamp == undefined) return ""
-  const months = [
-    "January", "February", "March", "April", "May", "June",
-    "July", "August", "September", "October", "November", "December"
-  ];
+  const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun","Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
   const month = months[date.getMonth()];
   const day = date.getDate();
   const year = date.getFullYear();
