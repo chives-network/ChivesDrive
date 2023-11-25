@@ -26,6 +26,7 @@ import OptionsMenu from 'src/@core/components/option-menu'
 import { OptionType } from 'src/@core/components/option-menu/types'
 import {
   LabelType,
+  FolderType,
   FileDetailType,
   MailFoldersArrType
 } from 'src/types/apps/emailTypes'
@@ -97,6 +98,7 @@ const DriveDetail = (props: FileDetailType) => {
     direction,
     foldersObj,
     labelColors,
+    folderColors,
     routeParams,
     handleStarDrive,
     driveFileOpen,
@@ -129,7 +131,7 @@ const DriveDetail = (props: FileDetailType) => {
 
   const handleLabelsMenu = () => {
     const array: OptionType[] = []
-    Object.entries(labelColors).map(([key, value]: string[]) => {
+    Object.entries(labelColors).map(([key, value]: any) => {
       array.push({
         text: <Typography sx={{ textTransform: 'capitalize' }}>{key}</Typography>,
         icon: (
@@ -151,50 +153,22 @@ const DriveDetail = (props: FileDetailType) => {
 
   const handleFoldersMenu = () => {
     const array: OptionType[] = []
-
-    if (routeParams && routeParams.folder && !routeParams.label && foldersObj[routeParams.folder]) {
-      foldersObj[routeParams.folder].map((folder: MailFoldersArrType) => {
-        array.length = 0
-        array.push({
-          icon: folder.icon,
-          text: <Typography sx={{ textTransform: 'capitalize' }}>{folder.name}</Typography>,
-          menuItemProps: {
-            onClick: () => {
-              handleFolderUpdate(currentFile.id, folder.name)
-              setFileDetailOpen(false)
-            }
+    Object.entries(folderColors).map(([key, value]: any) => {
+      array.push({
+        text: <Typography sx={{ textTransform: 'capitalize' }}>{key}</Typography>,
+        icon: (
+          <Box component='span' sx={{ mr: 2, color: `${value}.main` }}>
+            <Icon icon='mdi:circle' fontSize='0.75rem' />
+          </Box>
+        ),
+        menuItemProps: {
+          onClick: () => {
+            handleFolderUpdate([currentFile.id], key as FolderType)
+            setFileDetailOpen(false)
           }
-        })
+        }
       })
-    } else if (routeParams && routeParams.label) {
-      folders.map((folder: MailFoldersArrType) => {
-        array.length = 0
-        array.push({
-          icon: folder.icon,
-          text: <Typography sx={{ textTransform: 'capitalize' }}>{folder.name}</Typography>,
-          menuItemProps: {
-            onClick: () => {
-              handleFolderUpdate(currentFile.id, folder.name)
-              setFileDetailOpen(false)
-            }
-          }
-        })
-      })
-    } else {
-      foldersObj['myfiles'].map((folder: MailFoldersArrType) => {
-        array.length = 0
-        array.push({
-          icon: folder.icon,
-          text: <Typography sx={{ textTransform: 'capitalize' }}>{folder.name}</Typography>,
-          menuItemProps: {
-            onClick: () => {
-              handleFolderUpdate(currentFile.id, folder.name)
-              setFileDetailOpen(false)
-            }
-          }
-        })
-      })
-    }
+    })
 
     return array
   }

@@ -59,7 +59,7 @@ import { formatTimestamp} from 'src/configs/functions';
 // ** Third Party Import
 import { useTranslation } from 'react-i18next'
 
-import { TrashMultiFiles, SpamMultiFiles, StarMultiFiles, UnStarMultiFiles, ChangeMultiFilesLabel, GetFileCacheStatus, GetHaveToDoTask,ResetToDoTask, FolderMultiFiles, ActionsSubmitToBlockchain } from 'src/functions/ChivesweaveWallets'
+import { TrashMultiFiles, SpamMultiFiles, StarMultiFiles, UnStarMultiFiles, ChangeMultiFilesLabel, ChangeMultiFilesFolder, GetFileCacheStatus, GetHaveToDoTask,ResetToDoTask, FolderMultiFiles, ActionsSubmitToBlockchain } from 'src/functions/ChivesweaveWallets'
 import { TxRecordType } from 'src/types/apps/Chivesweave'
 
 const FileItem = styled(ListItem)<ListItemProps>(({ theme }) => ({
@@ -112,6 +112,7 @@ const DriveList = (props: DriveListType) => {
     direction,
     routeParams,
     labelColors,
+    folderColors,
     setCurrentFile,
     driveFileOpen,
     handleSelectFile,
@@ -271,7 +272,15 @@ const DriveList = (props: DriveListType) => {
   }
 
   const handleFolderUpdate = (id: string | string[], folder: FolderType) => {
-    const arr = Array.isArray(id) ? [...id] : [id]
+    const selectedFiles = Array.isArray(id) ? [...id] : [id]
+    console.log("store.selectedFiles", store)
+    if( store.selectedFiles && store.selectedFiles.length > 0 && store.data && store.data.length > 0) {
+      setIsHaveTaskToDo(isHaveTaskToDo + 1);
+      const TargetFiles: TxRecordType[] = store.data.filter((Item: TxRecordType)  => store.selectedFiles.includes(Item.id));
+      ChangeMultiFilesFolder(TargetFiles, folder);
+      //FolderMultiFiles(TargetFiles, "Myfiles");
+      dispatch(handleSelectAllFile(false))
+    }
   }
 
   const handleActionsSubmitToBlockchain = () => {
@@ -322,7 +331,7 @@ const DriveList = (props: DriveListType) => {
 
   const handleLabelsMenu = () => {
     const array: OptionType[] = []
-    Object.entries(labelColors).map(([key, value]: string[]) => {
+    Object.entries(labelColors).map(([key, value]: any) => {
       array.push({
         text: <Typography sx={{ textTransform: 'capitalize' }}>{key}</Typography>,
         icon: (
@@ -333,6 +342,28 @@ const DriveList = (props: DriveListType) => {
         menuItemProps: {
           onClick: () => {
             handleLabelUpdate(store.selectedFiles, key as LabelType)
+            dispatch(handleSelectAllFile(false))
+          }
+        }
+      })
+    })
+
+    return array
+  }
+
+  const handleFoldersMenu = () => {
+    const array: OptionType[] = []
+    Object.entries(folderColors).map(([key, value]: any) => {
+      array.push({
+        text: <Typography sx={{ textTransform: 'capitalize' }}>{key}</Typography>,
+        icon: (
+          <Box component='span' sx={{ mr: 2, color: `${value}.main` }}>
+            <Icon icon='mdi:circle' fontSize='0.75rem' />
+          </Box>
+        ),
+        menuItemProps: {
+          onClick: () => {
+            handleFolderUpdate(store.selectedFiles, key as FolderType)
             dispatch(handleSelectAllFile(false))
           }
         }
@@ -458,19 +489,22 @@ const DriveList = (props: DriveListType) => {
 
               {store && store.selectedFiles.length && store.data && store.data.length ? (
                 <Fragment>
+                  <OptionsMenu leftAlignMenu options={handleFoldersMenu()} icon={<Icon icon='mdi:folder-outline' />} />
                   <OptionsMenu leftAlignMenu options={handleLabelsMenu()} icon={<Icon icon='mdi:label-outline' />} />
-                  {routeParams && routeParams.folder !== 'trash' ? (
+                  {routeParams && routeParams.folder !== 'Trash' && routeParams.folder !== 'Spam' ? (
                     <Tooltip title={`${t(`Move to Trash`)}`} arrow>
                       <IconButton onClick={handleMoveToTrash}>
                         <Icon icon='mdi:delete-outline' />
                       </IconButton>
                     </Tooltip>
                   ) : null}
-                  <Tooltip title={`${t(`Move to Spam`)}`} arrow>
-                    <IconButton onClick={handleMoveToSpam}>
-                      <Icon icon='mdi:alert-octagon-outline' />
-                    </IconButton>
-                  </Tooltip>
+                  {routeParams && routeParams.folder !== 'Trash' && routeParams.folder !== 'Spam' ? (
+                    <Tooltip title={`${t(`Move to Spam`)}`} arrow>
+                      <IconButton onClick={handleMoveToSpam}>
+                        <Icon icon='mdi:alert-octagon-outline' />
+                      </IconButton>
+                    </Tooltip>
+                  ) : null}
                 </Fragment>
               ) : null}
             </Box>

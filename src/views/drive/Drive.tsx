@@ -46,6 +46,14 @@ const labelColors: any = {
   important: 'warning'
 }
 
+// ** Variables
+const folderColors: any = {
+  Root: 'error',
+  Work: 'success',
+  Home: 'primary',
+  Blockchain: 'warning'
+}
+
 const DriveAppLayout = ({ folder, label, type }: DriveLayoutType) => {
   // ** Hook
   const { t } = useTranslation()
@@ -164,6 +172,7 @@ const DriveAppLayout = ({ folder, label, type }: DriveLayoutType) => {
           direction={direction}
           routeParams={routeParams}
           labelColors={labelColors}
+          folderColors={folderColors}
           setCurrentFile={setCurrentFile}
           driveFileOpen={driveFileOpen}
           handleSelectFile={handleSelectFile}
