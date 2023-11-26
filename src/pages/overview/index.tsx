@@ -55,35 +55,47 @@ const AnalyticsDashboard = () => {
     axios.get(authConfig.backEndApi + '/statistics_network', { headers: { }, params: { } })
     .then(res => {
       setIsLoading(false);
+      const dataMap: any = {};
       const dataX: any[] = [];
       const dataWeaveSize: any[] = [];
       const difficulty: any[] = [];
       const endowment: any[] = [];
       res.data.map((Item: {[key:string]:any}) => {
         dataX.push(Item.Date.substring(5));
-        dataWeaveSize.push((Item.Weave_Size/(1024*1024*1024*1024)).toFixed(1))
-        difficulty.push((Item.Difficulty/(1024*1024*1024)).toFixed(1))
-        endowment.push(Math.floor(Item.Cumulative_Endowment/1000000000000))
+        dataMap[Item.Date.substring(5)] = Item;
       })
-      setDataX(dataX.slice(1).slice().reverse().slice(1).slice(-21))
-      setDataWeaveSize(dataWeaveSize.slice(1).slice().reverse().slice(1).slice(-21))
-      setDifficulty(difficulty.slice(1).slice().reverse().slice(1).slice(-21))
-      console.log("isLoading", isLoading)
-
-      //setEndowment(endowment.slice(1).slice().reverse().slice(1).slice(-21))
+      dataX.sort((a, b) => a - b);
+      const newDataX = dataX.slice(1).slice().slice(1).slice(-21);
+      setDataX(newDataX)
+      newDataX.map((Item: string)=>{
+        dataWeaveSize.push((dataMap[Item].Weave_Size/(1024*1024*1024*1024)).toFixed(1))
+        difficulty.push((dataMap[Item].Difficulty/(1024*1024*1024)).toFixed(1))
+        endowment.push(Math.floor(dataMap[Item].Cumulative_Endowment/1000000000000))
+      })
+      setDataWeaveSize(dataWeaveSize)
+      setDifficulty(difficulty)
     })
 
     axios.get(authConfig.backEndApi + '/statistics_block', { headers: { }, params: { } })
     .then(res => {
       setIsLoading(false);
+      const dataMap: any = {};
+      const dataX: any[] = [];
       const blocksnumber: any[] = [];
       const Block_Rewards: any[] = [];
       res.data.map((Item: {[key:string]:any}) => {
-        blocksnumber.push(Item.Blocks)
-        Block_Rewards.push(Math.floor(Item.Block_Rewards/1000000000000))
+        dataX.push(Item.Date.substring(5));
+        dataMap[Item.Date.substring(5)] = Item;
       })
-      setblocksnumber(blocksnumber.slice(1).slice().reverse().slice(1).slice(-21))
-      setBlock_Rewards(Block_Rewards.slice(1).slice().reverse().slice(1).slice(-21))
+      dataX.sort((a, b) => a - b);
+      const newDataX = dataX.slice(1).slice().slice(1).slice(-21);
+      setDataX(newDataX)
+      newDataX.map((Item: string)=>{
+        blocksnumber.push(dataMap[Item].Blocks);
+        Block_Rewards.push(Math.floor(dataMap[Item].Block_Rewards/1000000000000));
+      })
+      setblocksnumber(blocksnumber)
+      setBlock_Rewards(Block_Rewards)
     })
 
     //Frist Time Api Fetch
