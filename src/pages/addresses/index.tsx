@@ -44,84 +44,6 @@ const LinkStyled = styled(Link)(({ theme }) => ({
 }))
 
 
-const columns: GridColDef[] = [
-  {
-    flex: 0.2,
-    minWidth: 200,
-    field: 'Address',
-    headerName: 'Address',
-    sortable: false,
-    filterable: false,
-    renderCell: ({ row }: AddressCellType) => {
-      
-      return (
-        <Typography noWrap variant='body2'>
-          <LinkStyled href={`/addresses/all/${row.id}`}>{formatHash(row.id, 10)}</LinkStyled>
-        </Typography>
-      )
-    }
-  },
-  {
-    flex: 0.15,
-    minWidth: 110,
-    field: 'Balance',
-    headerName: 'Balance',
-    sortable: false,
-    filterable: false,
-    renderCell: ({ row }: AddressCellType) => {
-      return (
-        <Typography noWrap variant='body2'>
-          {formatXWEAddress(row.balance, 4)}
-        </Typography>
-      )
-    }
-  },
-  {
-    flex: 0.2,
-    minWidth: 110,
-    field: 'Txs',
-    headerName: 'Txs',
-    sortable: false,
-    filterable: false,
-    renderCell: ({ row }: AddressCellType) => {
-      return (
-        <Typography noWrap variant='body2'>
-          {row.txs}
-        </Typography>
-      )
-    }
-  },
-  {
-    flex: 0.1,
-    minWidth: 110,
-    field: 'Discovery',
-    headerName: 'Discovery',
-    sortable: false,
-    filterable: false,
-    renderCell: ({ row }: AddressCellType) => {
-      return (
-        <Typography noWrap variant='body2'>
-          <LinkStyled href={`/blocks/view/${row.lastblock}`}>{row.lastblock}</LinkStyled>
-        </Typography>
-      )
-    }
-  },
-  {
-    flex: 0.28,
-    field: 'Update',
-    minWidth: 220,
-    headerName: 'Update',
-    sortable: false,
-    filterable: false,
-    renderCell: ({ row }: AddressCellType) => {
-      return (
-        <Typography noWrap variant='body2'>
-          {formatTimestampMemo(row.timestamp)}
-        </Typography>
-      )
-    }
-  }
-]
 
 const AddressesList = () => {
   // ** Hook
@@ -148,6 +70,86 @@ const AddressesList = () => {
   useEffect(() => {
     setIsLoading(false)
   }, [])
+
+  
+  const columns: GridColDef[] = [
+    {
+      flex: 0.2,
+      minWidth: 200,
+      field: 'Address',
+      headerName: `${t(`Address`)}`,
+      sortable: false,
+      filterable: false,
+      renderCell: ({ row }: AddressCellType) => {
+        
+        return (
+          <Typography noWrap variant='body2'>
+            <LinkStyled href={`/addresses/all/${row.id}`}>{formatHash(row.id, 10)}</LinkStyled>
+          </Typography>
+        )
+      }
+    },
+    {
+      flex: 0.15,
+      minWidth: 110,
+      field: 'Balance',
+      headerName: `${t(`Balance`)}`,
+      sortable: false,
+      filterable: false,
+      renderCell: ({ row }: AddressCellType) => {
+        return (
+          <Typography noWrap variant='body2'>
+            {formatXWEAddress(row.balance, 4)}
+          </Typography>
+        )
+      }
+    },
+    {
+      flex: 0.2,
+      minWidth: 110,
+      field: 'Txs',
+      headerName: `${t(`Txs`)}`,
+      sortable: false,
+      filterable: false,
+      renderCell: ({ row }: AddressCellType) => {
+        return (
+          <Typography noWrap variant='body2'>
+            {row.txs}
+          </Typography>
+        )
+      }
+    },
+    {
+      flex: 0.1,
+      minWidth: 110,
+      field: 'Discovery',
+      headerName: `${t(`Discovery`)}`,
+      sortable: false,
+      filterable: false,
+      renderCell: ({ row }: AddressCellType) => {
+        return (
+          <Typography noWrap variant='body2'>
+            <LinkStyled href={`/blocks/view/${row.lastblock}`}>{row.lastblock}</LinkStyled>
+          </Typography>
+        )
+      }
+    },
+    {
+      flex: 0.28,
+      field: 'Update',
+      minWidth: 220,
+      headerName: `${t(`Update`)}`,
+      sortable: false,
+      filterable: false,
+      renderCell: ({ row }: AddressCellType) => {
+        return (
+          <Typography noWrap variant='body2'>
+            {formatTimestampMemo(row.timestamp)}
+          </Typography>
+        )
+      }
+    }
+  ]
 
   return (
     <Grid container spacing={6}>

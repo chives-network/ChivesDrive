@@ -90,5 +90,16 @@
   "Age": "Age",
   "Tx Reward Pool": "Tx Reward Pool",
   "Confirmations": "Confirmations",
-  "Miner Reward": "Miner Reward"
+  "Miner Reward": "Miner Reward",
+  "Discovery": "Discovery",
+  "Update": "Update",
+  "second": "second",
+  "seconds": "seconds",
+  "minute": "minute",
+  "minutes": "minutes",
+  "hour": "hour",
+  "hours": "hours",
+  "day": "day",
+  "days": "days",
+  "about": "about"
 }

@@ -74,6 +74,7 @@ const AnalyticsDashboard = () => {
       })
       setDataWeaveSize(dataWeaveSize)
       setDifficulty(difficulty)
+      console.log("isLoading", isLoading)
     })
 
     axios.get(authConfig.backEndApi + '/statistics_block', { headers: { }, params: { } })

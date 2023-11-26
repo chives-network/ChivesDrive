@@ -301,7 +301,6 @@ const BlockTransactionList = () => {
                             {`${t(`Timestamp`)}`}:
                           </Typography>
                         </TableCell>
-                        <TableCell>{formatTimestamp(blockViewInfo.timestamp)}</TableCell>
                       </TableRow>
                       <TableRow>
                         <TableCell>
@@ -309,7 +308,6 @@ const BlockTransactionList = () => {
                           {`${t(`Mined Time`)}`}:
                           </Typography>
                         </TableCell>
-                        <TableCell>{formatSecondToMinute(blockViewInfo.mining_time)}</TableCell>
                       </TableRow>
                       <TableRow>
                         <TableCell>
@@ -347,7 +345,6 @@ const BlockTransactionList = () => {
                             {`${t(`Age`)}`}:
                           </Typography>
                         </TableCell>
-                        <TableCell>{formatTimestampAge(blockViewInfo.timestamp)}</TableCell>
                       </TableRow>
                       <TableRow>
                         <TableCell>
