@@ -121,7 +121,7 @@ const FileResourceModel = ({ activeTab } : any) => {
               value='image'
               label={
                 <Box sx={{ display: 'flex', alignItems: 'center', '& svg': { mr: 2 } }}>
-                  <Icon fontSize={20} icon='mdi:account-outline' />
+                  <Icon fontSize={20} icon='mdi:image-multiple' />
                   {`${t(`Image`)}`}
                 </Box>
               }
@@ -130,7 +130,7 @@ const FileResourceModel = ({ activeTab } : any) => {
               value='video'
               label={
                 <Box sx={{ display: 'flex', alignItems: 'center', '& svg': { mr: 2 } }}>
-                  <Icon fontSize={20} icon='mdi:bookmark-outline' />
+                  <Icon fontSize={20} icon='mdi:play-box-multiple' />
                   Video
                 </Box>
               }
@@ -139,7 +139,7 @@ const FileResourceModel = ({ activeTab } : any) => {
               value='pdf'
               label={
                 <Box sx={{ display: 'flex', alignItems: 'center', '& svg': { mr: 2 } }}>
-                  <Icon fontSize={20} icon='mdi:bell-outline' />
+                  <Icon fontSize={20} icon='mdi:file-pdf-box' />
                   Pdf
                 </Box>
               }
@@ -148,7 +148,7 @@ const FileResourceModel = ({ activeTab } : any) => {
               value='word'
               label={
                 <Box sx={{ display: 'flex', alignItems: 'center', '& svg': { mr: 2 } }}>
-                  <Icon fontSize={20} icon='mdi:bell-outline' />
+                  <Icon fontSize={20} icon='mdi:file-word-box' />
                   Word
                 </Box>
               }
@@ -157,7 +157,7 @@ const FileResourceModel = ({ activeTab } : any) => {
               value='excel'
               label={
                 <Box sx={{ display: 'flex', alignItems: 'center', '& svg': { mr: 2 } }}>
-                  <Icon fontSize={20} icon='mdi:bell-outline' />
+                  <Icon fontSize={20} icon='mdi:file-excel-box' />
                   Excel
                 </Box>
               }
@@ -166,7 +166,7 @@ const FileResourceModel = ({ activeTab } : any) => {
               value='pptx'
               label={
                 <Box sx={{ display: 'flex', alignItems: 'center', '& svg': { mr: 2 } }}>
-                  <Icon fontSize={20} icon='mdi:bell-outline' />
+                  <Icon fontSize={20} icon='mdi:file-powerpoint-box' />
                   PPT
                 </Box>
               }
@@ -175,7 +175,7 @@ const FileResourceModel = ({ activeTab } : any) => {
               value='stl'
               label={
                 <Box sx={{ display: 'flex', alignItems: 'center', '& svg': { mr: 2 } }}>
-                  <Icon fontSize={20} icon='mdi:bell-outline' />
+                  <Icon fontSize={20} icon='mdi:text-box-multiple-outline' />
                   Stl
                 </Box>
               }

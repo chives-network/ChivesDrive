@@ -69,12 +69,12 @@ const DriveNavMenus = [
   },
   {
     title: 'Resources',
-    icon: 'mdi:file-multiple',
+    icon: 'material-symbols:captive-portal-rounded',
     path: '/files/image'
   },
   {
     title: 'My Drive',
-    icon: 'clarity:wallet-solid',
+    icon: 'streamline:hard-disk-solid',
     path: '/drive'
   },
   {
@@ -89,6 +89,21 @@ const DriveNavMenus = [
   },
   {
     sectionTitle: 'Blockchain'
+  },
+  {
+    title: 'Blocks',
+    icon: 'clarity:blocks-group-line',
+    path: '/blocks'
+  },
+  {
+    title: 'Transactions',
+    icon: 'grommet-icons:transaction',
+    path: '/txs'
+  },
+  {
+    title: 'Addresses',
+    icon: 'clarity:wallet-solid',
+    path: '/addresses'
   },
   {
     title: 'Nodes',

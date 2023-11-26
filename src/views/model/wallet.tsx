@@ -357,7 +357,7 @@ const MyWalletModel = ({ activeTab } : any) => {
               value='sendout'
               label={
                 <Box sx={{ display: 'flex', alignItems: 'center', '& svg': { mr: 2 } }}>
-                  <Icon fontSize={20} icon='mdi:account-outline' />
+                  <Icon fontSize={20} icon='material-symbols:send' />
                   {`${t(`Send`)}`}
                 </Box>
               }
@@ -366,7 +366,7 @@ const MyWalletModel = ({ activeTab } : any) => {
               value='uploadfiles'
               label={
                 <Box sx={{ display: 'flex', alignItems: 'center', '& svg': { mr: 2 } }}>
-                  <Icon fontSize={20} icon='mdi:account-outline' />
+                  <Icon fontSize={20} icon='material-symbols:backup' />
                   {`${t(`Upload Files`)}`}
                 </Box>
               }
@@ -375,7 +375,7 @@ const MyWalletModel = ({ activeTab } : any) => {
               value='all'
               label={
                 <Box sx={{ display: 'flex', alignItems: 'center', '& svg': { mr: 2 } }}>
-                  <Icon fontSize={20} icon='mdi:account-outline' />
+                  <Icon fontSize={20} icon='ant-design:transaction-outlined' />
                   {`${t(`All`)}`}
                 </Box>
               }
@@ -384,7 +384,7 @@ const MyWalletModel = ({ activeTab } : any) => {
               value='sent'
               label={
                 <Box sx={{ display: 'flex', alignItems: 'center', '& svg': { mr: 2 } }}>
-                  <Icon fontSize={20} icon='mdi:lock-outline' />
+                  <Icon fontSize={20} icon='mdi:receipt-text-arrow-right' />
                   {`${t(`Sent`)}`}
                 </Box>
               }
@@ -393,7 +393,7 @@ const MyWalletModel = ({ activeTab } : any) => {
               value='received'
               label={
                 <Box sx={{ display: 'flex', alignItems: 'center', '& svg': { mr: 2 } }}>
-                  <Icon fontSize={20} icon='mdi:bookmark-outline' />
+                  <Icon fontSize={20} icon='mdi:receipt-text-arrow-left' />
                   {`${t(`Received`)}`}
                 </Box>
               }
@@ -402,7 +402,7 @@ const MyWalletModel = ({ activeTab } : any) => {
               value='files'
               label={
                 <Box sx={{ display: 'flex', alignItems: 'center', '& svg': { mr: 2 } }}>
-                  <Icon fontSize={20} icon='mdi:bell-outline' />
+                  <Icon fontSize={20} icon='mdi:file-multiple' />
                   {`${t(`Files`)}`}
                 </Box>
               }

@@ -188,7 +188,7 @@ const PeersInfo = () => {
                             <TableRow>
                               <TableCell>
                                 <Typography variant='subtitle2' sx={{ color: 'text.primary' }}>
-                                  Network:
+                                {`${t(`Network`)}`}:
                                 </Typography>
                               </TableCell>
                               <TableCell>{chainInfo.network}</TableCell>
@@ -196,7 +196,7 @@ const PeersInfo = () => {
                             <TableRow>
                               <TableCell>
                                 <Typography variant='subtitle2' sx={{ color: 'text.primary' }}>
-                                  Height:
+                                {`${t(`Height`)}`}:
                                 </Typography>
                               </TableCell>
                               <TableCell>{chainInfo.height}</TableCell>
@@ -204,7 +204,7 @@ const PeersInfo = () => {
                             <TableRow>
                               <TableCell>
                                 <Typography variant='subtitle2' sx={{ color: 'text.primary' }}>
-                                  Time:
+                                {`${t(`Time`)}`}:
                                 </Typography>
                               </TableCell>
                               <TableCell>{formatTimestamp(chainInfo.time)}</TableCell>
@@ -212,7 +212,7 @@ const PeersInfo = () => {
                             <TableRow>
                               <TableCell>
                                 <Typography variant='subtitle2' sx={{ color: 'text.primary' }}>
-                                  Peers:
+                                {`${t(`Peers`)}`}:
                                 </Typography>
                               </TableCell>
                               <TableCell>{chainInfo.peers}</TableCell>
@@ -220,7 +220,7 @@ const PeersInfo = () => {
                             <TableRow>
                               <TableCell>
                                 <Typography variant='subtitle2' sx={{ color: 'text.primary' }}>
-                                  Weave Size:
+                                {`${t(`Weave Size`)}`}:
                                 </Typography>
                               </TableCell>
                               <TableCell>{formatStorageSize(chainInfo.weave_size)}</TableCell>

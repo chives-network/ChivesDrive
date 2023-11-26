@@ -499,7 +499,11 @@ const TxView = () => {
                               {`${t(`From`)}`}:
                               </Typography>
                             </TableCell>
-                            <TableCell><LinkStyled href={`/addresses/all/${txViewInfo.owner.address}`}>{formatHash(txViewInfo.owner.address, 7)}</LinkStyled></TableCell>
+                            <TableCell>
+                              <LinkStyled href={`/addresses/all/${txViewInfo.owner.address}`}>
+                                <StringDisplay InputString={`${txViewInfo.owner.address}`} StringSize={7} />
+                              </LinkStyled>
+                            </TableCell>
                           </TableRow>
                           <TableRow>
                             <TableCell>
