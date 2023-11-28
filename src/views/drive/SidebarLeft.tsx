@@ -80,7 +80,8 @@ const SidebarLeft = (props: DriveSidebarType) => {
     if(store && store.total && routeParams && routeParams.initFolder) {
       setSideBarBadge({...sideBarBadge, [routeParams.initFolder]: store.total})
     }
-    console.log("sideBarBadge", sideBarBadge)
+    
+    //console.log("sideBarBadge", sideBarBadge)
   }, [routeParams, store])
 
   const RenderBadge = (

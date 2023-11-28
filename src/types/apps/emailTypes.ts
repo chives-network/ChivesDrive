@@ -140,6 +140,9 @@ export type DriveListType = {
   handleSelectAllFile: (val: boolean) => void
   paginationModel: any
   handlePageChange: (event: any, page: number) => void
+  handleFolderChange: (folder: string) => void  
+  folderHeaderList: any[]
+  handleFolderHeaderList: (folderHeader: any) => void  
 }
 
 export type FileDetailType = {

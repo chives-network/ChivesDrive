@@ -65,7 +65,8 @@ const DriveAppLayout = ({ initFolder, label, type }: DriveLayoutType) => {
   const [uploadFilesTitle, setUploadFilesTitle] = useState<string>(`${t(`Upload Files`)}`)
   const [driveFileOpen, setFileDetailOpen] = useState<boolean>(false)
   const [leftSidebarOpen, setLeftSidebarOpen] = useState<boolean>(false)
-  const [folder, setfolder] = useState<string>(initFolder)
+  const [folder, setFolder] = useState<string>(initFolder)
+  const [folderHeaderList, setFolderHeaderList] = useState<any[]>([{'name': initFolder, 'value': initFolder}])
 
   // ** Hooks
   const theme = useTheme()
@@ -89,6 +90,7 @@ const DriveAppLayout = ({ initFolder, label, type }: DriveLayoutType) => {
   const id = auth.currentAddress
 
   // ** State
+  const paginationModelDefaultValue = { page: 1, pageSize: 9 }
   const [paginationModel, setPaginationModel] = useState({ page: 1, pageSize: 9 })
   
   const handlePageChange = (event: React.ChangeEvent<unknown>, page: number) => {
@@ -96,11 +98,33 @@ const DriveAppLayout = ({ initFolder, label, type }: DriveLayoutType) => {
     console.log("handlePageChange", event)
   }
 
-  const handleFolderChange = (event: React.ChangeEvent<unknown>, folder: string) => {
-    setfolder(folder);
-    console.log("handleFolderChange", event)
+  const handleFolderChange = (folder: string) => {
+    setFolder(folder);
+    console.log("handleFolderChange", folder)
   }
 
+  const handleFolderHeaderList = (folderHeader: any) => {
+    console.log("handleFolderHeaderList", folderHeader)
+    console.log("folderHeaderList", folderHeaderList)
+    const folderHeaderListNew: any = []
+    let isContinue = 1
+    folderHeaderList.forEach((Item: any)=>{
+      if(isContinue == 1) {
+        folderHeaderListNew.push(Item)
+        if(Item.value == folderHeader.value) {
+          isContinue = 2 
+        }
+      }
+    })
+    if(isContinue == 1) {
+      folderHeaderListNew.push(folderHeader)
+    }
+    setFolder(folderHeader.value);
+    setFolderHeaderList(folderHeaderListNew);
+    setPaginationModel(paginationModelDefaultValue)
+    console.log("folderHeaderListNew", folderHeaderListNew)
+  }
+  
   useEffect(() => {
     if(true && id && id.length == 43) {
       dispatch(
@@ -133,6 +157,7 @@ const DriveAppLayout = ({ initFolder, label, type }: DriveLayoutType) => {
           label: label
         })
       )
+      dispatch(handleSelectAllFile(false))
       setUploadFilesOpen(false)
       setUploadFilesTitle(`${t(`Upload Files`)}`)
     }
@@ -197,6 +222,8 @@ const DriveAppLayout = ({ initFolder, label, type }: DriveLayoutType) => {
           paginationModel={paginationModel}
           handlePageChange={handlePageChange}
           handleFolderChange={handleFolderChange}
+          folderHeaderList={folderHeaderList}
+          handleFolderHeaderList={handleFolderHeaderList}
         />
         :
         <CardContent>

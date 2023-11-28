@@ -24,6 +24,13 @@ import DialogTitle from '@mui/material/DialogTitle'
 import DialogContent from '@mui/material/DialogContent'
 import DialogActions from '@mui/material/DialogActions'
 import DialogContentText from '@mui/material/DialogContentText'
+import CustomAvatar from 'src/@core/components/mui/avatar'
+
+
+import Breadcrumbs from '@mui/material/Breadcrumbs'
+import Link from '@mui/material/Link'
+import Stack from '@mui/material/Stack'
+//import NavigateNextIcon from '@mui/icons-material/NavigateNext'
 
 import Card from '@mui/material/Card'
 import TextField from '@mui/material/TextField'
@@ -126,7 +133,9 @@ const DriveList = (props: DriveListType) => {
     handleLeftSidebarToggle,
     paginationModel,
     handlePageChange,
-    handleFolderChange
+    handleFolderChange,
+    folderHeaderList,
+    handleFolderHeaderList
   } = props
 
   
@@ -135,6 +144,11 @@ const DriveList = (props: DriveListType) => {
   useEffect(()=>{
     dispatch(handleSelectAllFile(false))
 
+    updateFileCounter()
+
+  },[paginationModel, folder])
+
+  function updateFileCounter() {
     let fileCounterItem =0
     store.data.forEach((drive: TxRecordType) => {
       const TagsMap: any = {}
@@ -147,8 +161,7 @@ const DriveList = (props: DriveListType) => {
       }
     })
     setFileCounter(fileCounterItem)
-
-  },[paginationModel])
+  }
   
   const [uploadProgress, setUploadProgress] = useState<{ [key: string]: number }>({})
   const [isSubmitBlockchainDialog, setIsSubmitBlockchainDialog] = useState<boolean>(false)
@@ -165,7 +178,6 @@ const DriveList = (props: DriveListType) => {
     console.log("uploadProgress", uploadProgress)
   },[isHaveTaskToDo])
 
-  
   const [isNewFolderDialog, setIsNewFolderDialog] = useState<boolean>(false)
   const [folderName, setFodlerName] = useState<string>("")
   const [folderNameParent, setFodlerNameParent] = useState<string>("Root")
@@ -441,6 +453,13 @@ const DriveList = (props: DriveListType) => {
     currentFile: store && store.currentFile ? store.currentFile : null
   }
 
+  function handleClick(event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) {
+    event.preventDefault();
+    console.info('You clicked a breadcrumb.');
+  }
+
+  console.log("folderHeaderList", folderHeaderList)
+
   return (
     <Box sx={{ width: '100%', overflow: 'hidden', position: 'relative', '& .ps__rail-y': { zIndex: 5 } }}>
       {isSubmitBlockchainDialog == true ? 
@@ -572,22 +591,39 @@ const DriveList = (props: DriveListType) => {
       <Box sx={{ height: '100%', backgroundColor: 'background.paper' }}>
         <Box sx={{ px: 5, py: 3 }}>
           <Box sx={{ display: 'flex', alignItems: 'center', width: '100%' }}>
-            {lgAbove ? null : (
-              <IconButton onClick={handleLeftSidebarToggle} sx={{ mr: 1, ml: -2 }}>
-                <Icon icon='mdi:menu' fontSize={20} />
-              </IconButton>
-            )}
-            <Input
-              value={query}
-              placeholder={`${t(`Search File Name`)}`}
-              onChange={e => setQuery(e.target.value)}
-              sx={{ width: '100%', '&:before, &:after': { display: 'none' } }}
-              startAdornment={
-                <InputAdornment position='start' sx={{ color: 'text.disabled' }}>
-                  <Icon icon='mdi:magnify' fontSize='1.375rem' />
-                </InputAdornment>
-              }
-            />
+            {folderHeaderList && folderHeaderList.length > 0 ? 
+                <Stack spacing={2}>
+                  <Breadcrumbs
+                    separator={<Icon icon='mingcute:right-line' fontSize='1.375rem' />}
+                    aria-label="breadcrumb"
+                  >
+                    {folderHeaderList.map((Item: any, Index: number)=>{
+                      return (
+                          folderHeaderList.length == Index+1 ?
+                          <Typography key="3" color="text.primary">
+                            {Item.name}
+                          </Typography>
+                          :
+                          <Link underline="hover" style={{cursor: 'pointer'}} key={Index} color="inherit" onClick={()=>handleFolderHeaderList(Item)}>
+                            {Item.name}
+                          </Link>
+                          )
+                    })}
+                  </Breadcrumbs>
+                </Stack>
+              :
+              <Input
+                value={query}
+                placeholder={`${t(`Search File Name`)}`}
+                onChange={e => setQuery(e.target.value)}
+                sx={{ width: '100%', '&:before, &:after': { display: 'none' } }}
+                startAdornment={
+                  <InputAdornment position='start' sx={{ color: 'text.disabled' }}>
+                    <Icon icon='mdi:magnify' fontSize='1.375rem' />
+                  </InputAdornment>
+                }
+              />
+            }
           </Box>
         </Box>
         <Divider sx={{ m: '0 !important' }} />
@@ -596,8 +632,11 @@ const DriveList = (props: DriveListType) => {
             <Box sx={{ display: 'flex', alignItems: 'center' }}>
               {store && store.data && store.selectedFiles ? (
                 <Checkbox
-                  onChange={e => dispatch(handleSelectAllFile(e.target.checked))}
-                  checked={(store.data.length && fileCounter === store.selectedFiles.length) || false}
+                  onChange={e => {
+                    dispatch(handleSelectAllFile(e.target.checked))
+                    updateFileCounter()
+                  }}
+                  checked={(store.data.length && fileCounter === store.selectedFiles.length) }
                   indeterminate={
                     !!(
                       store.data.length &&
@@ -674,6 +713,7 @@ const DriveList = (props: DriveListType) => {
                     TagsMap[Tag.name] = Tag.value;
                   })
                   const EntityType = TagsMap['Entity-Type']
+                  const EntityTarget = TagsMap['Entity-Target']
                   const FileCacheStatus = GetFileCacheStatus(drive.id)
                   
                   return (
@@ -685,8 +725,9 @@ const DriveList = (props: DriveListType) => {
                           if(FileCacheStatus.Folder == "Trash" || FileCacheStatus.Folder == "Spam") {
                           }
                           else {
-                            console.log("drive",drive.id)
-                            handleFolderChange(drive.id, drive.id)
+                            console.log("drive",drive)
+                            handleFolderChange(drive.id)
+                            handleFolderHeaderList({'name':EntityTarget, 'value':drive.id})
                           }
                         }
                         else {
@@ -740,11 +781,17 @@ const DriveList = (props: DriveListType) => {
                             </Tooltip>
                           }
                           
-                          <Avatar
-                            alt={TagsMap['File-Name']}
-                            src={`${authConfig.backEndApi}/${drive.id}/thumbnail`}
-                            sx={{ mr: 3, width: '2rem', height: '2rem' }}
-                          />
+                          {EntityType == "Folder" ? 
+                            <Avatar sx={{ mr: 3, width: '2rem', height: '2rem' }}>
+                              <Icon icon='mdi:folder-outline' />
+                            </Avatar>
+                          :
+                            <Avatar
+                              alt={TagsMap['File-Name']}
+                              src={`${authConfig.backEndApi}/${drive.id}/thumbnail`}
+                              sx={{ mr: 3, width: '2rem', height: '2rem' }}
+                            />
+                          }
                           <Box
                             sx={{
                               display: 'flex',
