@@ -86,7 +86,6 @@ function parseTxAndGetMemoFileInfoInTags(TxRecord: TxRecordType) {
 const DriveDetail = (props: FileDetailType) => {
   // ** Hook
   const { t } = useTranslation()
-  console.log("t", t)
 
   // ** Props
   const {
@@ -236,7 +235,7 @@ const DriveDetail = (props: FileDetailType) => {
                   </Typography>
                 </Box>
                 <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                  {routeParams && routeParams.folder !== 'trash' ? (
+                  {routeParams && routeParams.initFolder !== 'trash' ? (
                     <IconButton size='small' onClick={(currentFile)=>handleMoveToTrash(currentFile)}>
                       <Icon icon='mdi:delete-outline' fontSize='1.375rem' />
                     </IconButton>

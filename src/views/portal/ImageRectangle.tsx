@@ -37,6 +37,7 @@ const ImageRectangle = ( {item, backEndApi, FileType} : any) => {
   const EntityType = FileMap['Entity-Type'];
   const EntityAction = FileMap['Entity-Action'];
   const EntityTarget = FileMap['Entity-Target'];
+  const EntityTargetText = FileMap['Entity-Target-Text'];
   const FileTxId = FileMap['File-TxId'];
   let ImageUrl = ""
   if(FileTxId && FileTxId.length == 43) {
@@ -131,18 +132,23 @@ const ImageRectangle = ( {item, backEndApi, FileType} : any) => {
             <Icon icon='icon-park-outline:transaction-order' />
             <Box sx={{ display: 'flex', flexDirection: 'row', mt:'4px' }}>
               <Typography sx={{ fontSize: '0.9rem' }}>{EntityType}: </Typography>
-              {EntityAction=="Folder" ?
-                <Typography variant='caption' sx={{ ml: '4px', mt: '2px' }}>{EntityTarget}</Typography>
+              {EntityAction=="Folder" && EntityTarget.length == 43 ?
+                <Typography variant='caption' sx={{ ml: '4px', mt: '2px' }}>{formatHash(EntityTargetText, 6)}</Typography>
+                :
+                <Fragment></Fragment>
+              }
+              {EntityAction=="Folder" && EntityTarget.length != 43 ?
+                <Typography variant='caption' sx={{ ml: '4px', mt: '2px' }}>{formatHash(EntityTarget, 6)}</Typography>
                 :
                 <Fragment></Fragment>
               }
               {EntityAction=="Star" ?
-                <Typography variant='caption' sx={{ ml: '4px', mt: '2px' }}>{EntityTarget}</Typography>
+                <Typography variant='caption' sx={{ ml: '4px', mt: '2px' }}>{formatHash(EntityTarget, 6)}</Typography>
                 :
                 <Fragment></Fragment>
               }
               {EntityAction=="Label" ?
-                <Typography variant='caption' sx={{ ml: '4px', mt: '2px' }}>Label ({EntityTarget})</Typography>
+                <Typography variant='caption' sx={{ ml: '4px', mt: '2px' }}>Label ({formatHash(EntityTarget, 6)})</Typography>
                 :
                 <Fragment></Fragment>
               }

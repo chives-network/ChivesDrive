@@ -211,7 +211,7 @@ function parseTxAndGetMemoFileInfoInDataGrid(TxRecord: TxRecordType) {
   const FileTxId = FileMap['File-TxId'];
   const EntityType = FileMap['Entity-Type'];
   const EntityAction = FileMap['Entity-Action'];
-  const EntityTarget = FileMap['Entity-Target'];
+  const EntityTarget = FileMap['Entity-Target-Text'] ? FileMap['Entity-Target-Text'] : FileMap['Entity-Target'];
   let ImageUrl = ""
   if(FileTxId && FileTxId.length == 43) {
     ImageUrl = FileTxId
@@ -630,7 +630,7 @@ const TxView = () => {
                                           {Item.name}
                                         </Typography>
                                       </TableCell>
-                                      <TableCell><StringDisplay InputString={Item.value} StringSize={20}/></TableCell>
+                                      <TableCell><StringDisplay InputString={Item.value} StringSize={25}/></TableCell>
                                     </TableRow>
                                     )
                             } )}

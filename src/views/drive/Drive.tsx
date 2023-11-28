@@ -32,7 +32,8 @@ import {
   setCurrentFile,
   handleSelectFile,
   handleSelectAllFile,
-  fetchTotalNumber
+  fetchTotalNumber,
+  fetchAllFolder
 } from 'src/store/apps/drive'
 
 // ** Context
@@ -54,7 +55,7 @@ const folderColors: any = {
   Blockchain: 'warning'
 }
 
-const DriveAppLayout = ({ folder, label, type }: DriveLayoutType) => {
+const DriveAppLayout = ({ initFolder, label, type }: DriveLayoutType) => {
   // ** Hook
   const { t } = useTranslation()
   
@@ -64,6 +65,7 @@ const DriveAppLayout = ({ folder, label, type }: DriveLayoutType) => {
   const [uploadFilesTitle, setUploadFilesTitle] = useState<string>(`${t(`Upload Files`)}`)
   const [driveFileOpen, setFileDetailOpen] = useState<boolean>(false)
   const [leftSidebarOpen, setLeftSidebarOpen] = useState<boolean>(false)
+  const [folder, setfolder] = useState<string>(initFolder)
 
   // ** Hooks
   const theme = useTheme()
@@ -79,7 +81,7 @@ const DriveAppLayout = ({ folder, label, type }: DriveLayoutType) => {
   const routeParams = {
     label: label || 'Personal',
     type: type || 'image',
-    folder: folder || 'Root'
+    initFolder: folder || 'Root'
   }
 
   const auth = useAuth()
@@ -92,6 +94,11 @@ const DriveAppLayout = ({ folder, label, type }: DriveLayoutType) => {
   const handlePageChange = (event: React.ChangeEvent<unknown>, page: number) => {
     setPaginationModel({ ...paginationModel, page });
     console.log("handlePageChange", event)
+  }
+
+  const handleFolderChange = (event: React.ChangeEvent<unknown>, folder: string) => {
+    setfolder(folder);
+    console.log("handleFolderChange", event)
   }
 
   useEffect(() => {
@@ -116,6 +123,16 @@ const DriveAppLayout = ({ folder, label, type }: DriveLayoutType) => {
           label: label
         })
       )
+      dispatch(
+        fetchAllFolder({
+          address: String(id),
+          pageId: paginationModel.page - 1,
+          pageSize: paginationModel.pageSize,
+          type: type,
+          folder: folder,
+          label: label
+        })
+      )
       setUploadFilesOpen(false)
       setUploadFilesTitle(`${t(`Upload Files`)}`)
     }
@@ -131,8 +148,6 @@ const DriveAppLayout = ({ folder, label, type }: DriveLayoutType) => {
     }
   }
   const handleLeftSidebarToggle = () => setLeftSidebarOpen(!leftSidebarOpen)
-
-  console.log("store", store);
 
   return (
     <Box
@@ -172,7 +187,7 @@ const DriveAppLayout = ({ folder, label, type }: DriveLayoutType) => {
           direction={direction}
           routeParams={routeParams}
           labelColors={labelColors}
-          folderColors={folderColors}
+          folder={folder}
           setCurrentFile={setCurrentFile}
           driveFileOpen={driveFileOpen}
           handleSelectFile={handleSelectFile}
@@ -181,6 +196,7 @@ const DriveAppLayout = ({ folder, label, type }: DriveLayoutType) => {
           handleLeftSidebarToggle={handleLeftSidebarToggle}        
           paginationModel={paginationModel}
           handlePageChange={handlePageChange}
+          handleFolderChange={handleFolderChange}
         />
         :
         <CardContent>

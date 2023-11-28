@@ -25,6 +25,11 @@ import DialogContent from '@mui/material/DialogContent'
 import DialogActions from '@mui/material/DialogActions'
 import DialogContentText from '@mui/material/DialogContentText'
 
+import Card from '@mui/material/Card'
+import TextField from '@mui/material/TextField'
+import CardHeader from '@mui/material/CardHeader'
+import CardContent from '@mui/material/CardContent'
+
 // ** Icon Imports
 import Icon from 'src/@core/components/icon'
 
@@ -59,7 +64,7 @@ import { formatTimestamp} from 'src/configs/functions';
 // ** Third Party Import
 import { useTranslation } from 'react-i18next'
 
-import { TrashMultiFiles, SpamMultiFiles, StarMultiFiles, UnStarMultiFiles, ChangeMultiFilesLabel, ChangeMultiFilesFolder, GetFileCacheStatus, GetHaveToDoTask,ResetToDoTask, ActionsSubmitToBlockchain } from 'src/functions/ChivesweaveWallets'
+import { TrashMultiFiles, SpamMultiFiles, StarMultiFiles, UnStarMultiFiles, ChangeMultiFilesLabel, ChangeMultiFilesFolder, GetFileCacheStatus, GetHaveToDoTask,ResetToDoTask, ActionsSubmitToBlockchain, CreateFolder } from 'src/functions/ChivesweaveWallets'
 import { TxRecordType } from 'src/types/apps/Chivesweave'
 
 const FileItem = styled(ListItem)<ListItemProps>(({ theme }) => ({
@@ -112,7 +117,7 @@ const DriveList = (props: DriveListType) => {
     direction,
     routeParams,
     labelColors,
-    folderColors,
+    folder,
     setCurrentFile,
     driveFileOpen,
     handleSelectFile,
@@ -120,15 +125,33 @@ const DriveList = (props: DriveListType) => {
     handleSelectAllFile,
     handleLeftSidebarToggle,
     paginationModel,
-    handlePageChange
+    handlePageChange,
+    handleFolderChange
   } = props
+
+  
+  const [fileCounter, setFileCounter] = useState<number>(0)
 
   useEffect(()=>{
     dispatch(handleSelectAllFile(false))
+
+    let fileCounterItem =0
+    store.data.forEach((drive: TxRecordType) => {
+      const TagsMap: any = {}
+      drive && drive.tags && drive.tags.length > 0 && drive.tags.map( (Tag: any) => {
+        TagsMap[Tag.name] = Tag.value;
+      })
+      const EntityType = TagsMap['Entity-Type']
+      if(EntityType!="Folder") {
+        fileCounterItem += 1
+      }
+    })
+    setFileCounter(fileCounterItem)
+
   },[paginationModel])
   
   const [uploadProgress, setUploadProgress] = useState<{ [key: string]: number }>({})
-  const [isDialog, setIsDialog] = useState<boolean>(false)
+  const [isSubmitBlockchainDialog, setIsSubmitBlockchainDialog] = useState<boolean>(false)
   const [open, setOpen] = useState<boolean>(false)
   const [isProgress, setIsProgress] = useState<boolean>(false)
   const [haveSubmitTextTip, setHaveSubmitTextTip] = useState<string>("")
@@ -141,6 +164,19 @@ const DriveList = (props: DriveListType) => {
     setIsHaveTaskToDoText("Submit to blockchain")
     console.log("uploadProgress", uploadProgress)
   },[isHaveTaskToDo])
+
+  
+  const [isNewFolderDialog, setIsNewFolderDialog] = useState<boolean>(false)
+  const [folderName, setFodlerName] = useState<string>("")
+  const [folderNameParent, setFodlerNameParent] = useState<string>("Root")
+  const [folderNameError, setFodlerNameError] = useState<string | null>(null)
+  const handleFolderNameChange = (event: any) => {
+    setFodlerName(event.target.value);
+    console.log("folderName", folderName)
+    if(event.target.value.length == '' || event.target.value == undefined) {
+        setFodlerNameError(`${t('Folder name can not be null')}`)
+    }
+  };
 
   // ** State
   const [refresh, setRefresh] = useState<boolean>(false)
@@ -270,18 +306,18 @@ const DriveList = (props: DriveListType) => {
     }
   }
 
-  const handleFolderUpdate = (id: string | string[], folder: FolderType) => {
+  const handleFolderUpdate = (id: string | string[], folder: any) => {
     console.log("store.selectedFiles", store)
     if( store.selectedFiles && store.selectedFiles.length > 0 && store.data && store.data.length > 0) {
       setIsHaveTaskToDo(isHaveTaskToDo + 1);
       const TargetFiles: TxRecordType[] = store.data.filter((Item: TxRecordType)  => store.selectedFiles.includes(Item.id));
-      ChangeMultiFilesFolder(TargetFiles, folder);
+      ChangeMultiFilesFolder(TargetFiles, folder.id, folder);
       dispatch(handleSelectAllFile(false))
     }
   }
 
   const handleActionsSubmitToBlockchain = () => {
-    setIsDialog(true);
+    setIsSubmitBlockchainDialog(true);
     setOpen(true);
   }
 
@@ -294,7 +330,7 @@ const DriveList = (props: DriveListType) => {
 
       const delayExecution = setTimeout(() => {
         setOpen(false);
-        setIsDialog(false);
+        setIsSubmitBlockchainDialog(false);
         setIsProgress(false);
         ResetToDoTask();
         setIsHaveTaskToDo(isHaveTaskToDo + 1);
@@ -309,12 +345,34 @@ const DriveList = (props: DriveListType) => {
 
   const handleNoClose = () => {
     setOpen(false)
-    setIsDialog(false)
+    setIsSubmitBlockchainDialog(false)
   }
 
   const handleCancelOperation = () => {
     ResetToDoTask();
     setIsHaveTaskToDo(isHaveTaskToDo + 1);
+  }
+
+  const handleCreateFolderOperation = () => {
+    setOpen(true)
+    setIsNewFolderDialog(true)
+  }
+
+  const handleCreateFolderSubmit = () => {
+    if(folderName=="") {
+      setFodlerNameError(`${t('Folder name can not be null')}`)
+    }
+    else {
+      setOpen(false)
+      setIsNewFolderDialog(false)
+      CreateFolder(folderName, folderNameParent)
+      setFodlerName("")
+      setFodlerNameError(null)
+      setIsHaveTaskToDo(isHaveTaskToDo + 1);
+      toast.success(t(`Save to drafts`), {
+        duration: 2000
+      })
+    }
   }
 
   const handleRefreshDriveClick = () => {
@@ -347,17 +405,17 @@ const DriveList = (props: DriveListType) => {
 
   const handleFoldersMenu = () => {
     const array: OptionType[] = []
-    Object.entries(folderColors).map(([key, value]: any) => {
+    store && store.folder && store.folder['Root'] && store.folder['Root'].map((Item: any) => {
       array.push({
-        text: <Typography sx={{ textTransform: 'capitalize' }}>{key}</Typography>,
+        text: <Typography sx={{ textTransform: 'capitalize' }}>{Item.name}</Typography>,
         icon: (
-          <Box component='span' sx={{ mr: 2, color: `${value}.main` }}>
+          <Box component='span' sx={{ mr: 2 }}>
             <Icon icon='mdi:circle' fontSize='0.75rem' />
           </Box>
         ),
         menuItemProps: {
           onClick: () => {
-            handleFolderUpdate(store.selectedFiles, key as FolderType)
+            handleFolderUpdate(store.selectedFiles, Item)
             dispatch(handleSelectAllFile(false))
           }
         }
@@ -383,11 +441,9 @@ const DriveList = (props: DriveListType) => {
     currentFile: store && store.currentFile ? store.currentFile : null
   }
 
-  console.log("labelColors", labelColors)
-
   return (
     <Box sx={{ width: '100%', overflow: 'hidden', position: 'relative', '& .ps__rail-y': { zIndex: 5 } }}>
-      {isDialog == true ? 
+      {isSubmitBlockchainDialog == true ? 
         <Fragment>
           <Dialog
               open={open}
@@ -442,6 +498,77 @@ const DriveList = (props: DriveListType) => {
       :
       <Fragment></Fragment>
       }
+      {isNewFolderDialog == true ? 
+        <Fragment>
+          <Dialog
+              open={open}
+              disableEscapeKeyDown
+              aria-labelledby='alert-dialog-title'
+              aria-describedby='alert-dialog-description'
+              >
+              <DialogTitle id='alert-dialog-title'>{`${t(`Create Folder`)}`}</DialogTitle>
+              <DialogContent>
+                  <DialogContentText id='alert-dialog-description' sx={{py: 2}}>
+                    <TextField
+                        fullWidth
+                        label={`${t('FolderName')}`}
+                        placeholder={`${t('FolderName')}`}
+                        value={folderName}
+                        onChange={handleFolderNameChange}
+                        InputProps={{
+                            startAdornment: (
+                                <InputAdornment position='start'>
+                                  <Icon icon='mdi:folder-outline' />
+                                </InputAdornment>
+                            )
+                        }}
+                        error={!!folderNameError}
+                        helperText={folderNameError}
+                    />
+                  </DialogContentText>
+                  {`${t('After creating the folder, you need to manually submit it to the blockchain network.')}`}
+              </DialogContent>
+              <DialogActions className='dialog-actions-dense'>
+                  {isProgress == true && haveSubmitTextTip == "" ? 
+                    <Fragment>
+                      <CircularProgress disableShrink sx={{ m: 6 }} />
+                    </Fragment>
+                  :
+                  <Fragment></Fragment>
+                  }
+                  {isProgress == true && haveSubmitTextTip != "" ? 
+                    <Fragment>
+                      <Typography
+                              sx={{
+                                mr: 4,
+                                fontWeight: 500,
+                                whiteSpace: 'nowrap',
+                                width: ['100%', 'auto'],
+                                overflow: ['hidden', 'unset'],
+                                textOverflow: ['ellipsis', 'unset']
+                              }}
+                            >
+                              {haveSubmitTextTip}
+                            </Typography>
+                    </Fragment>
+                  :
+                  <Fragment></Fragment>
+                  }
+                  {isProgress == false ? 
+                    <Fragment>
+                      <Button onClick={handleCreateFolderSubmit} color="error" size='large' variant='contained' >{`${t(`Submit`)}`}</Button>
+                      <Button onClick={handleNoClose} color="primary">{`${t(`Cancel`)}`}</Button>
+                    </Fragment>
+                  :
+                  <Fragment></Fragment>
+                  }
+                  
+              </DialogActions>
+          </Dialog>
+        </Fragment>
+      :
+      <Fragment></Fragment>
+      }
       <Box sx={{ height: '100%', backgroundColor: 'background.paper' }}>
         <Box sx={{ px: 5, py: 3 }}>
           <Box sx={{ display: 'flex', alignItems: 'center', width: '100%' }}>
@@ -470,7 +597,7 @@ const DriveList = (props: DriveListType) => {
               {store && store.data && store.selectedFiles ? (
                 <Checkbox
                   onChange={e => dispatch(handleSelectAllFile(e.target.checked))}
-                  checked={(store.data.length && store.data.length === store.selectedFiles.length) || false}
+                  checked={(store.data.length && fileCounter === store.selectedFiles.length) || false}
                   indeterminate={
                     !!(
                       store.data.length &&
@@ -485,14 +612,14 @@ const DriveList = (props: DriveListType) => {
                 <Fragment>
                   <OptionsMenu leftAlignMenu options={handleFoldersMenu()} icon={<Icon icon='mdi:folder-outline' />} />
                   <OptionsMenu leftAlignMenu options={handleLabelsMenu()} icon={<Icon icon='mdi:label-outline' />} />
-                  {routeParams && routeParams.folder !== 'Trash' && routeParams.folder !== 'Spam' ? (
+                  {routeParams && routeParams.initFolder !== 'Trash' && routeParams.initFolder !== 'Spam' ? (
                     <Tooltip title={`${t(`Move to Trash`)}`} arrow>
                       <IconButton onClick={handleMoveToTrash}>
                         <Icon icon='mdi:delete-outline' />
                       </IconButton>
                     </Tooltip>
                   ) : null}
-                  {routeParams && routeParams.folder !== 'Trash' && routeParams.folder !== 'Spam' ? (
+                  {routeParams && routeParams.initFolder !== 'Trash' && routeParams.initFolder !== 'Spam' ? (
                     <Tooltip title={`${t(`Move to Spam`)}`} arrow>
                       <IconButton onClick={handleMoveToSpam}>
                         <Icon icon='mdi:alert-octagon-outline' />
@@ -501,6 +628,8 @@ const DriveList = (props: DriveListType) => {
                   ) : null}
                 </Fragment>
               ) : null}
+
+
             </Box>
             <Box sx={{ display: 'flex', alignItems: 'center' }}>
               {haveTaskToDoNumber && haveTaskToDoNumber>0 ?
@@ -515,16 +644,22 @@ const DriveList = (props: DriveListType) => {
                   </Tooltip>
                 </Fragment>
                 :
-                <Fragment></Fragment>
+                <Fragment>
+                  <Tooltip title={`${t(`Refresh`)}`} arrow>
+                    <IconButton size='small' onClick={handleRefreshDriveClick}>
+                      <Icon icon='mdi:reload' fontSize='1.375rem' />
+                    </IconButton>
+                  </Tooltip>
+                </Fragment>
               }
-              <Tooltip title={`${t(`Refresh`)}`} arrow>
-                <IconButton size='small' onClick={handleRefreshDriveClick}>
-                  <Icon icon='mdi:reload' fontSize='1.375rem' />
-                </IconButton>
+              
+              <Tooltip title={`${t(`Create Folder`)}`} arrow>
+                <Button variant='contained'size='small' onClick={handleCreateFolderOperation} sx={{ whiteSpace: 'nowrap' }}>
+                  <Icon icon='mdi:plus' />
+                  {`${t(`Create Folder`)}`}
+                </Button>
               </Tooltip>
-              <IconButton size='small'>
-                <Icon icon='mdi:dots-vertical' fontSize='1.375rem' />
-              </IconButton>
+
             </Box>
           </Box>
         </Box>
@@ -538,7 +673,7 @@ const DriveList = (props: DriveListType) => {
                   drive && drive.tags && drive.tags.length > 0 && drive.tags.map( (Tag: any) => {
                     TagsMap[Tag.name] = Tag.value;
                   })
-
+                  const EntityType = TagsMap['Entity-Type']
                   const FileCacheStatus = GetFileCacheStatus(drive.id)
                   
                   return (
@@ -546,15 +681,26 @@ const DriveList = (props: DriveListType) => {
                       key={drive.id}
                       sx={{ backgroundColor: true ? 'action.hover' : 'background.paper' }}
                       onClick={() => {
-                        if(FileCacheStatus.Folder == "Trash" || FileCacheStatus.Folder == "Spam") {
+                        if(EntityType == "Folder") {
+                          if(FileCacheStatus.Folder == "Trash" || FileCacheStatus.Folder == "Spam") {
+                          }
+                          else {
+                            console.log("drive",drive.id)
+                            handleFolderChange(drive.id, drive.id)
+                          }
                         }
                         else {
-                          setFileDetailOpen(true)
-                          dispatch(setCurrentFile(drive))
-                          setTimeout(() => {
-                            dispatch(handleSelectAllFile(false))
-                          }, 600)
+                          if(FileCacheStatus.Folder == "Trash" || FileCacheStatus.Folder == "Spam") {
+                          }
+                          else {
+                            setFileDetailOpen(true)
+                            dispatch(setCurrentFile(drive))
+                            setTimeout(() => {
+                              dispatch(handleSelectAllFile(false))
+                            }, 600)
+                          }
                         }
+                        
                       }}
                     >
                       <Tooltip title={(FileCacheStatus.Folder == "Trash" || FileCacheStatus.Folder == "Spam") ? `${t(`You cannot perform operations on files in the Trash or Spam`)}` :''} arrow>
@@ -564,7 +710,7 @@ const DriveList = (props: DriveListType) => {
                             onClick={e => e.stopPropagation()}
                             onChange={() => dispatch(handleSelectFile(drive.id))}
                             checked={store.selectedFiles.includes(drive.id) || false}
-                            disabled={(FileCacheStatus.Folder == "Trash" || FileCacheStatus.Folder == "Spam")}
+                            disabled={(FileCacheStatus.Folder == "Trash" || FileCacheStatus.Folder == "Spam" || EntityType == "Folder")}
                           />
                           <IconButton
                             size='small'
