@@ -24,7 +24,6 @@ import DialogTitle from '@mui/material/DialogTitle'
 import DialogContent from '@mui/material/DialogContent'
 import DialogActions from '@mui/material/DialogActions'
 import DialogContentText from '@mui/material/DialogContentText'
-import CustomAvatar from 'src/@core/components/mui/avatar'
 
 
 import Breadcrumbs from '@mui/material/Breadcrumbs'
@@ -32,11 +31,7 @@ import Link from '@mui/material/Link'
 import Stack from '@mui/material/Stack'
 //import NavigateNextIcon from '@mui/icons-material/NavigateNext'
 
-import Card from '@mui/material/Card'
 import TextField from '@mui/material/TextField'
-import CardHeader from '@mui/material/CardHeader'
-import CardContent from '@mui/material/CardContent'
-
 // ** Icon Imports
 import Icon from 'src/@core/components/icon'
 
@@ -636,7 +631,7 @@ const DriveList = (props: DriveListType) => {
                     dispatch(handleSelectAllFile(e.target.checked))
                     updateFileCounter()
                   }}
-                  checked={(store.data.length && fileCounter === store.selectedFiles.length) }
+                  checked={(store.data.length && fileCounter === store.selectedFiles.length && fileCounter > 0) }
                   indeterminate={
                     !!(
                       store.data.length &&
@@ -691,14 +686,16 @@ const DriveList = (props: DriveListType) => {
                   </Tooltip>
                 </Fragment>
               }
-              
-              <Tooltip title={`${t(`Create Folder`)}`} arrow>
-                <Button variant='contained'size='small' onClick={handleCreateFolderOperation} sx={{ whiteSpace: 'nowrap' }}>
-                  <Icon icon='mdi:plus' />
-                  {`${t(`Create Folder`)}`}
-                </Button>
-              </Tooltip>
 
+              {routeParams && routeParams.initFolder !== 'Trash' && routeParams.initFolder !== 'Spam' && routeParams.initFolder !== 'Star' ? (
+                <Tooltip title={`${t(`Create Folder`)}`} arrow>
+                  <Button variant='contained'size='small' onClick={handleCreateFolderOperation} sx={{ whiteSpace: 'nowrap' }}>
+                    <Icon icon='mdi:plus' />
+                    {`${t(`Create Folder`)}`}
+                  </Button>
+                </Tooltip>
+              ) : null}
+              
             </Box>
           </Box>
         </Box>
@@ -715,6 +712,10 @@ const DriveList = (props: DriveListType) => {
                   const EntityType = TagsMap['Entity-Type']
                   const EntityTarget = TagsMap['Entity-Target']
                   const FileCacheStatus = GetFileCacheStatus(drive.id)
+                  let IsFileDisabled = false
+                  if(FileCacheStatus.Folder == "Trash" || FileCacheStatus.Folder == "Spam" || (FileCacheStatus.Folder!=undefined && FileCacheStatus.Folder!="") ) {
+                    IsFileDisabled = true
+                  }
                   
                   return (
                     <FileItem
@@ -722,7 +723,7 @@ const DriveList = (props: DriveListType) => {
                       sx={{ backgroundColor: true ? 'action.hover' : 'background.paper' }}
                       onClick={() => {
                         if(EntityType == "Folder") {
-                          if(FileCacheStatus.Folder == "Trash" || FileCacheStatus.Folder == "Spam") {
+                          if(IsFileDisabled) {
                           }
                           else {
                             console.log("drive",drive)
@@ -731,7 +732,7 @@ const DriveList = (props: DriveListType) => {
                           }
                         }
                         else {
-                          if(FileCacheStatus.Folder == "Trash" || FileCacheStatus.Folder == "Spam") {
+                          if(IsFileDisabled) {
                           }
                           else {
                             setFileDetailOpen(true)
@@ -751,12 +752,12 @@ const DriveList = (props: DriveListType) => {
                             onClick={e => e.stopPropagation()}
                             onChange={() => dispatch(handleSelectFile(drive.id))}
                             checked={store.selectedFiles.includes(drive.id) || false}
-                            disabled={(FileCacheStatus.Folder == "Trash" || FileCacheStatus.Folder == "Spam" || EntityType == "Folder")}
+                            disabled={( IsFileDisabled || EntityType == "Folder" )}
                           />
                           <IconButton
                             size='small'
                             onClick={e => handleStarDrive(e, drive.id, !FileCacheStatus['Star'])}
-                            disabled={(FileCacheStatus.Folder == "Trash" || FileCacheStatus.Folder == "Spam")}
+                            disabled={IsFileDisabled}
                             sx={{
                               mr: { xs: 0, sm: 3 },
                               color: FileCacheStatus['Star'] ? 'warning.main' : 'text.secondary',
@@ -807,7 +808,8 @@ const DriveList = (props: DriveListType) => {
                                 whiteSpace: 'nowrap',
                                 width: ['100%', 'auto'],
                                 overflow: ['hidden', 'unset'],
-                                textOverflow: ['ellipsis', 'unset']
+                                textOverflow: ['ellipsis', 'unset'],
+                                color: IsFileDisabled ? 'text.disabled' : ''
                               }}
                             >
                               {TagsMap['File-Name']}

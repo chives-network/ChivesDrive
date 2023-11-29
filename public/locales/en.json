@@ -101,5 +101,17 @@
   "hours": "hours",
   "day": "day",
   "days": "days",
-  "about": "about"
+  "about": "about",
+  "Root": "Root",
+  "Create Folder": "Create Folder",
+  "Personal": "Personal",
+  "Company": "Company",
+  "Important": "Important",
+  "Private": "Private",
+  "Image": "Image",
+  "Word": "Word",
+  "Excel": "Excel",
+  "Pptx": "Pptx",
+  "Video": "Video",
+  "Action": "Action"
 }

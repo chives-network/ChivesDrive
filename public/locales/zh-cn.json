@@ -101,5 +101,16 @@
     "hours": "小时",
     "day": "天",
     "days": "天",
-    "about": "大约"
+    "about": "大约",
+    "Root": "根目录",
+    "Create Folder": "创建文件夹",
+    "Personal": "个人",
+    "Company": "公司",
+    "Important": "重要",
+    "Private": "私人",
+    "Image": "图片",
+    "Word": "Word 文档",
+    "Excel": "Excel 表格",
+    "Pptx": "PPT 文档",
+    "Video": "视频"
 }

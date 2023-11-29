@@ -302,6 +302,17 @@ export function downloadTextFile(content: string, fileName: string, mimeType: st
     document.body.removeChild(link);
 }
 
+export async function downloadUrlFile(url: string, fileName: string, mimeType: string) {
+    const response = await axios.get(url, { responseType: 'blob' });
+    const blob = new Blob([response.data], { type: mimeType });
+    const link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.download = fileName;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+}
+
 export function removePunctuation(text: string) {
     return text.replace(/[^\w\s\u4e00-\u9fa5]/g, '');
 }
@@ -713,7 +724,6 @@ export async function CreateFolder(folderName: string, folderNameParent: string)
 
 export async function CheckBundleTxStatus() {
     //Get the bundle tx status
-    const chivesTxStatus = authConfig.chivesTxStatus
     const chivesTxStatusText = window.localStorage.getItem(chivesTxStatus)      
     const chivesTxStatusList = chivesTxStatusText ? JSON.parse(chivesTxStatusText) : []
     console.log("CheckBundleTxStatus", chivesTxStatusList, (new Date()).toLocaleTimeString())
@@ -721,7 +731,7 @@ export async function CheckBundleTxStatus() {
     if(chivesTxStatusList && chivesTxStatusList.length > 0)  {
         await Promise.all(
             chivesTxStatusList.map(async (Item: any) => {
-                const TxId = Item.id;
+                const TxId = Item.TxResult.id;
                 try {
                     const response = await axios.get(authConfig.backEndApi + '/tx/' + TxId + '/unbundle/0/9');
                     if(response && response.data && response.data.txs && response.data.txs.length > 0) {
@@ -756,6 +766,24 @@ export function GetFileCacheStatus(TxId: string) {
     }
     if(ChivesDriveActionsMap && ChivesDriveActionsMap['Folder'] && ChivesDriveActionsMap['Folder'][TxId] )  {
         FileStatus['Folder'] = ChivesDriveActionsMap['Folder'][TxId];
+    }
+
+    const chivesTxStatusText = window.localStorage.getItem(chivesTxStatus)      
+    const chivesTxStatusList = chivesTxStatusText ? JSON.parse(chivesTxStatusText) : []
+
+    if(chivesTxStatusList && chivesTxStatusList.length > 0)  {
+        chivesTxStatusList.map(async (Item: any) => {
+            const ChivesDriveActionsMaTx = Item.ChivesDriveActionsMap;
+            if(ChivesDriveActionsMaTx && ChivesDriveActionsMaTx['Star'] && ChivesDriveActionsMaTx['Star'][TxId] )  {
+                FileStatus['Star'] = ChivesDriveActionsMaTx['Star'][TxId];
+            }
+            if(ChivesDriveActionsMaTx && ChivesDriveActionsMaTx['Label'] && ChivesDriveActionsMaTx['Label'][TxId] )  {
+                FileStatus['Label'] = ChivesDriveActionsMaTx['Label'][TxId];
+            }
+            if(ChivesDriveActionsMaTx && ChivesDriveActionsMaTx['Folder'] && ChivesDriveActionsMaTx['Folder'][TxId] )  {
+                FileStatus['Folder'] = ChivesDriveActionsMaTx['Folder'][TxId];
+            }            
+        })
     }
 
     //console.log("FileStatus", FileStatus)
@@ -959,7 +987,8 @@ export async function ActionsSubmitToBlockchain(setUploadProgress: React.Dispatc
     //Save Tx Records Into LocalStorage
     const chivesTxStatusText = window.localStorage.getItem(chivesTxStatus)      
     const chivesTxStatusList = chivesTxStatusText ? JSON.parse(chivesTxStatusText) : []
-    chivesTxStatusList.push(TxResult)
+    chivesTxStatusList.push({TxResult,ChivesDriveActionsMap})
+    console.log("chivesTxStatusList", chivesTxStatusList)
     window.localStorage.setItem(chivesTxStatus, JSON.stringify(chivesTxStatusList))
        
     return TxResult;

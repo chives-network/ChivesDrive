@@ -14,6 +14,7 @@ import { DataGrid, GridColDef } from '@mui/x-data-grid'
 import Card from '@mui/material/Card'
 import Grid from '@mui/material/Grid'
 import Table from '@mui/material/Table'
+import Button from '@mui/material/Button'
 import Divider from '@mui/material/Divider'
 import TableRow from '@mui/material/TableRow'
 import TableCell from '@mui/material/TableCell'
@@ -27,6 +28,7 @@ import { styled } from '@mui/material/styles'
 import ImagesPreview from 'src/pages/preview'
 
 import { formatHash, formatXWE, formatTimestamp, formatStorageSize, getContentTypeAbbreviation, formatTimestampAge } from 'src/configs/functions';
+import { downloadUrlFile } from 'src/functions/ChivesweaveWallets';
 
 // ** Store Imports
 import { useDispatch, useSelector } from 'react-redux'
@@ -159,48 +161,7 @@ function ImagePreview(ImageSource: string, EntityType: string, EntityAction: str
   );
 }
 
-function parseTxAndGetMemoFileInfoInTags(TxRecord: TxRecordType) {
-  const FileMap: { [key: string]: string } = {}
-  TxRecord.tags.map((Item: { [key: string]: string }) => {
-    FileMap[Item.name] = Item.value;
-  });
-  const FileType = getContentTypeAbbreviation(FileMap['Content-Type']);
-  const FileTxId = FileMap['File-TxId'];
-  let ImageUrl = ""
-  if(FileTxId && FileTxId.length == 43) {
-    ImageUrl = FileTxId
-  }
-  else {
-    ImageUrl = TxRecord.id
-  }
-  
-  //console.log("FileType", `${authConfig.backEndApi}/${TxRecord.id}`)
-  switch(FileType) {
-    case 'PNG':
-    case 'GIF':
-    case 'JPEG':
-    case 'JPG':
-    case 'WEBM':
-      return <ImgPreview src={`${authConfig.backEndApi}/${ImageUrl}`}/>
-    case 'PDF':
-      return <ImagesPreview key={TxRecord.id} open={true} toggleImagesPreviewDrawer={toggleImagesPreviewDrawer} imagesList={[`${authConfig.backEndApi}/${TxRecord.id}`]} imagesType={['pdf']} />;
-    case 'JSON':
-      return <ImagesPreview key={TxRecord.id} open={true} toggleImagesPreviewDrawer={toggleImagesPreviewDrawer} imagesList={[`${authConfig.backEndApi}/${TxRecord.id}`]} imagesType={['json']} />;
-      case 'DOC':
-      case 'DOCX':
-        return <ImagesPreview key={TxRecord.id} open={true} toggleImagesPreviewDrawer={toggleImagesPreviewDrawer} imagesList={[`${authConfig.backEndApi}/${TxRecord.id}`]} imagesType={['Word']} />;
-    case 'XLS':
-    case 'XLSX':
-      return <ImagesPreview key={TxRecord.id} open={true} toggleImagesPreviewDrawer={toggleImagesPreviewDrawer} imagesList={[`${authConfig.backEndApi}/${TxRecord.id}`]} imagesType={['Excel']} />;
-      case 'PPT':
-      case 'PPTX':
-        return <ImagesPreview key={TxRecord.id} open={true} toggleImagesPreviewDrawer={toggleImagesPreviewDrawer} imagesList={[`${authConfig.backEndApi}/${TxRecord.id}`]} imagesType={['PPTX']} />;
-    case 'MP4':
-      return <ImagesPreview key={TxRecord.id} open={true} toggleImagesPreviewDrawer={toggleImagesPreviewDrawer} imagesList={[`${authConfig.backEndApi}/${TxRecord.id}`]} imagesType={['Mp4']} />;
-    default:
-      return <Fragment></Fragment>
-  }
-}
+
 
 function parseTxAndGetMemoFileInfoInDataGrid(TxRecord: TxRecordType) {
   const FileMap: { [key: string]: string } = {}
@@ -283,6 +244,8 @@ const TxView = () => {
   const [isBundleTx, setIsBundleTx] = useState(false)
   const [paginationModel, setPaginationModel] = useState({ page: 0, pageSize: 15 })
   const [tags, setTags] = useState<any>({})
+  const [fileUrl, setFileUrl] = useState<string>("")
+  const [fileContenType, setFileContenType] = useState<string>("")
 
   // ** Hooks
   const dispatch = useDispatch<AppDispatch>()
@@ -324,6 +287,19 @@ const TxView = () => {
             if(Item.name == "Bundle-Format")  {
               setIsBundleTx(true);
             }
+            if(Item.name == "Content-Type")  {
+              setFileContenType(Item.value);
+            }
+            if(Item.name == "File-TxId")  {
+              let ImageUrl = ""
+              if(Item.value && Item.value.length == 43) {
+                ImageUrl = Item.value
+              }
+              else {
+                ImageUrl = res.data.id
+              }
+              setFileUrl(`${authConfig.backEndApi}/${ImageUrl}`);
+            }
           });
           if(TempFileName == '') {
             setFileName("Data");
@@ -335,6 +311,46 @@ const TxView = () => {
         })
     }
   }, [id])
+
+  function parseTxAndGetMemoFileInfoInTags(TxRecord: TxRecordType) {
+    const FileMap: { [key: string]: string } = {}
+    TxRecord.tags.map((Item: { [key: string]: string }) => {
+      FileMap[Item.name] = Item.value;
+    });
+    const FileType = getContentTypeAbbreviation(FileMap['Content-Type']);
+    const FileTxId = FileMap['File-TxId'];
+    let ImageUrl = ""
+    if(FileTxId && FileTxId.length == 43) {
+      ImageUrl = FileTxId
+    }
+    else {
+      ImageUrl = TxRecord.id
+    }
+    
+    //console.log("FileType", `${authConfig.backEndApi}/${TxRecord.id}`)
+    switch(FileType) {
+      case 'PNG':
+      case 'GIF':
+      case 'JPEG':
+      case 'JPG':
+      case 'WEBM':
+        return <ImgPreview src={`${authConfig.backEndApi}/${ImageUrl}`}/>
+      case 'PDF':
+        return <ImagesPreview key={TxRecord.id} open={true} toggleImagesPreviewDrawer={toggleImagesPreviewDrawer} imagesList={[`${authConfig.backEndApi}/${ImageUrl}`]} imagesType={['pdf']} />;
+      case 'JSON':
+        return <ImagesPreview key={TxRecord.id} open={true} toggleImagesPreviewDrawer={toggleImagesPreviewDrawer} imagesList={[`${authConfig.backEndApi}/${ImageUrl}`]} imagesType={['json']} />;
+      case 'DOCX':
+        return <ImagesPreview key={TxRecord.id} open={true} toggleImagesPreviewDrawer={toggleImagesPreviewDrawer} imagesList={[`${authConfig.backEndApi}/${ImageUrl}`]} imagesType={['Word']} />;
+      case 'XLSX':
+        return <ImagesPreview key={TxRecord.id} open={true} toggleImagesPreviewDrawer={toggleImagesPreviewDrawer} imagesList={[`${authConfig.backEndApi}/${ImageUrl}`]} imagesType={['Excel']} />;
+      case 'PPTX':
+        return <ImagesPreview key={TxRecord.id} open={true} toggleImagesPreviewDrawer={toggleImagesPreviewDrawer} imagesList={[`${authConfig.backEndApi}/${ImageUrl}`]} imagesType={['PPTX']} />;
+      case 'MP4':
+        return <ImagesPreview key={TxRecord.id} open={true} toggleImagesPreviewDrawer={toggleImagesPreviewDrawer} imagesList={[`${authConfig.backEndApi}/${ImageUrl}`]} imagesType={['Mp4']} />;
+      default:
+        return <Fragment></Fragment>;
+    }
+  }
 
   const columns: GridColDef[] = [
     {
@@ -673,7 +689,14 @@ const TxView = () => {
                                 }
                               }
                             }}
-                          >
+                          >                          
+                            <TableRow>
+                              <TableCell>
+                                <Button color={'primary'} variant={'outlined'} onClick={() => downloadUrlFile(fileUrl, fileName, fileContenType)}>
+                                  {t(`Download`)}
+                                </Button>
+                              </TableCell>
+                            </TableRow>
                             <TableRow>
                               <TableCell>
                                 <Typography variant='subtitle2' sx={{ color: 'text.primary' }}>
@@ -682,7 +705,6 @@ const TxView = () => {
                               </TableCell>
                             </TableRow>
                             
-
                           </TableBody>
                         </Table>
                       </TableContainer>

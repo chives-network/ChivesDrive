@@ -20,7 +20,7 @@ i18n
       loadPath: '/locales/{{lng}}.json'
     },
     fallbackLng: 'en',
-    debug: false,
+    debug: true,
     keySeparator: false,
     react: {
       useSuspense: false

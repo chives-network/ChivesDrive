@@ -66,7 +66,7 @@ const DriveAppLayout = ({ initFolder, label, type }: DriveLayoutType) => {
   const [driveFileOpen, setFileDetailOpen] = useState<boolean>(false)
   const [leftSidebarOpen, setLeftSidebarOpen] = useState<boolean>(false)
   const [folder, setFolder] = useState<string>(initFolder)
-  const [folderHeaderList, setFolderHeaderList] = useState<any[]>([{'name': initFolder, 'value': initFolder}])
+  const [folderHeaderList, setFolderHeaderList] = useState<any[]>([{'name': t(initFolder) as string, 'value': initFolder}])
 
   // ** Hooks
   const theme = useTheme()
