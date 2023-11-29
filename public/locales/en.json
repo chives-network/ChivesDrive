@@ -113,5 +113,21 @@
   "Excel": "Excel",
   "Pptx": "Pptx",
   "Video": "Video",
-  "Action": "Action"
+  "Action": "Action",
+  "My Wallets": "My Wallets",
+  "Create Wallet": "Create Wallet",
+  "Id": "Id",
+  "Nickname": "Nickname",
+  "Export": "Export",
+  "Delete": "Delete",
+  "Wallet List": "Wallet List",
+  "Method 1: Create a new wallet directly": "Method 1: Create a new wallet directly",
+  "Create a new wallet directly": "Create a new wallet directly",
+  "Method 2: Upload your wallet json file": "Method 2: Upload your wallet json file",
+  "Method 3: Input your 12 mnemonic words": "Method 3: Input your 12 mnemonic words",
+  "Drop wallet json file here or click to upload.": "Drop wallet json file here or click to upload.",
+  "Current Wallet": "Current Wallet",
+  "Settings": "Settings",
+  "FAQ": "FAQ",
+  "Input your 12 mnemonic words": "Input your 12 mnemonic words"
 }

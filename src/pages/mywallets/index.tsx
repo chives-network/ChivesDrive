@@ -121,11 +121,11 @@ const MyWallets = () => {
               aria-labelledby='alert-dialog-title'
               aria-describedby='alert-dialog-description'
               >
-              <DialogTitle id='alert-dialog-title'>Are you deleting your wallet?</DialogTitle>
+              <DialogTitle id='alert-dialog-title'>{`${t(`Are you deleting your wallet?`)}`}</DialogTitle>
               <DialogContent>
                   <DialogContentText id='alert-dialog-description'>
-                    Once this wallet is deleted, it cannot be restored.
-                    Do you want delete this wallet {wantDeleteWalletAddress} ?
+                  {`${t(`Once this wallet is deleted, it cannot be restored.`)}`}
+                  {`${t(`Do you want delete this wallet`)}`} {wantDeleteWalletAddress} ?
                   </DialogContentText>
               </DialogContent>
               <DialogActions className='dialog-actions-dense'>
@@ -147,7 +147,7 @@ const MyWallets = () => {
                           action={
                             <div>
                               <Button size='small' variant='contained' onClick={() => setCreateWalletWindow(true)}>
-                                Create Wallet
+                              {`${t(`Create Wallet`)}`}
                               </Button>
                             </div>
                           }
@@ -157,12 +157,12 @@ const MyWallets = () => {
                 <Table sx={{ minWidth: 500 }}>
                   <TableHead >
                     <TableRow>
-                      <TableCell align="center">Id</TableCell>
-                      <TableCell align="center">Address</TableCell>
-                      <TableCell align="center">Balance</TableCell>
-                      <TableCell align="center">Nickname</TableCell>
-                      <TableCell align="center">Export</TableCell>
-                      <TableCell align="center">Delete</TableCell>
+                      <TableCell align="center">{`${t(`Id`)}`}</TableCell>
+                      <TableCell align="center">{`${t(`Address`)}`}</TableCell>
+                      <TableCell align="center">{`${t(`Balance`)}`}</TableCell>
+                      <TableCell align="center">{`${t(`Nickname`)}`}</TableCell>
+                      <TableCell align="center">{`${t(`Export`)}`}</TableCell>
+                      <TableCell align="center">{`${t(`Delete`)}`}</TableCell>
                     </TableRow>
                   </TableHead>
 
@@ -174,7 +174,7 @@ const MyWallets = () => {
                         <TableCell align="right">{walletBalanceMap[wallet.data.arweave.key]}</TableCell>
                         <TableCell align="center">
                           <TextField  id={wallet.data.arweave.key} 
-                                      label='Nickname' 
+                                      label={`${t(`Nickname`)}`} 
                                       variant='standard' 
                                       color='success'
                                       defaultValue={getWalletNicknamesData[wallet.data.arweave.key]}
@@ -183,12 +183,12 @@ const MyWallets = () => {
                         </TableCell>
                         <TableCell align="center">
                           <Button variant='contained' size='small' endIcon={<Icon icon='mdi:export' />} onClick={(event) => handleClickToExport(event, wallet.data.arweave.key)} >
-                            Export
+                          {`${t(`Export`)}`}
                           </Button>
                         </TableCell>
                         <TableCell align="center">
                           <Button variant='contained' size='small' endIcon={<Icon icon='mdi:delete'/>} onClick={(event) => handleClickToDelete(event, wallet.data.arweave.key, wallet.id)} color="info">
-                            Delete
+                          {`${t(`Delete`)}`}
                           </Button>
                         </TableCell>
                       </TableRow>
@@ -207,11 +207,11 @@ const MyWallets = () => {
           
           <Grid item xs={12}>
             <Card>
-              <CardHeader title='Create A New Wallet' 
+              <CardHeader title={`${t(`Create Wallet`)}`}
                           action={
                             <div>
                               <Button size='small' variant='contained' onClick={() => setCreateWalletWindow(false)}>
-                                Wallet List
+                              {`${t(`Wallet List`)}`}
                               </Button>
                             </div>
                           }

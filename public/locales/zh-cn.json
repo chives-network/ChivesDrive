@@ -112,5 +112,22 @@
     "Word": "Word 文档",
     "Excel": "Excel 表格",
     "Pptx": "PPT 文档",
-    "Video": "视频"
+    "Video": "视频",
+    "Action": "操作",
+    "My Wallets": "我的钱包",
+    "Create Wallet": "创建钱包",
+    "Id": "标识",
+    "Nickname": "昵称",
+    "Export": "导出",
+    "Delete": "删除",
+    "Wallet List": "钱包列表",
+    "Method 1: Create a new wallet directly": "方法 1：直接创建新钱包",
+    "Create a new wallet directly": "直接创建新钱包",
+    "Method 2: Upload your wallet json file": "方法 2：上传您的钱包 JSON 文件",
+    "Method 3: Input your 12 mnemonic words": "方法 3：输入您的 12 个助记词",
+    "Drop wallet json file here or click to upload.": "将钱包 JSON 文件拖拽至此或点击上传。",
+    "Current Wallet": "当前钱包",
+    "Settings": "设置",
+    "FAQ": "常见问题",
+    "Input your 12 mnemonic words": "输入您的 12 个助记词"
 }
