@@ -227,6 +227,8 @@ const FileUploaderMultiple = () => {
     const tags: any = []
     tags.push({name: "Bundle-Format", value: 'binary'})
     tags.push({name: "Bundle-Version", value: '2.0.0'})
+    tags.push({name: "Entity-Type", value: "Bundle"})
+    tags.push({name: "Entity-Number", value: String(files.length)})
 
     const TxResult: any = await sendAmount(currentWallet, target, amount, tags, data, "UploadBundleFile", setUploadProgress);
 

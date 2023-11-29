@@ -22,6 +22,7 @@ const arweave = Arweave.init(urlToSettings(authConfig.backEndApi))
 const chivesWallets = authConfig.chivesWallets
 const chivesCurrentWallet = authConfig.chivesCurrentWallet
 const chivesWalletNickname = authConfig.chivesWalletNickname
+const chivesTxStatus = authConfig.chivesTxStatus
 
 export async function generateNewMnemonicAndGetWalletData (mnemonic: string) {
     try {
@@ -923,6 +924,12 @@ export async function ActionsSubmitToBlockchain(setUploadProgress: React.Dispatc
 
     const TxResult: any = await sendAmount(currentWallet, target, amount, tags, data, "UploadBundleFile", setUploadProgress);
     
+    //Save Tx Records Into LocalStorage
+    const chivesTxStatusText = window.localStorage.getItem(chivesTxStatus)      
+    const chivesTxStatusList = chivesTxStatusText ? JSON.parse(chivesTxStatusText) : []
+    chivesTxStatusList.push(TxResult)
+    window.localStorage.setItem(chivesTxStatus, JSON.stringify(chivesTxStatusList))
+       
     return TxResult;
 
   };
