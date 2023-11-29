@@ -1,5 +1,5 @@
 // ** React Imports
-import { useState, SyntheticEvent, Fragment } from 'react'
+import { useState, SyntheticEvent, Fragment, useEffect } from 'react'
 
 // ** Next Import
 import { useRouter } from 'next/router'
@@ -23,7 +23,7 @@ import { Settings } from 'src/@core/context/settingsContext'
 // ** Hooks
 import { useAuth } from 'src/hooks/useAuth'
 
-import { getAllWallets, getCurrentWalletAddress, setCurrentWallet, getWalletNicknames } from 'src/functions/ChivesweaveWallets'
+import { getAllWallets, getCurrentWalletAddress, setCurrentWallet, getWalletNicknames, CheckBundleTxStatus } from 'src/functions/ChivesweaveWallets'
 import { formatHash} from 'src/configs/functions';
 
 interface Props {
@@ -73,6 +73,14 @@ const UserDropdown = (props: Props) => {
     }
     setAnchorEl(null)
   }
+
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      CheckBundleTxStatus();
+    }, 60000);
+
+    return () => clearInterval(intervalId);
+  }, []);
 
   const getAllWalletsData = getAllWallets()
   const getCurrentWalletAddressData = getCurrentWalletAddress()

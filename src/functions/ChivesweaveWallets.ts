@@ -711,6 +711,38 @@ export async function CreateFolder(folderName: string, folderNameParent: string)
     console.log("ChivesDriveActionsMap", ChivesDriveActionsMap)
 }
 
+export async function CheckBundleTxStatus() {
+    //Get the bundle tx status
+    const chivesTxStatus = authConfig.chivesTxStatus
+    const chivesTxStatusText = window.localStorage.getItem(chivesTxStatus)      
+    const chivesTxStatusList = chivesTxStatusText ? JSON.parse(chivesTxStatusText) : []
+    console.log("CheckBundleTxStatus", chivesTxStatusList, (new Date()).toLocaleTimeString())
+    const chivesTxStatusListNew: any[] = []
+    if(chivesTxStatusList && chivesTxStatusList.length > 0)  {
+        await Promise.all(
+            chivesTxStatusList.map(async (Item: any) => {
+                const TxId = Item.id;
+                try {
+                    const response = await axios.get(authConfig.backEndApi + '/tx/' + TxId + '/unbundle/0/9');
+                    if(response && response.data && response.data.txs && response.data.txs.length > 0) {
+                        //Have Success Parsed
+                    }
+                    else {
+                        chivesTxStatusListNew.push(Item)
+                    }
+                    // Do something with NewData
+                } 
+                catch (error) {
+                    console.error(`Error fetching data for TxId ${TxId}:`, error);
+                }
+            })
+        );    
+        console.log("chivesTxStatusList___________________chivesTxStatusListNew", chivesTxStatusListNew)
+        window.localStorage.setItem(chivesTxStatus, JSON.stringify(chivesTxStatusListNew))
+        console.log("CheckBundleTxStatus", chivesTxStatusList, chivesTxStatusListNew)
+    }
+}
+
 export function GetFileCacheStatus(TxId: string) {
     const ChivesDriveActions = authConfig.chivesDriveActions
     const ChivesDriveActionsList = window.localStorage.getItem(ChivesDriveActions)      
