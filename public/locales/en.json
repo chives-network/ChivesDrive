@@ -135,5 +135,10 @@
   "Do you want delete this wallet": "Do you want delete this wallet",
   "Processing": "Processing",
   "Wallet created successfully": "Wallet created successfully",
-  "Wallet Address": "Wallet Address"
+  "Wallet Address": "Wallet Address",
+  "Successfully acquired 0.02 XWE, estimated to be deposited into your wallet in 3-10 minutes.": "Successfully acquired 0.02 XWE, estimated to be deposited into your wallet in 3-10 minutes.",
+  "You have send XWE to other address, then no longer eligible to claim free XWE": "You have send XWE to other address, then no longer eligible to claim free XWE",
+  "Get free 0.02 Xwe when this address is less than 0.01 and only use upload files purposes": "Get free 0.02 Xwe when this address is less than 0.01 and only use upload files purposes",
+  "Parameter error": "Parameter error",
+  "Faucet": "Faucet"
 }

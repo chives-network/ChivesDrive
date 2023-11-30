@@ -13,6 +13,7 @@ import TableBody from '@mui/material/TableBody'
 import CardHeader from '@mui/material/CardHeader'
 import TableContainer from '@mui/material/TableContainer'
 import TextField from '@mui/material/TextField'
+import Tooltip from '@mui/material/Tooltip'
 
 import Dialog from '@mui/material/Dialog'
 import DialogTitle from '@mui/material/DialogTitle'
@@ -36,6 +37,8 @@ import authConfig from 'src/configs/auth'
 // ** Third Party Import
 import { useTranslation } from 'react-i18next'
 
+import toast from 'react-hot-toast'
+
 const MyWallets = () => {
   // ** Hook
   const { t } = useTranslation()
@@ -49,6 +52,16 @@ const MyWallets = () => {
   const [wantDeleteWalletId, setWantDeleteWalletId] = useState<string>("")
   const [wantDeleteWalletAddress, setWantDeleteWalletAddress] = useState<string>("")
   const [refreshWalletData, setRefreshWalletData] = useState<number>(0)
+
+  const [faucetButtonMap, setFaucetButtonMap] = useState<any>({})
+
+  useEffect(() => {
+    const myTask = () => {
+      setRefreshWalletData(refreshWalletData+1);
+    };
+    const intervalId = setInterval(myTask, 2 * 60 * 1000);
+    return () => clearInterval(intervalId);
+  }, []);
 
   useEffect(() => {
     if(createWalletWindow == false) {
@@ -95,7 +108,15 @@ const MyWallets = () => {
     formData.append('height',Info.height);
     formData.append('diff',Info.diff);
     axios.post(authConfig.faucetApi, formData).then(res => {
-      console.log("res", res)
+      console.log("res", res.data)
+      setFaucetButtonMap({...faucetButtonMap, [Address]:true})
+      if(res.data['result']=="OK")  {
+        toast.success(t("Successfully acquired 0.02 XWE, estimated to be deposited into your wallet in 3-10 minutes.") as string, { duration: 4000 })
+      }
+      else {
+        toast.error(res.data['result'], { duration: 4000 })
+      }
+      console.log("faucetButtonMap", faucetButtonMap)
     });
   };
 
@@ -201,18 +222,20 @@ const MyWallets = () => {
                                       onChange={(event) => handleInputNicknameChange(event, wallet.data.arweave.key)}
                                       />
                         </TableCell>
-                        <TableCell align="center">
-                          <Button variant='contained' size='small' onClick={(event) => handleClickToFaucet(event, wallet.data.arweave.key)} disabled={walletBalanceMap[wallet.data.arweave.key]>0?true:false}>
-                          {`${t(`Faucet`)}`}
-                          </Button>
+                        <TableCell align="center" title={`${t(`Get free 0.02 Xwe when this address is less than 0.01 and only use upload files purposes`)}`}>
+                          <Tooltip title={`${t(`Get free 0.02 Xwe when this address is less than 0.01 and only use upload files purposes`)}`}>
+                            <Button variant='contained' size='small' onClick={(event) => handleClickToFaucet(event, wallet.data.arweave.key)} disabled={(walletBalanceMap[wallet.data.arweave.key] > 0.01 || faucetButtonMap[wallet.data.arweave.key])?true:false} sx={{ whiteSpace: 'nowrap' }}>
+                            {`${t(`Faucet`)}`}
+                            </Button>
+                          </Tooltip>
                         </TableCell>
                         <TableCell align="center">
-                          <Button variant='contained' size='small' endIcon={<Icon icon='mdi:export' />} onClick={(event) => handleClickToExport(event, wallet.data.arweave.key)} >
+                          <Button variant='contained' size='small' endIcon={<Icon icon='mdi:export' />} onClick={(event) => handleClickToExport(event, wallet.data.arweave.key)}  sx={{ whiteSpace: 'nowrap' }}>
                           {`${t(`Export`)}`}
                           </Button>
                         </TableCell>
                         <TableCell align="center">
-                          <Button variant='contained' size='small' endIcon={<Icon icon='mdi:delete'/>} onClick={(event) => handleClickToDelete(event, wallet.data.arweave.key, wallet.id)} color="info">
+                          <Button variant='contained' size='small' endIcon={<Icon icon='mdi:delete'/>} onClick={(event) => handleClickToDelete(event, wallet.data.arweave.key, wallet.id)} color="info" sx={{ whiteSpace: 'nowrap' }}>
                           {`${t(`Delete`)}`}
                           </Button>
                         </TableCell>
