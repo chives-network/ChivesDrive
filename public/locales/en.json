@@ -122,12 +122,18 @@
   "Delete": "Delete",
   "Wallet List": "Wallet List",
   "Method 1: Create a new wallet directly": "Method 1: Create a new wallet directly",
-  "Create a new wallet directly": "Create a new wallet directly",
   "Method 2: Upload your wallet json file": "Method 2: Upload your wallet json file",
   "Method 3: Input your 12 mnemonic words": "Method 3: Input your 12 mnemonic words",
   "Drop wallet json file here or click to upload.": "Drop wallet json file here or click to upload.",
+  "Create a new wallet directly": "Create a new wallet directly",
   "Current Wallet": "Current Wallet",
   "Settings": "Settings",
   "FAQ": "FAQ",
-  "Input your 12 mnemonic words": "Input your 12 mnemonic words"
+  "Input your 12 mnemonic words": "Input your 12 mnemonic words",
+  "Are you deleting your wallet?": "Are you deleting your wallet?",
+  "Once this wallet is deleted, it cannot be restored.": "Once this wallet is deleted, it cannot be restored.",
+  "Do you want delete this wallet": "Do you want delete this wallet",
+  "Processing": "Processing",
+  "Wallet created successfully": "Wallet created successfully",
+  "Wallet Address": "Wallet Address"
 }

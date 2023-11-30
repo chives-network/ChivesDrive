@@ -197,15 +197,17 @@ const UserDropdown = (props: Props) => {
             </Box>
           </MenuItem>
           }
-        <MenuItem sx={{ p: 0 }} onClick={() => handleDropdownClose('/faq')}>
-          <Box sx={styles}>
-            <Icon icon='mdi:help-circle-outline' />
-            {`${t(`FAQ`)}`}
-          </Box>
-        </MenuItem>
       </Menu>
     </Fragment>
   )
 }
 
+/*
+<MenuItem sx={{ p: 0 }} onClick={() => handleDropdownClose('/faq')}>
+  <Box sx={styles}>
+    <Icon icon='mdi:help-circle-outline' />
+    {`${t(`FAQ`)}`}
+  </Box>
+</MenuItem>
+*/
 export default UserDropdown

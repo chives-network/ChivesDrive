@@ -129,5 +129,11 @@
     "Current Wallet": "当前钱包",
     "Settings": "设置",
     "FAQ": "常见问题",
-    "Input your 12 mnemonic words": "输入您的 12 个助记词"
+    "Input your 12 mnemonic words": "输入您的 12 个助记词",
+    "Are you deleting your wallet?": "您是否要删除您的钱包？",
+    "Once this wallet is deleted, it cannot be restored.": "一旦删除此钱包，将无法恢复。",
+    "Do you want delete this wallet": "您确定要删除此钱包吗？",
+    "Processing": "处理中",
+    "Wallet created successfully": "钱包创建成功",
+    "Wallet Address": "钱包地址"
 }

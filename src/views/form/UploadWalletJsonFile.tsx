@@ -166,7 +166,7 @@ const UploadWalletJsonFile = ( { handleRefreshWalletData }: any ) => {
 
         {isLoading == true ? 
         <Fragment>
-            <CardHeader title={`${t('Create a new wallet ...')}`} />
+            <CardHeader title={`${t('Create a new wallet')}...`} />
             <CardContent>
                 <Grid container spacing={5}>
                     <Grid item xs={12}>

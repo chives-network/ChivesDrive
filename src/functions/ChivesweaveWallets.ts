@@ -19,10 +19,11 @@ import authConfig from 'src/configs/auth'
 
 const arweave = Arweave.init(urlToSettings(authConfig.backEndApi))
 
-const chivesWallets = authConfig.chivesWallets
-const chivesCurrentWallet = authConfig.chivesCurrentWallet
-const chivesWalletNickname = authConfig.chivesWalletNickname
-const chivesTxStatus = authConfig.chivesTxStatus
+const chivesWallets: string = authConfig.chivesWallets
+const chivesCurrentWallet: string = authConfig.chivesCurrentWallet
+const chivesWalletNickname: string = authConfig.chivesWalletNickname
+const chivesTxStatus: string = authConfig.chivesTxStatus
+const chivesLanguage: string = authConfig.chivesLanguage
 
 export async function generateNewMnemonicAndGetWalletData (mnemonic: string) {
     try {
@@ -1020,3 +1021,13 @@ export async function ActionsSubmitToBlockchain(setUploadProgress: React.Dispatc
     }
   }
 
+
+    export function getChivesLanguage() {
+        const ChivesLanguage = window.localStorage.getItem(chivesLanguage) || "en"
+        return ChivesLanguage
+    };
+
+    export function setChivesLanguage(Language: string) {
+        window.localStorage.setItem(chivesLanguage, Language)
+        return true
+    };
