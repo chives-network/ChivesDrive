@@ -30,6 +30,9 @@ import UploadWalletJsonFile from 'src/views/form/UploadWalletJsonFile'
 
 import { getAllWallets, getWalletBalance, setWalletNickname, getWalletNicknames, getWalletByAddress, downloadTextFile, removePunctuation, deleteWalletById } from 'src/functions/ChivesweaveWallets'
 
+import axios from 'axios'
+import authConfig from 'src/configs/auth'
+
 // ** Third Party Import
 import { useTranslation } from 'react-i18next'
 
@@ -78,6 +81,22 @@ const MyWallets = () => {
     const fileName = "chivesweave_keyfile_" + Address + "____" + removePunctuation(getWalletNicknamesData[Address]) + ".json";
     const mimeType = "text/plain";
     downloadTextFile(JSON.stringify(getWalletByAddress(Address).jwk), fileName, mimeType);
+  };
+
+  const handleClickToFaucet = async (event: any, Address: string) => {
+    console.log("event", event.target.value);
+    console.log("Address", Address);
+    let formData = new FormData();
+    formData.append('Address',Address);
+    const Info = await axios.get(authConfig.backEndApi).then(res => {
+      return res.data
+    });
+    formData.append('current',Info.current);
+    formData.append('height',Info.height);
+    formData.append('diff',Info.diff);
+    axios.post(authConfig.faucetApi, formData).then(res => {
+      console.log("res", res)
+    });
   };
 
   const handleClickToDelete = (event: any, Address: string, WalletId: string) => {
@@ -154,13 +173,14 @@ const MyWallets = () => {
                           />
               <Divider sx={{ m: '0 !important' }} />
               <TableContainer>
-                <Table sx={{ minWidth: 500 }}>
+                <Table sx={{ minWidth: 600 }}>
                   <TableHead >
                     <TableRow>
                       <TableCell align="center">{`${t(`Id`)}`}</TableCell>
                       <TableCell align="center">{`${t(`Address`)}`}</TableCell>
                       <TableCell align="center">{`${t(`Balance`)}`}</TableCell>
                       <TableCell align="center">{`${t(`Nickname`)}`}</TableCell>
+                      <TableCell align="center">{`${t(`Faucet`)}`}</TableCell>
                       <TableCell align="center">{`${t(`Export`)}`}</TableCell>
                       <TableCell align="center">{`${t(`Delete`)}`}</TableCell>
                     </TableRow>
@@ -180,6 +200,11 @@ const MyWallets = () => {
                                       defaultValue={getWalletNicknamesData[wallet.data.arweave.key]}
                                       onChange={(event) => handleInputNicknameChange(event, wallet.data.arweave.key)}
                                       />
+                        </TableCell>
+                        <TableCell align="center">
+                          <Button variant='contained' size='small' onClick={(event) => handleClickToFaucet(event, wallet.data.arweave.key)} disabled={walletBalanceMap[wallet.data.arweave.key]>0?true:false}>
+                          {`${t(`Faucet`)}`}
+                          </Button>
                         </TableCell>
                         <TableCell align="center">
                           <Button variant='contained' size='small' endIcon={<Icon icon='mdi:export' />} onClick={(event) => handleClickToExport(event, wallet.data.arweave.key)} >
