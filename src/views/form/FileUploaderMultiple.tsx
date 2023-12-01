@@ -238,7 +238,7 @@ const FileUploaderMultiple = () => {
     const ChivesDriveActionsMap: any = {}
     const chivesTxStatusText = window.localStorage.getItem(chivesTxStatus)      
     const chivesTxStatusList = chivesTxStatusText ? JSON.parse(chivesTxStatusText) : []
-    const TxResultNew = {...TxResult, data:''}
+    const TxResultNew = {...TxResult, data:'', chunks:''}
     chivesTxStatusList.push({TxResult: TxResultNew, ChivesDriveActionsMap: ChivesDriveActionsMap})
     console.log("chivesTxStatusList-FileUploaderMultiple", chivesTxStatusList)
     window.localStorage.setItem(chivesTxStatus, JSON.stringify(chivesTxStatusList))
