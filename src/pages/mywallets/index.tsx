@@ -60,6 +60,7 @@ const MyWallets = () => {
       setRefreshWalletData(refreshWalletData+1);
     };
     const intervalId = setInterval(myTask, 2 * 60 * 1000);
+    
     return () => clearInterval(intervalId);
   }, []);
 
@@ -99,7 +100,7 @@ const MyWallets = () => {
   const handleClickToFaucet = async (event: any, Address: string) => {
     console.log("event", event.target.value);
     console.log("Address", Address);
-    let formData = new FormData();
+    const formData = new FormData();
     formData.append('Address',Address);
     const Info = await axios.get(authConfig.backEndApi).then(res => {
       return res.data

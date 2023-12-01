@@ -47,14 +47,6 @@ const labelColors: any = {
   important: 'warning'
 }
 
-// ** Variables
-const folderColors: any = {
-  Root: 'error',
-  Work: 'success',
-  Home: 'primary',
-  Blockchain: 'warning'
-}
-
 const DriveAppLayout = ({ initFolder, label, type }: DriveLayoutType) => {
   // ** Hook
   const { t } = useTranslation()

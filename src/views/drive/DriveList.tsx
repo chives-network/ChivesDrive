@@ -29,10 +29,8 @@ import DialogContentText from '@mui/material/DialogContentText'
 import Breadcrumbs from '@mui/material/Breadcrumbs'
 import Link from '@mui/material/Link'
 import Stack from '@mui/material/Stack'
-//import NavigateNextIcon from '@mui/icons-material/NavigateNext'
 
 import TextField from '@mui/material/TextField'
-// ** Icon Imports
 import Icon from 'src/@core/components/icon'
 
 // ** Third Party Imports
@@ -53,7 +51,6 @@ import toast from 'react-hot-toast'
 import {
   DriveListType,
   LabelType,
-  FolderType,
   MailFoldersArrType,
   MailFoldersObjType
 } from 'src/types/apps/emailTypes'
@@ -113,7 +110,6 @@ const DriveList = (props: DriveListType) => {
     store,
     query,
     hidden,
-    lgAbove,
     dispatch,
     setQuery,
     direction,
@@ -125,7 +121,6 @@ const DriveList = (props: DriveListType) => {
     handleSelectFile,
     setFileDetailOpen,
     handleSelectAllFile,
-    handleLeftSidebarToggle,
     paginationModel,
     handlePageChange,
     handleFolderChange,
@@ -368,6 +363,7 @@ const DriveList = (props: DriveListType) => {
   const handleCreateFolderSubmit = () => {
     if(folderName=="") {
       setFodlerNameError(`${t('Folder name can not be null')}`)
+      setFodlerNameParent("Root")
     }
     else {
       setOpen(false)
@@ -446,11 +442,6 @@ const DriveList = (props: DriveListType) => {
     handleFolderUpdate,
     setFileDetailOpen,
     currentFile: store && store.currentFile ? store.currentFile : null
-  }
-
-  function handleClick(event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) {
-    event.preventDefault();
-    console.info('You clicked a breadcrumb.');
   }
 
   console.log("folderHeaderList", folderHeaderList)

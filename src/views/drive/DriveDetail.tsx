@@ -298,9 +298,9 @@ const DriveDetail = (props: FileDetailType) => {
                           sx={{ width: '2.375rem', height: '2.375rem', mr: 3 }}
                         />
                         <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-                          <Typography variant='body2'>Owner: {currentFile.owner.address}</Typography>
+                          <Typography variant='body2'>{t('Owner') as string}: {currentFile.owner.address}</Typography>
                           <Typography variant='caption' sx={{ mr: 3 }}>
-                            Time: {formatTimestampMemo(currentFile.block.timestamp)}</Typography>
+                            {t('Time') as string}: {formatTimestampMemo(currentFile.block.timestamp)}</Typography>
                         </Box>
                       </Box>
                     </Box>

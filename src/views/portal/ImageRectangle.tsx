@@ -21,7 +21,6 @@ import { Fragment } from 'react'
 
 // ** Third Party Import
 import { useTranslation } from 'react-i18next'
-import { StringMap } from 'i18next'
 
 const ImageRectangle = ( {item, backEndApi, FileType} : any) => {
   // ** Hook
@@ -132,7 +131,7 @@ const ImageRectangle = ( {item, backEndApi, FileType} : any) => {
           <Box sx={{ display: 'flex', '& svg': { mr: 3, mt: 1, fontSize: '1.375rem', color: 'text.secondary' } }}>
             <Icon icon='icon-park-outline:transaction-order' />
             <Box sx={{ display: 'flex', flexDirection: 'row', mt:'4px' }}>
-              <Typography sx={{ fontSize: '0.9rem' }}>{t(EntityType) as String}: </Typography>
+              <Typography sx={{ fontSize: '0.9rem' }}>{t(EntityType) as string}: </Typography>
               {EntityAction=="Folder" && EntityTarget.length == 43 ?
                 <Typography variant='caption' sx={{ ml: '4px', mt: '2px' }}>{formatHash(EntityTargetText, 6)}</Typography>
                 :

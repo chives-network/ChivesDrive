@@ -735,13 +735,11 @@ export async function CheckBundleTxStatus() {
                 try {
                     const response = await axios.get(authConfig.backEndApi + '/tx/' + TxId + '/unbundle/0/9');
                     if(response && response.data && response.data.txs && response.data.txs.length > 0) {
-                        //Have Success Parsed
                         console.log("response.data", response.data)
                     }
                     else {
                         chivesTxStatusListNew.push(Item)
                     }
-                    // Do something with NewData
                 } 
                 catch (error) {
                     console.error(`Error fetching data for TxId ${TxId}:`, error);
@@ -993,7 +991,6 @@ export async function ActionsSubmitToBlockchain(setUploadProgress: React.Dispatc
     window.localStorage.setItem(chivesTxStatus, JSON.stringify(chivesTxStatusList))
        
     return TxResult;
-
   };
 
   function setBaseTags (tags: Tag[], set: { [key: string]: string }) {
@@ -1024,10 +1021,12 @@ export async function ActionsSubmitToBlockchain(setUploadProgress: React.Dispatc
 
     export function getChivesLanguage() {
         const ChivesLanguage = window.localStorage.getItem(chivesLanguage) || "en"
+
         return ChivesLanguage
     };
 
     export function setChivesLanguage(Language: string) {
         window.localStorage.setItem(chivesLanguage, Language)
+
         return true
     };

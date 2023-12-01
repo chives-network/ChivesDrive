@@ -158,12 +158,13 @@ const FileUploaderMultiple = () => {
   const handleUploadAllFiles = () => {
     setIsDisabledButton(true)
     setIsDisabledRemove(true)
-    setUploadingButton("Uploading...")
+    setUploadingButton(`${t(`Uploading`)}...`)
     uploadMultiFiles();
   }
 
   const uploadMultiFiles = async () => {
     const getChivesLanguageData: string = getChivesLanguage();
+    
     //Make the bundle data
     const formData = (await Promise.all(files?.map(async file => {
       let data = file instanceof File ? await readFile(file) : file
@@ -192,6 +193,7 @@ const FileUploaderMultiple = () => {
         data = FileEncrypt['Cipher-CONTENT']
       }
       else {
+
         //Not Encrypt File Content
         setBaseTags(tags, {
           'Content-Type': file.type,
@@ -292,7 +294,7 @@ const FileUploaderMultiple = () => {
         setIsDisabledRemove(false)
         setUploadingButton(t("Upload success") as string)
         setRemoveAllButton(t("Clean Records") as string)        
-        toast.success('Successfully submitted to blockchain', { duration: 4000 })
+        toast.success(t('Successfully submitted to blockchain') as string, { duration: 4000 })
     }
   }, [uploadProgress])
 

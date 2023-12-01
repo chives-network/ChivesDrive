@@ -190,7 +190,7 @@ const UserDropdown = (props: Props) => {
             </Box>
           </MenuItem>
           :
-          <MenuItem sx={{ p: 0 }} onClick={() => handleDropdownClose('/newwallet')}>
+          <MenuItem sx={{ p: 0 }} onClick={() => handleDropdownClose('/mywallets')}>
             <Box sx={styles}>
               <Icon icon='mdi:cog-outline' />
               {`${t(`Create Wallet`)}`}
