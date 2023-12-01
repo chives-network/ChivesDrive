@@ -1,5 +1,5 @@
 export default {
-  backEndApi: 'http://112.170.68.77:1987',
+  backEndApi: 'https://api.chivesweave.net:1986',
   faucetApi: 'https://faucet.chivesweave.org/faucet.php',
   meEndpoint: '/auth/me',
   loginEndpoint: '/jwt/login',

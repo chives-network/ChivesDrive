@@ -170,7 +170,7 @@ const UserDropdown = (props: Props) => {
               {wallet.data.arweave.key == getCurrentWalletAddressData ?
                 <Box sx={styles}>
                   <Icon icon='mdi:cog-outline' />
-                  <Typography sx={{ fontWeight: 600 }}>{formatHash(getCurrentWalletAddressData, 5)}</Typography>
+                  <Typography sx={{ fontWeight: 600 }}>{getWalletNicknamesData[wallet.data.arweave.key] ? getWalletNicknamesData[wallet.data.arweave.key] : formatHash(wallet.data.arweave.key, 5)}</Typography>
                 </Box>
                 :
                 <Box sx={styles}>

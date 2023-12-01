@@ -290,17 +290,20 @@ const TxView = () => {
             if(Item.name == "Content-Type")  {
               setFileContenType(Item.value);
             }
-            if(Item.name == "File-TxId")  {
-              let ImageUrl = ""
-              if(Item.value && Item.value.length == 43) {
-                ImageUrl = Item.value
-              }
-              else {
-                ImageUrl = res.data.id
-              }
-              setFileUrl(`${authConfig.backEndApi}/${ImageUrl}`);
-            }
           });
+          const FileMap: { [key: string]: string } = {}
+          res.data && res.data.tags && res.data && res.data.tags.map((Item: { [key: string]: string }) => {
+            FileMap[Item.name] = Item.value;
+          });
+          const FileTxId = FileMap['File-TxId'];          
+          let ImageUrl = ""
+          if(FileTxId && FileTxId.length == 43) {
+            ImageUrl = FileTxId
+          }
+          else {
+            ImageUrl = res.data.id
+          }
+          setFileUrl(`${authConfig.backEndApi}/${ImageUrl}`);
           if(TempFileName == '') {
             setFileName("Data");
           }

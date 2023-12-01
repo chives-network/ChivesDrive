@@ -318,7 +318,6 @@ export function removePunctuation(text: string) {
     return text.replace(/[^\w\s\u4e00-\u9fa5]/g, '');
 }
 
-
 export async function readFile (file: File) {
     return new Promise<Uint8Array>((resolve, reject) => {
       const fileReader = new FileReader()
@@ -737,6 +736,7 @@ export async function CheckBundleTxStatus() {
                     const response = await axios.get(authConfig.backEndApi + '/tx/' + TxId + '/unbundle/0/9');
                     if(response && response.data && response.data.txs && response.data.txs.length > 0) {
                         //Have Success Parsed
+                        console.log("response.data", response.data)
                     }
                     else {
                         chivesTxStatusListNew.push(Item)

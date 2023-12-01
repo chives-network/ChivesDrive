@@ -140,5 +140,7 @@
     "You have send XWE to other address, then no longer eligible to claim free XWE": "您已经向其他地址发送XWE，因此不再有资格领取免费的XWE。",
     "Get free 0.02 Xwe when this address is less than 0.01 and only use upload files purposes": "当此地址少于0.01时，只能用于上传文件目的，可以获得0.02 XWE的免费。",
     "Parameter error": "参数错误",
-    "Faucet": "水龙头"
+    "Faucet": "水龙头",
+    "Upload success": "上传成功",
+    "Clean Records": "清除记录"
 }

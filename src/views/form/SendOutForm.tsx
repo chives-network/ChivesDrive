@@ -117,7 +117,16 @@ const SendOutForm = () => {
     setUploadingButton(`${t('Submitting...')}`)
 
     const TxResult: any = await sendAmount(currentWallet, inputAddress, String(inputAmount), [], inputData, "SubmitStatus", setUploadProgress);
-    console.log("TxResult", TxResult)
+
+    //Save Tx Records Into LocalStorage
+    const chivesTxStatus: string = authConfig.chivesTxStatus
+    const ChivesDriveActionsMap: any = {}
+    const chivesTxStatusText = window.localStorage.getItem(chivesTxStatus)      
+    const chivesTxStatusList = chivesTxStatusText ? JSON.parse(chivesTxStatusText) : []
+    chivesTxStatusList.push({TxResult,ChivesDriveActionsMap})
+    console.log("chivesTxStatusList-SendOutForm", chivesTxStatusList)
+    window.localStorage.setItem(chivesTxStatus, JSON.stringify(chivesTxStatusList))
+    
     if(TxResult.status == 800) {
       //Insufficient balance
       toast.error(TxResult.statusText, { duration: 4000 })
