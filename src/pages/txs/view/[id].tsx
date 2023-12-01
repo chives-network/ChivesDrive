@@ -498,7 +498,7 @@ const TxView = () => {
                                 {`${t(`ID`)}`}:
                               </Typography>
                             </TableCell>
-                            <TableCell><StringDisplay InputString={String(id)} StringSize={20}/></TableCell>
+                            <TableCell><StringDisplay InputString={String(id)} StringSize={20} href={null}/></TableCell>
                           </TableRow>
                           <TableRow>
                             <TableCell>
@@ -515,9 +515,7 @@ const TxView = () => {
                               </Typography>
                             </TableCell>
                             <TableCell>
-                              <LinkStyled href={`/addresses/all/${txViewInfo.owner.address}`}>
-                                <StringDisplay InputString={`${txViewInfo.owner.address}`} StringSize={7} />
-                              </LinkStyled>
+                                <StringDisplay InputString={`${txViewInfo.owner.address}`} StringSize={7} href={`/addresses/all/${txViewInfo.owner.address}`}/>
                             </TableCell>
                           </TableRow>
                           <TableRow>
@@ -526,7 +524,9 @@ const TxView = () => {
                               {`${t(`To`)}`}:
                               </Typography>
                             </TableCell>
-                            <TableCell><LinkStyled href={`/addresses/all/${txViewInfo.recipient}`}>{formatHash(txViewInfo.recipient, 7)}</LinkStyled></TableCell>
+                            <TableCell>
+                              <StringDisplay InputString={`${txViewInfo.recipient}`} StringSize={7} href={`/addresses/all/${txViewInfo.recipient}`}/>
+                            </TableCell>
                           </TableRow>
                           <TableRow>
                             <TableCell>
@@ -572,7 +572,7 @@ const TxView = () => {
                               {`${t(`Block Hash`)}`}:
                               </Typography>
                             </TableCell>
-                            <TableCell><StringDisplay InputString={txViewInfo.block.indep_hash} StringSize={7}/></TableCell>
+                            <TableCell><StringDisplay InputString={txViewInfo.block.indep_hash} StringSize={7} href={null}/></TableCell>
                           </TableRow>
                           <TableRow>
                             <TableCell>
@@ -590,7 +590,7 @@ const TxView = () => {
                                 {`${t(`Bundled In`)}`}:
                                 </Typography>
                               </TableCell>
-                              <TableCell><StringDisplay InputString={txViewInfo.bundleid} StringSize={7}/></TableCell>
+                              <TableCell><StringDisplay InputString={txViewInfo.bundleid} StringSize={7} href={null}/></TableCell>
                             </TableRow>
                           :
                             <Fragment></Fragment>
@@ -649,7 +649,7 @@ const TxView = () => {
                                           {Item.name}
                                         </Typography>
                                       </TableCell>
-                                      <TableCell><StringDisplay InputString={Item.value} StringSize={25}/></TableCell>
+                                      <TableCell><StringDisplay InputString={Item.value} StringSize={25} href={null}/></TableCell>
                                     </TableRow>
                                     )
                             } )}

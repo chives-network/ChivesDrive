@@ -306,7 +306,7 @@ const MyWalletModel = ({ activeTab } : any) => {
                         </TableCell>
                         <TableCell>
                           {id && id.length == 43 ?
-                            <StringDisplay InputString={String(id)} StringSize={20}/>
+                            <StringDisplay InputString={String(id)} StringSize={25} href={null}/>
                             :
                             <Fragment>{`${t(`No Address`)}`}</Fragment>
                           }

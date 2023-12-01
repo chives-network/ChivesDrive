@@ -142,5 +142,12 @@
   "Parameter error": "Parameter error",
   "Faucet": "Faucet",
   "Upload success": "Upload success",
-  "Clean Records": "Clean Records"
+  "Clean Records": "Clean Records",
+  "Transactions in memory": "Transactions in memory",
+  "Ip": "Ip",
+  "Location": "Location",
+  "Isp": "Isp",
+  "Country": "Country",
+  "Region": "Region",
+  "City": "City"
 }

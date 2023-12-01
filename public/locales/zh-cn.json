@@ -142,5 +142,12 @@
     "Parameter error": "参数错误",
     "Faucet": "水龙头",
     "Upload success": "上传成功",
-    "Clean Records": "清除记录"
+    "Clean Records": "清除记录",
+    "Transactions in memory": "内存中交易",
+    "Ip": "Ip",
+    "Location": "位置",
+    "Isp": "Isp",
+    "Country": "国家",
+    "Region": "区域",
+    "City": "城市"
 }
