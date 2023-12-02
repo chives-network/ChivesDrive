@@ -22,9 +22,13 @@ import SidebarLeft from 'src/views/drive/SidebarLeft'
 import UploadFiles from 'src/views/form/uploadfiles';
 
 import CardContent from '@mui/material/CardContent'
+import { useRouter } from 'next/router'
 
 // ** Third Party Import
 import { useTranslation } from 'react-i18next'
+
+// ** Third Party Components
+import toast from 'react-hot-toast'
 
 // ** Actions
 import {
@@ -50,6 +54,8 @@ const labelColors: any = {
 const DriveAppLayout = ({ initFolder, label, type }: DriveLayoutType) => {
   // ** Hook
   const { t } = useTranslation()
+
+  const router = useRouter();
   
   // ** States
   const [query, setQuery] = useState<string>('')
@@ -78,8 +84,8 @@ const DriveAppLayout = ({ initFolder, label, type }: DriveLayoutType) => {
   }
 
   const auth = useAuth()
-
   const id = auth.currentAddress
+  const currentAddress = auth.currentAddress
 
   // ** State
   const paginationModelDefaultValue = { page: 1, pageSize: 9 }
@@ -156,6 +162,14 @@ const DriveAppLayout = ({ initFolder, label, type }: DriveLayoutType) => {
   }, [dispatch, paginationModel, type, folder, label, id])
 
   const toggleUploadFilesOpen = () => {
+    if(currentAddress == undefined || currentAddress.length != 43) {
+      toast.success(t(`Please create a wallet first`), {
+        duration: 4000
+      })
+      router.push("/mywallets");
+      
+      return
+    }
     setUploadFilesOpen(!uploadFilesOpen)
     if(uploadFilesOpen) {
       setUploadFilesTitle(`${t(`Upload Files`)}`)

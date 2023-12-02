@@ -29,9 +29,13 @@ import toast from 'react-hot-toast'
 // ** Third Party Import
 import { useTranslation } from 'react-i18next'
 
+import { useRouter } from 'next/router'
+
 const SendOutForm = () => {
   // ** Hook
   const { t } = useTranslation()
+
+  const router = useRouter();
     
   // ** State
   const [uploadProgress, setUploadProgress] = useState<{ [key: string]: number }>({})
@@ -95,12 +99,17 @@ const SendOutForm = () => {
   const handleInputDataChange = (event: any) => {
     setInputData(event.target.value);
     setInputDataError("")
-    
-    //console.log("inputData", inputData)
   };
 
-  
   const handleSubmit = async () => {
+    if(currentAddress == undefined || currentAddress.length != 43) {
+        toast.success(t(`Please create a wallet first`), {
+          duration: 4000
+        })
+        router.push("/mywallets");
+        
+        return
+    }
     if(!isAddress(inputAddress))  {
         setInputAddressError(`${t('The address you entered is invalid')}`)
         

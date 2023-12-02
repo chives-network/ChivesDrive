@@ -32,6 +32,7 @@ import authConfig from 'src/configs/auth'
 
 // ** Third Party Import
 import { useTranslation } from 'react-i18next'
+import { useRouter } from 'next/router'
 
 interface FileProp {
   name: string
@@ -63,6 +64,8 @@ const HeadingTypography = styled(Typography)<TypographyProps>(({ theme }) => ({
 const FileUploaderMultiple = () => {
   // ** Hook
   const { t } = useTranslation()
+
+  const router = useRouter();
   
   // ** State
   const [files, setFiles] = useState<File[]>([])
@@ -73,9 +76,21 @@ const FileUploaderMultiple = () => {
   const [isDisabledRemove, setIsDisabledRemove] = useState<boolean>(false)
   const [isEncryptFile, setIsEncryptFile] = useState<boolean>(false)
   
+  const auth = useAuth()
+  const currentWallet = auth.currentWallet
+  const currentAddress = auth.currentAddress
+
   // ** Hooks
   const { getRootProps, getInputProps } = useDropzone({
     onDrop: (acceptedFiles: File[]) => {
+      if(currentAddress == undefined || currentAddress.length != 43) {
+        toast.success(t(`Please create a wallet first`), {
+          duration: 4000
+        })
+        router.push("/mywallets");
+        
+        return
+      }
       setFiles(acceptedFiles.map((file: File) => Object.assign(file)))
       setIsDisabledButton(false)
       setUploadingButton(`${t(`Upload Files`)}`)      
@@ -150,11 +165,6 @@ const FileUploaderMultiple = () => {
     setUploadProgress({})
   }
 
-  const auth = useAuth()
-
-  const currentWallet = auth.currentWallet
-  const currentAddress = auth.currentAddress
-  
   const handleUploadAllFiles = () => {
     setIsDisabledButton(true)
     setIsDisabledRemove(true)

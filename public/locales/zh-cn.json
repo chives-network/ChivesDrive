@@ -150,5 +150,7 @@
     "Country": "国家",
     "Region": "地区",
     "City": "城市",
-    "Uploading": "上传中"
+    "Uploading": "上传中",
+    "Create a new wallet": "创建新钱包",
+    "Please create a wallet first": "请先创建一个钱包"
 }

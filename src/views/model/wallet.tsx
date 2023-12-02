@@ -104,7 +104,6 @@ const MyWalletModel = ({ activeTab } : any) => {
   // ** Hook
   const { t } = useTranslation()
 
-
   const router = useRouter();
 
   const auth = useAuth()
@@ -271,6 +270,7 @@ const MyWalletModel = ({ activeTab } : any) => {
     }
   ]
 
+  
   return (
     <Grid container spacing={6}>
 

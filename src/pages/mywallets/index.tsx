@@ -112,7 +112,7 @@ const MyWallets = () => {
       console.log("res", res.data)
       setFaucetButtonMap({...faucetButtonMap, [Address]:true})
       if(res.data['result']=="OK")  {
-        toast.success(t("Successfully acquired 0.02 XWE, estimated to be deposited into your wallet in 3-10 minutes.") as string, { duration: 4000 })
+        toast.success(t("Successfully acquired 0.05 XWE, estimated to be deposited into your wallet in 3-10 minutes.") as string, { duration: 4000 })
       }
       else {
         toast.error(res.data['result'], { duration: 4000 })
@@ -223,8 +223,8 @@ const MyWallets = () => {
                                       onChange={(event) => handleInputNicknameChange(event, wallet.data.arweave.key)}
                                       />
                         </TableCell>
-                        <TableCell align="center" title={`${t(`Get free 0.02 Xwe when this address is less than 0.01 and only use upload files purposes`)}`}>
-                          <Tooltip title={`${t(`Get free 0.02 Xwe when this address is less than 0.01 and only use upload files purposes`)}`}>
+                        <TableCell align="center" title={`${t(`Get free 0.05 Xwe when this address is less than 0.01 and only use upload files purposes`)}`}>
+                          <Tooltip title={`${t(`Get free 0.05 Xwe when this address is less than 0.01 and only use upload files purposes`)}`}>
                             <Button variant='contained' size='small' onClick={(event) => handleClickToFaucet(event, wallet.data.arweave.key)} disabled={(walletBalanceMap[wallet.data.arweave.key] > 0.01 || faucetButtonMap[wallet.data.arweave.key])?true:false} sx={{ whiteSpace: 'nowrap' }}>
                             {`${t(`Faucet`)}`}
                             </Button>

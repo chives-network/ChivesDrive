@@ -44,8 +44,12 @@ import { setTimeout } from 'timers'
 import DriveDetail from './DriveDetail'
 
 import Pagination from '@mui/material/Pagination'
+import { useRouter } from 'next/router'
 
 import toast from 'react-hot-toast'
+
+// ** Context
+import { useAuth } from 'src/hooks/useAuth'
 
 // ** Types
 import {
@@ -104,6 +108,7 @@ const ScrollWrapper = ({ children, hidden }: { children: ReactNode; hidden: bool
 const DriveList = (props: DriveListType) => {
   // ** Hook
   const { t } = useTranslation()
+  const router = useRouter();
   
   // ** Props
   const {
@@ -179,6 +184,9 @@ const DriveList = (props: DriveListType) => {
         setFodlerNameError(`${t('Folder name can not be null')}`)
     }
   };
+
+  const auth = useAuth()
+  const currentAddress = auth.currentAddress
 
   // ** State
   const [refresh, setRefresh] = useState<boolean>(false)
@@ -356,6 +364,14 @@ const DriveList = (props: DriveListType) => {
   }
 
   const handleCreateFolderOperation = () => {
+    if(currentAddress == undefined || currentAddress.length != 43) {
+      toast.success(t(`Please create a wallet first`), {
+        duration: 4000
+      })
+      router.push("/mywallets");
+      
+      return
+    }
     setOpen(true)
     setIsNewFolderDialog(true)
   }

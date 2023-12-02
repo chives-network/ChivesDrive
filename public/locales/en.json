@@ -150,5 +150,7 @@
   "Country": "Country",
   "Region": "Region",
   "City": "City",
-  "Uploading": "Uploading"
+  "Uploading": "Uploading",
+  "Create a new wallet": "Create a new wallet",
+  "Please create a wallet first": "Please create a wallet first"
 }
