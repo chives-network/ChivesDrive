@@ -19,7 +19,7 @@ import Table from '@mui/material/Table'
 import TableRow from '@mui/material/TableRow'
 import TableCell from '@mui/material/TableCell'
 import TableBody from '@mui/material/TableBody'
-import StringDisplay from 'src/pages/preview/StringDisplay';
+import StringDisplay from 'src/pages/preview/StringDisplay'
 
 // ** Store Imports
 import { useDispatch, useSelector } from 'react-redux'
@@ -31,7 +31,7 @@ import { fetchData } from 'src/store/apps/addresses'
 import { RootState, AppDispatch } from 'src/store'
 import { AddressType } from 'src/types/apps/Chivesweave'
 
-import { formatHash, formatXWEAddress, formatTimestampMemo } from 'src/configs/functions';
+import { formatHash, formatXWEAddress, formatTimestampMemo } from 'src/configs/functions'
 
 // ** Third Party Import
 import { useTranslation } from 'react-i18next'
@@ -65,14 +65,12 @@ const AddressesList = () => {
   // ** State
   const [isLoading, setIsLoading] = useState(false);
 
-  const paginationModelDefaultValue = { page: 1, pageSize: 12 }
-  const [paginationModel, setPaginationModel] = useState(paginationModelDefaultValue)
-  
+  const paginationModelDefaultValue = { page: 1, pageSize: 15 }
+  const [paginationModel, setPaginationModel] = useState(paginationModelDefaultValue)  
   const handlePageChange = (event: React.ChangeEvent<unknown>, page: number) => {
     setPaginationModel({ ...paginationModel, page });
     console.log("handlePageChange", event)
-  }
-  
+  }  
   const isMobileData = isMobile()
 
   // ** Hooks
@@ -245,7 +243,7 @@ const AddressesList = () => {
               </Grid>
             )
           })}
-          <Box sx={{ px: 5, py: 3 }}>
+          <Box sx={{ pl: 5, py: 3 }}>
             <Box sx={{ display: 'flex', alignItems: 'center', width: '100%' }}>
               <Grid item key={"Pagination"} xs={12} sm={12} md={12} lg={12} sx={{ padding: '10px 0 10px 0' }}>
                 <Pagination count={Math.floor(store.total/paginationModel.pageSize)} variant='outlined' color='primary' page={paginationModel.page} onChange={handlePageChange} siblingCount={2} boundaryCount={3} />
