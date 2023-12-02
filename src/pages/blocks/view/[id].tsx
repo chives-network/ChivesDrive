@@ -45,6 +45,7 @@ import StringDisplay from 'src/pages/preview/StringDisplay'
 
 // ** Third Party Import
 import { useTranslation } from 'react-i18next'
+import { isMobile } from 'src/configs/functions'
 
 interface BlockViewInfoType {
   timestamp: number
@@ -79,8 +80,9 @@ const BlockTransactionList = () => {
   // ** Hook
   const { t } = useTranslation()
   
-  const router = useRouter();
-  const { id } = router.query;
+  const router = useRouter()
+  const { id } = router.query
+  const isMobileData = isMobile()
   
   // ** State
   const [isLoading, setIsLoading] = useState(false);
@@ -268,7 +270,19 @@ const BlockTransactionList = () => {
                             {`${t(`Block Hash`)}`}:
                           </Typography>
                         </TableCell>
-                        <TableCell><StringDisplay InputString={`${blockViewInfo.indep_hash}`} StringSize={20} href={null}/></TableCell>
+                        <TableCell>
+                          {id && id.length == 43 ?
+                            <Fragment>                              
+                              {isMobileData == true ?
+                                <StringDisplay InputString={`${blockViewInfo.indep_hash}`} StringSize={12} href={null}/>
+                                :
+                                <StringDisplay InputString={`${blockViewInfo.indep_hash}`} StringSize={25} href={null}/>
+                              }
+                            </Fragment>
+                            :
+                            <Fragment>{`${t(`No Block`)}`}</Fragment>
+                          }
+                        </TableCell>
                       </TableRow>
                     </TableBody>
                   </Table>

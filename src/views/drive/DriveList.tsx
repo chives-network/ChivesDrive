@@ -108,7 +108,7 @@ const ScrollWrapper = ({ children, hidden }: { children: ReactNode; hidden: bool
 const DriveList = (props: DriveListType) => {
   // ** Hook
   const { t } = useTranslation()
-  const router = useRouter();
+  const router = useRouter()
   
   // ** Props
   const {

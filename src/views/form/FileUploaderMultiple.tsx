@@ -65,7 +65,7 @@ const FileUploaderMultiple = () => {
   // ** Hook
   const { t } = useTranslation()
 
-  const router = useRouter();
+  const router = useRouter()
   
   // ** State
   const [files, setFiles] = useState<File[]>([])

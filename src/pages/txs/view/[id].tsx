@@ -46,6 +46,7 @@ import StringDisplay from 'src/pages/preview/StringDisplay'
 
 // ** Third Party Import
 import { useTranslation } from 'react-i18next'
+import { isMobile } from 'src/configs/functions'
 
 interface TransactionCellType {
   row: TxRecordType
@@ -235,8 +236,10 @@ const TxView = () => {
   const { t } = useTranslation()
   
   
-  const router = useRouter();
-  const { id } = router.query;
+  const router = useRouter()
+  const { id } = router.query
+
+  const isMobileData = isMobile()
 
   const [txViewInfo, setTxViewInfo] = useState<TxRecordType>()
   const [fileName, setFileName] = useState("Data")
@@ -498,7 +501,19 @@ const TxView = () => {
                                 {`${t(`ID`)}`}:
                               </Typography>
                             </TableCell>
-                            <TableCell><StringDisplay InputString={String(id)} StringSize={20} href={null}/></TableCell>
+                            <TableCell>
+                              {id && id.length == 43 ?
+                                <Fragment>                              
+                                  {isMobileData == true ?
+                                    <StringDisplay InputString={String(id)} StringSize={10} href={null}/>
+                                    :
+                                    <StringDisplay InputString={String(id)} StringSize={25} href={null}/>
+                                  }
+                                </Fragment>
+                                :
+                                <Fragment>{`${t(`No Address`)}`}</Fragment>
+                              }
+                            </TableCell>
                           </TableRow>
                           <TableRow>
                             <TableCell>

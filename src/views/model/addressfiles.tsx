@@ -76,9 +76,9 @@ const FileResourceModel = ({ activeTab } : any) => {
   // ** Hook
   const { t } = useTranslation()
   
-  const router = useRouter();
+  const router = useRouter()
 
-  const { id } = router.query;
+  const { id } = router.query
 
   const isMobileData = isMobile()
 
@@ -173,7 +173,7 @@ const FileResourceModel = ({ activeTab } : any) => {
                           {id && id.length == 43 ?
                             <Fragment>                              
                               {isMobileData == true ?
-                                <StringDisplay InputString={String(id)} StringSize={12} href={null}/>
+                                <StringDisplay InputString={String(id)} StringSize={10} href={null}/>
                                 :
                                 <StringDisplay InputString={String(id)} StringSize={25} href={null}/>
                               }

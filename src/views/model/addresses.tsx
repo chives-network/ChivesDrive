@@ -95,8 +95,8 @@ const AddressTransactionListModel = ({ activeTab } : any) => {
   // ** Hook
   const { t } = useTranslation()
   
-  const router = useRouter();
-  const { id } = router.query;
+  const router = useRouter()
+  const { id } = router.query
 
   const isMobileData = isMobile()
 
@@ -296,7 +296,7 @@ const AddressTransactionListModel = ({ activeTab } : any) => {
                           {id && id.length == 43 ?
                             <Fragment>                              
                               {isMobileData == true ?
-                                <StringDisplay InputString={String(id)} StringSize={12} href={null}/>
+                                <StringDisplay InputString={String(id)} StringSize={10} href={null}/>
                                 :
                                 <StringDisplay InputString={String(id)} StringSize={25} href={null}/>
                               }

@@ -55,7 +55,7 @@ const DriveAppLayout = ({ initFolder, label, type }: DriveLayoutType) => {
   // ** Hook
   const { t } = useTranslation()
 
-  const router = useRouter();
+  const router = useRouter()
   
   // ** States
   const [query, setQuery] = useState<string>('')

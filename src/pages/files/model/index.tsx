@@ -63,9 +63,9 @@ const FileResourceModel = ({ activeTab } : any) => {
   // ** Hook
   const { t } = useTranslation()
   
-  const router = useRouter();
+  const router = useRouter()
 
-  const { id } = router.query;
+  const { id } = router.query
 
   // ** State
   const [isLoading, setIsLoading] = useState(false);

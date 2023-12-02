@@ -356,8 +356,8 @@ const TxView = () => {
   // ** Hook
   const { t } = useTranslation()
     
-  const router = useRouter();
-  const { id } = router.query;
+  const router = useRouter()
+  const { id } = router.query
   const _GET = router.query;
   
   console.log("_GET", _GET)
