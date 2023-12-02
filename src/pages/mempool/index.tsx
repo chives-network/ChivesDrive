@@ -26,7 +26,6 @@ import { ThemeColor } from 'src/@core/layouts/types'
 import { TxRecordType } from 'src/types/apps/Chivesweave'
 
 import FormatTxInfoInRow from 'src/pages/preview/FormatTxInfoInRow';
-import StringDisplay from 'src/pages/preview/StringDisplay';
 
 // ** Third Party Import
 import { useTranslation } from 'react-i18next'
@@ -100,68 +99,64 @@ const Mempool = () => {
               </Card>
             </Grid>
             {txViewInfo && txViewInfo.map((item: TxRecordType, index: number) => (                  
-              <Grid item xs={12} sx={{pt: 3}} key={index}>
+              <Grid item xs={12} sx={{ py: 1 }} key={index}>
                 <Card>
-                  <CardContent>
-                    <Grid container spacing={6}>
-                      <Grid item xs={12} lg={12}>
-                        <TableContainer>
-                          <Table size='small' sx={{ width: '95%' }}>
-                            <TableBody
-                              sx={{
-                                '& .MuiTableCell-root': {
-                                  border: 0,
-                                  pt: 1.5,
-                                  pb: 1.5,
-                                  pl: '0 !important',
-                                  pr: '0 !important',
-                                  '&:first-of-type': {
-                                    width: 148
-                                  }
-                                }
-                              }}
-                            >
-                              <TableRow>
-                                <TableCell>
-                                  <Typography variant='body2' sx={{ color: 'text.primary'}}>
-                                  {`${t(`Hash`)}`}: {formatHash(item.id, 12)}
-                                  </Typography>
-                                </TableCell>
-                              </TableRow>
-                              <TableRow>
-                                <TableCell>
-                                  <Typography variant='body2' sx={{ color: 'text.primary'}}>
-                                  {`${t(`From`)}`}: {formatHash(item.owner.address, 12)}
-                                  </Typography>
-                                </TableCell>
-                              </TableRow>
-                              <TableRow>
-                                <TableCell>
-                                  <Typography variant='body2' sx={{ color: 'text.primary' }}>
-                                  {`${t(`Size`)}`}: {formatStorageSize(item.data.size)}
-                                  </Typography>
-                                </TableCell>
-                              </TableRow>
-                              <TableRow>
-                                <TableCell>
-                                  <Typography variant='body2' sx={{ color: 'text.primary' }}>
-                                  {`${t(`Fee`)}`}: {formatXWE(item.fee.winston, 6)} XWE
-                                  </Typography>
-                                </TableCell>
-                              </TableRow>
-                              <TableRow>
-                                <TableCell>
-                                  <Typography variant='body2' sx={{ color: 'text.primary' }}>
-                                  <FormatTxInfoInRow TxRecord={item}/>
-                                  </Typography>
-                                </TableCell>
-                              </TableRow>
+                  <CardContent> 
+                    <TableContainer>
+                      <Table size='small' sx={{ width: '95%' }}>
+                        <TableBody
+                          sx={{
+                            '& .MuiTableCell-root': {
+                              border: 0,
+                              pt: 1.5,
+                              pb: 1.5,
+                              pl: '0 !important',
+                              pr: '0 !important',
+                              '&:first-of-type': {
+                                width: 148
+                              }
+                            }
+                          }}
+                        >
+                          <TableRow>
+                            <TableCell>
+                              <Typography variant='body2' sx={{ color: 'text.primary'}}>
+                              {`${t(`Hash`)}`}: {formatHash(item.id, 12)}
+                              </Typography>
+                            </TableCell>
+                          </TableRow>
+                          <TableRow>
+                            <TableCell>
+                              <Typography variant='body2' sx={{ color: 'text.primary'}}>
+                              {`${t(`From`)}`}: {formatHash(item.owner.address, 12)}
+                              </Typography>
+                            </TableCell>
+                          </TableRow>
+                          <TableRow>
+                            <TableCell>
+                              <Typography variant='body2' sx={{ color: 'text.primary' }}>
+                              {`${t(`Size`)}`}: {formatStorageSize(item.data.size)}
+                              </Typography>
+                            </TableCell>
+                          </TableRow>
+                          <TableRow>
+                            <TableCell>
+                              <Typography variant='body2' sx={{ color: 'text.primary' }}>
+                              {`${t(`Fee`)}`}: {formatXWE(item.fee.winston, 6)} XWE
+                              </Typography>
+                            </TableCell>
+                          </TableRow>
+                          <TableRow>
+                            <TableCell>
+                              <Typography variant='body2' sx={{ color: 'text.primary' }}>
+                              <FormatTxInfoInRow TxRecord={item}/>
+                              </Typography>
+                            </TableCell>
+                          </TableRow>
 
-                            </TableBody>
-                          </Table>
-                        </TableContainer>
-                      </Grid>
-                    </Grid>
+                        </TableBody>
+                      </Table>
+                    </TableContainer>
                   </CardContent>
                 </Card>
               </Grid>

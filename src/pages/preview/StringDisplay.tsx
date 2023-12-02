@@ -5,10 +5,9 @@ import ToggleButton from '@mui/material/ToggleButton'
 // ** Icon Imports
 import Icon from 'src/@core/components/icon'
 
-import { isMobile } from 'src/configs/functions';
-
 import Link from 'next/link'
 import { styled } from '@mui/material/styles'
+import Typography from '@mui/material/Typography'
 
 interface Props {
   InputString: string
@@ -32,7 +31,7 @@ function StringDisplay({ InputString, StringSize, href } : Props) {
   if(InputString=="" || InputString==undefined) {
     return <Fragment></Fragment>
   }
-  const IsMobile = isMobile();
+
   if(StringSize >= 40) {
     truncatedString = InputString;
   }
@@ -53,7 +52,7 @@ function StringDisplay({ InputString, StringSize, href } : Props) {
     <div style={{ display: 'flex', alignItems: 'center' }}>
         {href && href != undefined ? 
           <LinkStyled href={href} sx={{pr: 2}}>
-            <div>{truncatedString}</div>
+            <Typography variant='body2' sx={{ color: 'text.primary' }}>{truncatedString}</Typography>
           </LinkStyled>
         :
           <div style={{ paddingRight: 5}}>{truncatedString}</div>

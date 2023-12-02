@@ -244,85 +244,77 @@ const PeersInfo = () => {
           }
           
           {isMobileData ?
-          <Fragment>
+            <Fragment>
               {peers.map((item: NodeInfoType, index: number) => (
-                <Grid item xs={12}>
+                <Grid item xs={12} sx={{ py: 1 }} key={index}>
                   <Card>
-                    <CardContent>
-                      <Grid container spacing={6}>
-    
-                        <Grid item xs={12} lg={12}>
-                          <TableContainer>
-                            <Table size='small' sx={{ width: '95%' }}>
-                              <TableBody
-                                sx={{
-                                  '& .MuiTableCell-root': {
-                                    border: 0,
-                                    pt: 1.5,
-                                    pb: 1.5,
-                                    pl: '0 !important',
-                                    pr: '0 !important',
-                                    '&:first-of-type': {
-                                      width: 148
-                                    }
-                                  }
-                                }}
-                              >
-                                <TableRow>
-                                  <TableCell>
-                                    <Typography variant='body2' sx={{ color: 'text.primary' }}>
-                                    {`${t(`Ip`)}`}: {item.ip}
-                                    </Typography>
-                                  </TableCell>
-                                </TableRow>
-                                <TableRow>
-                                  <TableCell>
-                                    <Typography variant='body2' sx={{ color: 'text.primary' }}>
-                                    {`${t(`Location`)}`}: {item.result.location}
-                                    </Typography>
-                                  </TableCell>
-                                </TableRow>
-                                <TableRow>
-                                  <TableCell>
-                                    <Typography variant='body2' sx={{ color: 'text.primary' }}>
-                                    {`${t(`Isp`)}`}: {item.result.isp}
-                                    </Typography>
-                                  </TableCell>
-                                </TableRow>
-                                <TableRow>
-                                  <TableCell>
-                                    <Typography variant='body2' sx={{ color: 'text.primary' }}>
-                                    {`${t(`Country`)}`}: {item.result.country}
-                                    </Typography>
-                                  </TableCell>
-                                </TableRow>
-                                <TableRow>
-                                  <TableCell>
-                                    <Typography variant='body2' sx={{ color: 'text.primary' }}>
-                                    {`${t(`Region`)}`}: {item.result.region}
-                                    </Typography>
-                                  </TableCell>
-                                </TableRow>
-                                <TableRow>
-                                  <TableCell>
-                                    <Typography variant='body2' sx={{ color: 'text.primary' }}>
-                                    {`${t(`City`)}`}: {item.result.city}
-                                    </Typography>
-                                  </TableCell>
-                                </TableRow>
-    
-                              </TableBody>
-                            </Table>
-                          </TableContainer>
-                        </Grid>
-    
-                      </Grid>
-                    </CardContent>
-    
+                    <CardContent> 
+                      <TableContainer>
+                        <Table size='small' sx={{ width: '95%' }}>
+                          <TableBody
+                            sx={{
+                              '& .MuiTableCell-root': {
+                                border: 0,
+                                pt: 1.5,
+                                pb: 1.5,
+                                pl: '0 !important',
+                                pr: '0 !important',
+                                '&:first-of-type': {
+                                  width: 148
+                                }
+                              }
+                            }}
+                          >
+                            <TableRow>
+                              <TableCell>
+                                <Typography variant='body2' sx={{ color: 'text.primary' }}>
+                                {`${t(`Ip`)}`}: {item.ip}
+                                </Typography>
+                              </TableCell>
+                            </TableRow>
+                            <TableRow>
+                              <TableCell>
+                                <Typography variant='body2' sx={{ color: 'text.primary' }}>
+                                {`${t(`Location`)}`}: {item.result.location}
+                                </Typography>
+                              </TableCell>
+                            </TableRow>
+                            <TableRow>
+                              <TableCell>
+                                <Typography variant='body2' sx={{ color: 'text.primary' }}>
+                                {`${t(`Isp`)}`}: {item.result.isp}
+                                </Typography>
+                              </TableCell>
+                            </TableRow>
+                            <TableRow>
+                              <TableCell>
+                                <Typography variant='body2' sx={{ color: 'text.primary' }}>
+                                {`${t(`Country`)}`}: {item.result.country}
+                                </Typography>
+                              </TableCell>
+                            </TableRow>
+                            <TableRow>
+                              <TableCell>
+                                <Typography variant='body2' sx={{ color: 'text.primary' }}>
+                                {`${t(`Region`)}`}: {item.result.region}
+                                </Typography>
+                              </TableCell>
+                            </TableRow>
+                            <TableRow>
+                              <TableCell>
+                                <Typography variant='body2' sx={{ color: 'text.primary' }}>
+                                {`${t(`City`)}`}: {item.result.city}
+                                </Typography>
+                              </TableCell>
+                            </TableRow>
+
+                          </TableBody>
+                        </Table>
+                      </TableContainer>
+                    </CardContent>    
                   </Card>
                 </Grid>
-              ))}
-              
+              ))}              
             </Fragment>
           :
           <Grid item xs={12}>
