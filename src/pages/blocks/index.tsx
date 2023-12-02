@@ -1,15 +1,10 @@
 // ** React Imports
 import { useState, useEffect, Fragment } from 'react'
 
-// ** Axios Imports
-import axios from 'axios'
-import authConfig from 'src/configs/auth'
-
 // ** Next Imports
 import Link from 'next/link'
 
 // ** MUI Imports
-import Box from '@mui/material/Box'
 import Card from '@mui/material/Card'
 import Grid from '@mui/material/Grid'
 import Divider from '@mui/material/Divider'
@@ -18,6 +13,7 @@ import Typography from '@mui/material/Typography'
 import CardHeader from '@mui/material/CardHeader'
 import { DataGrid, GridColDef } from '@mui/x-data-grid'
 
+import Box from '@mui/material/Box'
 import Table from '@mui/material/Table'
 import TableRow from '@mui/material/TableRow'
 import TableCell from '@mui/material/TableCell'
@@ -39,8 +35,8 @@ import { formatHash, formatXWE, formatSecondToMinute, formatTimestampMemo, forma
 
 // ** Third Party Import
 import { useTranslation } from 'react-i18next'
-import { isMobile } from 'src/configs/functions';
 
+import { isMobile } from 'src/configs/functions'
 import Pagination from '@mui/material/Pagination'
 import StringDisplay from 'src/pages/preview/StringDisplay'
 
