@@ -41,7 +41,7 @@ import FormatTxInfoInRow from 'src/pages/preview/FormatTxInfoInRow';
 // ** Next Import
 import { useRouter } from 'next/router'
 
-import StringDisplay from 'src/pages/preview/StringDisplay';
+import StringDisplay from 'src/pages/preview/StringDisplay'
 
 // ** Third Party Import
 import { useTranslation } from 'react-i18next'

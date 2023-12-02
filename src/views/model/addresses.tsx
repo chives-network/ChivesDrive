@@ -40,7 +40,7 @@ import FormatTxInfoInRow from 'src/pages/preview/FormatTxInfoInRow';
 // ** Next Import
 import { useRouter } from 'next/router'
 
-import StringDisplay from 'src/pages/preview/StringDisplay';
+import StringDisplay from 'src/pages/preview/StringDisplay'
 
 import Box from '@mui/material/Box'
 import Tab from '@mui/material/Tab'
@@ -52,6 +52,7 @@ import Icon from 'src/@core/components/icon'
 
 // ** Third Party Import
 import { useTranslation } from 'react-i18next'
+import { isMobile } from 'src/configs/functions'
 
 interface TransactionCellType {
   row: TxRecordType
@@ -96,6 +97,8 @@ const AddressTransactionListModel = ({ activeTab } : any) => {
   
   const router = useRouter();
   const { id } = router.query;
+
+  const isMobileData = isMobile()
 
   // ** State
   const [isLoading, setIsLoading] = useState(false);
@@ -291,7 +294,13 @@ const AddressTransactionListModel = ({ activeTab } : any) => {
                         </TableCell>
                         <TableCell>
                           {id && id.length == 43 ?
-                            <StringDisplay InputString={String(id)} StringSize={20} href={null}/>
+                            <Fragment>                              
+                              {isMobileData == true ?
+                                <StringDisplay InputString={String(id)} StringSize={12} href={null}/>
+                                :
+                                <StringDisplay InputString={String(id)} StringSize={25} href={null}/>
+                              }
+                            </Fragment>
                             :
                             <Fragment>{`${t(`No Address`)}`}</Fragment>
                           }

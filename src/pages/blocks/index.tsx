@@ -246,56 +246,56 @@ const BlockList = () => {
                           <TableRow>
                             <TableCell>
                               <Typography variant='body2' sx={{ color: 'text.primary', display: 'flex', alignItems: 'center' }}>
-                              {`${t(`Height`)}`}: <StringDisplay InputString={`${row.height}`} StringSize={7} href={`/blocks/view/${row.height}`}/>
+                              {`${t(`Height`)}`}：<StringDisplay InputString={`${row.height}`} StringSize={7} href={`/blocks/view/${row.height}`}/>
                               </Typography>
                             </TableCell>
                           </TableRow>
                           <TableRow>
                             <TableCell>
                               <Typography variant='body2' sx={{ color: 'text.primary', display: 'flex', alignItems: 'center' }}>
-                              {`${t(`Hash`)}`}: <StringDisplay InputString={`${row.indep_hash}`} StringSize={7} href={`/blocks/view/${row.height}`}/>
+                              {`${t(`Hash`)}`}：<StringDisplay InputString={`${row.indep_hash}`} StringSize={7} href={`/blocks/view/${row.height}`}/>
                               </Typography>
                             </TableCell>
                           </TableRow>
                           <TableRow>
                             <TableCell>
                               <Typography variant='body2' sx={{ color: 'text.primary' }}>
-                              {`${t(`Time`)}`}: {formatTimestampMemo(row.timestamp)}
+                              {`${t(`Time`)}`}：{formatTimestampMemo(row.timestamp)}
                               </Typography>
                             </TableCell>
                           </TableRow>
                           <TableRow>
                             <TableCell>
                               <Typography variant='body2' sx={{ color: 'text.primary' }}>
-                              {`${t(`Txs`)}`}: {row.txs_length}
+                              {`${t(`Txs`)}`}：{row.txs_length}
                               </Typography>
                             </TableCell>
                           </TableRow>
                           <TableRow>
                             <TableCell>
                               <Typography variant='body2' sx={{ color: 'text.primary', display: 'flex', alignItems: 'center' }}>
-                              {`${t(`Miner`)}`}: <StringDisplay InputString={`${row.reward_addr}`} StringSize={7} href={`/addresses/all/${row.reward_addr}`}/>
+                              {`${t(`Miner`)}`}：<StringDisplay InputString={`${row.reward_addr}`} StringSize={7} href={`/addresses/all/${row.reward_addr}`}/>
                               </Typography>
                             </TableCell>
                           </TableRow>
                           <TableRow>
                             <TableCell>
                               <Typography variant='body2' sx={{ color: 'text.primary' }}>
-                              {`${t(`Reward`)}`}: {formatXWE(row.reward, 2)}
+                              {`${t(`Reward`)}`}：{formatXWE(row.reward, 2)}
                               </Typography>
                             </TableCell>
                           </TableRow>
                           <TableRow>
                             <TableCell>
                               <Typography variant='body2' sx={{ color: 'text.primary' }}>
-                              {`${t(`Size`)}`}: {formatStorageSize(row.block_size)}
+                              {`${t(`Size`)}`}：{formatStorageSize(row.block_size)}
                               </Typography>
                             </TableCell>
                           </TableRow>
                           <TableRow>
                             <TableCell>
                               <Typography variant='body2' sx={{ color: 'text.primary' }}>
-                              {`${t(`MinedTime`)}`}: {formatSecondToMinute(row.mining_time)}
+                              {`${t(`MinedTime`)}`}：{formatSecondToMinute(row.mining_time)}
                               </Typography>
                             </TableCell>
                           </TableRow>

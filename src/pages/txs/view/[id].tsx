@@ -42,7 +42,7 @@ import { TxRecordType } from 'src/types/apps/Chivesweave'
 
 import { ThemeColor } from 'src/@core/layouts/types'
 
-import StringDisplay from 'src/pages/preview/StringDisplay';
+import StringDisplay from 'src/pages/preview/StringDisplay'
 
 // ** Third Party Import
 import { useTranslation } from 'react-i18next'

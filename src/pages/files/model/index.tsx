@@ -19,7 +19,7 @@ import { TxRecordType } from 'src/types/apps/Chivesweave'
 
 import Pagination from '@mui/material/Pagination'
 
-import ImageRectangle from 'src/views/portal/ImageRectangle';
+import ImageRectangle from 'src/views/portal/ImageRectangle'
 
 
 // ** Next Import

@@ -29,7 +29,7 @@ import FormatTxInfoInRow from 'src/pages/preview/FormatTxInfoInRow';
 
 // ** Third Party Import
 import { useTranslation } from 'react-i18next'
-import { isMobile } from 'src/configs/functions';
+import { isMobile } from 'src/configs/functions'
 
 interface FileTypeObj {
   [key: string]: {
@@ -121,28 +121,28 @@ const Mempool = () => {
                           <TableRow>
                             <TableCell>
                               <Typography variant='body2' sx={{ color: 'text.primary'}}>
-                              {`${t(`Hash`)}`}: {formatHash(item.id, 12)}
+                              {`${t(`Hash`)}`}：{formatHash(item.id, 12)}
                               </Typography>
                             </TableCell>
                           </TableRow>
                           <TableRow>
                             <TableCell>
                               <Typography variant='body2' sx={{ color: 'text.primary'}}>
-                              {`${t(`From`)}`}: {formatHash(item.owner.address, 12)}
+                              {`${t(`From`)}`}：{formatHash(item.owner.address, 12)}
                               </Typography>
                             </TableCell>
                           </TableRow>
                           <TableRow>
                             <TableCell>
                               <Typography variant='body2' sx={{ color: 'text.primary' }}>
-                              {`${t(`Size`)}`}: {formatStorageSize(item.data.size)}
+                              {`${t(`Size`)}`}：{formatStorageSize(item.data.size)}
                               </Typography>
                             </TableCell>
                           </TableRow>
                           <TableRow>
                             <TableCell>
                               <Typography variant='body2' sx={{ color: 'text.primary' }}>
-                              {`${t(`Fee`)}`}: {formatXWE(item.fee.winston, 6)} XWE
+                              {`${t(`Fee`)}`}：{formatXWE(item.fee.winston, 6)} XWE
                               </Typography>
                             </TableCell>
                           </TableRow>

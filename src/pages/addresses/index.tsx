@@ -35,7 +35,7 @@ import { formatHash, formatXWEAddress, formatTimestampMemo } from 'src/configs/f
 
 // ** Third Party Import
 import { useTranslation } from 'react-i18next'
-import { isMobile } from 'src/configs/functions';
+import { isMobile } from 'src/configs/functions'
 
 import Pagination from '@mui/material/Pagination'
 
@@ -202,35 +202,35 @@ const AddressesList = () => {
                           <TableRow>
                             <TableCell>
                               <Typography variant='body2' sx={{ color: 'text.primary', display: 'flex', alignItems: 'center' }}>
-                              {`${t(`Address`)}`}: <StringDisplay InputString={`${item.id}`} StringSize={7} href={`/addresses/all/${item.id}`}/>
+                              {`${t(`Address`)}`}：<StringDisplay InputString={`${item.id}`} StringSize={7} href={`/addresses/all/${item.id}`}/>
                               </Typography>
                             </TableCell>
                           </TableRow>
                           <TableRow>
                             <TableCell>
                               <Typography variant='body2' sx={{ color: 'text.primary' }}>
-                              {`${t(`Balance`)}`}: {item.balance}
+                              {`${t(`Balance`)}`}：{item.balance}
                               </Typography>
                             </TableCell>
                           </TableRow>
                           <TableRow>
                             <TableCell>
                               <Typography variant='body2' sx={{ color: 'text.primary' }}>
-                              {`${t(`Txs`)}`}: {item.txs}
+                              {`${t(`Txs`)}`}：{item.txs}
                               </Typography>
                             </TableCell>
                           </TableRow>
                           <TableRow>
                             <TableCell>
                               <Typography variant='body2' sx={{ color: 'text.primary' }}>
-                              {`${t(`Discovery`)}`}: {item.lastblock}
+                              {`${t(`Discovery`)}`}：{item.lastblock}
                               </Typography>
                             </TableCell>
                           </TableRow>
                           <TableRow>
                             <TableCell>
                               <Typography variant='body2' sx={{ color: 'text.primary' }}>
-                              {`${t(`Update`)}`}: {formatTimestampMemo(item.timestamp)}
+                              {`${t(`Update`)}`}：{formatTimestampMemo(item.timestamp)}
                               </Typography>
                             </TableCell>
                           </TableRow>

@@ -233,7 +233,7 @@ const TransactionList = () => {
         <Grid container spacing={6}>
           <Grid item xs={12}>
             <Card>
-              <CardHeader title={`${t('Blocks')}`} sx={{ px: 5, py: 3 }}/>          
+              <CardHeader title={`${t('Transactions')}`} sx={{ px: 5, py: 3 }}/>          
             </Card>
           </Grid>
           {store.data.map((row: any, index: number) => {

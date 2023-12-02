@@ -22,7 +22,7 @@ import TableContainer from '@mui/material/TableContainer'
 import { formatTimestamp, formatStorageSize } from 'src/configs/functions';
 
 import { ThemeColor } from 'src/@core/layouts/types'
-import { isMobile } from 'src/configs/functions';
+import { isMobile } from 'src/configs/functions'
 
 // ** Third Party Import
 import { useTranslation } from 'react-i18next'
@@ -268,42 +268,42 @@ const PeersInfo = () => {
                             <TableRow>
                               <TableCell>
                                 <Typography variant='body2' sx={{ color: 'text.primary' }}>
-                                {`${t(`Ip`)}`}: {item.ip}
+                                {`${t(`Ip`)}`}：{item.ip}
                                 </Typography>
                               </TableCell>
                             </TableRow>
                             <TableRow>
                               <TableCell>
                                 <Typography variant='body2' sx={{ color: 'text.primary' }}>
-                                {`${t(`Location`)}`}: {item.result.location}
+                                {`${t(`Location`)}`}：{item.result.location}
                                 </Typography>
                               </TableCell>
                             </TableRow>
                             <TableRow>
                               <TableCell>
                                 <Typography variant='body2' sx={{ color: 'text.primary' }}>
-                                {`${t(`Isp`)}`}: {item.result.isp}
+                                {`${t(`Isp`)}`}：{item.result.isp}
                                 </Typography>
                               </TableCell>
                             </TableRow>
                             <TableRow>
                               <TableCell>
                                 <Typography variant='body2' sx={{ color: 'text.primary' }}>
-                                {`${t(`Country`)}`}: {item.result.country}
+                                {`${t(`Country`)}`}：{item.result.country}
                                 </Typography>
                               </TableCell>
                             </TableRow>
                             <TableRow>
                               <TableCell>
                                 <Typography variant='body2' sx={{ color: 'text.primary' }}>
-                                {`${t(`Region`)}`}: {item.result.region}
+                                {`${t(`Region`)}`}：{item.result.region}
                                 </Typography>
                               </TableCell>
                             </TableRow>
                             <TableRow>
                               <TableCell>
                                 <Typography variant='body2' sx={{ color: 'text.primary' }}>
-                                {`${t(`City`)}`}: {item.result.city}
+                                {`${t(`City`)}`}：{item.result.city}
                                 </Typography>
                               </TableCell>
                             </TableRow>
