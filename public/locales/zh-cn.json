@@ -152,5 +152,9 @@
     "City": "城市",
     "Uploading": "上传中",
     "Create a new wallet": "创建新钱包",
-    "Please create a wallet first": "请先创建一个钱包"
+    "Please create a wallet first": "请先创建一个钱包",
+    "No Wallet": "没有钱包",
+    "Close": "关闭",
+    "Yes": "是",
+    "No": "否"
 }

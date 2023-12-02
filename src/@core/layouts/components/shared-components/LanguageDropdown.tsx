@@ -62,28 +62,6 @@ const LanguageDropdown = ({ settings, saveSettings }: Props) => {
           }
         },
         {
-          text: '简体中文',
-          menuItemProps: {
-            sx: { py: 2 },
-            selected: i18n.language === 'zh-CN',
-            onClick: () => {
-              handleLangItemClick('zh-CN')
-              saveSettings({ ...settings, direction: 'ltr' })
-            }
-          }
-        },
-        {
-          text: '繁體中文',
-          menuItemProps: {
-            sx: { py: 2 },
-            selected: i18n.language === 'zh-TW',
-            onClick: () => {
-              handleLangItemClick('zh-TW')
-              saveSettings({ ...settings, direction: 'ltr' })
-            }
-          }
-        },
-        {
           text: 'Korean',
           menuItemProps: {
             sx: { py: 2 },
@@ -134,6 +112,28 @@ const LanguageDropdown = ({ settings, saveSettings }: Props) => {
             selected: i18n.language === 'Ru',
             onClick: () => {
               handleLangItemClick('Ru')
+              saveSettings({ ...settings, direction: 'ltr' })
+            }
+          }
+        },
+        {
+          text: '简体中文',
+          menuItemProps: {
+            sx: { py: 2 },
+            selected: i18n.language === 'zh-CN',
+            onClick: () => {
+              handleLangItemClick('zh-CN')
+              saveSettings({ ...settings, direction: 'ltr' })
+            }
+          }
+        },
+        {
+          text: '繁體中文',
+          menuItemProps: {
+            sx: { py: 2 },
+            selected: i18n.language === 'zh-TW',
+            onClick: () => {
+              handleLangItemClick('zh-TW')
               saveSettings({ ...settings, direction: 'ltr' })
             }
           }

@@ -176,7 +176,14 @@ export function getAllWallets() {
 
 export function getCurrentWalletAddress() {
     const CurrentWalletAddress = window.localStorage.getItem(chivesCurrentWallet)
-
+    if(CurrentWalletAddress == undefined) {
+        const chivesWalletsList = window.localStorage.getItem(chivesWallets)
+        const walletExists = chivesWalletsList ? JSON.parse(chivesWalletsList) : []
+        if(walletExists && walletExists[0] && walletExists[0].data && walletExists[0].data.arweave && walletExists[0].data.arweave.key) {
+            window.localStorage.setItem(chivesCurrentWallet, walletExists[0].data.arweave.key)
+        }
+    }
+    
     return String(CurrentWalletAddress)
 };
 

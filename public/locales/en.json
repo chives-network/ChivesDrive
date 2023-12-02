@@ -152,5 +152,9 @@
   "City": "City",
   "Uploading": "Uploading",
   "Create a new wallet": "Create a new wallet",
-  "Please create a wallet first": "Please create a wallet first"
+  "Please create a wallet first": "Please create a wallet first",
+  "No Wallet": "No Wallet",
+  "Close": "Close",
+  "Yes": "Yes",
+  "No": "No"
 }

@@ -136,7 +136,8 @@ const MyWallets = () => {
   const handleYesClose = () => {
     setOpen(false)
     setIsDialog(false)
-    if(wantDeleteWalletId && wantDeleteWalletId!="") {
+    console.log("wantDeleteWalletId", wantDeleteWalletId)
+    if(wantDeleteWalletId!=="" && wantDeleteWalletId!==undefined) {
       deleteWalletById(Number(wantDeleteWalletId))
     }
     setWantDeleteWalletId("")
@@ -170,8 +171,8 @@ const MyWallets = () => {
                   </DialogContentText>
               </DialogContent>
               <DialogActions className='dialog-actions-dense'>
-                  <Button onClick={handleNoClose} color="error" size='large' variant='contained' >No</Button>
-                  <Button onClick={handleYesClose} color="primary">Yes</Button>
+                  <Button onClick={handleNoClose} color="error" size='large' variant='contained' >{`${t(`No`)}`}</Button>
+                  <Button onClick={handleYesClose} color="primary">{`${t(`Yes`)}`}</Button>
               </DialogActions>
           </Dialog>
       </Fragment>
