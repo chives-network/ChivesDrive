@@ -65,7 +65,7 @@ const AnalyticsDashboard = () => {
         dataMap[Item.Date.substring(5)] = Item;
       })
       dataX.sort((a, b) => a - b);
-      const newDataX = dataX.slice(1).slice().slice(1).slice(-21);
+      const newDataX = dataX.slice(1).slice().slice(1).slice(-21, -1);
       setDataX(newDataX)
       newDataX.map((Item: string)=>{
         dataWeaveSize.push((dataMap[Item].Weave_Size/(1024*1024*1024*1024)).toFixed(1))
@@ -89,7 +89,7 @@ const AnalyticsDashboard = () => {
         dataMap[Item.Date.substring(5)] = Item;
       })
       dataX.sort((a, b) => a - b);
-      const newDataX = dataX.slice(1).slice().slice(1).slice(-21);
+      const newDataX = dataX.slice(1).slice().slice(1).slice(-21, -1);
       setDataX(newDataX)
       newDataX.map((Item: string)=>{
         blocksnumber.push(dataMap[Item].Blocks);

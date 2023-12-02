@@ -55,21 +55,6 @@ const LinkStyled = styled(Link)(({ theme }) => ({
   }
 }))
 
-interface ChainInfoType {
-  network: string
-  version: number
-  release: number
-  height: number
-  current: string
-  blocks: number
-  peers: number
-  time: number
-  miningtime: number
-  weave_size: number
-  denomination: number
-  diff: string
-}
-
 const BlockList = () => {
   // ** Hook
   const { t } = useTranslation()
@@ -78,18 +63,6 @@ const BlockList = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   const [paginationModel, setPaginationModel] = useState({ page: 0, pageSize: 15 })
-
-  const [chainInfo, setChainInfo] = useState<ChainInfoType>()
-  
-  useEffect(() => {
-    axios.get(authConfig.backEndApi + '/info', { headers: { }, params: { } })
-        .then(res => {
-          setChainInfo(res.data);
-        })
-        .catch(() => {
-          console.log("axios.get editUrl return")
-        })
-  }, [])
 
   console.log("paginationModel", paginationModel)
   
@@ -238,85 +211,6 @@ const BlockList = () => {
   return (
     <Grid container spacing={6}>
 
-    {chainInfo != undefined ?
-      <Grid item xs={12}>
-        <Card>
-          <CardHeader title={`Chivesweave Blockchain`} />
-          <CardContent>
-            <Grid container spacing={6}>
-
-              <Grid item xs={12} lg={12}>
-                <TableContainer>
-                  <Table size='small' sx={{ width: '95%' }}>
-                    <TableBody
-                      sx={{
-                        '& .MuiTableCell-root': {
-                          border: 0,
-                          pt: 2,
-                          pb: 2.5,
-                          pl: '0 !important',
-                          pr: '0 !important',
-                          '&:first-of-type': {
-                            width: 148
-                          }
-                        }
-                      }}
-                    >
-                      <TableRow>
-                        <TableCell>
-                          <Typography variant='subtitle2' sx={{ color: 'text.primary' }}>
-                          {`${t(`Network`)}`}:
-                          </Typography>
-                        </TableCell>
-                        <TableCell>{chainInfo.network}</TableCell>
-                      </TableRow>
-                      <TableRow>
-                        <TableCell>
-                          <Typography variant='subtitle2' sx={{ color: 'text.primary' }}>
-                          {`${t(`Height`)}`}:
-                          </Typography>
-                        </TableCell>
-                        <TableCell>{chainInfo.height}</TableCell>
-                      </TableRow>
-                      <TableRow>
-                        <TableCell>
-                          <Typography variant='subtitle2' sx={{ color: 'text.primary' }}>
-                          {`${t(`Time`)}`}:
-                          </Typography>
-                        </TableCell>
-                        <TableCell>{formatTimestamp(chainInfo.time)}</TableCell>
-                      </TableRow>
-                      <TableRow>
-                        <TableCell>
-                          <Typography variant='subtitle2' sx={{ color: 'text.primary' }}>
-                          {`${t(`Peers`)}`}:
-                          </Typography>
-                        </TableCell>
-                        <TableCell>{chainInfo.peers}</TableCell>
-                      </TableRow>
-                      <TableRow>
-                        <TableCell>
-                          <Typography variant='subtitle2' sx={{ color: 'text.primary' }}>
-                          {`${t(`Weave Size`)}`}:
-                          </Typography>
-                        </TableCell>
-                        <TableCell>{formatStorageSize(chainInfo.weave_size)}</TableCell>
-                      </TableRow>
-
-                    </TableBody>
-                  </Table>
-                </TableContainer>
-              </Grid>
-
-            </Grid>
-          </CardContent>
-
-        </Card>
-      </Grid>
-    :
-      <Fragment></Fragment>
-    }
-    
       <Grid item xs={12}>
         <Card>
           <CardHeader title={`${t(`Blocks`)}`} />

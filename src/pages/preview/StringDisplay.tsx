@@ -33,13 +33,10 @@ function StringDisplay({ InputString, StringSize, href } : Props) {
     return <Fragment></Fragment>
   }
   const IsMobile = isMobile();
-  if(StringSize > 0 && IsMobile == true) {
-    truncatedString = InputString.slice(0, 4) + '...' + InputString.slice(0-4);
-  }
-  else if(StringSize >= 40 && IsMobile == false) {
+  if(StringSize >= 40) {
     truncatedString = InputString;
   }
-  else if(StringSize > 0 && IsMobile == false) {
+  else if(StringSize > 0) {
     truncatedString = InputString.slice(0, StringSize) + '...' + InputString.slice(0-StringSize);
   }
   if(InputString && InputString.length <= StringSize * 2) {

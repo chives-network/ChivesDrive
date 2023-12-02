@@ -8,27 +8,14 @@ export function formatHash(inputString: string, spliceSize: number): string {
     return '';
   }
 
-  const IsMobile = isMobile();
-  if(IsMobile == true) {
-    if (inputString.length <= 12) {
+  if (inputString.length <= spliceSize * 2) {
 
-      return inputString; 
-    }
-    const firstPart = inputString.substring(0, 6);
-    const lastPart = inputString.substring(inputString.length - 6);
-    
-    return `${firstPart} ... ${lastPart}`;
+    return inputString; 
   }
-  else {    
-    if (inputString.length <= spliceSize * 2) {
-
-      return inputString; 
-    }
-    const firstPart = inputString.substring(0, spliceSize);
-    const lastPart = inputString.substring(inputString.length - spliceSize);
-    
-    return `${firstPart} ... ${lastPart}`;
-  }
+  const firstPart = inputString.substring(0, spliceSize);
+  const lastPart = inputString.substring(inputString.length - spliceSize);
+  
+  return `${firstPart} ... ${lastPart}`;
 
 }
 
