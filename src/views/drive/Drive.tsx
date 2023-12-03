@@ -71,8 +71,11 @@ const DriveAppLayout = ({ initFolder, label, type }: DriveLayoutType) => {
   const { settings } = useSettings()
   const dispatch = useDispatch<AppDispatch>()
   const lgAbove = useMediaQuery(theme.breakpoints.up('lg'))
-  const hidden = useMediaQuery(theme.breakpoints.down('lg'))
+  
+  //const hidden = useMediaQuery(theme.breakpoints.down('lg'))
+  const hidden = true
   const store = useSelector((state: RootState) => state.drive)
+
 
   // ** Vars
   const leftSidebarWidth = 260
@@ -197,6 +200,7 @@ const DriveAppLayout = ({ initFolder, label, type }: DriveLayoutType) => {
         hidden={hidden}
         lgAbove={lgAbove}
         dispatch={dispatch}
+        handleFolderHeaderList={handleFolderHeaderList}
         routeParams={routeParams}
         driveFileOpen={driveFileOpen}
         leftSidebarOpen={leftSidebarOpen}

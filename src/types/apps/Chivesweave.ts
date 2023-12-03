@@ -16,6 +16,7 @@ export type DriveSidebarType = {
   hidden: boolean
   store: any
   lgAbove: boolean
+  handleFolderHeaderList: (val: any) => void
   dispatch: Dispatch<any>
   routeParams: RouteParams
   leftSidebarOpen: boolean
