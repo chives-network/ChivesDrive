@@ -195,7 +195,7 @@ const FileResourceModel = ({ activeTab } : any) => {
                 ))}
               </Grid>
               <Grid item key={"Pagination"} xs={12} sm={12} md={12} lg={12} sx={{ padding: '10px 0 10px 0' }}>
-                <Pagination count={Number(store.allPages)} variant='outlined' color='primary' page={paginationModel.page} onChange={handlePageChange} siblingCount={2} boundaryCount={3} />
+                <Pagination count={Number(store.allPages)} variant='outlined' color='primary' page={paginationModel.page+1} onChange={handlePageChange} siblingCount={2} boundaryCount={3} />
               </Grid>
             </Fragment>
           ) : (
