@@ -12,10 +12,8 @@ import CardHeader from '@mui/material/CardHeader'
 import CardContent from '@mui/material/CardContent'
 import InputAdornment from '@mui/material/InputAdornment'
 import Typography, { TypographyProps } from '@mui/material/Typography'
-import CircularProgress from '@mui/material/CircularProgress'
 
 // ** Axios Imports
-import axios from 'axios'
 import authConfig from 'src/configs/auth'
 
 // ** Icon Imports
@@ -85,7 +83,6 @@ const SendOutForm = () => {
   const [bannerFilesTxId, setBannerFilesTxId] = useState<string>('')
 
   const auth = useAuth()
-  const currentWallet = auth.currentWallet
   const currentAddress = auth.currentAddress
   const chivesProfile: string = authConfig.chivesProfile
   
@@ -102,6 +99,7 @@ const SendOutForm = () => {
         }
     };
     window.addEventListener('load', handleWindowLoad);
+
     return () => {
       window.removeEventListener('load', handleWindowLoad);
     };
@@ -250,11 +248,6 @@ const SendOutForm = () => {
     setInputBioError("")
   };
 
-  interface FileUploaderProps {
-    setFiles: React.Dispatch<React.SetStateAction<File[]>>;
-  }
-
-  
   // ** Hook
   const [avatarFiles, setAvatarFiles] = useState<File[]>([])
   const { getRootProps: getRootPropsAvatar, getInputProps: getInputPropsAvatar } = useDropzone({
@@ -314,7 +307,7 @@ const SendOutForm = () => {
     chivesProfileMap['AvatarTxId'] = avatarFilesTxId
     chivesProfileMap['BannerTxId'] = bannerFilesTxId
 
-    let FileTxList: string[] = [];
+    const FileTxList: string[] = [];
     if(avatarFiles && avatarFiles[0]) {
         FileTxList.push('Avatar')
     }
@@ -357,6 +350,7 @@ const SendOutForm = () => {
     })
     if(uploadProgress && Object.entries(uploadProgress) && Object.entries(uploadProgress).length > 0 && isFinishedAllUploaded) {
         setUploadingButton(`${t('Submit')}`)
+        
         /*
         setIsDisabledButton(false)
         setInputName("")
@@ -371,6 +365,7 @@ const SendOutForm = () => {
         setInputYoutube("")
         setInputBio("")
         */
+
         toast.success(`${t('Successfully submitted to blockchain')}`, { duration: 4000 })
     }
   }, [uploadProgress])

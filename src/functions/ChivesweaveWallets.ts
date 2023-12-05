@@ -16,7 +16,6 @@ import Arweave from 'arweave'
 // ** Third Party Imports
 import axios from 'axios'
 import authConfig from 'src/configs/auth'
-import { string } from 'yup';
 
 const arweave = Arweave.init(urlToSettings(authConfig.backEndApi))
 
@@ -1074,6 +1073,7 @@ export async function ProfileSubmitToBlockchain(setUploadProgress: React.Dispatc
     delete AllData['BannerTxId']
     FileTxMap['Data'] = AllData
     console.log("FileTxList", FileTxList)
+    
     //Make Tx List
     const formData = (await Promise.all(FileTxList?.map(async (FileTxKey: string) => { 
       const tags = [] as Tag[]    
