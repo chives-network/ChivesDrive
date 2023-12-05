@@ -25,7 +25,7 @@ import Icon from 'src/@core/components/icon'
 import { useAuth } from 'src/hooks/useAuth'
 
 // ** Hooks
-import { ProfileSubmitToBlockchain, isAddress } from 'src/functions/ChivesweaveWallets'
+import { ProfileSubmitToBlockchain, getWalletProfile } from 'src/functions/ChivesweaveWallets'
 
 // ** Styled Component
 import DropzoneWrapper from 'src/@core/styles/libs/react-dropzone'
@@ -73,16 +73,89 @@ const SendOutForm = () => {
   const { t } = useTranslation()
 
   const router = useRouter()
-    
+
   // ** State
   const [uploadProgress, setUploadProgress] = useState<{ [key: string]: number }>({})
   const [uploadingButton, setUploadingButton] = useState<string>(`${t('Save')}`)
   const [isDisabledButton, setIsDisabledButton] = useState<boolean>(false)
-  
+  const [avatarName, setAvatarName] = useState<string>("")
+  const [avatarFilesUrl, setAvatarFilesUrl] = useState<string>('/images/avatars/1.png')
+  const [bannerFilesUrl, setBannerFilesUrl] = useState<string>('/images/misc/upload.png')
+  const [avatarFilesTxId, setAvatarFilesTxId] = useState<string>('')
+  const [bannerFilesTxId, setBannerFilesTxId] = useState<string>('')
+
   const auth = useAuth()
   const currentWallet = auth.currentWallet
   const currentAddress = auth.currentAddress
   const chivesProfile: string = authConfig.chivesProfile
+  
+  const [chivesProfileTxId, setChivesProfileTxId] = useState<string>("")
+  useEffect(() => {
+    setAvatarName(auth.currentAddress)
+    const handleWindowLoad = () => {
+        const chivesProfileTemp = window.localStorage.getItem(chivesProfile) as string
+        setChivesProfileTxId(chivesProfileTemp)
+        if((chivesProfileTxId && chivesProfileTxId.length == 43) || (chivesProfileTemp && chivesProfileTemp.length == 43)) {
+            setIsDisabledButton(true)
+            setInputName(`${t('Please wait for the blockchain to be packaged')}`)
+            setAvatarName(`${t('Please wait for the blockchain to be packaged')}`)
+        }
+    };
+    window.addEventListener('load', handleWindowLoad);
+    return () => {
+      window.removeEventListener('load', handleWindowLoad);
+    };
+  }, []);
+
+  useEffect(() => {
+    handleGetProfile()
+  }, [currentAddress])
+  const handleGetProfile = async () => {
+    const getWalletProfileData: any = await getWalletProfile()
+    console.log("getWalletProfileData", getWalletProfileData)
+    if(getWalletProfileData && getWalletProfileData['Name']) {
+        setInputName(getWalletProfileData['Name']);
+    }
+    if(getWalletProfileData && getWalletProfileData['Email']) {
+        setInputEmail(getWalletProfileData['Email']);
+    }
+    if(getWalletProfileData && getWalletProfileData['Twitter']) {
+        setInputTwitter(getWalletProfileData['Twitter']);
+    }
+    if(getWalletProfileData && getWalletProfileData['Github']) {
+        setInputGithub(getWalletProfileData['Github']);
+    }
+    if(getWalletProfileData && getWalletProfileData['Discord']) {
+        setInputDiscord(getWalletProfileData['Discord']);
+    }
+    if(getWalletProfileData && getWalletProfileData['Instagram']) {
+        setInputInstagram(getWalletProfileData['Instagram']);
+    }
+    if(getWalletProfileData && getWalletProfileData['Telegram']) {
+        setInputTelegram(getWalletProfileData['Telegram']);
+    }
+    if(getWalletProfileData && getWalletProfileData['Medium']) {
+        setInputMedium(getWalletProfileData['Medium']);
+    }
+    if(getWalletProfileData && getWalletProfileData['Reddit']) {
+        setInputReddit(getWalletProfileData['Reddit']);
+    }
+    if(getWalletProfileData && getWalletProfileData['Youtube']) {
+        setInputYoutube(getWalletProfileData['Youtube']);
+    }
+    if(getWalletProfileData && getWalletProfileData['Bio']) {
+        setInputBio(getWalletProfileData['Bio']);
+    }
+    if(getWalletProfileData && getWalletProfileData['Avatar'] && getWalletProfileData['Avatar'].length == 43) {
+        setAvatarFilesTxId(getWalletProfileData['Avatar']);
+        setAvatarFilesUrl(authConfig.backEndApi + '/' + getWalletProfileData['Avatar']);
+    }
+    if(getWalletProfileData && getWalletProfileData['Banner'] && getWalletProfileData['Banner'].length == 43) {
+        setBannerFilesTxId(getWalletProfileData['Banner']);
+        setBannerFilesUrl(authConfig.backEndApi + '/' + getWalletProfileData['Banner']);
+    }
+  }
+
   
   const [inputName, setInputName] = useState<string>("")
   const [inputNameError, setInputNameError] = useState<string | null>(null)
@@ -181,66 +254,34 @@ const SendOutForm = () => {
     setFiles: React.Dispatch<React.SetStateAction<File[]>>;
   }
 
+  
   // ** Hook
   const [avatarFiles, setAvatarFiles] = useState<File[]>([])
-  const AvatarUploader: React.FC<FileUploaderProps> = ({ setFiles }) => {
-    const { acceptedFiles, getRootProps, getInputProps } = useDropzone({
-        multiple: false,
-        accept: {
-          'image/*': ['.png', '.jpg', '.jpeg', '.gif']
-        },
-        onDrop: (acceptedFiles: File[]) => {
-            setFiles(acceptedFiles.map((file: File) => Object.assign(file)))
-        }
-    })
-    return (
-        <Box {...getRootProps({ className: 'dropzone' })} sx={{width: '160px', height: '140px'}}>
-            <input {...getInputProps()} />
-            {avatarFiles && avatarFiles.length ? (
-                <Box  sx={{ alignItems: 'center'}}>
-                    <Img alt='Upload Avatar' src={URL.createObjectURL(avatarFiles[0] as any)} sx={{width: '100%'}}/>
-                </Box>
-            ) : (
-                <Box sx={{alignItems: 'center'}}>
-                    <Img alt='Upload Avatar' src='/images/avatars/1.png' sx={{width: '100%'}}/>
-                </Box>
-            )}
-        </Box>
-    );
-  };
+  const { getRootProps: getRootPropsAvatar, getInputProps: getInputPropsAvatar } = useDropzone({
+    multiple: false,
+    accept: {
+      'image/*': ['.png', '.jpg', '.jpeg', '.gif']
+    },
+    onDrop: (acceptedFiles: File[]) => {
+        setAvatarFiles(acceptedFiles.map((file: File) => Object.assign(file)))
+    }
+  })
 
   // ** Hook
   const [bannerFiles, setBannerFiles] = useState<File[]>([])
-  const BannerUploader: React.FC<FileUploaderProps> = ({ setFiles }) => {
-    const { acceptedFiles, getRootProps, getInputProps } = useDropzone({
-        multiple: false,
-        accept: {
-          'image/*': ['.png', '.jpg', '.jpeg', '.gif']
-        },
-        onDrop: (acceptedFiles: File[]) => {
-            setFiles(acceptedFiles.map((file: File) => Object.assign(file)))
-            console.log("bannerFiles",bannerFiles)
-        }
-    })    
-    const BannerImageShow = bannerFiles&& bannerFiles.map((file: FileProp) => (
-        <img key={file.name} alt={file.name} className='single-file-image' src={URL.createObjectURL(file as any)} />
-    ))  
-    return (
-        <Box {...getRootProps({ className: 'dropzone' })} sx={acceptedFiles.length ? {} : {}}>
-            <input {...getInputProps()} />
-            {bannerFiles && bannerFiles.length ? (
-                BannerImageShow
-            ) : (
-                <Box sx={{ display: 'flex', flexDirection: ['column', 'column', 'row'], alignItems: 'center' }}>
-                    <Img alt='Upload img' src='/images/misc/upload.png' />
-                    <Box sx={{ display: 'flex', flexDirection: 'column', textAlign: ['center', 'center', 'inherit'] }}>
-                        <HeadingTypography variant='h5'>{`${t(`Upload banner image`)}`}</HeadingTypography>
-                    </Box>
-                </Box>
-            )}
-        </Box>
-    );
-  };
+  const { acceptedFiles, getRootProps: getRootPropsBanner, getInputProps: getInputPropsBanner } = useDropzone({
+    multiple: false,
+    accept: {
+      'image/*': ['.png', '.jpg', '.jpeg', '.gif']
+    },
+    onDrop: (acceptedFiles: File[]) => {
+        setBannerFiles(acceptedFiles.map((file: File) => Object.assign(file)))
+        console.log("bannerFiles",bannerFiles)
+    }
+  })    
+  const BannerImageShow = bannerFiles&& bannerFiles.map((file: FileProp) => (
+    <img key={file.name} alt={file.name} className='single-file-image' src={URL.createObjectURL(file as any)} />
+  ))  
 
   const handleSubmitToBlockchain = async () => {
     if(currentAddress == undefined || currentAddress.length != 43) {
@@ -248,12 +289,13 @@ const SendOutForm = () => {
           duration: 4000
         })
         router.push("/mywallets");
-        
+
         return
-    }    
+    }
     
-    //setIsDisabledButton(true)
-    //setUploadingButton(`${t('Submitting...')}`)
+    setIsDisabledButton(true)
+    setUploadingButton(`${t('Submitting...')}`)
+    toast.success(`${t('Submitting...')}`, { duration: 3000 })
 
     const chivesProfileMap: any = {}
     chivesProfileMap['Name'] = inputName
@@ -269,6 +311,8 @@ const SendOutForm = () => {
     chivesProfileMap['Bio'] = inputBio
     chivesProfileMap['Avatar'] = avatarFiles
     chivesProfileMap['Banner'] = bannerFiles
+    chivesProfileMap['AvatarTxId'] = avatarFilesTxId
+    chivesProfileMap['BannerTxId'] = bannerFilesTxId
 
     let FileTxList: string[] = [];
     if(avatarFiles && avatarFiles[0]) {
@@ -281,7 +325,6 @@ const SendOutForm = () => {
     
     const TxResult: any = await ProfileSubmitToBlockchain(setUploadProgress, chivesProfileMap, FileTxList);
 
-    return
     //Save Tx Records Into LocalStorage
     const chivesTxStatus: string = authConfig.chivesTxStatus
     const ChivesDriveActionsMap: any = {}
@@ -290,12 +333,15 @@ const SendOutForm = () => {
     chivesTxStatusList.push({TxResult,ChivesDriveActionsMap})
     console.log("chivesTxStatusList-SendOutForm", chivesTxStatusList)
     window.localStorage.setItem(chivesTxStatus, JSON.stringify(chivesTxStatusList))
+    window.localStorage.setItem(chivesProfile, TxResult.id as string)
+    setAvatarName(`${t('Please wait for the blockchain to be packaged')}`)
     
     if(TxResult.status == 800) {
       //Insufficient balance
       toast.error(TxResult.statusText, { duration: 4000 })
       setIsDisabledButton(false)
       setUploadingButton(`${t('Submit')}`)
+      setChivesProfileTxId(TxResult.id)
     }
 
   }
@@ -310,8 +356,9 @@ const SendOutForm = () => {
         console.log("uploadProgress key", key, value)
     })
     if(uploadProgress && Object.entries(uploadProgress) && Object.entries(uploadProgress).length > 0 && isFinishedAllUploaded) {
-        setIsDisabledButton(false)
         setUploadingButton(`${t('Submit')}`)
+        /*
+        setIsDisabledButton(false)
         setInputName("")
         setInputEmail("")
         setInputTwitter("")
@@ -323,6 +370,7 @@ const SendOutForm = () => {
         setInputReddit("")
         setInputYoutube("")
         setInputBio("")
+        */
         toast.success(`${t('Successfully submitted to blockchain')}`, { duration: 4000 })
     }
   }, [uploadProgress])
@@ -337,7 +385,37 @@ const SendOutForm = () => {
                     <Grid container spacing={5}>
                         <Grid item xs={12}>
                             <CardContent sx={{ display: 'flex', alignItems: 'center', flexDirection: 'column' }}>
-                                <AvatarUploader setFiles={setAvatarFiles}/>
+                                <Fragment>
+                                    {isDisabledButton ?
+                                    <Fragment>
+                                        {avatarFiles && avatarFiles.length ? (
+                                            <Box  sx={{ alignItems: 'center'}}>
+                                                <Img alt='Upload Avatar' src={URL.createObjectURL(avatarFiles[0] as any)}  sx={{width: '200px', height: '200px', borderRadius: '5px'}}/>
+                                            </Box>
+                                        ) : (
+                                            <Box sx={{alignItems: 'center'}}>
+                                                <Img alt='Upload Avatar' src={avatarFilesUrl} sx={{width: '200px', height: '200px', borderRadius: '5px'}}/>
+                                            </Box>
+                                        )}
+                                    </Fragment>
+                                    :
+                                    <Box {...getRootPropsAvatar({ className: 'dropzone' })} sx={{width: '200px', height: '200px'}}>
+                                        <input {...getInputPropsAvatar()} />
+                                        {avatarFiles && avatarFiles.length ? (
+                                            <Box  sx={{ alignItems: 'center'}}>
+                                                <Img alt='Upload Avatar' src={URL.createObjectURL(avatarFiles[0] as any)} sx={{width: '100%', borderRadius: '5px'}}/>
+                                            </Box>
+                                        ) : (
+                                            <Box sx={{alignItems: 'center'}}>
+                                                <Img alt='Upload Avatar' src={avatarFilesUrl} sx={{width: '100%', borderRadius: '5px'}}/>
+                                            </Box>
+                                        )}
+                                    </Box>
+                                    }
+                                </Fragment>
+                                <Typography sx={{ mt: 3 }}>
+                                    {avatarName}
+                                </Typography>
                             </CardContent>
                         </Grid>
                         <Grid item xs={6}>
@@ -354,6 +432,7 @@ const SendOutForm = () => {
                                         </InputAdornment>
                                     )
                                 }}
+                                disabled={isDisabledButton} 
                                 error={!!inputNameError}
                                 helperText={inputNameError}
                             />
@@ -372,6 +451,7 @@ const SendOutForm = () => {
                                         </InputAdornment>
                                     )
                                 }}
+                                disabled={isDisabledButton} 
                                 error={!!inputEmailError}
                                 helperText={inputEmailError}
                             />
@@ -390,6 +470,7 @@ const SendOutForm = () => {
                                         </InputAdornment>
                                     )
                                 }}
+                                disabled={isDisabledButton} 
                                 error={!!inputTwitterError}
                                 helperText={inputTwitterError}
                             />
@@ -408,6 +489,7 @@ const SendOutForm = () => {
                                         </InputAdornment>
                                     )
                                 }}
+                                disabled={isDisabledButton} 
                                 error={!!inputGithubError}
                                 helperText={inputGithubError}
                             />
@@ -426,6 +508,7 @@ const SendOutForm = () => {
                                         </InputAdornment>
                                     )
                                 }}
+                                disabled={isDisabledButton} 
                                 error={!!inputDiscordError}
                                 helperText={inputDiscordError}
                             />
@@ -444,6 +527,7 @@ const SendOutForm = () => {
                                         </InputAdornment>
                                     )
                                 }}
+                                disabled={isDisabledButton} 
                                 error={!!inputInstagramError}
                                 helperText={inputInstagramError}
                             />
@@ -462,6 +546,7 @@ const SendOutForm = () => {
                                         </InputAdornment>
                                     )
                                 }}
+                                disabled={isDisabledButton} 
                                 error={!!inputTelegramError}
                                 helperText={inputTelegramError}
                             />
@@ -480,6 +565,7 @@ const SendOutForm = () => {
                                         </InputAdornment>
                                     )
                                 }}
+                                disabled={isDisabledButton} 
                                 error={!!inputMediumError}
                                 helperText={inputMediumError}
                             />
@@ -498,6 +584,7 @@ const SendOutForm = () => {
                                         </InputAdornment>
                                     )
                                 }}
+                                disabled={isDisabledButton} 
                                 error={!!inputRedditError}
                                 helperText={inputRedditError}
                             />
@@ -516,6 +603,7 @@ const SendOutForm = () => {
                                         </InputAdornment>
                                     )
                                 }}
+                                disabled={isDisabledButton} 
                                 error={!!inputYoutubeError}
                                 helperText={inputYoutubeError}
                             />
@@ -534,7 +622,8 @@ const SendOutForm = () => {
                                         <Icon icon='mdi:message-outline' />
                                         </InputAdornment>
                                     )
-                                }}                        
+                                }}
+                                disabled={isDisabledButton} 
                                 value={inputBio}
                                 onChange={handleInputBioChange}
                                 error={!!inputBioError}
@@ -542,11 +631,45 @@ const SendOutForm = () => {
                             />
                         </Grid>
                         <Grid item xs={12}>
-                          <BannerUploader setFiles={setBannerFiles}/>
+                            <Fragment>
+                                {isDisabledButton ?
+                                <Fragment>
+                                    {bannerFiles && bannerFiles.length ? (
+                                        <Box  sx={{ alignItems: 'center'}}>
+                                            <Img alt='Upload Banner' src={URL.createObjectURL(bannerFiles[0] as any)} sx={{height: '160px', borderRadius: '5px'}}/>
+                                        </Box>
+                                    ) : (
+                                        <Box sx={{alignItems: 'center'}}>
+                                            <Img alt='Upload Banner' src={bannerFilesUrl}/>
+                                        </Box>
+                                    )}
+                                </Fragment>
+                                :
+                                <Box {...getRootPropsBanner({ className: 'dropzone' })} sx={acceptedFiles.length ? {} : {}}>
+                                    <input {...getInputPropsBanner()} />
+                                    {bannerFiles && bannerFiles.length ? (
+                                        BannerImageShow
+                                    ) : (
+                                        <Box sx={{ display: 'flex', flexDirection: ['column', 'column', 'row'], alignItems: 'center' }}>
+                                            <Img alt='Upload img' src={bannerFilesUrl} sx={{height: '160px', borderRadius: '5px'}}/>
+                                            <Box sx={{ display: 'flex', flexDirection: 'column', textAlign: ['center', 'center', 'inherit'] }}>
+                                                <HeadingTypography variant='h5'>{`${t(`Upload banner image`)}`}</HeadingTypography>
+                                            </Box>
+                                        </Box>
+                                    )}
+                                </Box>
+                                }
+                            </Fragment>
                         </Grid>
 
                         <Grid item xs={12} container justifyContent="flex-end">
-                            <Button type='submit' variant='contained' size='large' onClick={handleSubmitToBlockchain} disabled={isDisabledButton} >
+                            <Button 
+                                type='submit' 
+                                variant='contained' 
+                                size='large' 
+                                onClick={handleSubmitToBlockchain} 
+                                disabled={isDisabledButton} 
+                                >
                                 {uploadingButton}
                             </Button>
                         </Grid>

@@ -25,6 +25,7 @@ const chivesCurrentWallet: string = authConfig.chivesCurrentWallet
 const chivesWalletNickname: string = authConfig.chivesWalletNickname
 const chivesTxStatus: string = authConfig.chivesTxStatus
 const chivesLanguage: string = authConfig.chivesLanguage
+const chivesProfile: string = authConfig.chivesProfile
 
 export async function generateNewMnemonicAndGetWalletData (mnemonic: string) {
     try {
@@ -503,11 +504,12 @@ export async function getProcessedData(walletData: any, walletAddress: string, d
             if(BundleTypeMap['Banner'] != undefined && BundleTypeMap['Banner'].length == 43)      {
                 jsonData['Banner'] = BundleTypeMap['Banner']
             }
-            const jsonDataNew: any[] = [{...dataContent[0], ['data']: JSON.stringify(jsonData)}]
-            console.log("jsonDataNew", jsonDataNew)
+            const jsonDataNew: any[] = [{...dataContent, ['data']: JSON.stringify(jsonData)}]
+            console.log("jsonDataNew____________________", jsonDataNew)
             const dataContentList = await Promise.all(jsonDataNew.map((item: any) => createDataItem(walletData, item)))  
             console.log("dataContentList", dataContentList)  
-            dataItems = dataItemsList.concat(dataContentList); 
+            dataItems = dataItemsList.concat(dataContentList) 
+            console.log("dataItems______________________", dataItems)  
             
         }
         else {
@@ -772,6 +774,7 @@ export async function CreateFolder(folderName: string, folderNameParent: string)
 
 export async function CheckBundleTxStatus() {
     //Get the bundle tx status
+    const chivesProfileTemp = window.localStorage.getItem(chivesProfile) as string
     const chivesTxStatusText = window.localStorage.getItem(chivesTxStatus)      
     const chivesTxStatusList = chivesTxStatusText ? JSON.parse(chivesTxStatusText) : []
     console.log("CheckBundleTxStatus", chivesTxStatusList, (new Date()).toLocaleTimeString())
@@ -779,24 +782,39 @@ export async function CheckBundleTxStatus() {
     if(chivesTxStatusList && chivesTxStatusList.length > 0)  {
         await Promise.all(
             chivesTxStatusList.map(async (Item: any) => {
-                const TxId = Item.TxResult.id;
                 try {
+                    const TxId = Item.TxResult.id;
                     const response = await axios.get(authConfig.backEndApi + '/tx/' + TxId + '/unbundle/0/9');
                     if(response && response.data && response.data.txs && response.data.txs.length > 0) {
                         console.log("response.data", response.data)
+                        if(chivesProfileTemp == TxId) {
+                            //Success Parse Bundle
+                            window.localStorage.setItem(chivesProfile, "")
+                        }
                     }
                     else {
                         chivesTxStatusListNew.push(Item)
                     }
                 } 
                 catch (error) {
-                    console.error(`Error fetching data for TxId ${TxId}:`, error);
+                    console.error(`Error fetching data for Item:`, Item);
                 }
             })
         );    
         console.log("chivesTxStatusList___________________chivesTxStatusListNew", chivesTxStatusListNew)
         window.localStorage.setItem(chivesTxStatus, JSON.stringify(chivesTxStatusListNew))
         console.log("CheckBundleTxStatus", chivesTxStatusList, chivesTxStatusListNew)
+    }
+}
+
+export async function getWalletProfile() {
+    const currentAddress = getCurrentWalletAddress()
+    const response = await axios.get(authConfig.backEndApi + '/profile/' + currentAddress );
+    if(response && response.data && response.data.Name) {
+        return response.data
+    }
+    else {
+        return {}
     }
 }
 
@@ -1051,7 +1069,10 @@ export async function ProfileSubmitToBlockchain(setUploadProgress: React.Dispatc
     const FileTxMap: any = {}
     FileTxMap['Avatar'] = chivesProfileMap['Avatar'][0]
     FileTxMap['Banner'] = chivesProfileMap['Banner'][0]
-    FileTxMap['Data'] = {...chivesProfileMap, Avatar: "", Banner: ""}
+    const AllData = {...chivesProfileMap, Avatar: chivesProfileMap['AvatarTxId'], Banner: chivesProfileMap['BannerTxId']}
+    delete AllData['AvatarTxId']
+    delete AllData['BannerTxId']
+    FileTxMap['Data'] = AllData
     console.log("FileTxList", FileTxList)
     //Make Tx List
     const formData = (await Promise.all(FileTxList?.map(async (FileTxKey: string) => { 
@@ -1149,8 +1170,7 @@ export async function ProfileSubmitToBlockchain(setUploadProgress: React.Dispatc
     tags.push({name: "Entity-Number", value: String(FileTxList.length)})
     
     console.log("getProcessedDataValue data", data)
-
-    return
+    
     const TxResult: any = await sendAmount(currentWallet, target, amount, tags, data, "UploadBundleFile", setUploadProgress);
     
     return TxResult;
