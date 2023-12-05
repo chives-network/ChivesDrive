@@ -13,6 +13,7 @@ export default {
   chivesDriveActions: 'ChivesDriveActions',
   chivesTxStatus: 'ChivesTxStatus',
   chivesLanguage: 'ChivesLanguage',
+  chivesProfile: 'ChivesProfile',
   'App-Name': 'ChivesDrive',
   'App-Platform': 'web',
   'App-Version': '0.1'

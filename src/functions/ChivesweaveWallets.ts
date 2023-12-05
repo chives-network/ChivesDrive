@@ -16,6 +16,7 @@ import Arweave from 'arweave'
 // ** Third Party Imports
 import axios from 'axios'
 import authConfig from 'src/configs/auth'
+import { string } from 'yup';
 
 const arweave = Arweave.init(urlToSettings(authConfig.backEndApi))
 
@@ -474,19 +475,54 @@ export async function getHash (data: string | Uint8Array) {
     return [...new Uint8Array(buffer)].map(x => x.toString(16).padStart(2, '0')).join('')
 }
 
-export async function getProcessedData(walletData: any, walletAddress: string, data: any, Manifest: boolean): Promise<ArTxParams['data']> {
+export async function getProcessedData(walletData: any, walletAddress: string, data: any, Manifest: boolean, BundleTypeArray: string[]): Promise<ArTxParams['data']> {
 	if (typeof data === 'string') { return data }
     console.log("getProcessedData Input File Data:", data)
 	if (!walletData) { throw 'multiple files unsupported for current account' }
     if (walletData && walletData.jwk && data && data.length > 0) {
         const bundleItems: any[] = []
-        const dataItems = await Promise.all(data.map((item: any) => createDataItem(walletData, item)))
-        console.log("getProcessedData dataItems:", dataItems)
+        let dataItems: any = null
+        if(BundleTypeArray && BundleTypeArray[0] && BundleTypeArray[1])  {
+            //Profile
+            const BundleTypeMap: any = {}
+            const dataItemsMain = data.slice(0, -1);
+            const dataItemsList = await Promise.all(dataItemsMain.map((item: any) => createDataItem(walletData, item)))
+            console.log("dataItemsList", dataItemsList)
+            dataItemsList.map((item: any, index: number)=>{
+                if(item && item?.id!=undefined && item?.id.length == 43) {
+                    BundleTypeMap[BundleTypeArray[index]] = item?.id
+                }
+            })
+            const dataContent = data.slice(-1)[0]  
+            console.log("dataContent", dataContent)
+            console.log("BundleTypeMap", BundleTypeMap)  
+            const jsonData = JSON.parse(dataContent['data'])
+            if(BundleTypeMap['Avatar'] != undefined && BundleTypeMap['Avatar'].length == 43)      {
+                jsonData['Avatar'] = BundleTypeMap['Avatar']
+            }
+            if(BundleTypeMap['Banner'] != undefined && BundleTypeMap['Banner'].length == 43)      {
+                jsonData['Banner'] = BundleTypeMap['Banner']
+            }
+            const jsonDataNew: any[] = [{...dataContent[0], ['data']: JSON.stringify(jsonData)}]
+            console.log("jsonDataNew", jsonDataNew)
+            const dataContentList = await Promise.all(jsonDataNew.map((item: any) => createDataItem(walletData, item)))  
+            console.log("dataContentList", dataContentList)  
+            dataItems = dataItemsList.concat(dataContentList); 
+            
+        }
+        else {
+            //Other Case
+            dataItems = await Promise.all(data.map((item: any) => createDataItem(walletData, item)))
+        }
+        
+        dataItems.map((item: any)=>{
+            console.log("getProcessedData item id:", item?.id)
+        })
         const trustedAddresses = walletAddress ? [walletAddress] : []
         const deduplicated = await deduplicate(dataItems, trustedAddresses)
-        const deduplicatedDataItems = dataItems.map((item, i) => deduplicated[i] || item)
+        const deduplicatedDataItems = dataItems.map((item: any, i: number) => deduplicated[i] || item)
         console.log("getProcessedData deduplicatedDataItems:", deduplicatedDataItems)
-        bundleItems.push(...deduplicatedDataItems.filter((item): item is Exclude<typeof item, string> => typeof item !== 'string'))
+        bundleItems.push(...deduplicatedDataItems.filter((item: any): item is Exclude<typeof item, string> => typeof item !== 'string'))
         console.log("getProcessedData bundleItems 1:", bundleItems)
         if(Manifest)  {
             try {
@@ -976,7 +1012,7 @@ export async function ActionsSubmitToBlockchain(setUploadProgress: React.Dispatc
 
     console.log("formData", formData)
     
-    const getProcessedDataValue = await getProcessedData(currentWallet, currentAddress, formData, false)
+    const getProcessedDataValue = await getProcessedData(currentWallet, currentAddress, formData, false, [])
 
     const target = ""
     const amount = ""
@@ -1003,9 +1039,124 @@ export async function ActionsSubmitToBlockchain(setUploadProgress: React.Dispatc
     window.localStorage.setItem(chivesTxStatus, JSON.stringify(chivesTxStatusList))
        
     return TxResult;
-  };
+};
 
-  function setBaseTags (tags: Tag[], set: { [key: string]: string }) {
+export async function ProfileSubmitToBlockchain(setUploadProgress: React.Dispatch<React.SetStateAction<{ [key: string]: number }>>, chivesProfileMap: any, FileTxList: string[]) {
+    
+    const currentWallet = getCurrentWallet()
+    const currentAddress = getCurrentWalletAddress()
+
+    const getChivesLanguageData: string = getChivesLanguage();
+
+    const FileTxMap: any = {}
+    FileTxMap['Avatar'] = chivesProfileMap['Avatar'][0]
+    FileTxMap['Banner'] = chivesProfileMap['Banner'][0]
+    FileTxMap['Data'] = {...chivesProfileMap, Avatar: "", Banner: ""}
+    console.log("FileTxList", FileTxList)
+    //Make Tx List
+    const formData = (await Promise.all(FileTxList?.map(async (FileTxKey: string) => { 
+      const tags = [] as Tag[]    
+      let data = null 
+      if(FileTxKey=="Avatar" && FileTxMap[FileTxKey]) {
+        const file = FileTxMap[FileTxKey]
+        console.log("file", file)
+        data = file instanceof File ? await readFile(file) : file
+        setBaseTags(tags, {
+            'Content-Type': file.type,
+            'File-Name': file.name,
+            'File-Hash': await getHash(data),
+            'File-Public': 'Public',
+            'File-Summary': '',
+            'Cipher-ALG': '',
+            'File-Parent': 'Root',
+            'File-Language': getChivesLanguageData,
+            'File-Pages': '',
+            'Entity-Type': 'File',
+            'App-Name': authConfig['App-Name'],
+            'App-Platform': authConfig['App-Platform'],
+            'App-Version': authConfig['App-Version'],
+            'Agent-Name': '',
+            'Unix-Time': String(Date.now())
+        })
+      }
+      if(FileTxKey=="Banner" && FileTxMap[FileTxKey]) {
+        const file = FileTxMap[FileTxKey]
+        data = file instanceof File ? await readFile(file) : file
+        setBaseTags(tags, {
+            'Content-Type': file.type,
+            'File-Name': file.name,
+            'File-Hash': await getHash(data),
+            'File-Public': 'Public',
+            'File-Summary': '',
+            'Cipher-ALG': '',
+            'File-Parent': 'Root',
+            'File-Language': getChivesLanguageData,
+            'File-Pages': '',
+            'Entity-Type': 'File',
+            'App-Name': authConfig['App-Name'],
+            'App-Platform': authConfig['App-Platform'],
+            'App-Version': authConfig['App-Version'],
+            'Agent-Name': '',
+            'Unix-Time': String(Date.now())
+        })
+      }
+      if(FileTxKey=="Data") {
+        data = JSON.stringify(FileTxMap[FileTxKey])
+        setBaseTags(tags, {
+            'Content-Type': "text/plain",
+            'File-Name': "Profile",
+            'File-Hash': await getHash(data),
+            'File-Public': 'Public',
+            'File-Summary': '',
+            'Cipher-ALG': '',
+            'File-Parent': 'Root',
+            'File-Language': getChivesLanguageData,
+            'File-Pages': '',
+            'File-BundleId': "",
+            'Entity-Type': 'Action',
+            'Entity-Action': "Profile",
+            'Entity-Target': "",
+            'Entity-Avatar': "",
+            'Entity-Banner': "",
+            'App-Name': authConfig['App-Name'],
+            'App-Platform': authConfig['App-Platform'],
+            'App-Version': authConfig['App-Version'],
+            'Agent-Name': '',
+            'Unix-Time': String(Date.now())
+        })
+      }
+      console.log("tags", tags)
+      console.log("data", data)
+
+      return { data, tags, path: "path" }
+    })))
+
+    console.log("formData", formData)
+    
+    const getProcessedDataValue = await getProcessedData(currentWallet, currentAddress, formData, false, FileTxList)
+
+    const target = ""
+    const amount = ""
+    const data = getProcessedDataValue
+
+    console.log("getProcessedDataValue", getProcessedDataValue)
+    
+    //Make the tags
+    const tags: any = []
+    tags.push({name: "Bundle-Format", value: 'binary'})
+    tags.push({name: "Bundle-Version", value: '2.0.0'})
+    tags.push({name: "Entity-Type", value: "Action"})
+    tags.push({name: "Entity-Number", value: String(FileTxList.length)})
+    
+    console.log("getProcessedDataValue data", data)
+
+    return
+    const TxResult: any = await sendAmount(currentWallet, target, amount, tags, data, "UploadBundleFile", setUploadProgress);
+    
+    return TxResult;
+};
+
+function setBaseTags (tags: Tag[], set: { [key: string]: string }) {
     const baseTags: { [key: string]: string } = {
       'Content-Type': '',
       'File-Hash': '',
@@ -1014,9 +1165,9 @@ export async function ActionsSubmitToBlockchain(setUploadProgress: React.Dispatc
       ...set
     }
     for (const name in baseTags) { setTag(tags, name, baseTags[name]) }
-  }
+}
 
-  function setTag (tags: Tag[], name: string, value?: string) {
+function setTag (tags: Tag[], name: string, value?: string) {
     let currentTag = tags.find(tag => tag.name === name)
     if (value) {
       if (!currentTag) {
@@ -1028,17 +1179,16 @@ export async function ActionsSubmitToBlockchain(setUploadProgress: React.Dispatc
       const index = tags.indexOf(currentTag!)
       if (index !== -1) { tags.splice(index, 1) }
     }
-  }
+}
 
+export function getChivesLanguage() {
+    const ChivesLanguage = window.localStorage.getItem(chivesLanguage) || "en"
 
-    export function getChivesLanguage() {
-        const ChivesLanguage = window.localStorage.getItem(chivesLanguage) || "en"
+    return ChivesLanguage
+};
 
-        return ChivesLanguage
-    };
+export function setChivesLanguage(Language: string) {
+    window.localStorage.setItem(chivesLanguage, Language)
 
-    export function setChivesLanguage(Language: string) {
-        window.localStorage.setItem(chivesLanguage, Language)
-
-        return true
-    };
+    return true
+};
