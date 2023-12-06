@@ -36,23 +36,7 @@ import CustomRadioIcons from 'src/@core/components/custom-radio/icons'
     iconProps: CustomRadioIconsProps['iconProps']
   }
   
-  const agentList: CustomRadioIconsData[] = [
-    {
-      value: 'LV1',
-      title: 'Level 1',
-      content: 'Need balance more than 1000 XWE'
-    },
-    {
-      value: 'LV2',
-      title: 'Level 2',
-      content: 'Need balance more than 2000 XWE'
-    },
-    {
-      value: 'LV3',
-      title: 'Level 3',
-      content: 'Need balance more than 3000 XWE'
-    }
-  ]
+  
   
   const icons: IconType[] = [
     { icon: 'mdi:account-outline', iconProps: { fontSize: '2rem', style: { marginBottom: 8 } } },
@@ -205,6 +189,24 @@ const RegisterAgent = () => {
         setSelected((prop.target as HTMLInputElement).value)
       }
     }
+
+    const agentList: CustomRadioIconsData[] = [
+      {
+        value: 'LV1',
+        title: 'Level 1',
+        content: `${t('Need balance more than 1000 XWE')}`
+      },
+      {
+        value: 'LV2',
+        title: 'Level 2',
+        content: `${t('Need balance more than 2000 XWE')}`
+      },
+      {
+        value: 'LV3',
+        title: 'Level 3',
+        content: `${t('Need balance more than 3000 XWE')}`
+      }
+    ]
   
     return (
       <Grid container spacing={4}>
@@ -233,18 +235,18 @@ const RegisterAgent = () => {
         <Grid container spacing={5}>
             <Grid item xs={12}>
             <Typography variant='body2' sx={{ fontWeight: 600 }}>
-                1. Agent Reward Introduction
+                1. {`${t('Agent Reward Introduction')}`}
             </Typography>
             </Grid>
             <Grid item xs={12} sm={12}>
                 <Typography>
-                    1. Earnings: After becoming an agent, you will receive 5% of the platform rewards earned by your referred users. For example, if you have two users who each earned 100 and 200 XWE from the platform, your earnings would be (100 + 200) * 5% = 30 XWE.
+                  1. {`${t('Agent Earnings')}`}
                 </Typography>
                 <Typography>
-                    2. Requirements: Anyone can become an agent, the only condition being that there is a certain amount in your account. For example, 1000, 2000, or 3000 XWE.
+                  2. {`${t('Agent Requirements')}`}
                 </Typography>
                 <Typography>
-                    3. Profile: In order to make it easier for users to find you, you need to complete your personal profile before becoming an agent.
+                  3. {`${t('Agent Profile')}`} 
                 </Typography>
             </Grid>
             <Grid item xs={12}>
@@ -252,7 +254,7 @@ const RegisterAgent = () => {
             </Grid>
             <Grid item xs={12}>
             <Typography variant='body2' sx={{ fontWeight: 600 }}>
-                2. Check user profiles and balances.
+                2. {`${t('Check user profiles and balances')}`}
             </Typography>
             </Grid>
             <Grid item xs={12} sm={12}>
@@ -269,7 +271,7 @@ const RegisterAgent = () => {
             </Grid>
             <Grid item xs={12}>
                 <Typography variant='body2' sx={{ fontWeight: 600 }}>
-                    3. Agent level
+                    3. {`${t('Agent level')}`}
                 </Typography>
                 </Grid>
                 <Grid item xs={12} sm={12}>

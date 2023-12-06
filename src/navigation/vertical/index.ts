@@ -88,6 +88,29 @@ const DriveNavMenus = [
     path: '/myfiles'
   },
   {
+    sectionTitle: 'Task To Earn'
+  },
+  {
+    title: 'Introduction',
+    icon: 'material-symbols:article',
+    path: '/task/introduction'
+  },
+  {
+    title: 'Today Task',
+    icon: 'material-symbols:calendar-today',
+    path: '/task/today'
+  },
+  {
+    title: 'My Task',
+    icon: 'material-symbols:today-rounded',
+    path: '/task/my'
+  },
+  {
+    title: 'Agent',
+    icon: 'material-symbols:support-agent',
+    path: '/agent/all'
+  },
+  {
     sectionTitle: 'Blockchain'
   },
   {

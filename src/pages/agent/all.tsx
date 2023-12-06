@@ -2,7 +2,7 @@ import AgentApp from 'src/views/model/agent';
 
 const AgentAppList = () => {
 
-  const activeTab = "register"; 
+  const activeTab = "all"; 
 
   return <AgentApp activeTab={activeTab} />
 

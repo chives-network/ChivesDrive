@@ -837,7 +837,7 @@ export async function CheckBundleTxStatus() {
 }
 
 export async function getWalletProfile(currentAddress: string) {
-    const response = await axios.get(authConfig.backEndApi + '/profile/' + currentAddress );
+    const response = await axios.get(authConfig.backEndApi + '/address/profile/' + currentAddress );
     if(response && response.data && response.data.Name) {
         return response.data
     }

@@ -74,7 +74,7 @@ const SendOutForm = () => {
 
   // ** State
   const [uploadProgress, setUploadProgress] = useState<{ [key: string]: number }>({})
-  const [uploadingButton, setUploadingButton] = useState<string>(`${t('Save')}`)
+  const [uploadingButton, setUploadingButton] = useState<string>(`${t('Submit')}`)
   const [isDisabledButton, setIsDisabledButton] = useState<boolean>(false)
   const [avatarName, setAvatarName] = useState<string>("")
   const [avatarFilesUrl, setAvatarFilesUrl] = useState<string>('/images/avatars/1.png')
@@ -390,11 +390,11 @@ const SendOutForm = () => {
                                     <Fragment>
                                         {avatarFiles && avatarFiles.length ? (
                                             <Box  sx={{ alignItems: 'center'}}>
-                                                <Img alt='Upload Avatar' src={URL.createObjectURL(avatarFiles[0] as any)}  sx={{width: '200px', height: '200px', borderRadius: '5px'}}/>
+                                                <Img alt={`${t(`Upload Avatar image`)}`} src={URL.createObjectURL(avatarFiles[0] as any)}  sx={{width: '200px', height: '200px', borderRadius: '5px'}}/>
                                             </Box>
                                         ) : (
                                             <Box sx={{alignItems: 'center'}}>
-                                                <Img alt='Upload Avatar' src={avatarFilesUrl} sx={{width: '200px', height: '200px', borderRadius: '5px'}}/>
+                                                <Img alt={`${t(`Upload Avatar image`)}`} src={avatarFilesUrl} sx={{width: '200px', height: '200px', borderRadius: '5px'}}/>
                                             </Box>
                                         )}
                                     </Fragment>
@@ -403,11 +403,11 @@ const SendOutForm = () => {
                                         <input {...getInputPropsAvatar()} />
                                         {avatarFiles && avatarFiles.length ? (
                                             <Box  sx={{ alignItems: 'center'}}>
-                                                <Img alt='Upload Avatar' src={URL.createObjectURL(avatarFiles[0] as any)} sx={{width: '100%', borderRadius: '5px'}}/>
+                                                <Img alt={`${t(`Upload Avatar image`)}`} src={URL.createObjectURL(avatarFiles[0] as any)} sx={{width: '100%', borderRadius: '5px'}}/>
                                             </Box>
                                         ) : (
                                             <Box sx={{alignItems: 'center'}}>
-                                                <Img alt='Upload Avatar' src={avatarFilesUrl} sx={{width: '100%', borderRadius: '5px'}}/>
+                                                <Img alt={`${t(`Upload Avatar image`)}`} src={avatarFilesUrl} sx={{width: '100%', borderRadius: '5px'}}/>
                                             </Box>
                                         )}
                                     </Box>
@@ -636,11 +636,11 @@ const SendOutForm = () => {
                                 <Fragment>
                                     {bannerFiles && bannerFiles.length ? (
                                         <Box  sx={{ alignItems: 'center'}}>
-                                            <Img alt='Upload Banner' src={URL.createObjectURL(bannerFiles[0] as any)} sx={{height: '160px', borderRadius: '5px'}}/>
+                                            <Img alt={`${t(`Upload banner image`)}`} src={URL.createObjectURL(bannerFiles[0] as any)} sx={{height: '160px', borderRadius: '5px'}}/>
                                         </Box>
                                     ) : (
                                         <Box sx={{alignItems: 'center'}}>
-                                            <Img alt='Upload Banner' src={bannerFilesUrl}/>
+                                            <Img alt={`${t(`Upload banner image`)}`} src={bannerFilesUrl}/>
                                         </Box>
                                     )}
                                 </Fragment>
@@ -651,7 +651,7 @@ const SendOutForm = () => {
                                         BannerImageShow
                                     ) : (
                                         <Box sx={{ display: 'flex', flexDirection: ['column', 'column', 'row'], alignItems: 'center' }}>
-                                            <Img alt='Upload img' src={bannerFilesUrl} sx={{height: '160px', borderRadius: '5px'}}/>
+                                            <Img alt={`${t(`Upload banner image`)}`} src={bannerFilesUrl} sx={{height: '160px', borderRadius: '5px'}}/>
                                             <Box sx={{ display: 'flex', flexDirection: 'column', textAlign: ['center', 'center', 'inherit'] }}>
                                                 <HeadingTypography variant='h5'>{`${t(`Upload banner image`)}`}</HeadingTypography>
                                             </Box>
