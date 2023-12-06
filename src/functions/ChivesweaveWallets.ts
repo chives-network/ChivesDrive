@@ -710,6 +710,15 @@ export async function SpamMultiFiles(FileTxList: TxRecordType[]) {
     return await ChangeMultiFilesFolder(FileTxList, "Spam", "");
 }
 
+export async function RegisterAgentAction(Address: string, IsRegister: boolean) {
+    const ChivesDriveActions = authConfig.chivesDriveActions
+    const ChivesDriveActionsList = window.localStorage.getItem(ChivesDriveActions)      
+    const ChivesDriveActionsMap: any = ChivesDriveActionsList ? JSON.parse(ChivesDriveActionsList) : {}
+    ChivesDriveActionsMap['Agent'] = {...ChivesDriveActionsMap['Agent'], [Address] : IsRegister}
+    window.localStorage.setItem(ChivesDriveActions, JSON.stringify(ChivesDriveActionsMap))
+    console.log("ChivesDriveActionsMap", ChivesDriveActionsMap)
+}
+
 export async function StarMultiFiles(FileTxList: TxRecordType[]) {
     const ChivesDriveActions = authConfig.chivesDriveActions
     const ChivesDriveActionsList = window.localStorage.getItem(ChivesDriveActions)      
@@ -771,6 +780,21 @@ export async function CreateFolder(folderName: string, folderNameParent: string)
     console.log("ChivesDriveActionsMap", ChivesDriveActionsMap)
 }
 
+export function getLockStatus(Module: string) {
+    const chivesProfile: string = authConfig.chivesProfile
+    const chivesProfileText = window.localStorage.getItem(chivesProfile)      
+    const chivesProfileList = chivesProfileText ? JSON.parse(chivesProfileText) : {}
+    return chivesProfileList[Module]
+}
+
+export function setLockStatus(Module: string, TxId: string) {
+    const chivesProfile: string = authConfig.chivesProfile
+    const chivesProfileText = window.localStorage.getItem(chivesProfile)      
+    const chivesProfileList = chivesProfileText ? JSON.parse(chivesProfileText) : {}
+    chivesProfileList[Module] = TxId
+    window.localStorage.setItem(chivesProfile, JSON.stringify(chivesProfileList))
+}
+
 export async function CheckBundleTxStatus() {
     //Get the bundle tx status
     const chivesProfileTemp = window.localStorage.getItem(chivesProfile) as string
@@ -806,8 +830,7 @@ export async function CheckBundleTxStatus() {
     }
 }
 
-export async function getWalletProfile() {
-    const currentAddress = getCurrentWalletAddress()
+export async function getWalletProfile(currentAddress: string) {
     const response = await axios.get(authConfig.backEndApi + '/profile/' + currentAddress );
     if(response && response.data && response.data.Name) {
         return response.data
@@ -882,7 +905,6 @@ export function ResetToDoTask() {
     window.localStorage.setItem(ChivesDriveActions, JSON.stringify(ChivesDriveActionsMap))
 }
 
-
 export async function ActionsSubmitToBlockchain(setUploadProgress: React.Dispatch<React.SetStateAction<{ [key: string]: number }>>) {
     const ChivesDriveActions = authConfig.chivesDriveActions
     const ChivesDriveActionsList = window.localStorage.getItem(ChivesDriveActions)      
@@ -893,6 +915,7 @@ export async function ActionsSubmitToBlockchain(setUploadProgress: React.Dispatc
     const FileTxFolder: any = ChivesDriveActionsMap['Folder']
     const CreateFolder: any = ChivesDriveActionsMap['CreateFolder']
     const FolderList: any = ChivesDriveActionsMap['FolderList']
+    const AgentList: any = ChivesDriveActionsMap['Agent']
     
     const FileTxList: any = []
     FileTxLabel && Object.keys(FileTxLabel).forEach(TxId => {
@@ -916,6 +939,11 @@ export async function ActionsSubmitToBlockchain(setUploadProgress: React.Dispatc
     CreateFolder && Object.values(CreateFolder).forEach((Item: any) => {
         if (Item.name != undefined && Item.parent != undefined && Item.name != "" && Item.parent != "") {
             FileTxList.push({TxId: null, Action: "CreateFolder", Target: Item.name, Parent: Item.parent})
+        }
+    })
+    AgentList && Object.keys(AgentList).forEach((Address: string) => {
+        if (AgentList[Address] !== undefined) {
+            FileTxList.push({TxId: Address, Action: "Agent", Target: AgentList[Address], TxRecord: null})
         }
     })
 
@@ -1020,6 +1048,28 @@ export async function ActionsSubmitToBlockchain(setUploadProgress: React.Dispatc
             'Unix-Time': String(Date.now())
           })
       }
+      if(FileTx.Action=="Agent") {
+        setBaseTags(tags, {          
+            'App-Name': TagsMap['App-Name'],
+            'App-Platform': TagsMap['App-Platform'],
+            'App-Version': TagsMap['App-Version'],
+            'Agent-Name': TagsMap['Agent-Name'],
+            'Content-Type': TagsMap['Content-Type'],
+            'File-Name': TagsMap['File-Name'],
+            'File-Hash': TagsMap['File-Hash'],
+            'File-Parent': TagsMap['File-Parent'],
+            'Cipher-ALG': TagsMap['Cipher-ALG'],
+            'File-Public': TagsMap['File-Public'],
+            'File-TxId': "",
+            'File-Language': TagsMap['File-Language'],
+            'File-Pages': TagsMap['File-Pages'],
+            'File-BundleId': "",
+            'Entity-Type': "Action",
+            'Entity-Action': FileTx.Action,
+            'Entity-Target': FileTx.Target ? "1" : "0",
+            'Unix-Time': String(Date.now())
+          })
+      }
 
       const data = TxRecord?.id ? String(TxRecord.id) : FileTx.Action
       console.log("tags", tags)
@@ -1054,7 +1104,7 @@ export async function ActionsSubmitToBlockchain(setUploadProgress: React.Dispatc
     chivesTxStatusList.push({TxResult,ChivesDriveActionsMap})
     console.log("chivesTxStatusList", chivesTxStatusList)
     window.localStorage.setItem(chivesTxStatus, JSON.stringify(chivesTxStatusList))
-       
+
     return TxResult;
 };
 
@@ -1073,7 +1123,7 @@ export async function ProfileSubmitToBlockchain(setUploadProgress: React.Dispatc
     delete AllData['BannerTxId']
     FileTxMap['Data'] = AllData
     console.log("FileTxList", FileTxList)
-    
+
     //Make Tx List
     const formData = (await Promise.all(FileTxList?.map(async (FileTxKey: string) => { 
       const tags = [] as Tag[]    

@@ -23,7 +23,7 @@ import Icon from 'src/@core/components/icon'
 import { useAuth } from 'src/hooks/useAuth'
 
 // ** Hooks
-import { ProfileSubmitToBlockchain, getWalletProfile } from 'src/functions/ChivesweaveWallets'
+import { ProfileSubmitToBlockchain, getWalletProfile, getLockStatus, setLockStatus } from 'src/functions/ChivesweaveWallets'
 
 // ** Styled Component
 import DropzoneWrapper from 'src/@core/styles/libs/react-dropzone'
@@ -90,9 +90,9 @@ const SendOutForm = () => {
   useEffect(() => {
     setAvatarName(auth.currentAddress)
     const handleWindowLoad = () => {
-        const chivesProfileTemp = window.localStorage.getItem(chivesProfile) as string
-        setChivesProfileTxId(chivesProfileTemp)
-        if((chivesProfileTxId && chivesProfileTxId.length == 43) || (chivesProfileTemp && chivesProfileTemp.length == 43)) {
+        const getLockStatusData = getLockStatus("Profile")
+        setChivesProfileTxId(getLockStatusData)
+        if((chivesProfileTxId && chivesProfileTxId.length == 43) || (getLockStatusData && getLockStatusData.length == 43)) {
             setIsDisabledButton(true)
             setInputName(`${t('Please wait for the blockchain to be packaged')}`)
             setAvatarName(`${t('Please wait for the blockchain to be packaged')}`)
@@ -109,7 +109,7 @@ const SendOutForm = () => {
     handleGetProfile()
   }, [currentAddress])
   const handleGetProfile = async () => {
-    const getWalletProfileData: any = await getWalletProfile()
+    const getWalletProfileData: any = await getWalletProfile(currentAddress)
     console.log("getWalletProfileData", getWalletProfileData)
     if(getWalletProfileData && getWalletProfileData['Name']) {
         setInputName(getWalletProfileData['Name']);
@@ -326,7 +326,7 @@ const SendOutForm = () => {
     chivesTxStatusList.push({TxResult,ChivesDriveActionsMap})
     console.log("chivesTxStatusList-SendOutForm", chivesTxStatusList)
     window.localStorage.setItem(chivesTxStatus, JSON.stringify(chivesTxStatusList))
-    window.localStorage.setItem(chivesProfile, TxResult.id as string)
+    setLockStatus('Profile', TxResult.id as string)
     setAvatarName(`${t('Please wait for the blockchain to be packaged')}`)
     
     if(TxResult.status == 800) {

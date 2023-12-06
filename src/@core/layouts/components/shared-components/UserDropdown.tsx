@@ -209,10 +209,10 @@ const UserDropdown = (props: Props) => {
         null
         }
         { getAllWalletsData && getAllWalletsData.length > 0 ?
-        <MenuItem sx={{ p: 0 }} onClick={() => handleDropdownClose('/broker/register')}>
+        <MenuItem sx={{ p: 0 }} onClick={() => handleDropdownClose('/agent/register')}>
           <Box sx={styles}>
             <Icon icon='mdi:cog-outline' />
-            {`${t(`Register Borker`)}`}
+            {`${t(`Register Agent`)}`}
           </Box>
         </MenuItem>
         :
