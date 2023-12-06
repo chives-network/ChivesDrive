@@ -781,23 +781,32 @@ export async function CreateFolder(folderName: string, folderNameParent: string)
 }
 
 export function getLockStatus(Module: string) {
-    const chivesProfile: string = authConfig.chivesProfile
     const chivesProfileText = window.localStorage.getItem(chivesProfile)      
     const chivesProfileList = chivesProfileText ? JSON.parse(chivesProfileText) : {}
+    console.log("chivesProfileList", chivesProfileList)
+
     return chivesProfileList[Module]
 }
 
 export function setLockStatus(Module: string, TxId: string) {
-    const chivesProfile: string = authConfig.chivesProfile
     const chivesProfileText = window.localStorage.getItem(chivesProfile)      
     const chivesProfileList = chivesProfileText ? JSON.parse(chivesProfileText) : {}
     chivesProfileList[Module] = TxId
     window.localStorage.setItem(chivesProfile, JSON.stringify(chivesProfileList))
 }
 
+export function deleteLockStatus(TxId: string) {
+    const chivesProfileText = window.localStorage.getItem(chivesProfile)      
+    const chivesProfileList = chivesProfileText ? JSON.parse(chivesProfileText) : {}
+    const foundKey = Object.keys(chivesProfileList).find(key => chivesProfileList[key] === TxId)
+    if(foundKey && foundKey!="") {
+        delete chivesProfileList[foundKey]
+    }
+    window.localStorage.setItem(chivesProfile, JSON.stringify(chivesProfileList))
+}
+
 export async function CheckBundleTxStatus() {
     //Get the bundle tx status
-    const chivesProfileTemp = window.localStorage.getItem(chivesProfile) as string
     const chivesTxStatusText = window.localStorage.getItem(chivesTxStatus)      
     const chivesTxStatusList = chivesTxStatusText ? JSON.parse(chivesTxStatusText) : []
     console.log("CheckBundleTxStatus", chivesTxStatusList, (new Date()).toLocaleTimeString())
@@ -810,10 +819,7 @@ export async function CheckBundleTxStatus() {
                     const response = await axios.get(authConfig.backEndApi + '/tx/' + TxId + '/unbundle/0/9');
                     if(response && response.data && response.data.txs && response.data.txs.length > 0) {
                         console.log("response.data", response.data)
-                        if(chivesProfileTemp == TxId) {
-                            //Success Parse Bundle
-                            window.localStorage.setItem(chivesProfile, "")
-                        }
+                        deleteLockStatus(TxId)
                     }
                     else {
                         chivesTxStatusListNew.push(Item)

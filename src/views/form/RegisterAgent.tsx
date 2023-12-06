@@ -15,7 +15,7 @@ import CardActions from '@mui/material/CardActions'
 import { useAuth } from 'src/hooks/useAuth'
 
 // ** Hooks
-import { getWalletProfile, getWalletBalance, RegisterAgentAction, ActionsSubmitToBlockchain, GetHaveToDoTask, ResetToDoTask, getLockStatus, setLockStatus } from 'src/functions/ChivesweaveWallets'
+import { getWalletProfile, getWalletBalance, RegisterAgentAction, ActionsSubmitToBlockchain, getLockStatus, setLockStatus } from 'src/functions/ChivesweaveWallets'
 
 // ** Third Party Components
 import toast from 'react-hot-toast'
@@ -24,9 +24,6 @@ import toast from 'react-hot-toast'
 import { useTranslation } from 'react-i18next'
 
 import { useRouter } from 'next/router'
-
-// ** Custom Components Imports
-import CardSnippet from 'src/@core/components/card-snippet'
 
 // ** Type Import
 import { CustomRadioIconsData, CustomRadioIconsProps } from 'src/@core/components/custom-radio/types'
@@ -69,22 +66,8 @@ const RegisterAgent = () => {
 
   const router = useRouter()
 
-  const [uploadProgress, setUploadProgress] = useState<{ [key: string]: number }>({})
-  const [isSubmitBlockchainDialog, setIsSubmitBlockchainDialog] = useState<boolean>(false)
-  const [open, setOpen] = useState<boolean>(false)
-  const [isProgress, setIsProgress] = useState<boolean>(false)
-  const [haveSubmitTextTip, setHaveSubmitTextTip] = useState<string>("")
-  const [isHaveTaskToDo, setIsHaveTaskToDo] = useState<number>(0)
-  const [haveTaskToDoNumber, setHaveTaskToDoNumber] = useState<number>(0)
-  const [isHaveTaskToDoText, setIsHaveTaskToDoText] = useState<string>("")
-  useEffect(()=>{
-    const GetHaveToDoTaskData: number = GetHaveToDoTask()
-    setHaveTaskToDoNumber(GetHaveToDoTaskData)
-    setIsHaveTaskToDoText("Submit to blockchain")
-    console.log("uploadProgress", uploadProgress)
-  },[isHaveTaskToDo])
-    
   // ** State
+  const [uploadProgress, setUploadProgress] = useState<{ [key: string]: number }>({})
   const [uploadingButton, setUploadingButton] = useState<string>(`${t('Submit')}`)
   const [isDisabledButton, setIsDisabledButton] = useState<boolean>(false)
   const [isDisabledProfileButton, setIsDisabledProfileButton] = useState<boolean>(false)
@@ -95,7 +78,6 @@ const RegisterAgent = () => {
   const [selected, setSelected] = useState<string>('LV1')
   
   const auth = useAuth()
-  const currentWallet = auth.currentWallet
   const currentAddress = auth.currentAddress
   
   useEffect(() => {
@@ -109,6 +91,7 @@ const RegisterAgent = () => {
       setIsDisabledButton(true)
       setIsDisabledProfileButton(true)
       setIsDisabledBalanceButton(true)
+      console.log("uploadProgress", uploadProgress)
     }
   }, [currentAddress])
 
@@ -177,8 +160,7 @@ const RegisterAgent = () => {
       return
     }
 
-    /*
-    const balance: number = Number(await getWalletBalance(currentAddress))
+    const balance = Number(await getWalletBalance(currentAddress))
     let MsgTip = ""
     if(selected == "LV1" && balance<1000) {
       MsgTip = t(`Level 1 require your wallet have at least 1000 XWE`) as string
@@ -198,12 +180,11 @@ const RegisterAgent = () => {
 
       return
     }
-    */
 
-    console.log("selected", selected)
+    setIsDisabledButton(true)
+    setUploadingButton(`${t('Submitting...')}`)
 
     await RegisterAgentAction(currentAddress, true)    
-    setIsProgress(true)
     const ActionsSubmitToBlockchainResult = await ActionsSubmitToBlockchain(setUploadProgress);
     console.log("ActionsSubmitToBlockchainResult", ActionsSubmitToBlockchainResult)
     if(ActionsSubmitToBlockchainResult && ActionsSubmitToBlockchainResult.id) {
@@ -214,22 +195,6 @@ const RegisterAgent = () => {
 
     }
   }
-
-  useEffect(() => {
-    let isFinishedAllUploaded = true
-    uploadProgress && Object.entries(uploadProgress) && Object.entries(uploadProgress).forEach(([key, value]) => {
-        if(value != 100) {
-            isFinishedAllUploaded = false
-        }
-        
-        console.log("uploadProgress key", key, value)
-    })
-    if(uploadProgress && Object.entries(uploadProgress) && Object.entries(uploadProgress).length > 0 && isFinishedAllUploaded) {
-        setIsDisabledButton(false)
-        setUploadingButton(`${t('Submit')}`)
-        toast.success(`${t('Successfully submitted to blockchain')}`, { duration: 4000 })
-    }
-  }, [uploadProgress])
 
   const CustomRadioWithIcons = () => {
   
@@ -262,13 +227,13 @@ const RegisterAgent = () => {
   return (
     <Fragment>
         <Card>
-        <CardHeader title='Multi Column with Form Separator' />
+        <CardHeader title={`${t('Register Agent')}`} />
         <Divider sx={{ m: '0 !important' }} />
         <CardContent>
         <Grid container spacing={5}>
             <Grid item xs={12}>
             <Typography variant='body2' sx={{ fontWeight: 600 }}>
-                1. Agent Introduction
+                1. Agent Reward Introduction
             </Typography>
             </Grid>
             <Grid item xs={12} sm={12}>

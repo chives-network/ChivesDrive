@@ -84,14 +84,16 @@ const SendOutForm = () => {
 
   const auth = useAuth()
   const currentAddress = auth.currentAddress
-  const chivesProfile: string = authConfig.chivesProfile
   
   const [chivesProfileTxId, setChivesProfileTxId] = useState<string>("")
   useEffect(() => {
     setAvatarName(auth.currentAddress)
     const handleWindowLoad = () => {
         const getLockStatusData = getLockStatus("Profile")
-        setChivesProfileTxId(getLockStatusData)
+        if(getLockStatusData) {
+            console.log("getLockStatusData", getLockStatusData)
+            setChivesProfileTxId(getLockStatusData)
+        }
         if((chivesProfileTxId && chivesProfileTxId.length == 43) || (getLockStatusData && getLockStatusData.length == 43)) {
             setIsDisabledButton(true)
             setInputName(`${t('Please wait for the blockchain to be packaged')}`)
@@ -106,8 +108,11 @@ const SendOutForm = () => {
   }, []);
 
   useEffect(() => {
-    handleGetProfile()
+    if(currentAddress && currentAddress.length == 43) {
+        handleGetProfile()
+    }
   }, [currentAddress])
+
   const handleGetProfile = async () => {
     const getWalletProfileData: any = await getWalletProfile(currentAddress)
     console.log("getWalletProfileData", getWalletProfileData)
