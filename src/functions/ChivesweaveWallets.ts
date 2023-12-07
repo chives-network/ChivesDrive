@@ -836,8 +836,22 @@ export async function CheckBundleTxStatus() {
     }
 }
 
+export async function parseBundleTx() {
+    const response = await axios.get(authConfig.backEndApi + '/bundletx/0/30' );
+    if(response && response.data && response.data.data && response.data.data.length>0) {
+        for (const item of response.data.data) {
+            try {
+              await axios.get(authConfig.backEndApi + '/tx/' + item.id + '/unbundle/0/5');
+            } 
+            catch (error) {
+            }
+            await new Promise(resolve => setTimeout(resolve, 5000));
+        }
+    }
+}
+
 export async function getWalletProfile(currentAddress: string) {
-    const response = await axios.get(authConfig.backEndApi + '/address/profile/' + currentAddress );
+    const response = await axios.get(authConfig.backEndApi + '/profile/' + currentAddress );
     if(response && response.data && response.data.Name) {
         return response.data
     }

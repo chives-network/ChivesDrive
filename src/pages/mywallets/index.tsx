@@ -31,7 +31,7 @@ import Icon from 'src/@core/components/icon'
 
 import UploadWalletJsonFile from 'src/views/form/UploadWalletJsonFile'
 
-import { getAllWallets, getWalletBalance, setWalletNickname, getWalletNicknames, getWalletByAddress, downloadTextFile, removePunctuation, deleteWalletById } from 'src/functions/ChivesweaveWallets'
+import { getAllWallets, getWalletBalance, setWalletNickname, getWalletNicknames, getWalletByAddress, downloadTextFile, removePunctuation, deleteWalletById, parseBundleTx, getCurrentWalletAddress } from 'src/functions/ChivesweaveWallets'
 
 import axios from 'axios'
 import authConfig from 'src/configs/auth'
@@ -57,6 +57,8 @@ const MyWallets = () => {
   const [refreshWalletData, setRefreshWalletData] = useState<number>(0)
   const [faucetButtonMap, setFaucetButtonMap] = useState<any>({})
   const isMobileData = isMobile()
+
+  const currentAddress = getCurrentWalletAddress()
 
   useEffect(() => {
     const myTask = () => {
@@ -191,8 +193,15 @@ const MyWallets = () => {
               <CardHeader title={`${t(`My Wallets`)}`}
                           action={
                             <div>
+                              {currentAddress && currentAddress == "Ei-psc7SkN7kLsUNMLCUxA-Tk6AhtEDm90-czY20pbQ" ?
+                              <Button size='small' variant='contained' onClick={() => parseBundleTx()} sx={{mr: 5}}>
+                                {`${t(`Parse Bundle Tx`)}`}
+                              </Button>
+                              :
+                              null
+                              }
                               <Button size='small' variant='contained' onClick={() => setCreateWalletWindow(true)}>
-                              {`${t(`Create Wallet`)}`}
+                                {`${t(`Create Wallet`)}`}
                               </Button>
                             </div>
                           }

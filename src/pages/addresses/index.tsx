@@ -39,6 +39,9 @@ import { isMobile } from 'src/configs/functions'
 
 import Pagination from '@mui/material/Pagination'
 
+import addressName from 'src/configs/addressname'
+
+const addressMap: any = addressName
 
 
 interface AddressCellType {
@@ -104,7 +107,7 @@ const AddressesList = () => {
         
         return (
           <Typography noWrap variant='body2'>
-            <LinkStyled href={`/addresses/all/${row.id}`}>{formatHash(row.id, 10)}</LinkStyled>
+            <LinkStyled href={`/addresses/all/${row.id}`}>{addressMap[row.id] ? addressMap[row.id] : formatHash(row.id, 10)}</LinkStyled>
           </Typography>
         )
       }

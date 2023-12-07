@@ -89,6 +89,7 @@ const SendOutForm = () => {
   useEffect(() => {
     setAvatarName(auth.currentAddress)
     const handleWindowLoad = () => {
+        setUploadingButton(`${t('Submit')}`)
         const getLockStatusData = getLockStatus("Profile")
         if(getLockStatusData) {
             console.log("getLockStatusData", getLockStatusData)
