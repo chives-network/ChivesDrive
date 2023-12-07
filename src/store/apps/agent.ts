@@ -13,11 +13,8 @@ interface DataParams1 {
 // ** Fetch Data
 export const fetchData = createAsyncThunk('appAgent/fetchData', async (params: DataParams1) => {
   
-  const response = await axios.get(authConfig.backEndApi + '/address/isbroker/'+ `${params.pageId}` + '/'+params.pageSize)
+  const response = await axios.get(authConfig.backEndApi + '/address/agent/'+ `${params.pageId}` + '/'+params.pageSize)
 
-  const NewData: any[] = response.data.data.filter((record: any) => record.id)
-  response.data.data = NewData
-  
   return response.data
 })
 

@@ -710,11 +710,11 @@ export async function SpamMultiFiles(FileTxList: TxRecordType[]) {
     return await ChangeMultiFilesFolder(FileTxList, "Spam", "");
 }
 
-export async function RegisterAgentAction(Address: string, IsRegister: boolean) {
+export async function RegisterAgentAction(Address: string, Level: string) {
     const ChivesDriveActions = authConfig.chivesDriveActions
     const ChivesDriveActionsList = window.localStorage.getItem(ChivesDriveActions)      
     const ChivesDriveActionsMap: any = ChivesDriveActionsList ? JSON.parse(ChivesDriveActionsList) : {}
-    ChivesDriveActionsMap['Agent'] = {...ChivesDriveActionsMap['Agent'], [Address] : IsRegister}
+    ChivesDriveActionsMap['Agent'] = {...ChivesDriveActionsMap['Agent'], [Address] : Level}
     window.localStorage.setItem(ChivesDriveActions, JSON.stringify(ChivesDriveActionsMap))
     console.log("ChivesDriveActionsMap", ChivesDriveActionsMap)
 }
@@ -852,7 +852,7 @@ export async function parseBundleTx() {
 
 export async function getWalletProfile(currentAddress: string) {
     const response = await axios.get(authConfig.backEndApi + '/profile/' + currentAddress );
-    if(response && response.data && response.data.Name) {
+    if(response && response.data && response.data.Profile && response.data.Profile.Name) {
         return response.data
     }
     else {
@@ -1086,7 +1086,7 @@ export async function ActionsSubmitToBlockchain(setUploadProgress: React.Dispatc
             'File-BundleId': "",
             'Entity-Type': "Action",
             'Entity-Action': FileTx.Action,
-            'Entity-Target': FileTx.Target ? "1" : "0",
+            'Entity-Target': FileTx.Target,
             'Unix-Time': String(Date.now())
           })
       }

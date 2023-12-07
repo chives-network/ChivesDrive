@@ -184,5 +184,6 @@
     "Please wait for the blockchain to be packaged": "请等待区块链打包",
     "Must be longer than 3 letters": "必须超过3个字母",
     "Please enter the correct email": "请输入正确的电子邮件",
-    "Submitting...": "提交中..."
+    "Submitting...": "提交中...",
+    "Submitted successfully": "成功提交"
 }

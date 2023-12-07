@@ -1,4 +1,4 @@
-import Profile from 'src/views/form/profile';
+import Profile from 'src/views/model/profile';
 
 const ProfileApp = () => {
 

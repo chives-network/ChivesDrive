@@ -36,8 +36,6 @@ import CustomRadioIcons from 'src/@core/components/custom-radio/icons'
     iconProps: CustomRadioIconsProps['iconProps']
   }
   
-  
-  
   const icons: IconType[] = [
     { icon: 'mdi:account-outline', iconProps: { fontSize: '2rem', style: { marginBottom: 8 } } },
     { icon: 'mdi:rocket-launch-outline', iconProps: { fontSize: '2rem', style: { marginBottom: 8 } } },
@@ -59,7 +57,7 @@ const RegisterAgent = () => {
   const [balanceText, setBalanceText] = useState<string>("")
 
   // ** State
-  const [selected, setSelected] = useState<string>('LV1')
+  const [selected, setSelected] = useState<string>('1')
   
   const auth = useAuth()
   const currentAddress = auth.currentAddress
@@ -70,14 +68,20 @@ const RegisterAgent = () => {
     setIsDisabledBalanceButton(false)
     setBalanceText("")
 
+    handleCheckGetWalletProfile()
+  }, [currentAddress])
+
+  const handleCheckGetWalletProfile = async () => {
     const getLockStatusData = getLockStatus("Agent")
-    if(getLockStatusData && getLockStatusData.length == 43) {
+    const Profile: any = await getWalletProfile(currentAddress)
+    console.log("Profile", Profile)
+    if((getLockStatusData && getLockStatusData == currentAddress) || (Profile['Name'] !== undefined && Profile['Email'] !== undefined && Profile['Twitter'] !== undefined) ) {
       setIsDisabledButton(true)
       setIsDisabledProfileButton(true)
       setIsDisabledBalanceButton(true)
       console.log("uploadProgress", uploadProgress)
     }
-  }, [currentAddress])
+  }
 
   const handleCheckProfile = async () => {
     if(currentAddress != undefined && currentAddress.length == 43) {
@@ -146,19 +150,19 @@ const RegisterAgent = () => {
 
     const balance = Number(await getWalletBalance(currentAddress))
     let MsgTip = ""
-    if(selected == "LV1" && balance<1000) {
+    if(selected == "1" && balance<1000) {
       MsgTip = t(`Level 1 require your wallet have at least 1000 XWE`) as string
       toast.error(MsgTip, { duration: 4000 })
 
       return
     }
-    else if(selected == "LV2" && balance<2000) {
+    else if(selected == "2" && balance<2000) {
       MsgTip = t(`Level 2 require your wallet have at least 2000 XWE`) as string
       toast.error(MsgTip, { duration: 4000 })
 
       return
     }
-    else if(selected == "LV3" && balance<3000) {
+    else if(selected == "3" && balance<3000) {
       MsgTip = t(`Level 3 require your wallet have at least 3000 XWE`) as string
       toast.error(MsgTip, { duration: 4000 })
 
@@ -168,7 +172,7 @@ const RegisterAgent = () => {
     setIsDisabledButton(true)
     setUploadingButton(`${t('Submitting...')}`)
 
-    await RegisterAgentAction(currentAddress, true)    
+    await RegisterAgentAction(currentAddress, selected)    
     const ActionsSubmitToBlockchainResult = await ActionsSubmitToBlockchain(setUploadProgress);
     console.log("ActionsSubmitToBlockchainResult", ActionsSubmitToBlockchainResult)
     if(ActionsSubmitToBlockchainResult && ActionsSubmitToBlockchainResult.id) {
@@ -176,6 +180,7 @@ const RegisterAgent = () => {
       toast.success(t(`Submitted successfully`), {
         duration: 2000
       })
+      setUploadingButton(`${t('Submitt')}`)
 
     }
   }
@@ -183,26 +188,28 @@ const RegisterAgent = () => {
   const CustomRadioWithIcons = () => {
   
     const handleChange = (prop: string | ChangeEvent<HTMLInputElement>) => {
-      if (typeof prop === 'string') {
-        setSelected(prop)
-      } else {
-        setSelected((prop.target as HTMLInputElement).value)
+      if(!isDisabledButton) {
+        if (typeof prop === 'string') {
+          setSelected(prop)
+        } else {
+          setSelected((prop.target as HTMLInputElement).value)
+        }
       }
     }
 
     const agentList: CustomRadioIconsData[] = [
       {
-        value: 'LV1',
+        value: '1',
         title: 'Level 1',
         content: `${t('Need balance more than 1000 XWE')}`
       },
       {
-        value: 'LV2',
+        value: '2',
         title: 'Level 2',
         content: `${t('Need balance more than 2000 XWE')}`
       },
       {
-        value: 'LV3',
+        value: '3',
         title: 'Level 3',
         content: `${t('Need balance more than 3000 XWE')}`
       }
@@ -217,6 +224,7 @@ const RegisterAgent = () => {
             selected={selected}
             icon={icons[index].icon}
             name='custom-radios-icons'
+            disabled={isDisabledButton}
             handleChange={handleChange}
             gridProps={{ sm: 4, xs: 12 }}
             iconProps={icons[index].iconProps}

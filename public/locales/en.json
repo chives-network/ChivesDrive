@@ -184,5 +184,6 @@
   "Please wait for the blockchain to be packaged": "Please wait for the blockchain to be packaged",
   "Must be longer than 3 letters": "Must be longer than 3 letters",
   "Please enter the correct email": "Please enter the correct email",
-  "Submitting...": "Submitting..."
+  "Submitting...": "Submitting...",
+  "Submitted successfully": "Submitted successfully"
 }

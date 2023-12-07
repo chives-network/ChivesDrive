@@ -117,46 +117,46 @@ const SendOutForm = () => {
   const handleGetProfile = async () => {
     const getWalletProfileData: any = await getWalletProfile(currentAddress)
     console.log("getWalletProfileData", getWalletProfileData)
-    if(getWalletProfileData && getWalletProfileData['Name']) {
-        setInputName(getWalletProfileData['Name']);
+    if(getWalletProfileData && getWalletProfileData['Profile'] && getWalletProfileData['Profile']['Name']) {
+        setInputName(getWalletProfileData['Profile']['Name']);
     }
-    if(getWalletProfileData && getWalletProfileData['Email']) {
-        setInputEmail(getWalletProfileData['Email']);
+    if(getWalletProfileData && getWalletProfileData['Profile'] && getWalletProfileData['Profile']['Email']) {
+        setInputEmail(getWalletProfileData['Profile']['Email']);
     }
-    if(getWalletProfileData && getWalletProfileData['Twitter']) {
-        setInputTwitter(getWalletProfileData['Twitter']);
+    if(getWalletProfileData && getWalletProfileData['Profile'] && getWalletProfileData['Profile']['Twitter']) {
+        setInputTwitter(getWalletProfileData['Profile']['Twitter']);
     }
-    if(getWalletProfileData && getWalletProfileData['Github']) {
-        setInputGithub(getWalletProfileData['Github']);
+    if(getWalletProfileData && getWalletProfileData['Profile'] && getWalletProfileData['Profile']['Github']) {
+        setInputGithub(getWalletProfileData['Profile']['Github']);
     }
-    if(getWalletProfileData && getWalletProfileData['Discord']) {
-        setInputDiscord(getWalletProfileData['Discord']);
+    if(getWalletProfileData && getWalletProfileData['Profile'] && getWalletProfileData['Profile']['Discord']) {
+        setInputDiscord(getWalletProfileData['Profile']['Discord']);
     }
-    if(getWalletProfileData && getWalletProfileData['Instagram']) {
-        setInputInstagram(getWalletProfileData['Instagram']);
+    if(getWalletProfileData && getWalletProfileData['Profile'] && getWalletProfileData['Profile']['Instagram']) {
+        setInputInstagram(getWalletProfileData['Profile']['Instagram']);
     }
-    if(getWalletProfileData && getWalletProfileData['Telegram']) {
-        setInputTelegram(getWalletProfileData['Telegram']);
+    if(getWalletProfileData && getWalletProfileData['Profile'] && getWalletProfileData['Profile']['Telegram']) {
+        setInputTelegram(getWalletProfileData['Profile']['Telegram']);
     }
-    if(getWalletProfileData && getWalletProfileData['Medium']) {
-        setInputMedium(getWalletProfileData['Medium']);
+    if(getWalletProfileData && getWalletProfileData['Profile'] && getWalletProfileData['Profile']['Medium']) {
+        setInputMedium(getWalletProfileData['Profile']['Medium']);
     }
-    if(getWalletProfileData && getWalletProfileData['Reddit']) {
-        setInputReddit(getWalletProfileData['Reddit']);
+    if(getWalletProfileData && getWalletProfileData['Profile'] && getWalletProfileData['Profile']['Reddit']) {
+        setInputReddit(getWalletProfileData['Profile']['Reddit']);
     }
-    if(getWalletProfileData && getWalletProfileData['Youtube']) {
-        setInputYoutube(getWalletProfileData['Youtube']);
+    if(getWalletProfileData && getWalletProfileData['Profile'] && getWalletProfileData['Profile']['Youtube']) {
+        setInputYoutube(getWalletProfileData['Profile']['Youtube']);
     }
-    if(getWalletProfileData && getWalletProfileData['Bio']) {
-        setInputBio(getWalletProfileData['Bio']);
+    if(getWalletProfileData && getWalletProfileData['Profile'] && getWalletProfileData['Profile']['Bio']) {
+        setInputBio(getWalletProfileData['Profile']['Bio']);
     }
-    if(getWalletProfileData && getWalletProfileData['Avatar'] && getWalletProfileData['Avatar'].length == 43) {
-        setAvatarFilesTxId(getWalletProfileData['Avatar']);
-        setAvatarFilesUrl(authConfig.backEndApi + '/' + getWalletProfileData['Avatar']);
+    if(getWalletProfileData && getWalletProfileData['Profile'] && getWalletProfileData['Profile']['Avatar'] && getWalletProfileData['Profile']['Avatar'].length == 43) {
+        setAvatarFilesTxId(getWalletProfileData['Profile']['Avatar']);
+        setAvatarFilesUrl(authConfig.backEndApi + '/' + getWalletProfileData['Profile']['Avatar']);
     }
-    if(getWalletProfileData && getWalletProfileData['Banner'] && getWalletProfileData['Banner'].length == 43) {
-        setBannerFilesTxId(getWalletProfileData['Banner']);
-        setBannerFilesUrl(authConfig.backEndApi + '/' + getWalletProfileData['Banner']);
+    if(getWalletProfileData && getWalletProfileData['Profile'] && getWalletProfileData['Profile']['Banner'] && getWalletProfileData['Profile']['Banner'].length == 43) {
+        setBannerFilesTxId(getWalletProfileData['Profile']['Banner']);
+        setBannerFilesUrl(authConfig.backEndApi + '/' + getWalletProfileData['Profile']['Banner']);
     }
   }
 

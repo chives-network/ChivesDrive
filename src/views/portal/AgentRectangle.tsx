@@ -26,27 +26,27 @@ const AgentRectangle = ( {item, backEndApi, FileType} : any) => {
   // ** Hook
   const { t } = useTranslation()
   
-  const timestamp = item.timestamp;
+  const timestamp = item?.Block?.timestamp;
   const date = new Date(timestamp * 1000);
 
   let ImageUrl = ""
-  if(item && item.avatar && item.avatar.length == 43) {
-    ImageUrl = `${backEndApi}/${item.avatar}/thumbnail`
+  if(item && item.Profile.Avatar && item.Profile.Avatar && item.Profile.Avatar.length == 43) {
+    ImageUrl = `${backEndApi}/${item.Profile.Avatar}/thumbnail`
   }
   else {
     ImageUrl = '/images/chives.png'
   }
+  console.log("ImageUrlImageUrlImageUrlImageUrl", ImageUrl)
 
   const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
   const monthAbbreviation = monthNames[date.getMonth()];
   const day = date.getDate();
 
-  const Address: string = item.id
-
+  const LevelName = ['InActive', 'Level 1', 'Level 2', 'Level 3'];
 
   return (
     <Card>
-      <Link href={`/agent/profile/${item.id}`}>
+      <Link href={`/agent/profile/${item.Address}`}>
         <CardMedia image={ImageUrl} sx={{ height: '11.25rem', objectFit: 'scale-down', mx: 3 }}/>
       </Link>
       <CardContent>
@@ -65,7 +65,7 @@ const AgentRectangle = ( {item, backEndApi, FileType} : any) => {
             </Box>
           </CustomAvatar>
           <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-            <Typography sx={{ fontWeight: 600 }}>{formatHash(Address, 12)}</Typography>
+            <Typography sx={{ fontWeight: 600 }}>{formatHash(item.Profile.Name, 12)}</Typography>
           </Box>
         </Box>
 
@@ -77,15 +77,15 @@ const AgentRectangle = ( {item, backEndApi, FileType} : any) => {
           <Icon icon='mdi:user' />
           <Box sx={{ display: 'flex', flexDirection: 'row', mt:'4px' }}>
             <Typography sx={{ fontSize: '0.9rem' }}>{`${t(`Agent`)}`}: </Typography>
-            <Typography variant='caption' sx={{ ml: '4px', mt: '2px' }}>{formatHash(item.id, 6)}</Typography>
+            <Typography variant='caption' sx={{ ml: '4px', mt: '2px' }}>{formatHash(item.Address, 6)}</Typography>
           </Box>
         </Box>
         
         <Box sx={{ display: 'flex', '& svg': { mr: 3, mt: 1, fontSize: '1.375rem', color: 'text.secondary' } }}>
             <Icon icon='icon-park-outline:transaction-order' />
             <Box sx={{ display: 'flex', flexDirection: 'row', mt:'4px' }}>
-              <Typography sx={{ fontSize: '0.9rem' }}>{`${t(`Balance`)}`}: </Typography>
-              <Typography variant='caption' sx={{ ml: '4px', mt: '2px' }}>{formatXWEAddress(item.balance, 4)}</Typography>
+              <Typography sx={{ fontSize: '0.9rem' }}>{`${t(`Level`)}`}: </Typography>
+              <Typography variant='caption' sx={{ ml: '4px', mt: '2px' }}>{LevelName[item.AgentLevel]}</Typography>
             </Box>
         </Box>
 
