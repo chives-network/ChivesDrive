@@ -190,5 +190,6 @@
     "Each person can set up a agent only once, and after successful setup, it cannot be modified": "每个人只能设置一次代理商，设置成功以后，不能修改",
     "You have already set up a proxy and cannot set it again": "你已经设置过代理，不能再次设置",
     "My Agent": "我的代理",
-    "Agent Address": "代理地址"
+    "Agent Address": "代理地址",
+    "Executing your command, please wait a moment": "正在执行您的命令,请稍等片刻"
 }

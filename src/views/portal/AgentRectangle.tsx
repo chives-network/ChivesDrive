@@ -16,8 +16,7 @@ import Icon from 'src/@core/components/icon'
 // ** Custom Components Imports
 import CustomAvatar from 'src/@core/components/mui/avatar'
 
-import { formatHash, formatXWEAddress } from 'src/configs/functions';
-import { Fragment } from 'react'
+import { formatHash } from 'src/configs/functions';
 
 // ** Third Party Import
 import { useTranslation } from 'react-i18next'

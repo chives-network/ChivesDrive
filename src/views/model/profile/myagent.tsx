@@ -1,17 +1,15 @@
 // ** React Imports
-import { Fragment, useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 
 // ** MUI Imports
-import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import Card from '@mui/material/Card'
 import Grid from '@mui/material/Grid'
-import { styled } from '@mui/material/styles'
 import TextField from '@mui/material/TextField'
 import CardHeader from '@mui/material/CardHeader'
 import CardContent from '@mui/material/CardContent'
 import InputAdornment from '@mui/material/InputAdornment'
-import Typography, { TypographyProps } from '@mui/material/Typography'
+import Typography from '@mui/material/Typography'
 
 // ** Icon Imports
 import Icon from 'src/@core/components/icon'
@@ -32,19 +30,6 @@ import toast from 'react-hot-toast'
 import { useTranslation } from 'react-i18next'
 
 import { useRouter } from 'next/router'
-
-// Styled component for the upload image inside the dropzone area
-const Img = styled('img')(({ theme }) => ({
-    [theme.breakpoints.up('md')]: {
-        marginRight: theme.spacing(15.75)
-    },
-    [theme.breakpoints.down('md')]: {
-        marginBottom: theme.spacing(4)
-    },
-    [theme.breakpoints.down('sm')]: {
-        width: 160
-    }
-}))
 
 const SendOutForm = () => {
   // ** Hook

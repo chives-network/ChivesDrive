@@ -38,6 +38,7 @@ import { useRouter } from 'next/router'
 
 // ** Third Party Imports
 import { useDropzone } from 'react-dropzone'
+import CircularProgress from '@mui/material/CircularProgress'
 
 interface FileProp {
     name: string
@@ -73,6 +74,7 @@ const SendOutForm = () => {
   const router = useRouter()
 
   // ** State
+  const [isLoading, setIsLoading] = useState<boolean>(false)
   const [uploadProgress, setUploadProgress] = useState<{ [key: string]: number }>({})
   const [uploadingButton, setUploadingButton] = useState<string>(`${t('Submit')}`)
   const [isDisabledButton, setIsDisabledButton] = useState<boolean>(false)
@@ -295,7 +297,7 @@ const SendOutForm = () => {
 
         return
     }
-    
+    setIsLoading(true)
     setIsDisabledButton(true)
     setUploadingButton(`${t('Submitting...')}`)
     toast.success(`${t('Submitting...')}`, { duration: 3000 })
@@ -345,6 +347,7 @@ const SendOutForm = () => {
       setIsDisabledButton(false)
       setUploadingButton(`${t('Submit')}`)
     }
+    setIsLoading(false)
 
   }
 
@@ -369,6 +372,20 @@ const SendOutForm = () => {
         <Grid item xs={12}>
             <Card>
                 <CardHeader title={`${t('Profile')}`} />
+                {isLoading == true ? 
+                <Fragment>
+                    <CardContent>
+                        <Grid container spacing={5}>
+                            <Grid item xs={12}>
+                                <Box sx={{ mt: 6, display: 'flex', alignItems: 'center', flexDirection: 'column' }}>
+                                    <CircularProgress sx={{ mb: 4 }} />
+                                    <Typography>{`${t(`Executing your command, please wait a moment`)}`}...</Typography>
+                                </Box>
+                            </Grid>
+                        </Grid>
+                    </CardContent>
+                </Fragment>
+                :
                 <CardContent>
                     <Grid container spacing={5}>
                         <Grid item xs={12}>
@@ -675,6 +692,7 @@ const SendOutForm = () => {
 
                     </Grid>
                 </CardContent>
+                }
             </Card>
         </Grid>
       </Grid>

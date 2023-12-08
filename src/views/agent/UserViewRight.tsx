@@ -24,9 +24,6 @@ import UserViewSecurity from 'src/views/agent/UserViewSecurity'
 import UserViewConnection from 'src/views/agent/UserViewConnection'
 import UserViewNotification from 'src/views/agent/UserViewNotification'
 
-// ** Types
-import { InvoiceType } from 'src/types/apps/invoiceTypes'
-
 interface Props {
   tab: string
 }

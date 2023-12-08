@@ -190,5 +190,6 @@
   "Each person can set up a agent only once, and after successful setup, it cannot be modified": "Each person can set up a agent only once, and after successful setup, it cannot be modified",
   "You have already set up a proxy and cannot set it again": "You have already set up a proxy and cannot set it again",
   "My Agent": "My Agent",
-  "Agent Address": "Agent Address"
+  "Agent Address": "Agent Address",
+  "Executing your command, please wait a moment": "Executing your command, please wait a moment"
 }
