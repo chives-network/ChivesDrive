@@ -18,8 +18,8 @@ import MuiTimeline, { TimelineProps } from '@mui/lab/Timeline'
 import { InvoiceType } from 'src/types/apps/invoiceTypes'
 
 // ** Demo Component Imports
-import UsersInvoiceListTable from 'src/views/agent/UsersInvoiceListTable'
-import UsersProjectListTable from 'src/views/agent/UsersProjectListTable'
+import UsersInvoiceListTable from 'src/views/user/UsersInvoiceListTable'
+import UserAgentMembersListTable from 'src/views/user/UserAgentMembersListTable'
 
 // Styled Timeline component
 const Timeline = styled(MuiTimeline)<TimelineProps>(({ theme }) => ({
@@ -36,14 +36,14 @@ const Timeline = styled(MuiTimeline)<TimelineProps>(({ theme }) => ({
   }
 }))
 
-const UserViewOverview = () => {
+const UserAgentMembers = () => {
   return (
     <Grid container spacing={6}>
       <Grid item xs={12}>
-        <UsersProjectListTable />
+        <UserAgentMembersListTable />
       </Grid>
     </Grid>
   )
 }
 
-export default UserViewOverview
+export default UserAgentMembers

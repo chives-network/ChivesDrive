@@ -35,7 +35,6 @@ const AgentRectangle = ( {item, backEndApi, FileType} : any) => {
   else {
     ImageUrl = '/images/chives.png'
   }
-  console.log("ImageUrlImageUrlImageUrlImageUrl", ImageUrl)
 
   const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
   const monthAbbreviation = monthNames[date.getMonth()];

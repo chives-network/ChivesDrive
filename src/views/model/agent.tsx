@@ -11,7 +11,7 @@ import CardHeader from '@mui/material/CardHeader'
 import { useDispatch, useSelector } from 'react-redux'
 
 // ** Actions Imports
-import { fetchData } from 'src/store/apps/agent'
+import { fetchAllAgentData } from 'src/store/apps/agent'
 
 // ** Types Imports
 import { RootState, AppDispatch } from 'src/store'
@@ -77,7 +77,7 @@ const AgentModel = ({ activeTab } : any) => {
   useEffect(() => {
     if(true) {
       dispatch(
-        fetchData({
+        fetchAllAgentData({
           pageId: paginationModel.page - 1,
           pageSize: paginationModel.pageSize
         })

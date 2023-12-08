@@ -18,11 +18,12 @@ import CircularProgress from '@mui/material/CircularProgress'
 import Icon from 'src/@core/components/icon'
 
 // ** Demo Components Imports
-import UserViewBilling from 'src/views/agent/UserViewBilling'
-import UserViewOverview from 'src/views/agent/UserViewOverview'
-import UserViewSecurity from 'src/views/agent/UserViewSecurity'
-import UserViewConnection from 'src/views/agent/UserViewConnection'
-import UserViewNotification from 'src/views/agent/UserViewNotification'
+import UserViewBilling from 'src/views/user/UserViewBilling'
+import UserViewOverview from 'src/views/user/UserViewOverview'
+import UserViewSecurity from 'src/views/user/UserViewSecurity'
+import UserViewConnection from 'src/views/user/UserViewConnection'
+import UserViewNotification from 'src/views/user/UserViewNotification'
+import UserAgentMembers from 'src/views/user/UserAgentMembers'
 
 interface Props {
   tab: string
@@ -62,7 +63,7 @@ const UserViewRight = ({ tab }: Props) => {
     setActiveTab(value)
     router
       .push({
-        pathname: `/agent/profile/${value.toLowerCase()}`
+        pathname: `/user/${value.toLowerCase()}`
       })
       .then(() => setIsLoading(false))
   }
@@ -84,76 +85,55 @@ const UserViewRight = ({ tab }: Props) => {
         aria-label='forced scroll tabs example'
       >
         <Tab
-          value='overview'
+          value='agent'
           label={
             <Box sx={{ display: 'flex', alignItems: 'center', '& svg': { mr: 2 } }}>
               <Icon fontSize={20} icon='mdi:account-outline' />
-              Rewards
+              Agent
             </Box>
           }
         />
         <Tab
-          value='security'
+          value='reward'
           label={
             <Box sx={{ display: 'flex', alignItems: 'center', '& svg': { mr: 2 } }}>
               <Icon fontSize={20} icon='mdi:lock-outline' />
-              Followers
+              Reward
             </Box>
           }
         />
         <Tab
-          value='billing-plan'
+          value='subscribe'
           label={
             <Box sx={{ display: 'flex', alignItems: 'center', '& svg': { mr: 2 } }}>
               <Icon fontSize={20} icon='mdi:bookmark-outline' />
-              Projects
+              Subscribe
             </Box>
           }
         />
         <Tab
-          value='notification'
+          value='project'
           label={
             <Box sx={{ display: 'flex', alignItems: 'center', '& svg': { mr: 2 } }}>
               <Icon fontSize={20} icon='mdi:bell-outline' />
-              Votes
-            </Box>
-          }
-        />
-        <Tab
-          value='connection'
-          label={
-            <Box sx={{ display: 'flex', alignItems: 'center', '& svg': { mr: 2 } }}>
-              <Icon fontSize={20} icon='mdi:link' />
-              Connect
+              Project
             </Box>
           }
         />
       </TabList>
       <Box sx={{ mt: 4 }}>
-        {isLoading ? (
-          <Box sx={{ mt: 6, display: 'flex', alignItems: 'center', flexDirection: 'column' }}>
-            <CircularProgress sx={{ mb: 4 }} />
-            <Typography>Loading...</Typography>
-          </Box>
-        ) : (
-          <>
-            <TabPanel sx={{ p: 0 }} value='overview'>
-              <UserViewOverview />
-            </TabPanel>
-            <TabPanel sx={{ p: 0 }} value='security'>
-              <UserViewSecurity />
-            </TabPanel>
-            <TabPanel sx={{ p: 0 }} value='billing-plan'>
-              <UserViewBilling />
-            </TabPanel>
-            <TabPanel sx={{ p: 0 }} value='notification'>
-              <UserViewNotification />
-            </TabPanel>
-            <TabPanel sx={{ p: 0 }} value='connection'>
-              <UserViewConnection />
-            </TabPanel>
-          </>
-        )}
+        <TabPanel sx={{ p: 0 }} value='agent'>
+          <UserAgentMembers />
+        </TabPanel>
+        <TabPanel sx={{ p: 0 }} value='reward'>
+          <UserAgentMembers />
+        </TabPanel>
+        <TabPanel sx={{ p: 0 }} value='subscribe'>
+          <UserAgentMembers />
+        </TabPanel>
+        <TabPanel sx={{ p: 0 }} value='project'>
+          <UserAgentMembers />
+        </TabPanel>
       </Box>
     </TabContext>
   )

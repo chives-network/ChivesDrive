@@ -2,8 +2,8 @@
 import Grid from '@mui/material/Grid'
 
 // ** Demo Components Imports
-import UserViewLeft from 'src/views/agent/UserViewLeft'
-import UserViewRight from 'src/views/agent/UserViewRight'
+import UserViewLeft from 'src/views/user/UserViewLeft'
+import UserViewRight from 'src/views/user/UserViewRight'
 
 type Props = {
   tab: string

@@ -191,5 +191,6 @@
   "You have already set up a proxy and cannot set it again": "You have already set up a proxy and cannot set it again",
   "My Agent": "My Agent",
   "Agent Address": "Agent Address",
-  "Executing your command, please wait a moment": "Executing your command, please wait a moment"
+  "Executing your command, please wait a moment": "Executing your command, please wait a moment",
+  "Not Setting": "Not Setting"
 }

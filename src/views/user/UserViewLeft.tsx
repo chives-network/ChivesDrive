@@ -32,8 +32,8 @@ import Icon from 'src/@core/components/icon'
 // ** Custom Components
 import CustomChip from 'src/@core/components/mui/chip'
 import CustomAvatar from 'src/@core/components/mui/avatar'
-import UserSuspendDialog from 'src/views/agent/UserSuspendDialog'
-import UserSubscriptionDialog from 'src/views/agent/UserSubscriptionDialog'
+import UserSuspendDialog from 'src/views/user/UserSuspendDialog'
+import UserSubscriptionDialog from 'src/views/user/UserSubscriptionDialog'
 
 // ** Types
 import { ThemeColor } from 'src/@core/layouts/types'
