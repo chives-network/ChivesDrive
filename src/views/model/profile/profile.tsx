@@ -23,7 +23,7 @@ import Icon from 'src/@core/components/icon'
 import { useAuth } from 'src/hooks/useAuth'
 
 // ** Hooks
-import { ProfileSubmitToBlockchain, getWalletProfile, getLockStatus, setLockStatus, RegisterRefereeAction, ActionsSubmitToBlockchain } from 'src/functions/ChivesweaveWallets'
+import { ProfileSubmitToBlockchain, getWalletProfile, getLockStatus, setLockStatus } from 'src/functions/ChivesweaveWallets'
 
 // ** Styled Component
 import DropzoneWrapper from 'src/@core/styles/libs/react-dropzone'
@@ -76,8 +76,6 @@ const SendOutForm = () => {
   const [uploadProgress, setUploadProgress] = useState<{ [key: string]: number }>({})
   const [uploadingButton, setUploadingButton] = useState<string>(`${t('Submit')}`)
   const [isDisabledButton, setIsDisabledButton] = useState<boolean>(false)
-  const [isAgentDisabledButton, setIsAgentDisabledButton] = useState<boolean>(false)
-  const [uploadingAgentButton, setUploadingAgentButton] = useState<string>(`${t('Submit')}`)
   const [avatarName, setAvatarName] = useState<string>("")
   const [avatarFilesUrl, setAvatarFilesUrl] = useState<string>('/images/avatars/1.png')
   const [bannerFilesUrl, setBannerFilesUrl] = useState<string>('/images/misc/upload.png')
@@ -88,7 +86,6 @@ const SendOutForm = () => {
   const currentAddress = auth.currentAddress
   
   const [chivesProfileTxId, setChivesProfileTxId] = useState<string>("")
-  const [chivesRefereeTxId, setChivesRefereeTxId] = useState<string>("")
   useEffect(() => {
     setAvatarName(auth.currentAddress)
     const handleWindowLoad = () => {
@@ -104,14 +101,6 @@ const SendOutForm = () => {
             setAvatarName(`${t('Please wait for the blockchain to be packaged')}`)
         }
 
-        const getLockStatusReferee = getLockStatus("Referee")
-        if(getLockStatusReferee) {
-            console.log("getLockStatusReferee", getLockStatusReferee)
-            setChivesRefereeTxId(getLockStatusReferee)
-        }
-        if((chivesRefereeTxId && chivesRefereeTxId.length == 43) || (getLockStatusReferee && getLockStatusReferee.length == 43)) {
-            setIsAgentDisabledButton(true)
-        }
     };
     window.addEventListener('load', handleWindowLoad);
 
@@ -294,21 +283,6 @@ const SendOutForm = () => {
     <img key={file.name} alt={file.name} className='single-file-image' src={URL.createObjectURL(file as any)} />
   ))  
 
-  const [inputAgent, setInputAgent] = useState<string>("")
-  const [inputAgentError, setInputAgentError] = useState<string | null>(null)
-  const handleInputAgentChange = (event: any) => {
-    setInputAgent(event.target.value);
-    if(event.target.value.length != 43) {
-        setInputAgentError(`${t('Address length must be 43')}`)
-    }
-    else if(event.target.value == currentAddress) {
-        setInputAgentError(`${t('Please do not use your own address')}`)
-    }
-    else {
-        setInputAgentError("")
-    }
-  };
-
   const handleSubmitToBlockchain = async () => {
     if(currentAddress == undefined || currentAddress.length != 43) {
         toast.success(t(`Please create a wallet first`), {
@@ -372,52 +346,6 @@ const SendOutForm = () => {
 
   }
 
-  const handleAgentSubmitToBlockchain = async () => {
-    if(currentAddress == undefined || currentAddress.length != 43) {
-        toast.success(t(`Please create a wallet first`), {
-          duration: 4000
-        })
-        router.push("/mywallets");
-
-        return
-    }
-    if(inputAgent && inputAgent.length == 43) {
-
-        //passed
-    }
-    else {        
-        const MsgTip = t(`Address length must be 43`) as string
-        toast.error(MsgTip, { duration: 4000 })
-  
-        return
-    }
-
-    const Profile: any = await getWalletProfile(currentAddress)
-    if(Profile && Profile['Referee'] && Profile['Referee'].length == 43) {
-        const MsgTip = t(`You have already set up a proxy and cannot set it again`) as string
-        toast.error(MsgTip, { duration: 4000 })
-  
-        return
-    }
-
-    setIsAgentDisabledButton(true)
-    setUploadingAgentButton(`${t('Submitting...')}`)
-    toast.success(`${t('Submitting...')}`, { duration: 3000 })
-
-    await RegisterRefereeAction(currentAddress, inputAgent)
-    const ActionsSubmitToBlockchainResult = await ActionsSubmitToBlockchain(setUploadProgress)
-    console.log("ActionsSubmitToBlockchainResult", ActionsSubmitToBlockchainResult)
-    if(ActionsSubmitToBlockchainResult && ActionsSubmitToBlockchainResult.id) {
-      setLockStatus('Referee', ActionsSubmitToBlockchainResult.id)
-      toast.success(t(`Submitted successfully`), {
-        duration: 2000
-      })
-      setUploadingButton(`${t('Submitt')}`)
-    }
-
-
-  }
-
   useEffect(() => {
     let isFinishedAllUploaded = true
     uploadProgress && Object.entries(uploadProgress) && Object.entries(uploadProgress).forEach(([key, value]) => {
@@ -429,22 +357,6 @@ const SendOutForm = () => {
     })
     if(uploadProgress && Object.entries(uploadProgress) && Object.entries(uploadProgress).length > 0 && isFinishedAllUploaded) {
         setUploadingButton(`${t('Submit')}`)
-        
-        /*
-        setIsDisabledButton(false)
-        setInputName("")
-        setInputEmail("")
-        setInputTwitter("")
-        setInputGithub("")
-        setInputDiscord("")
-        setInputInstagram("")
-        setInputTelegram("")
-        setInputMedium("")
-        setInputReddit("")
-        setInputYoutube("")
-        setInputBio("")
-        */
-
         toast.success(`${t('Successfully submitted to blockchain')}`, { duration: 4000 })
     }
   }, [uploadProgress])
@@ -759,45 +671,6 @@ const SendOutForm = () => {
                             </Button>
                         </Grid>
 
-                    </Grid>
-                </CardContent>
-                <CardHeader title={`${t('My Agent')}`} />
-                <CardContent>
-                    <Grid container spacing={5}>
-                        <Grid item xs={6}>
-                            <TextField
-                                fullWidth
-                                label={`${t('My Agent')}`}
-                                placeholder={`${t('Agent Address')}`}
-                                value={inputAgent}
-                                onChange={handleInputAgentChange}
-                                InputProps={{
-                                    startAdornment: (
-                                        <InputAdornment position='start'>
-                                        <Icon icon='mdi:account-outline' />
-                                        </InputAdornment>
-                                    )
-                                }} 
-                                size='small' 
-                                disabled={isDisabledButton} 
-                                error={!!inputAgentError}
-                                helperText={inputAgentError}
-                            />
-                        </Grid>
-                        <Grid item xs={6}>
-                            <Typography>{`${t('Each person can set up a agent only once, and after successful setup, it cannot be modified')}`}</Typography>
-                        </Grid>
-                        <Grid item xs={12} container justifyContent="flex-end">
-                            <Button 
-                                type='submit' 
-                                variant='contained' 
-                                size='small' 
-                                onClick={handleAgentSubmitToBlockchain} 
-                                disabled={isAgentDisabledButton} 
-                                >
-                                {uploadingAgentButton}
-                            </Button>
-                        </Grid>
                     </Grid>
                 </CardContent>
             </Card>
