@@ -56,6 +56,7 @@ const SendOutForm = () => {
   const [uploadProgress, setUploadProgress] = useState<{ [key: string]: number }>({})
   const [isAgentDisabledButton, setIsAgentDisabledButton] = useState<boolean>(false)
   const [uploadingAgentButton, setUploadingAgentButton] = useState<string>(`${t('Submit')}`)
+  const [isHaveSettingMyAgent, setIsHaveSettingMyAgent] = useState<boolean>(false)
 
   const auth = useAuth()
   const currentAddress = auth.currentAddress
@@ -75,17 +76,15 @@ const SendOutForm = () => {
     }
   };
   
-  const [chivesRefereeTxId, setChivesRefereeTxId] = useState<string>("")
   useEffect(() => {
     const handleWindowLoad = () => {
         setUploadingAgentButton(`${t('Submit')}`)
         const getLockStatusReferee = getLockStatus("Referee")
-        if(getLockStatusReferee) {
-            console.log("getLockStatusReferee", getLockStatusReferee)
-            setChivesRefereeTxId(getLockStatusReferee)
-        }
-        if((chivesRefereeTxId && chivesRefereeTxId.length == 43) || (getLockStatusReferee && getLockStatusReferee.length == 43)) {
+        if(getLockStatusReferee && getLockStatusReferee.length == 43) {
             setIsAgentDisabledButton(true)
+            setIsHaveSettingMyAgent(true)
+            setInputAgent(`${t('Please wait for the blockchain to be packaged')}`)
+            console.log("getLockStatusReferee 001",getLockStatusReferee)
         }
     };
     window.addEventListener('load', handleWindowLoad);
@@ -102,15 +101,20 @@ const SendOutForm = () => {
   }, [currentAddress])
 
   const handleGetProfile = async () => {
+    const getLockStatusReferee = getLockStatus("Referee")
+    if(getLockStatusReferee && getLockStatusReferee.length == 43) {
+        setIsAgentDisabledButton(true)
+        setIsHaveSettingMyAgent(true)
+        setInputAgent(`${t('Please wait for the blockchain to be packaged')}`)
+        console.log("getLockStatusReferee 002",getLockStatusReferee)
+    }
     const Profile: any = await getWalletProfile(currentAddress)
     if(Profile && Profile['Referee'] && Profile['Referee'].length == 43) {
         setIsAgentDisabledButton(true)
+        setIsHaveSettingMyAgent(true)
         setInputAgent(Profile['Referee'])
     }    
   }
-
-  
-  
 
   const handleAgentSubmitToBlockchain = async () => {
     if(currentAddress == undefined || currentAddress.length != 43) {
@@ -152,7 +156,7 @@ const SendOutForm = () => {
       toast.success(t(`Submitted successfully`), {
         duration: 2000
       })
-      setUploadingButton(`${t('Submitt')}`)
+      setUploadingAgentButton(`${t('Submitt')}`)
     }
 
 
@@ -168,23 +172,8 @@ const SendOutForm = () => {
         console.log("uploadProgress key", key, value)
     })
     if(uploadProgress && Object.entries(uploadProgress) && Object.entries(uploadProgress).length > 0 && isFinishedAllUploaded) {
-        setUploadingButton(`${t('Submit')}`)
+        setUploadingAgentButton(`${t('Submit')}`)
         
-        /*
-        setIsDisabledButton(false)
-        setInputName("")
-        setInputEmail("")
-        setInputTwitter("")
-        setInputGithub("")
-        setInputDiscord("")
-        setInputInstagram("")
-        setInputTelegram("")
-        setInputMedium("")
-        setInputReddit("")
-        setInputYoutube("")
-        setInputBio("")
-        */
-
         toast.success(`${t('Successfully submitted to blockchain')}`, { duration: 4000 })
     }
   }, [uploadProgress])
@@ -196,7 +185,7 @@ const SendOutForm = () => {
             <Card>
                 <CardHeader title={`${t('My Agent')}`} />
                 <CardContent>
-                    {inputAgent && inputAgent.length == 43 ?
+                    {inputAgent && inputAgent.length == 43 && isHaveSettingMyAgent ?
                     <Grid container spacing={5}>
                         <Grid item xs={12}>
                             <Typography>{`${t('Address')}`}:</Typography>
@@ -205,7 +194,7 @@ const SendOutForm = () => {
                     </Grid>
                     :
                     <Grid container spacing={5}>
-                        <Grid item xs={6}>
+                        <Grid item xs={7}>
                             <TextField
                                 fullWidth
                                 label={`${t('My Agent')}`}
@@ -225,7 +214,7 @@ const SendOutForm = () => {
                                 helperText={inputAgentError}
                             />
                         </Grid>
-                        <Grid item xs={6}>
+                        <Grid item xs={5}>
                             <Typography>{`${t('Each person can set up a agent only once, and after successful setup, it cannot be modified')}`}</Typography>
                         </Grid>
                         <Grid item xs={12} container justifyContent="flex-end">

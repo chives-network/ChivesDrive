@@ -85,20 +85,16 @@ const SendOutForm = () => {
   const auth = useAuth()
   const currentAddress = auth.currentAddress
   
-  const [chivesProfileTxId, setChivesProfileTxId] = useState<string>("")
   useEffect(() => {
     setAvatarName(auth.currentAddress)
     const handleWindowLoad = () => {
         setUploadingButton(`${t('Submit')}`)
         const getLockStatusData = getLockStatus("Profile")
-        if(getLockStatusData) {
-            console.log("getLockStatusData", getLockStatusData)
-            setChivesProfileTxId(getLockStatusData)
-        }
-        if((chivesProfileTxId && chivesProfileTxId.length == 43) || (getLockStatusData && getLockStatusData.length == 43)) {
+        if(getLockStatusData && getLockStatusData.length == 43) {
             setIsDisabledButton(true)
             setInputName(`${t('Please wait for the blockchain to be packaged')}`)
             setAvatarName(`${t('Please wait for the blockchain to be packaged')}`)
+            console.log("getLockStatusReferee 001",getLockStatusData)
         }
 
     };
@@ -116,6 +112,13 @@ const SendOutForm = () => {
   }, [currentAddress])
 
   const handleGetProfile = async () => {
+    const getLockStatusData = getLockStatus("Profile")
+    if(getLockStatusData && getLockStatusData.length == 43) {
+        setIsDisabledButton(true)
+        setInputName(`${t('Please wait for the blockchain to be packaged')}`)
+        setAvatarName(`${t('Please wait for the blockchain to be packaged')}`)
+        console.log("getLockStatusReferee 002",getLockStatusData)
+    }
     const getWalletProfileData: any = await getWalletProfile(currentAddress)
     console.log("getWalletProfileData", getWalletProfileData)
     if(getWalletProfileData && getWalletProfileData['Profile'] && getWalletProfileData['Profile']['Name']) {
@@ -341,7 +344,6 @@ const SendOutForm = () => {
       toast.error(TxResult.statusText, { duration: 4000 })
       setIsDisabledButton(false)
       setUploadingButton(`${t('Submit')}`)
-      setChivesProfileTxId(TxResult.id)
     }
 
   }
