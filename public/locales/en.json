@@ -185,5 +185,10 @@
   "Must be longer than 3 letters": "Must be longer than 3 letters",
   "Please enter the correct email": "Please enter the correct email",
   "Submitting...": "Submitting...",
-  "Submitted successfully": "Submitted successfully"
+  "Submitted successfully": "Submitted successfully",
+  "Please do not use your own address": "Please do not use your own address",
+  "Each person can set up a agent only once, and after successful setup, it cannot be modified": "Each person can set up a agent only once, and after successful setup, it cannot be modified",
+  "You have already set up a proxy and cannot set it again": "You have already set up a proxy and cannot set it again",
+  "My Agent": "My Agent",
+  "Agent Address": "Agent Address"
 }

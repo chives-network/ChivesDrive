@@ -719,6 +719,15 @@ export async function RegisterAgentAction(Address: string, Level: string) {
     console.log("ChivesDriveActionsMap", ChivesDriveActionsMap)
 }
 
+export async function RegisterRefereeAction(Address: string, Referee: string) {
+    const ChivesDriveActions = authConfig.chivesDriveActions
+    const ChivesDriveActionsList = window.localStorage.getItem(ChivesDriveActions)      
+    const ChivesDriveActionsMap: any = ChivesDriveActionsList ? JSON.parse(ChivesDriveActionsList) : {}
+    ChivesDriveActionsMap['Referee'] = {...ChivesDriveActionsMap['Referee'], [Address] : Referee}
+    window.localStorage.setItem(ChivesDriveActions, JSON.stringify(ChivesDriveActionsMap))
+    console.log("ChivesDriveActionsMap", ChivesDriveActionsMap)
+}
+
 export async function StarMultiFiles(FileTxList: TxRecordType[]) {
     const ChivesDriveActions = authConfig.chivesDriveActions
     const ChivesDriveActionsList = window.localStorage.getItem(ChivesDriveActions)      
@@ -936,6 +945,7 @@ export async function ActionsSubmitToBlockchain(setUploadProgress: React.Dispatc
     const CreateFolder: any = ChivesDriveActionsMap['CreateFolder']
     const FolderList: any = ChivesDriveActionsMap['FolderList']
     const AgentList: any = ChivesDriveActionsMap['Agent']
+    const RefereeList: any = ChivesDriveActionsMap['Referee']
     
     const FileTxList: any = []
     FileTxLabel && Object.keys(FileTxLabel).forEach(TxId => {
@@ -964,6 +974,11 @@ export async function ActionsSubmitToBlockchain(setUploadProgress: React.Dispatc
     AgentList && Object.keys(AgentList).forEach((Address: string) => {
         if (AgentList[Address] !== undefined) {
             FileTxList.push({TxId: Address, Action: "Agent", Target: AgentList[Address], TxRecord: null})
+        }
+    })
+    RefereeList && Object.keys(RefereeList).forEach((Address: string) => {
+        if (RefereeList[Address] !== undefined) {
+            FileTxList.push({TxId: Address, Action: "Referee", Target: RefereeList[Address], TxRecord: null})
         }
     })
 
@@ -1090,7 +1105,30 @@ export async function ActionsSubmitToBlockchain(setUploadProgress: React.Dispatc
             'Unix-Time': String(Date.now())
           })
       }
+      if(FileTx.Action=="Referee") {
+        setBaseTags(tags, {          
+            'App-Name': TagsMap['App-Name'],
+            'App-Platform': TagsMap['App-Platform'],
+            'App-Version': TagsMap['App-Version'],
+            'Agent-Name': TagsMap['Agent-Name'],
+            'Content-Type': TagsMap['Content-Type'],
+            'File-Name': TagsMap['File-Name'],
+            'File-Hash': TagsMap['File-Hash'],
+            'File-Parent': TagsMap['File-Parent'],
+            'Cipher-ALG': TagsMap['Cipher-ALG'],
+            'File-Public': TagsMap['File-Public'],
+            'File-TxId': "",
+            'File-Language': TagsMap['File-Language'],
+            'File-Pages': TagsMap['File-Pages'],
+            'File-BundleId': "",
+            'Entity-Type': "Action",
+            'Entity-Action': FileTx.Action,
+            'Entity-Target': FileTx.Target,
+            'Unix-Time': String(Date.now())
+          })
+      }
 
+      
       const data = TxRecord?.id ? String(TxRecord.id) : FileTx.Action
       console.log("tags", tags)
 

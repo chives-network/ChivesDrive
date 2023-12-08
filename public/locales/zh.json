@@ -185,5 +185,10 @@
     "Must be longer than 3 letters": "必须超过3个字母",
     "Please enter the correct email": "请输入正确的电子邮件",
     "Submitting...": "提交中...",
-    "Submitted successfully": "成功提交"
+    "Submitted successfully": "提交成功",
+    "Please do not use your own address": "请不要使用自己的地址",
+    "Each person can set up a agent only once, and after successful setup, it cannot be modified": "每个人只能设置一次代理商，设置成功以后，不能修改",
+    "You have already set up a proxy and cannot set it again": "你已经设置过代理，不能再次设置",
+    "My Agent": "我的代理",
+    "Agent Address": "代理地址"
 }

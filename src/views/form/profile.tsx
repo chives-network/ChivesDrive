@@ -23,7 +23,7 @@ import Icon from 'src/@core/components/icon'
 import { useAuth } from 'src/hooks/useAuth'
 
 // ** Hooks
-import { ProfileSubmitToBlockchain, getWalletProfile, getLockStatus, setLockStatus } from 'src/functions/ChivesweaveWallets'
+import { ProfileSubmitToBlockchain, getWalletProfile, getLockStatus, setLockStatus, RegisterRefereeAction, ActionsSubmitToBlockchain } from 'src/functions/ChivesweaveWallets'
 
 // ** Styled Component
 import DropzoneWrapper from 'src/@core/styles/libs/react-dropzone'
@@ -76,6 +76,8 @@ const SendOutForm = () => {
   const [uploadProgress, setUploadProgress] = useState<{ [key: string]: number }>({})
   const [uploadingButton, setUploadingButton] = useState<string>(`${t('Submit')}`)
   const [isDisabledButton, setIsDisabledButton] = useState<boolean>(false)
+  const [isAgentDisabledButton, setIsAgentDisabledButton] = useState<boolean>(false)
+  const [uploadingAgentButton, setUploadingAgentButton] = useState<string>(`${t('Submit')}`)
   const [avatarName, setAvatarName] = useState<string>("")
   const [avatarFilesUrl, setAvatarFilesUrl] = useState<string>('/images/avatars/1.png')
   const [bannerFilesUrl, setBannerFilesUrl] = useState<string>('/images/misc/upload.png')
@@ -86,6 +88,7 @@ const SendOutForm = () => {
   const currentAddress = auth.currentAddress
   
   const [chivesProfileTxId, setChivesProfileTxId] = useState<string>("")
+  const [chivesRefereeTxId, setChivesRefereeTxId] = useState<string>("")
   useEffect(() => {
     setAvatarName(auth.currentAddress)
     const handleWindowLoad = () => {
@@ -99,6 +102,15 @@ const SendOutForm = () => {
             setIsDisabledButton(true)
             setInputName(`${t('Please wait for the blockchain to be packaged')}`)
             setAvatarName(`${t('Please wait for the blockchain to be packaged')}`)
+        }
+
+        const getLockStatusReferee = getLockStatus("Referee")
+        if(getLockStatusReferee) {
+            console.log("getLockStatusReferee", getLockStatusReferee)
+            setChivesRefereeTxId(getLockStatusReferee)
+        }
+        if((chivesRefereeTxId && chivesRefereeTxId.length == 43) || (getLockStatusReferee && getLockStatusReferee.length == 43)) {
+            setIsAgentDisabledButton(true)
         }
     };
     window.addEventListener('load', handleWindowLoad);
@@ -282,6 +294,21 @@ const SendOutForm = () => {
     <img key={file.name} alt={file.name} className='single-file-image' src={URL.createObjectURL(file as any)} />
   ))  
 
+  const [inputAgent, setInputAgent] = useState<string>("")
+  const [inputAgentError, setInputAgentError] = useState<string | null>(null)
+  const handleInputAgentChange = (event: any) => {
+    setInputAgent(event.target.value);
+    if(event.target.value.length != 43) {
+        setInputAgentError(`${t('Address length must be 43')}`)
+    }
+    else if(event.target.value == currentAddress) {
+        setInputAgentError(`${t('Please do not use your own address')}`)
+    }
+    else {
+        setInputAgentError("")
+    }
+  };
+
   const handleSubmitToBlockchain = async () => {
     if(currentAddress == undefined || currentAddress.length != 43) {
         toast.success(t(`Please create a wallet first`), {
@@ -342,6 +369,52 @@ const SendOutForm = () => {
       setUploadingButton(`${t('Submit')}`)
       setChivesProfileTxId(TxResult.id)
     }
+
+  }
+
+  const handleAgentSubmitToBlockchain = async () => {
+    if(currentAddress == undefined || currentAddress.length != 43) {
+        toast.success(t(`Please create a wallet first`), {
+          duration: 4000
+        })
+        router.push("/mywallets");
+
+        return
+    }
+    if(inputAgent && inputAgent.length == 43) {
+
+        //passed
+    }
+    else {        
+        const MsgTip = t(`Address length must be 43`) as string
+        toast.error(MsgTip, { duration: 4000 })
+  
+        return
+    }
+
+    const Profile: any = await getWalletProfile(currentAddress)
+    if(Profile && Profile['Referee'] && Profile['Referee'].length == 43) {
+        const MsgTip = t(`You have already set up a proxy and cannot set it again`) as string
+        toast.error(MsgTip, { duration: 4000 })
+  
+        return
+    }
+
+    setIsAgentDisabledButton(true)
+    setUploadingAgentButton(`${t('Submitting...')}`)
+    toast.success(`${t('Submitting...')}`, { duration: 3000 })
+
+    await RegisterRefereeAction(currentAddress, inputAgent)
+    const ActionsSubmitToBlockchainResult = await ActionsSubmitToBlockchain(setUploadProgress)
+    console.log("ActionsSubmitToBlockchainResult", ActionsSubmitToBlockchainResult)
+    if(ActionsSubmitToBlockchainResult && ActionsSubmitToBlockchainResult.id) {
+      setLockStatus('Referee', ActionsSubmitToBlockchainResult.id)
+      toast.success(t(`Submitted successfully`), {
+        duration: 2000
+      })
+      setUploadingButton(`${t('Submitt')}`)
+    }
+
 
   }
 
@@ -432,7 +505,8 @@ const SendOutForm = () => {
                                         <Icon icon='mdi:account-outline' />
                                         </InputAdornment>
                                     )
-                                }}
+                                }} 
+                                size='small' 
                                 disabled={isDisabledButton} 
                                 error={!!inputNameError}
                                 helperText={inputNameError}
@@ -451,7 +525,8 @@ const SendOutForm = () => {
                                         <Icon icon='mdi:email-outline' />
                                         </InputAdornment>
                                     )
-                                }}
+                                }} 
+                                size='small' 
                                 disabled={isDisabledButton} 
                                 error={!!inputEmailError}
                                 helperText={inputEmailError}
@@ -470,7 +545,8 @@ const SendOutForm = () => {
                                         <Icon icon='mdi:twitter' />
                                         </InputAdornment>
                                     )
-                                }}
+                                }} 
+                                size='small' 
                                 disabled={isDisabledButton} 
                                 error={!!inputTwitterError}
                                 helperText={inputTwitterError}
@@ -489,7 +565,8 @@ const SendOutForm = () => {
                                         <Icon icon='mdi:github' />
                                         </InputAdornment>
                                     )
-                                }}
+                                }} 
+                                size='small' 
                                 disabled={isDisabledButton} 
                                 error={!!inputGithubError}
                                 helperText={inputGithubError}
@@ -508,7 +585,8 @@ const SendOutForm = () => {
                                         <Icon icon='mdi:discord' />
                                         </InputAdornment>
                                     )
-                                }}
+                                }} 
+                                size='small' 
                                 disabled={isDisabledButton} 
                                 error={!!inputDiscordError}
                                 helperText={inputDiscordError}
@@ -527,7 +605,8 @@ const SendOutForm = () => {
                                         <Icon icon='mdi:instagram' />
                                         </InputAdornment>
                                     )
-                                }}
+                                }} 
+                                size='small' 
                                 disabled={isDisabledButton} 
                                 error={!!inputInstagramError}
                                 helperText={inputInstagramError}
@@ -546,7 +625,8 @@ const SendOutForm = () => {
                                         <Icon icon='mdi:telegram' />
                                         </InputAdornment>
                                     )
-                                }}
+                                }} 
+                                size='small' 
                                 disabled={isDisabledButton} 
                                 error={!!inputTelegramError}
                                 helperText={inputTelegramError}
@@ -565,7 +645,8 @@ const SendOutForm = () => {
                                         <Icon icon='mdi:medium' />
                                         </InputAdornment>
                                     )
-                                }}
+                                }} 
+                                size='small' 
                                 disabled={isDisabledButton} 
                                 error={!!inputMediumError}
                                 helperText={inputMediumError}
@@ -584,7 +665,8 @@ const SendOutForm = () => {
                                         <Icon icon='mdi:reddit' />
                                         </InputAdornment>
                                     )
-                                }}
+                                }} 
+                                size='small' 
                                 disabled={isDisabledButton} 
                                 error={!!inputRedditError}
                                 helperText={inputRedditError}
@@ -603,7 +685,8 @@ const SendOutForm = () => {
                                         <Icon icon='mdi:youtube' />
                                         </InputAdornment>
                                     )
-                                }}
+                                }} 
+                                size='small' 
                                 disabled={isDisabledButton} 
                                 error={!!inputYoutubeError}
                                 helperText={inputYoutubeError}
@@ -623,7 +706,8 @@ const SendOutForm = () => {
                                         <Icon icon='mdi:message-outline' />
                                         </InputAdornment>
                                     )
-                                }}
+                                }} 
+                                size='small' 
                                 disabled={isDisabledButton} 
                                 value={inputBio}
                                 onChange={handleInputBioChange}
@@ -667,11 +751,51 @@ const SendOutForm = () => {
                             <Button 
                                 type='submit' 
                                 variant='contained' 
-                                size='large' 
+                                size='small' 
                                 onClick={handleSubmitToBlockchain} 
                                 disabled={isDisabledButton} 
                                 >
                                 {uploadingButton}
+                            </Button>
+                        </Grid>
+
+                    </Grid>
+                </CardContent>
+                <CardHeader title={`${t('My Agent')}`} />
+                <CardContent>
+                    <Grid container spacing={5}>
+                        <Grid item xs={6}>
+                            <TextField
+                                fullWidth
+                                label={`${t('My Agent')}`}
+                                placeholder={`${t('Agent Address')}`}
+                                value={inputAgent}
+                                onChange={handleInputAgentChange}
+                                InputProps={{
+                                    startAdornment: (
+                                        <InputAdornment position='start'>
+                                        <Icon icon='mdi:account-outline' />
+                                        </InputAdornment>
+                                    )
+                                }} 
+                                size='small' 
+                                disabled={isDisabledButton} 
+                                error={!!inputAgentError}
+                                helperText={inputAgentError}
+                            />
+                        </Grid>
+                        <Grid item xs={6}>
+                            <Typography>{`${t('Each person can set up a agent only once, and after successful setup, it cannot be modified')}`}</Typography>
+                        </Grid>
+                        <Grid item xs={12} container justifyContent="flex-end">
+                            <Button 
+                                type='submit' 
+                                variant='contained' 
+                                size='small' 
+                                onClick={handleAgentSubmitToBlockchain} 
+                                disabled={isAgentDisabledButton} 
+                                >
+                                {uploadingAgentButton}
                             </Button>
                         </Grid>
                     </Grid>

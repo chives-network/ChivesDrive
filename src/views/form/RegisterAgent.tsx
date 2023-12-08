@@ -75,7 +75,7 @@ const RegisterAgent = () => {
     const getLockStatusData = getLockStatus("Agent")
     const Profile: any = await getWalletProfile(currentAddress)
     console.log("Profile", Profile)
-    if((getLockStatusData && getLockStatusData == currentAddress) || (Profile['Name'] !== undefined && Profile['Email'] !== undefined && Profile['Twitter'] !== undefined) ) {
+    if((getLockStatusData && getLockStatusData == currentAddress) || (Profile['Profile'] !== undefined && Profile['Profile']['Name'] !== undefined && Profile['Profile']['Email'] !== undefined && Profile['Profile']['Twitter'] !== undefined) ) {
       setIsDisabledButton(true)
       setIsDisabledProfileButton(true)
       setIsDisabledBalanceButton(true)
@@ -87,7 +87,7 @@ const RegisterAgent = () => {
     if(currentAddress != undefined && currentAddress.length == 43) {
       const Profile: any = await getWalletProfile(currentAddress)
       let MsgTip = ""
-      if(Profile['Name'] !== undefined && Profile['Email'] !== undefined && Profile['Twitter'] !== undefined) {
+      if(Profile['Profile'] !== undefined && Profile['Profile']['Name'] !== undefined && Profile['Profile']['Email'] !== undefined && Profile['Profile']['Twitter'] !== undefined) {
         MsgTip = t(`Profile completion meets the requirements`) as string
         toast.success(MsgTip, { duration: 4000 })
       }
@@ -137,7 +137,7 @@ const RegisterAgent = () => {
         return
     }
     const Profile: any = await getWalletProfile(currentAddress)
-    if(Profile['Name'] !== undefined && Profile['Email'] !== undefined && Profile['Twitter'] !== undefined) {
+    if(Profile['Profile'] !== undefined && Profile['Profile']['Name'] !== undefined && Profile['Profile']['Email'] !== undefined && Profile['Profile']['Twitter'] !== undefined) {
       
       //passed
     }
