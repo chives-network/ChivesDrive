@@ -514,6 +514,25 @@ const SidebarLeft = (props: DriveSidebarType) => {
             </ListItemStyled>
             <ListItemStyled
               component={Link}
+              href='/drive/audio'
+              onClick={()=>handleListItemClick(null)}
+              sx={{
+                borderLeftColor: handleActiveItem('type', 'audio') ? 'primary.main' : 'transparent'
+              }}
+            >
+              <ListItemIcon sx={{ mr: 3.5, '& svg': { color: 'warning.main' } }}>
+                <Icon icon='mdi:circle' fontSize='0.75rem' />
+              </ListItemIcon>
+              <ListItemText
+                primary={`${t(`Audio`)}`}
+                primaryTypographyProps={{
+                  noWrap: true,
+                  sx: { fontWeight: 500, ...(handleActiveItem('type', 'audio') && { color: 'primary.main' }) }
+                }}
+              />
+            </ListItemStyled>
+            <ListItemStyled
+              component={Link}
               href='/drive/stl'
               onClick={()=>handleListItemClick(null)}
               sx={{

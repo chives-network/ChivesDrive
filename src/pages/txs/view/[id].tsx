@@ -283,6 +283,8 @@ const TxView = () => {
     }
   }, [dispatch, paginationModel, id])
 
+  console.log("idididididididididididididididididididididid", id)
+
   useEffect(() => {
     if(id != undefined) {
       axios
@@ -298,23 +300,31 @@ const TxView = () => {
           console.log("tagsMap", tagsMap)
 
           let TempFileName = '';
-          setIsBundleTx(false);
-          res.data && res.data.tags && res.data.tags.map((Item: { [key: string]: string }) => {
-            if(Item.name=="File-Name")      {
-              TempFileName = Item.value;
-              setFileName(Item.value);
-            }
-            if(Item.name == "Bundle-Format")  {
-              setIsBundleTx(true);
-            }
-            if(Item.name == "Content-Type")  {
-              setFileContenType(Item.value);
-            }
-          });
           const FileMap: { [key: string]: string } = {}
           res.data && res.data.tags && res.data && res.data.tags.map((Item: { [key: string]: string }) => {
             FileMap[Item.name] = Item.value;
           });
+          const FileName = FileMap['File-Name']; 
+          if(FileName) {
+            setFileName(FileMap[FileName]);
+          }
+          else {
+            setFileName("Data");
+          }
+          const BundleFormat = FileMap['Bundle-Format']; 
+          if(BundleFormat) {
+            setIsBundleTx(true);
+          }
+          else {
+            setIsBundleTx(false);
+          }
+          const ContentType = FileMap['Content-Type']; 
+          if(ContentType) {
+            setFileContenType(FileMap[ContentType]);
+          }
+          else {
+            setFileContenType("");
+          }
           const FileTxId = FileMap['File-TxId'];          
           let ImageUrl = ""
           if(FileTxId && FileTxId.length == 43) {
@@ -325,7 +335,6 @@ const TxView = () => {
           }
           setFileUrl(`${authConfig.backEndApi}/${ImageUrl}`);
           if(TempFileName == '') {
-            setFileName("Data");
           }
           setIsLoading(false);
         })
@@ -767,7 +776,7 @@ const TxView = () => {
             <Fragment></Fragment>
           }
           
-          {store.data && store.data.length > 0 ?
+          {isBundleTx && store.data && store.data.length > 0 ?
           <Fragment>
             {isMobileData ? 
             <Fragment>

@@ -136,6 +136,15 @@ const FileResourceModel = ({ activeTab } : any) => {
               }
             />
             <Tab
+              value='audio'
+              label={
+                <Box sx={{ display: 'flex', alignItems: 'center', '& svg': { mr: 2 } }}>
+                  <Icon fontSize={20} icon='ic:baseline-audio-file' />
+                  {`${t(`audio`)}`}
+                </Box>
+              }
+            />
+            <Tab
               value='pdf'
               label={
                 <Box sx={{ display: 'flex', alignItems: 'center', '& svg': { mr: 2 } }}>
