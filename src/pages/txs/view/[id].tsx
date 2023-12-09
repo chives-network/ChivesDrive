@@ -283,8 +283,6 @@ const TxView = () => {
     }
   }, [dispatch, paginationModel, id])
 
-  console.log("idididididididididididididididididididididid", id)
-
   useEffect(() => {
     if(id != undefined) {
       axios
@@ -359,7 +357,7 @@ const TxView = () => {
       ImageUrl = TxRecord.id
     }
     
-    //console.log("FileType", `${authConfig.backEndApi}/${TxRecord.id}`)
+    console.log("FileType", FileType)
     switch(FileType) {
       case 'PNG':
       case 'GIF':
@@ -375,10 +373,15 @@ const TxView = () => {
         return <ImagesPreview key={TxRecord.id} open={true} toggleImagesPreviewDrawer={toggleImagesPreviewDrawer} imagesList={[`${authConfig.backEndApi}/${ImageUrl}`]} imagesType={['Word']} />;
       case 'XLSX':
         return <ImagesPreview key={TxRecord.id} open={true} toggleImagesPreviewDrawer={toggleImagesPreviewDrawer} imagesList={[`${authConfig.backEndApi}/${ImageUrl}`]} imagesType={['Excel']} />;
+      case 'Video':
+        return <ImagesPreview key={TxRecord.id} open={true} toggleImagesPreviewDrawer={toggleImagesPreviewDrawer} imagesList={[`${authConfig.backEndApi}/${ImageUrl}`]} imagesType={['Video']} />;
+      case 'Audio':
+        return <ImagesPreview key={TxRecord.id} open={true} toggleImagesPreviewDrawer={toggleImagesPreviewDrawer} imagesList={[`${authConfig.backEndApi}/${ImageUrl}`]} imagesType={['Audio']} />;
+      case 'DOC':
+      case 'XLS':
+      case 'PPT':
       case 'PPTX':
-        return <ImagesPreview key={TxRecord.id} open={true} toggleImagesPreviewDrawer={toggleImagesPreviewDrawer} imagesList={[`${authConfig.backEndApi}/${ImageUrl}`]} imagesType={['PPTX']} />;
-      case 'MP4':
-        return <ImagesPreview key={TxRecord.id} open={true} toggleImagesPreviewDrawer={toggleImagesPreviewDrawer} imagesList={[`${authConfig.backEndApi}/${ImageUrl}`]} imagesType={['Mp4']} />;
+        return <ImagesPreview key={TxRecord.id} open={true} toggleImagesPreviewDrawer={toggleImagesPreviewDrawer} imagesList={[`${authConfig.backEndApi}/${ImageUrl}/pdf`]} imagesType={['pdf']} />;
       default:
         return <Fragment></Fragment>;
     }
@@ -509,7 +512,7 @@ const TxView = () => {
 
   return (
     <Fragment>
-      {txViewInfo ? 
+      {txViewInfo && txViewInfo.block ? 
         <Grid container spacing={6}>
           <Grid item xs={12}>
             <Card>
@@ -900,7 +903,7 @@ const TxView = () => {
           }
         </Grid>
       :
-        <Fragment></Fragment>
+      <Fragment>{`${t(`No Address`)}`}</Fragment>
     }
     </Fragment>
   )

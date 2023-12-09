@@ -196,6 +196,15 @@ const FileResourceModel = ({ activeTab } : any) => {
           <CardHeader title={`${activeTab?.toUpperCase()}`} />
           {store && store.data !== undefined ? (
             <Fragment>
+              {activeTab == "audio" ?
+              <Grid container spacing={2}>
+                {store.data.map((item: TxRecordType, index: number) => (
+                  <Grid item key={index} xs={12} sm={6} md={6} lg={6}>
+                    <ImageRectangle item={item} backEndApi={authConfig.backEndApi} FileType={activeTab}/>
+                  </Grid>
+                ))}
+              </Grid>
+              :
               <Grid container spacing={2}>
                 {store.data.map((item: TxRecordType, index: number) => (
                   <Grid item key={index} xs={12} sm={6} md={3} lg={3}>
@@ -203,6 +212,7 @@ const FileResourceModel = ({ activeTab } : any) => {
                   </Grid>
                 ))}
               </Grid>
+              }
               <Grid item key={"Pagination"} xs={12} sm={12} md={12} lg={12} sx={{ padding: '10px 0 10px 0' }}>
                 <Pagination count={Number(store.allPages)} variant='outlined' color='primary' page={paginationModel.page} onChange={handlePageChange} siblingCount={2} boundaryCount={3} />
               </Grid>
