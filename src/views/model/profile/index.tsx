@@ -67,7 +67,7 @@ const ProfileIndex = ({ activeTab } : any) => {
                 value='profile'
                 label={
                     <Box sx={{ display: 'flex', alignItems: 'center', '& svg': { mr: 2 } }}>
-                    <Icon fontSize={20} icon='material-symbols:send' />
+                    <Icon fontSize={20} icon='mingcute:profile-line' />
                     {`${t(`Profile`)}`}
                     </Box>
                 }
@@ -76,7 +76,7 @@ const ProfileIndex = ({ activeTab } : any) => {
                 value='myagent'
                 label={
                     <Box sx={{ display: 'flex', alignItems: 'center', '& svg': { mr: 2 } }}>
-                    <Icon fontSize={20} icon='material-symbols:backup' />
+                    <Icon fontSize={20} icon='material-symbols:support-agent' />
                     {`${t(`My Agent`)}`}
                     </Box>
                 }

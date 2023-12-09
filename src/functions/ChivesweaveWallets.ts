@@ -869,6 +869,22 @@ export async function getWalletProfile(currentAddress: string) {
     }
 }
 
+export async function checkNodeStatus() {
+    const response = await axios.get(authConfig.backEndApi + '/info' );
+    if(response && response.data && response.data.Profile && response.data.Profile.Name) {
+        const Node = response.data
+        if(Node.height < Node.blocks) {
+            return true
+        }
+        else {
+            return false
+        }
+    }
+    else {
+        return false
+    }
+}
+
 export function GetFileCacheStatus(TxId: string) {
     const ChivesDriveActions = authConfig.chivesDriveActions
     const ChivesDriveActionsList = window.localStorage.getItem(ChivesDriveActions)      

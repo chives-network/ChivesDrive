@@ -23,7 +23,7 @@ import Icon from 'src/@core/components/icon'
 import { useAuth } from 'src/hooks/useAuth'
 
 // ** Hooks
-import { ProfileSubmitToBlockchain, getWalletProfile, getLockStatus, setLockStatus } from 'src/functions/ChivesweaveWallets'
+import { ProfileSubmitToBlockchain, getWalletProfile, getLockStatus, setLockStatus, checkNodeStatus } from 'src/functions/ChivesweaveWallets'
 
 // ** Styled Component
 import DropzoneWrapper from 'src/@core/styles/libs/react-dropzone'
@@ -67,7 +67,7 @@ const HeadingTypography = styled(Typography)<TypographyProps>(({ theme }) => ({
     }
 }))
 
-const SendOutForm = () => {
+const ProfileApp = () => {
   // ** Hook
   const { t } = useTranslation()
 
@@ -163,6 +163,12 @@ const SendOutForm = () => {
     if(getWalletProfileData && getWalletProfileData['Profile'] && getWalletProfileData['Profile']['Banner'] && getWalletProfileData['Profile']['Banner'].length == 43) {
         setBannerFilesTxId(getWalletProfileData['Profile']['Banner']);
         setBannerFilesUrl(authConfig.backEndApi + '/' + getWalletProfileData['Profile']['Banner']);
+    }
+
+    const checkNodeStatusData: any = await checkNodeStatus()
+    if(checkNodeStatusData == false) {
+        setIsDisabledButton(true)
+        setAvatarName(`${t('Blockchain is currently syncing data. Please wait for a few hours before trying again')}`)
     }
   }
 
@@ -336,7 +342,7 @@ const SendOutForm = () => {
     const chivesTxStatusText = window.localStorage.getItem(chivesTxStatus)      
     const chivesTxStatusList = chivesTxStatusText ? JSON.parse(chivesTxStatusText) : []
     chivesTxStatusList.push({TxResult,ChivesDriveActionsMap})
-    console.log("chivesTxStatusList-SendOutForm", chivesTxStatusList)
+    console.log("chivesTxStatusList-ProfileApp", chivesTxStatusList)
     window.localStorage.setItem(chivesTxStatus, JSON.stringify(chivesTxStatusList))
     setLockStatus('Profile', TxResult.id as string)
     setAvatarName(`${t('Please wait for the blockchain to be packaged')}`)
@@ -700,7 +706,4 @@ const SendOutForm = () => {
   )
 }
 
-/*
-                
-                */
-export default SendOutForm
+export default ProfileApp

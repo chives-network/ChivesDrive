@@ -18,7 +18,7 @@ import Icon from 'src/@core/components/icon'
 import { useAuth } from 'src/hooks/useAuth'
 
 // ** Hooks
-import { getWalletProfile, getLockStatus, setLockStatus, RegisterRefereeAction, ActionsSubmitToBlockchain } from 'src/functions/ChivesweaveWallets'
+import { getWalletProfile, getLockStatus, setLockStatus, RegisterRefereeAction, ActionsSubmitToBlockchain, checkNodeStatus } from 'src/functions/ChivesweaveWallets'
 
 // ** Styled Component
 import DropzoneWrapper from 'src/@core/styles/libs/react-dropzone'
@@ -31,7 +31,7 @@ import { useTranslation } from 'react-i18next'
 
 import { useRouter } from 'next/router'
 
-const SendOutForm = () => {
+const MyAgentApp = () => {
   // ** Hook
   const { t } = useTranslation()
 
@@ -99,6 +99,13 @@ const SendOutForm = () => {
         setIsHaveSettingMyAgent(true)
         setInputAgent(Profile['Referee'])
     }    
+
+    const checkNodeStatusData: any = await checkNodeStatus()
+    if(checkNodeStatusData == false) {
+        setIsAgentDisabledButton(true)
+        setInputAgent(`${t('Blockchain is currently syncing data. Please wait for a few hours before trying again')}`)
+    }
+
   }
 
   const handleAgentSubmitToBlockchain = async () => {
@@ -224,7 +231,5 @@ const SendOutForm = () => {
   )
 }
 
-/*
-                
-                */
-export default SendOutForm
+
+export default MyAgentApp
