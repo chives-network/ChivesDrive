@@ -169,7 +169,7 @@ const DriveList = (props: DriveListType) => {
   useEffect(()=>{
     const GetHaveToDoTaskData: number = GetHaveToDoTask()
     setHaveTaskToDoNumber(GetHaveToDoTaskData)
-    setIsHaveTaskToDoText("Submit to blockchain")
+    setIsHaveTaskToDoText(`${t(`Submit to Blockchain`)}`)
     console.log("uploadProgress", uploadProgress)
   },[isHaveTaskToDo])
 
