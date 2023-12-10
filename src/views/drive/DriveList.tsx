@@ -547,7 +547,7 @@ const DriveList = (props: DriveListType) => {
                         helperText={folderNameError}
                     />
                   </DialogContentText>
-                  {`${t('After creating the folder, you need to manually submit it to the blockchain network.')}`}
+                  {`${t('After creating the folder, you need to manually submit it to the blockchain network')}`}
               </DialogContent>
               <DialogActions className='dialog-actions-dense'>
                   {isProgress == true && haveSubmitTextTip == "" ? 
@@ -718,11 +718,15 @@ const DriveList = (props: DriveListType) => {
                   })
                   const EntityType = TagsMap['Entity-Type']
                   const EntityTarget = TagsMap['Entity-Target']
-                  const FileCacheStatus = GetFileCacheStatus(drive.id)
+                  const FullStatusRS: any = GetFileCacheStatus(drive)
+                  const FileCacheStatus: any = FullStatusRS['CacheStatus']
+                  const FileFullStatus: any = FullStatusRS['FullStatus']
                   let IsFileDisabled = false
                   if(FileCacheStatus.Folder == "Trash" || FileCacheStatus.Folder == "Spam" || (FileCacheStatus.Folder!=undefined && FileCacheStatus.Folder!="") ) {
                     IsFileDisabled = true
                   }
+
+                  console.log("FileCacheStatusFileCacheStatusFileCacheStatusFileCacheStatusFileCacheStatusFileCacheStatusFileCacheStatus", FileFullStatus)
                   
                   return (
                     <FileItem
@@ -752,7 +756,7 @@ const DriveList = (props: DriveListType) => {
                         
                       }}
                     >
-                      <Tooltip title={(FileCacheStatus.Folder == "Trash" || FileCacheStatus.Folder == "Spam") ? `${t(`You cannot perform operations on files in the Trash or Spam`)}` :''} arrow>
+                      <Tooltip title={(FileFullStatus.Folder == "Trash" || FileFullStatus.Folder == "Spam") ? `${t(`You cannot perform operations on files in the Trash or Spam`)}` :''} arrow>
                         <Box sx={{ mr: 4, display: 'flex', overflow: 'hidden', alignItems: 'center' }}>
                           
                           <Checkbox
@@ -763,21 +767,21 @@ const DriveList = (props: DriveListType) => {
                           />
                           <IconButton
                             size='small'
-                            onClick={e => handleStarDrive(e, drive.id, !FileCacheStatus['Star'])}
+                            onClick={e => handleStarDrive(e, drive.id, !FileFullStatus['Star'])}
                             disabled={IsFileDisabled}
                             sx={{
                               mr: { xs: 0, sm: 3 },
-                              color: FileCacheStatus['Star'] ? 'warning.main' : 'text.secondary',
+                              color: FileFullStatus['Star'] ? 'warning.main' : 'text.secondary',
                               '& svg': {
                                 display: { xs: 'none', sm: 'block' }
                               }
                             }}
                           >
-                            <Icon icon={FileCacheStatus['Star'] ? 'mdi:star' : 'mdi:star-outline'} />
+                            <Icon icon={FileFullStatus['Star'] ? 'mdi:star' : 'mdi:star-outline'} />
                           </IconButton>
-                          {store.table[drive.id] && store.table[drive.id]['item_label'] && labelColors[store.table[drive.id]['item_label']] ?
-                            <Tooltip title={store.table[drive.id]['item_label']} arrow>
-                              <Box component='span' sx={{ mr: 2, ml: -2, color: `${labelColors[store.table[drive.id]['item_label']]}.main` }}>
+                          {FileFullStatus && FileFullStatus['Label'] && labelColors[FileFullStatus['Label']] ?
+                            <Tooltip title={FileFullStatus['Label']} arrow>
+                              <Box component='span' sx={{ mr: 2, ml: -2, color: `${labelColors[FileFullStatus['Label']]}.main` }}>
                                 <Icon icon='mdi:circle' fontSize='0.75rem' />
                               </Box>
                             </Tooltip>

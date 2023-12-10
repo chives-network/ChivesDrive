@@ -66,7 +66,7 @@ const AnalyticsTrophy = (props: propsType) => {
         {data.height > data.blocks ? 
         <Tooltip title={`${t(`Blockchain is currently syncing data. Please wait for a few hours before trying again`)}`} placement='bottom'>
           <Typography variant='h5' sx={{ my: 4, color: 'error.main' }}>
-            {`${t(`Syncing`)}`}
+            {`${t(`Syncing`)}`} {Math.ceil(data.blocks*100/data.height)}%
           </Typography>
         </Tooltip>
         : 

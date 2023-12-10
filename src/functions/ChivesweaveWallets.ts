@@ -885,19 +885,33 @@ export async function checkNodeStatus() {
     }
 }
 
-export function GetFileCacheStatus(TxId: string) {
+export function GetFileCacheStatus(Drive: any) {
+    const TxId: string = Drive.id
     const ChivesDriveActions = authConfig.chivesDriveActions
     const ChivesDriveActionsList = window.localStorage.getItem(ChivesDriveActions)      
     const ChivesDriveActionsMap: any = ChivesDriveActionsList ? JSON.parse(ChivesDriveActionsList) : {}
-    const FileStatus: any = {}
-    if(ChivesDriveActionsMap && ChivesDriveActionsMap['Star'] && ChivesDriveActionsMap['Star'][TxId] )  {
-        FileStatus['Star'] = ChivesDriveActionsMap['Star'][TxId];
+    const CacheStatus: any = {}
+    const FullStatus: any = {}
+    //Step 1: Database
+    if(Drive && Drive.table && Drive.table.item_star && Drive.table.item_star=="Star")  {
+        FullStatus['Star'] = true
     }
-    if(ChivesDriveActionsMap && ChivesDriveActionsMap['Label'] && ChivesDriveActionsMap['Label'][TxId] )  {
-        FileStatus['Label'] = ChivesDriveActionsMap['Label'][TxId];
+    if(Drive && Drive.table && Drive.table.item_label)  {
+        FullStatus['Label'] = Drive.table.item_label
     }
-    if(ChivesDriveActionsMap && ChivesDriveActionsMap['Folder'] && ChivesDriveActionsMap['Folder'][TxId] )  {
-        FileStatus['Folder'] = ChivesDriveActionsMap['Folder'][TxId];
+    
+    //Step 2 : Local Storage Cache
+    if(ChivesDriveActionsMap && ChivesDriveActionsMap['Star'] && ChivesDriveActionsMap['Star'][TxId] !== undefined )  {
+        CacheStatus['Star'] = ChivesDriveActionsMap['Star'][TxId];
+        FullStatus['Star'] = ChivesDriveActionsMap['Star'][TxId];
+    }
+    if(ChivesDriveActionsMap && ChivesDriveActionsMap['Label'] && ChivesDriveActionsMap['Label'][TxId] !== undefined )  {
+        CacheStatus['Label'] = ChivesDriveActionsMap['Label'][TxId];
+        FullStatus['Label'] = ChivesDriveActionsMap['Label'][TxId];
+    }
+    if(ChivesDriveActionsMap && ChivesDriveActionsMap['Folder'] && ChivesDriveActionsMap['Folder'][TxId] !== undefined )  {
+        CacheStatus['Folder'] = ChivesDriveActionsMap['Folder'][TxId];
+        FullStatus['Folder'] = ChivesDriveActionsMap['Folder'][TxId];
     }
 
     const chivesTxStatusText = window.localStorage.getItem(chivesTxStatus)      
@@ -906,21 +920,22 @@ export function GetFileCacheStatus(TxId: string) {
     if(chivesTxStatusList && chivesTxStatusList.length > 0)  {
         chivesTxStatusList.map(async (Item: any) => {
             const ChivesDriveActionsMaTx = Item.ChivesDriveActionsMap;
-            if(ChivesDriveActionsMaTx && ChivesDriveActionsMaTx['Star'] && ChivesDriveActionsMaTx['Star'][TxId] )  {
-                FileStatus['Star'] = ChivesDriveActionsMaTx['Star'][TxId];
+            if(ChivesDriveActionsMaTx && ChivesDriveActionsMaTx['Star'] && ChivesDriveActionsMaTx['Star'][TxId] !== undefined )  {
+                CacheStatus['Star'] = ChivesDriveActionsMaTx['Star'][TxId];
+                FullStatus['Star'] = ChivesDriveActionsMaTx['Star'][TxId];
             }
-            if(ChivesDriveActionsMaTx && ChivesDriveActionsMaTx['Label'] && ChivesDriveActionsMaTx['Label'][TxId] )  {
-                FileStatus['Label'] = ChivesDriveActionsMaTx['Label'][TxId];
+            if(ChivesDriveActionsMaTx && ChivesDriveActionsMaTx['Label'] && ChivesDriveActionsMaTx['Label'][TxId] !== undefined )  {
+                CacheStatus['Label'] = ChivesDriveActionsMaTx['Label'][TxId];
+                FullStatus['Label'] = ChivesDriveActionsMaTx['Label'][TxId];
             }
-            if(ChivesDriveActionsMaTx && ChivesDriveActionsMaTx['Folder'] && ChivesDriveActionsMaTx['Folder'][TxId] )  {
-                FileStatus['Folder'] = ChivesDriveActionsMaTx['Folder'][TxId];
+            if(ChivesDriveActionsMaTx && ChivesDriveActionsMaTx['Folder'] && ChivesDriveActionsMaTx['Folder'][TxId] !== undefined )  {
+                CacheStatus['Folder'] = ChivesDriveActionsMaTx['Folder'][TxId];
+                FullStatus['Folder'] = ChivesDriveActionsMaTx['Folder'][TxId];
             }            
         })
     }
 
-    //console.log("FileStatus", FileStatus)
-
-    return FileStatus;
+    return {"FullStatus":FullStatus, "CacheStatus":CacheStatus};
 }
 
 export function GetHaveToDoTask() {
@@ -1029,6 +1044,7 @@ export async function ActionsSubmitToBlockchain(setUploadProgress: React.Dispatc
             'Entity-Type': "Action",
             'Entity-Action': FileTx.Action,
             'Entity-Target': FileTx.Target,
+            'Last-Tx-Change': TxRecord.table.last_tx_action,
             'Unix-Time': String(Date.now())
           })
       }
@@ -1052,6 +1068,7 @@ export async function ActionsSubmitToBlockchain(setUploadProgress: React.Dispatc
             'Entity-Action': FileTx.Action,
             'Entity-Target': FileTx.Target,
             'Entity-Target-Text': FolderList[FileTx.Target]['name'],
+            'Last-Tx-Change': TxRecord.table.last_tx_action,
             'Unix-Time': String(Date.now())
           })
       }
@@ -1073,7 +1090,8 @@ export async function ActionsSubmitToBlockchain(setUploadProgress: React.Dispatc
             'File-BundleId': TxRecord?.bundleid,
             'Entity-Type': "Action",
             'Entity-Action': FileTx.Action,
-            'Entity-Target': FileTx.Target ? "Star" : "", // only record the Star status
+            'Entity-Target': FileTx.Target ? "Star" : "",
+            'Last-Tx-Change': TxRecord.table.last_tx_action,
             'Unix-Time': String(Date.now())
           })
       }
@@ -1118,6 +1136,7 @@ export async function ActionsSubmitToBlockchain(setUploadProgress: React.Dispatc
             'Entity-Type': "Action",
             'Entity-Action': FileTx.Action,
             'Entity-Target': FileTx.Target,
+            'Last-Tx-Change': TxRecord.table.last_tx_action,
             'Unix-Time': String(Date.now())
           })
       }
@@ -1140,11 +1159,11 @@ export async function ActionsSubmitToBlockchain(setUploadProgress: React.Dispatc
             'Entity-Type': "Action",
             'Entity-Action': FileTx.Action,
             'Entity-Target': FileTx.Target,
+            'Last-Tx-Change': TxRecord.table.last_tx_action,
             'Unix-Time': String(Date.now())
           })
       }
 
-      
       const data = TxRecord?.id ? String(TxRecord.id) : FileTx.Action
       console.log("tags", tags)
 

@@ -191,5 +191,10 @@
     "You have already set up a proxy and cannot set it again": "你已经设置过代理，不能再次设置",
     "My Agent": "我的代理",
     "Agent Address": "代理地址",
-    "Executing your command, please wait a moment": "正在执行您的命令,请稍等片刻"
+    "Executing your command, please wait a moment": "正在执行您的命令,请稍等片刻",
+    "Not Setting": "未设置",
+    "Blockchain is currently syncing data. Please wait for a few hours before trying again": "区块链正在同步数据，请等待几个小时再试",
+    "Submit to Blockchain": "提交至区块链",
+    "Would you like to submit your operations to the blockchain? This process may take 3-5 minutes.": "是否要将您的操作提交到区块链？此过程可能需要3-5分钟。",
+    "Syncing": "同步中"
 }

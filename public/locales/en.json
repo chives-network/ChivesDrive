@@ -194,5 +194,10 @@
   "Executing your command, please wait a moment": "Executing your command, please wait a moment",
   "Not Setting": "Not Setting",
   "Blockchain is currently syncing data. Please wait for a few hours before trying again": "Blockchain is currently syncing data. Please wait for a few hours before trying again",
-  "Syncing": "Syncing"
+  "Submit to Blockchain": "Submit to Blockchain",
+  "Would you like to submit your operations to the blockchain? This process may take 3-5 minutes.": "Would you like to submit your operations to the blockchain? This process may take 3-5 minutes",
+  "Syncing": "Syncing",
+  "After creating the folder, you need to manually submit it to the blockchain network": "After creating the folder, you need to manually submit it to the blockchain network",
+  "FolderName": "FolderName",
+  "Cancel": "Cancel"
 }
