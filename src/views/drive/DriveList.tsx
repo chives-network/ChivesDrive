@@ -270,21 +270,33 @@ const DriveList = (props: DriveListType) => {
     trash: [foldersConfig.myfiles, foldersConfig.spam]
   }
 
-  const handleMoveToTrash = () => {
+  const handleMoveToTrash = (id: string | null) => {
     console.log("store.selectedFiles", store)
-    if( store.selectedFiles && store.selectedFiles.length > 0 && store.data && store.data.length > 0) {
+    if( id == null && store.selectedFiles && store.selectedFiles.length > 0 && store.data && store.data.length > 0) {
       setIsHaveTaskToDo(isHaveTaskToDo + 1);
       const TargetFiles: TxRecordType[] = store.data.filter((Item: TxRecordType)  => store.selectedFiles.includes(Item.id));
       TrashMultiFiles(TargetFiles);
       dispatch(handleSelectAllFile(false))
     }
+    if( id && id.length > 0 && store.data && store.data.length > 0) {
+      setIsHaveTaskToDo(isHaveTaskToDo + 1);
+      const TargetFiles: TxRecordType[] = store.data.filter((Item: TxRecordType)  => id == Item.id);
+      TrashMultiFiles(TargetFiles);
+      dispatch(handleSelectAllFile(false))
+    }
   }
 
-  const handleMoveToSpam = () => {
+  const handleMoveToSpam = (id: string | null) => {
     console.log("store.selectedFiles", store)
-    if( store.selectedFiles && store.selectedFiles.length > 0 && store.data && store.data.length > 0) {
+    if( id == null && store.selectedFiles && store.selectedFiles.length > 0 && store.data && store.data.length > 0) {
       setIsHaveTaskToDo(isHaveTaskToDo + 1);
       const TargetFiles: TxRecordType[] = store.data.filter((Item: TxRecordType)  => store.selectedFiles.includes(Item.id));
+      SpamMultiFiles(TargetFiles);
+      dispatch(handleSelectAllFile(false))
+    }
+    if( id && id.length > 0 && store.data && store.data.length > 0) {
+      setIsHaveTaskToDo(isHaveTaskToDo + 1);
+      const TargetFiles: TxRecordType[] = store.data.filter((Item: TxRecordType)  => id == Item.id);
       SpamMultiFiles(TargetFiles);
       dispatch(handleSelectAllFile(false))
     }
@@ -308,9 +320,15 @@ const DriveList = (props: DriveListType) => {
 
   const handleLabelUpdate = (id: string | string[], label: LabelType) => {
     console.log("store.selectedFiles", store)
-    if( store.selectedFiles && store.selectedFiles.length > 0 && store.data && store.data.length > 0) {
+    if( id == null && store.selectedFiles && store.selectedFiles.length > 0 && store.data && store.data.length > 0) {
       setIsHaveTaskToDo(isHaveTaskToDo + 1);
       const TargetFiles: TxRecordType[] = store.data.filter((Item: TxRecordType)  => store.selectedFiles.includes(Item.id));
+      ChangeMultiFilesLabel(TargetFiles, label);
+      dispatch(handleSelectAllFile(false))
+    }
+    if( id && id.length > 0 && store.data && store.data.length > 0) {
+      setIsHaveTaskToDo(isHaveTaskToDo + 1);
+      const TargetFiles: TxRecordType[] = store.data.filter((Item: TxRecordType)  => id == Item.id);
       ChangeMultiFilesLabel(TargetFiles, label);
       dispatch(handleSelectAllFile(false))
     }
@@ -318,9 +336,15 @@ const DriveList = (props: DriveListType) => {
 
   const handleFolderUpdate = (id: string | string[], folder: any) => {
     console.log("store.selectedFiles", store)
-    if( store.selectedFiles && store.selectedFiles.length > 0 && store.data && store.data.length > 0) {
+    if( id == null && store.selectedFiles && store.selectedFiles.length > 0 && store.data && store.data.length > 0) {
       setIsHaveTaskToDo(isHaveTaskToDo + 1);
       const TargetFiles: TxRecordType[] = store.data.filter((Item: TxRecordType)  => store.selectedFiles.includes(Item.id));
+      ChangeMultiFilesFolder(TargetFiles, folder.id, folder);
+      dispatch(handleSelectAllFile(false))
+    }
+    if( id && id.length > 0 && store.data && store.data.length > 0) {
+      setIsHaveTaskToDo(isHaveTaskToDo + 1);
+      const TargetFiles: TxRecordType[] = store.data.filter((Item: TxRecordType)  => id == Item.id);
       ChangeMultiFilesFolder(TargetFiles, folder.id, folder);
       dispatch(handleSelectAllFile(false))
     }
@@ -457,7 +481,9 @@ const DriveList = (props: DriveListType) => {
     handleLabelUpdate,
     handleFolderUpdate,
     setFileDetailOpen,
-    currentFile: store && store.currentFile ? store.currentFile : null
+    currentFile: store && store.currentFile ? store.currentFile : null,
+    handleMoveToTrash,
+    handleMoveToSpam
   }
 
   console.log("folderHeaderList", folderHeaderList)
@@ -655,14 +681,14 @@ const DriveList = (props: DriveListType) => {
                   <OptionsMenu leftAlignMenu options={handleLabelsMenu()} icon={<Icon icon='mdi:label-outline' />} />
                   {routeParams && routeParams.initFolder !== 'Trash' && routeParams.initFolder !== 'Spam' ? (
                     <Tooltip title={`${t(`Move to Trash`)}`} arrow>
-                      <IconButton onClick={handleMoveToTrash}>
+                      <IconButton onClick={()=>handleMoveToTrash(null)}>
                         <Icon icon='mdi:delete-outline' />
                       </IconButton>
                     </Tooltip>
                   ) : null}
                   {routeParams && routeParams.initFolder !== 'Trash' && routeParams.initFolder !== 'Spam' ? (
                     <Tooltip title={`${t(`Move to Spam`)}`} arrow>
-                      <IconButton onClick={handleMoveToSpam}>
+                      <IconButton onClick={()=>handleMoveToSpam(null)}>
                         <Icon icon='mdi:alert-octagon-outline' />
                       </IconButton>
                     </Tooltip>

@@ -160,6 +160,8 @@ export type FileDetailType = {
   handleStarDrive: (e: SyntheticEvent, id: string, value: boolean) => void
   handleLabelUpdate: (id: string | string[], label: LabelType) => void
   handleFolderUpdate: (id: string | string[], folder: FolderType) => void
+  handleMoveToTrash: (id: string | null) => void
+  handleMoveToSpam: (id: string | null) => void
 }
 
 export type MailComposeType = {

@@ -760,7 +760,15 @@ export async function ChangeMultiFilesFolder(FileTxList: TxRecordType[], EntityT
         ChivesDriveActionsMap['Folder'] = {...ChivesDriveActionsMap['Folder'], [FileTx.id] : EntityType}
         ChivesDriveActionsMap['Data'] = {...ChivesDriveActionsMap['Data'], [FileTx.id] : FileTx}
     })
-    ChivesDriveActionsMap['FolderList'] = {...ChivesDriveActionsMap['FolderList'], [folder.id] : folder}
+    if(EntityType == "Trash") {
+        ChivesDriveActionsMap['FolderList'] = {...ChivesDriveActionsMap['FolderList'], ['Trash'] : {'id':'Trash', 'name':'Trash'}}
+    }
+    else if(EntityType == "Spam") {
+        ChivesDriveActionsMap['FolderList'] = {...ChivesDriveActionsMap['FolderList'], ['Spam'] : {'id':'Spam', 'name':'Spam'}}
+    }
+    else {
+        ChivesDriveActionsMap['FolderList'] = {...ChivesDriveActionsMap['FolderList'], [folder.id] : folder}
+    }
     window.localStorage.setItem(ChivesDriveActions, JSON.stringify(ChivesDriveActionsMap))
     console.log("ChivesDriveActionsMap", ChivesDriveActionsMap)
 }
@@ -1049,6 +1057,7 @@ export async function ActionsSubmitToBlockchain(setUploadProgress: React.Dispatc
           })
       }
       if(FileTx.Action=="Folder") {
+        console.log("FolderListFolderListFolderListFolderListFolderList",FolderList)
         setBaseTags(tags, {          
             'App-Name': TagsMap['App-Name'],
             'App-Platform': TagsMap['App-Platform'],

@@ -178,6 +178,7 @@ const SidebarLeft = (props: DriveSidebarType) => {
               />
               {RenderBadge('Root', 'primary')}
             </ListItemStyled>
+            {/* 
             <ListItemStyled
               component={Link}
               href='/drive/sharedfiles'
@@ -226,6 +227,7 @@ const SidebarLeft = (props: DriveSidebarType) => {
               />
               {RenderBadge('uploaded', 'secondary')}
             </ListItemStyled>
+            */}
             <ListItemStyled
               component={Link}
               href='/drive/starred'
