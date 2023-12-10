@@ -105,8 +105,6 @@ const DriveAppLayout = ({ initFolder, label, type }: DriveLayoutType) => {
   }
 
   const handleFolderHeaderList = (folderHeader: any) => {
-    console.log("handleFolderHeaderList", folderHeader)
-    console.log("folderHeaderList", folderHeaderList)
     const folderHeaderListNew: any = []
     let isContinue = 1
     folderHeaderList.forEach((Item: any)=>{

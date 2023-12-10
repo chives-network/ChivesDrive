@@ -894,10 +894,6 @@ export async function checkNodeStatus() {
 }
 
 export function GetFileCacheStatus(Drive: any) {
-    const TxId: string = Drive.id
-    const ChivesDriveActions = authConfig.chivesDriveActions
-    const ChivesDriveActionsList = window.localStorage.getItem(ChivesDriveActions)      
-    const ChivesDriveActionsMap: any = ChivesDriveActionsList ? JSON.parse(ChivesDriveActionsList) : {}
     const CacheStatus: any = {}
     const FullStatus: any = {}
     //Step 1: Database
@@ -909,38 +905,44 @@ export function GetFileCacheStatus(Drive: any) {
     }
     
     //Step 2 : Local Storage Cache
-    if(ChivesDriveActionsMap && ChivesDriveActionsMap['Star'] && ChivesDriveActionsMap['Star'][TxId] !== undefined )  {
-        CacheStatus['Star'] = ChivesDriveActionsMap['Star'][TxId];
-        FullStatus['Star'] = ChivesDriveActionsMap['Star'][TxId];
-    }
-    if(ChivesDriveActionsMap && ChivesDriveActionsMap['Label'] && ChivesDriveActionsMap['Label'][TxId] !== undefined )  {
-        CacheStatus['Label'] = ChivesDriveActionsMap['Label'][TxId];
-        FullStatus['Label'] = ChivesDriveActionsMap['Label'][TxId];
-    }
-    if(ChivesDriveActionsMap && ChivesDriveActionsMap['Folder'] && ChivesDriveActionsMap['Folder'][TxId] !== undefined )  {
-        CacheStatus['Folder'] = ChivesDriveActionsMap['Folder'][TxId];
-        FullStatus['Folder'] = ChivesDriveActionsMap['Folder'][TxId];
-    }
+    if(typeof window !== 'undefined')  {
+        const TxId: string = Drive.id
+        const ChivesDriveActions = authConfig.chivesDriveActions
+        const ChivesDriveActionsList = window.localStorage.getItem(ChivesDriveActions)      
+        const ChivesDriveActionsMap: any = ChivesDriveActionsList ? JSON.parse(ChivesDriveActionsList) : {}
+        if(ChivesDriveActionsMap && ChivesDriveActionsMap['Star'] && ChivesDriveActionsMap['Star'][TxId] !== undefined )  {
+            CacheStatus['Star'] = ChivesDriveActionsMap['Star'][TxId];
+            FullStatus['Star'] = ChivesDriveActionsMap['Star'][TxId];
+        }
+        if(ChivesDriveActionsMap && ChivesDriveActionsMap['Label'] && ChivesDriveActionsMap['Label'][TxId] !== undefined )  {
+            CacheStatus['Label'] = ChivesDriveActionsMap['Label'][TxId];
+            FullStatus['Label'] = ChivesDriveActionsMap['Label'][TxId];
+        }
+        if(ChivesDriveActionsMap && ChivesDriveActionsMap['Folder'] && ChivesDriveActionsMap['Folder'][TxId] !== undefined )  {
+            CacheStatus['Folder'] = ChivesDriveActionsMap['Folder'][TxId];
+            FullStatus['Folder'] = ChivesDriveActionsMap['Folder'][TxId];
+        }
 
-    const chivesTxStatusText = window.localStorage.getItem(chivesTxStatus)      
-    const chivesTxStatusList = chivesTxStatusText ? JSON.parse(chivesTxStatusText) : []
+        const chivesTxStatusText = window.localStorage.getItem(chivesTxStatus)      
+        const chivesTxStatusList = chivesTxStatusText ? JSON.parse(chivesTxStatusText) : []
 
-    if(chivesTxStatusList && chivesTxStatusList.length > 0)  {
-        chivesTxStatusList.map(async (Item: any) => {
-            const ChivesDriveActionsMaTx = Item.ChivesDriveActionsMap;
-            if(ChivesDriveActionsMaTx && ChivesDriveActionsMaTx['Star'] && ChivesDriveActionsMaTx['Star'][TxId] !== undefined )  {
-                CacheStatus['Star'] = ChivesDriveActionsMaTx['Star'][TxId];
-                FullStatus['Star'] = ChivesDriveActionsMaTx['Star'][TxId];
-            }
-            if(ChivesDriveActionsMaTx && ChivesDriveActionsMaTx['Label'] && ChivesDriveActionsMaTx['Label'][TxId] !== undefined )  {
-                CacheStatus['Label'] = ChivesDriveActionsMaTx['Label'][TxId];
-                FullStatus['Label'] = ChivesDriveActionsMaTx['Label'][TxId];
-            }
-            if(ChivesDriveActionsMaTx && ChivesDriveActionsMaTx['Folder'] && ChivesDriveActionsMaTx['Folder'][TxId] !== undefined )  {
-                CacheStatus['Folder'] = ChivesDriveActionsMaTx['Folder'][TxId];
-                FullStatus['Folder'] = ChivesDriveActionsMaTx['Folder'][TxId];
-            }            
-        })
+        if(chivesTxStatusList && chivesTxStatusList.length > 0)  {
+            chivesTxStatusList.map(async (Item: any) => {
+                const ChivesDriveActionsMaTx = Item.ChivesDriveActionsMap;
+                if(ChivesDriveActionsMaTx && ChivesDriveActionsMaTx['Star'] && ChivesDriveActionsMaTx['Star'][TxId] !== undefined )  {
+                    CacheStatus['Star'] = ChivesDriveActionsMaTx['Star'][TxId];
+                    FullStatus['Star'] = ChivesDriveActionsMaTx['Star'][TxId];
+                }
+                if(ChivesDriveActionsMaTx && ChivesDriveActionsMaTx['Label'] && ChivesDriveActionsMaTx['Label'][TxId] !== undefined )  {
+                    CacheStatus['Label'] = ChivesDriveActionsMaTx['Label'][TxId];
+                    FullStatus['Label'] = ChivesDriveActionsMaTx['Label'][TxId];
+                }
+                if(ChivesDriveActionsMaTx && ChivesDriveActionsMaTx['Folder'] && ChivesDriveActionsMaTx['Folder'][TxId] !== undefined )  {
+                    CacheStatus['Folder'] = ChivesDriveActionsMaTx['Folder'][TxId];
+                    FullStatus['Folder'] = ChivesDriveActionsMaTx['Folder'][TxId];
+                }            
+            })
+        }
     }
 
     return {"FullStatus":FullStatus, "CacheStatus":CacheStatus};

@@ -486,8 +486,6 @@ const DriveList = (props: DriveListType) => {
     handleMoveToSpam
   }
 
-  console.log("folderHeaderList", folderHeaderList)
-
   return (
     <Box sx={{ width: '100%', overflow: 'hidden', position: 'relative', '& .ps__rail-y': { zIndex: 5 } }}>
       {isSubmitBlockchainDialog == true ? 
@@ -664,7 +662,7 @@ const DriveList = (props: DriveListType) => {
                     dispatch(handleSelectAllFile(e.target.checked))
                     updateFileCounter()
                   }}
-                  checked={(store.data.length && fileCounter === store.selectedFiles.length && fileCounter > 0) }
+                  checked={(store.data.length > 0 && fileCounter === store.selectedFiles.length && fileCounter > 0) }
                   indeterminate={
                     !!(
                       store.data.length &&
@@ -752,8 +750,6 @@ const DriveList = (props: DriveListType) => {
                     IsFileDisabled = true
                   }
 
-                  console.log("FileCacheStatusFileCacheStatusFileCacheStatusFileCacheStatusFileCacheStatusFileCacheStatusFileCacheStatus", FileFullStatus)
-                  
                   return (
                     <FileItem
                       key={drive.id}
