@@ -27,6 +27,9 @@ import { useAuth } from 'src/hooks/useAuth'
 import authConfig from 'src/configs/auth'
 import { formatTimestampAge } from 'src/configs/functions'
 
+// ** Next Import
+import { useRouter } from 'next/router'
+
 const Img = styled('img')(({ theme }) => ({
   width: 34,
   height: 34,
@@ -37,21 +40,20 @@ const Img = styled('img')(({ theme }) => ({
 const UserAgentMembersListTable = () => {
   // ** Hook
   const { t } = useTranslation()
+  
+  const router = useRouter()
+  const { id } = router.query
 
   // ** State
   const [value, setValue] = useState<string>('')
   const [data, setData] = useState<ProjectListDataType[]>([])
 
-  setValue("")
   console.log("datadatadata",data)
 
   // ** Hooks
   const dispatch = useDispatch<AppDispatch>()
   const store = useSelector((state: RootState) => state.agent)
 
-  const auth = useAuth()
-  const currentAddress = auth.currentAddress
-  
   // ** State
   const [isLoading, setIsLoading] = useState(false);
 
@@ -64,14 +66,16 @@ const UserAgentMembersListTable = () => {
 
   useEffect(() => {
     console.log("paginationModel", paginationModel)
-    dispatch(
-      fetchAgentMembersData({
-        pageId: paginationModel.page,
-        pageSize: paginationModel.pageSize,
-        address: currentAddress
-      })
-    )
-  }, [dispatch, paginationModel, currentAddress])
+    if(id != undefined) {
+      dispatch(
+        fetchAgentMembersData({
+          pageId: paginationModel.page,
+          pageSize: paginationModel.pageSize,
+          address: String(id)
+        })
+      )
+    }
+  }, [dispatch, paginationModel, id])
 
   useEffect(() => {
     setIsLoading(false)

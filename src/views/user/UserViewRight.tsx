@@ -21,10 +21,12 @@ import Icon from 'src/@core/components/icon'
 // ** import UserViewSecurity from 'src/views/user/UserViewSecurity'
 // ** import UserViewConnection from 'src/views/user/UserViewConnection'
 // ** import UserViewNotification from 'src/views/user/UserViewNotification'
+import NotFinished from 'src/views/user/NotFinished'
 import UserAgentMembers from 'src/views/user/UserAgentMembers'
 
 interface Props {
   tab: string
+  address: string
 }
 
 // ** Styled Tab component
@@ -48,7 +50,7 @@ const TabList = styled(MuiTabList)<TabListProps>(({ theme }) => ({
   }
 }))
 
-const UserViewRight = ({ tab }: Props) => {
+const UserViewRight = ({ tab, address }: Props) => {
   // ** State
   const [activeTab, setActiveTab] = useState<string>(tab)
   const [isLoading, setIsLoading] = useState<boolean>(true)
@@ -63,7 +65,7 @@ const UserViewRight = ({ tab }: Props) => {
     setActiveTab(value)
     router
       .push({
-        pathname: `/user/${value.toLowerCase()}`
+        pathname: `/user/${value.toLowerCase()}/${address}`
       })
       .then(() => setIsLoading(false))
   }
@@ -126,13 +128,13 @@ const UserViewRight = ({ tab }: Props) => {
           <UserAgentMembers />
         </TabPanel>
         <TabPanel sx={{ p: 0 }} value='reward'>
-          <UserAgentMembers />
+          <NotFinished />
         </TabPanel>
         <TabPanel sx={{ p: 0 }} value='subscribe'>
-          <UserAgentMembers />
+          <NotFinished />
         </TabPanel>
         <TabPanel sx={{ p: 0 }} value='project'>
-          <UserAgentMembers />
+          <NotFinished />
         </TabPanel>
       </Box>
     </TabContext>

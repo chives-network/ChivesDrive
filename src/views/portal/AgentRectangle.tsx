@@ -46,7 +46,7 @@ const AgentRectangle = ( {item, backEndApi, FileType} : any) => {
 
   return (
     <Card>
-      <Link href={`/agent/profile/${item.Address}`}>
+      <Link href={`/user/agent/${item.Address}`}>
         <CardMedia image={ImageUrl} sx={{ height: '11.25rem', objectFit: 'scale-down', mx: 3 }}/>
       </Link>
       <CardContent>
