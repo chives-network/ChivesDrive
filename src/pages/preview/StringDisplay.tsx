@@ -41,9 +41,8 @@ function StringDisplay({ InputString, StringSize, href } : Props) {
   if(InputString && InputString.length <= StringSize * 2) {
     truncatedString = InputString;
   }
-  const copyToClipboard = () => {
-    navigator.clipboard.writeText(InputString);
-    navigator.clipboard.writeText(InputString);
+  const copyToClipboard = async () => {
+    await navigator.clipboard.writeText(InputString);
   }
 
   //console.log("isMobile", isMobile())
