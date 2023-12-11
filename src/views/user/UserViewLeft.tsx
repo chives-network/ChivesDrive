@@ -45,23 +45,23 @@ const data: UsersType = {
   avatar: '/images/avatars/4.png'
 }
 
+interface Props {
+  address: string
+}
 
-const UserViewLeft = () => {
+const UserViewLeft = ({ address }: Props) => {
   // ** States
   const [subscriptionDialogOpen, setSubscriptionDialogOpen] = useState<boolean>(false)
 
-  const auth = useAuth()
-  const currentAddress = auth.currentAddress
-  
   const { t } = useTranslation()
 
   const LevelName = ['InActive', 'Level 1', 'Level 2', 'Level 3'];
 
   useEffect(() => {
-    if(currentAddress && currentAddress.length == 43) {
+    if(address && address.length == 43) {
         handleGetProfile()
     }
-  }, [currentAddress])
+  }, [address])
 
   const [inputName, setInputName] = useState<string>("")
   const [inputEmail, setInputEmail] = useState<string>("")
@@ -81,7 +81,7 @@ const UserViewLeft = () => {
   console.log("bannerFilesUrl", bannerFilesUrl)
   
   const handleGetProfile = async () => {
-    const getWalletProfileData: any = await getWalletProfile(currentAddress)
+    const getWalletProfileData: any = await getWalletProfile(address)
     console.log("getWalletProfileData", getWalletProfileData)
     if(getWalletProfileData && getWalletProfileData['Profile'] && getWalletProfileData['Profile']['Name']) {
         setInputName(getWalletProfileData['Profile']['Name']);
@@ -161,7 +161,8 @@ const UserViewLeft = () => {
                 sx={{ textTransform: 'capitalize' }}
               />
             </CardContent>
-
+            
+            {/* 
             <CardContent sx={{ my: 1 }}>
               <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                 <Box sx={{ mr: 8, display: 'flex', alignItems: 'center' }}>
@@ -184,6 +185,7 @@ const UserViewLeft = () => {
                 </Box>
               </Box>
             </CardContent>
+            */}
 
             <CardContent>
               <Typography variant='h6'>{`${t(`Profile`)}`}</Typography>

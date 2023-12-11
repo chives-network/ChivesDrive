@@ -21,8 +21,10 @@ import Icon from 'src/@core/components/icon'
 // ** import UserViewSecurity from 'src/views/user/UserViewSecurity'
 // ** import UserViewConnection from 'src/views/user/UserViewConnection'
 // ** import UserViewNotification from 'src/views/user/UserViewNotification'
-import NotFinished from 'src/views/user/NotFinished'
 import UserAgentMembers from 'src/views/user/UserAgentMembers'
+import UserViewReward from 'src/views/user/UserViewReward'
+import UserViewSubscribe from 'src/views/user/UserViewSubscribe'
+import UserViewProject from 'src/views/user/UserViewProject'
 
 interface Props {
   tab: string
@@ -128,13 +130,13 @@ const UserViewRight = ({ tab, address }: Props) => {
           <UserAgentMembers />
         </TabPanel>
         <TabPanel sx={{ p: 0 }} value='reward'>
-          <NotFinished />
+          <UserViewReward />
         </TabPanel>
         <TabPanel sx={{ p: 0 }} value='subscribe'>
-          <NotFinished />
+          <UserViewSubscribe />
         </TabPanel>
         <TabPanel sx={{ p: 0 }} value='project'>
-          <NotFinished />
+          <UserViewProject />
         </TabPanel>
       </Box>
     </TabContext>
