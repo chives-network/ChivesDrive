@@ -297,7 +297,7 @@ const TxView = () => {
           setTags(tagsMap);
           console.log("tagsMap", tagsMap)
 
-          let TempFileName = '';
+          const TempFileName = '';
           const FileMap: { [key: string]: string } = {}
           res.data && res.data.tags && res.data && res.data.tags.map((Item: { [key: string]: string }) => {
             FileMap[Item.name] = Item.value;

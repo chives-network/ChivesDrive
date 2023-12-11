@@ -58,9 +58,14 @@ const MyWallets = () => {
   const [faucetButtonMap, setFaucetButtonMap] = useState<any>({})
   const isMobileData = isMobile()
 
-  const currentAddress = getCurrentWalletAddress()
+  const [currentAddress, setCurrentAddress] = useState<string>("")
+  
 
   useEffect(() => {
+
+    const currentAddressTemp = getCurrentWalletAddress()
+    setCurrentAddress(currentAddressTemp)
+
     const myTask = () => {
       setRefreshWalletData(refreshWalletData+1);
     };

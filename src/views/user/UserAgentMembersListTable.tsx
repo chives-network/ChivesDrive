@@ -6,11 +6,8 @@ import Box from '@mui/material/Box'
 import Card from '@mui/material/Card'
 import { DataGrid } from '@mui/x-data-grid'
 import { styled } from '@mui/material/styles'
-import TextField from '@mui/material/TextField'
 import CardHeader from '@mui/material/CardHeader'
 import Typography from '@mui/material/Typography'
-import CardContent from '@mui/material/CardContent'
-import LinearProgress from '@mui/material/LinearProgress'
 
 // ** Third Party Imports
 import axios from 'axios'
@@ -30,9 +27,6 @@ import { useAuth } from 'src/hooks/useAuth'
 import authConfig from 'src/configs/auth'
 import { formatTimestampAge } from 'src/configs/functions'
 
-interface CellType {
-  row: ProjectListDataType
-}
 const Img = styled('img')(({ theme }) => ({
   width: 34,
   height: 34,
@@ -46,8 +40,10 @@ const UserAgentMembersListTable = () => {
 
   // ** State
   const [value, setValue] = useState<string>('')
-  const [pageSize, setPageSize] = useState<number>(7)
   const [data, setData] = useState<ProjectListDataType[]>([])
+
+  setValue("")
+  console.log("datadatadata",data)
 
   // ** Hooks
   const dispatch = useDispatch<AppDispatch>()
@@ -61,11 +57,10 @@ const UserAgentMembersListTable = () => {
 
   const paginationModelDefaultValue = { page: 0, pageSize: 15 }
   const [paginationModel, setPaginationModel] = useState(paginationModelDefaultValue)  
-  const handlePageChange = (event: React.ChangeEvent<unknown>, page: number) => {
-    setPaginationModel({ ...paginationModel, page:page-1 });
-    console.log("handlePageChange", event)
-  }  
+
   const isMobileData = isMobile()
+
+  console.log("isMobileData", isMobileData)
 
   useEffect(() => {
     console.log("paginationModel", paginationModel)

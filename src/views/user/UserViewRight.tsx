@@ -10,19 +10,17 @@ import Tab from '@mui/material/Tab'
 import TabPanel from '@mui/lab/TabPanel'
 import TabContext from '@mui/lab/TabContext'
 import { styled } from '@mui/material/styles'
-import Typography from '@mui/material/Typography'
 import MuiTabList, { TabListProps } from '@mui/lab/TabList'
-import CircularProgress from '@mui/material/CircularProgress'
 
 // ** Icon Imports
 import Icon from 'src/@core/components/icon'
 
 // ** Demo Components Imports
-import UserViewBilling from 'src/views/user/UserViewBilling'
-import UserViewOverview from 'src/views/user/UserViewOverview'
-import UserViewSecurity from 'src/views/user/UserViewSecurity'
-import UserViewConnection from 'src/views/user/UserViewConnection'
-import UserViewNotification from 'src/views/user/UserViewNotification'
+// ** import UserViewBilling from 'src/views/user/UserViewBilling'
+// ** import UserViewOverview from 'src/views/user/UserViewOverview'
+// ** import UserViewSecurity from 'src/views/user/UserViewSecurity'
+// ** import UserViewConnection from 'src/views/user/UserViewConnection'
+// ** import UserViewNotification from 'src/views/user/UserViewNotification'
 import UserAgentMembers from 'src/views/user/UserAgentMembers'
 
 interface Props {
@@ -54,6 +52,8 @@ const UserViewRight = ({ tab }: Props) => {
   // ** State
   const [activeTab, setActiveTab] = useState<string>(tab)
   const [isLoading, setIsLoading] = useState<boolean>(true)
+
+  console.log("isLoading", isLoading)
 
   // ** Hooks
   const router = useRouter()

@@ -5,26 +5,9 @@ import { useState, useEffect } from 'react'
 import Box from '@mui/material/Box'
 import Grid from '@mui/material/Grid'
 import Card from '@mui/material/Card'
-import Button from '@mui/material/Button'
-import Dialog from '@mui/material/Dialog'
-import Select from '@mui/material/Select'
-import Switch from '@mui/material/Switch'
 import Divider from '@mui/material/Divider'
-import MenuItem from '@mui/material/MenuItem'
-import { styled } from '@mui/material/styles'
-import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
-import InputLabel from '@mui/material/InputLabel'
 import CardContent from '@mui/material/CardContent'
-import CardActions from '@mui/material/CardActions'
-import DialogTitle from '@mui/material/DialogTitle'
-import FormControl from '@mui/material/FormControl'
-import DialogContent from '@mui/material/DialogContent'
-import DialogActions from '@mui/material/DialogActions'
-import InputAdornment from '@mui/material/InputAdornment'
-import LinearProgress from '@mui/material/LinearProgress'
-import FormControlLabel from '@mui/material/FormControlLabel'
-import DialogContentText from '@mui/material/DialogContentText'
 
 // ** Icon Imports
 import Icon from 'src/@core/components/icon'
@@ -32,7 +15,6 @@ import Icon from 'src/@core/components/icon'
 // ** Custom Components
 import CustomChip from 'src/@core/components/mui/chip'
 import CustomAvatar from 'src/@core/components/mui/avatar'
-import UserSuspendDialog from 'src/views/user/UserSuspendDialog'
 import UserSubscriptionDialog from 'src/views/user/UserSubscriptionDialog'
 
 // ** Types
@@ -43,15 +25,10 @@ import { UsersType } from 'src/types/apps/userTypes'
 import { getInitials } from 'src/@core/utils/get-initials'
 
 // ** Hooks
-import { ProfileSubmitToBlockchain, getWalletProfile, getLockStatus, setLockStatus } from 'src/functions/ChivesweaveWallets'
+import { getWalletProfile } from 'src/functions/ChivesweaveWallets'
 import { useAuth } from 'src/hooks/useAuth'
 import authConfig from 'src/configs/auth'
 import { useTranslation } from 'react-i18next'
-
-
-interface ColorsType {
-  [key: string]: ThemeColor
-}
 
 const data: UsersType = {
   id: 1,
@@ -68,38 +45,10 @@ const data: UsersType = {
   avatar: '/images/avatars/4.png'
 }
 
-const roleColors: ColorsType = {
-  admin: 'error',
-  editor: 'info',
-  author: 'warning',
-  maintainer: 'success',
-  subscriber: 'primary'
-}
-
-// ** Styled <sup> component
-const Sup = styled('sup')(({ theme }) => ({
-  top: '0.2rem',
-  left: '-0.6rem',
-  position: 'absolute',
-  color: theme.palette.primary.main
-}))
-
-// ** Styled <sub> component
-const Sub = styled('sub')({
-  fontWeight: 300,
-  fontSize: '1rem',
-  alignSelf: 'flex-end'
-})
 
 const UserViewLeft = () => {
   // ** States
-  const [openPlans, setOpenPlans] = useState<boolean>(false)
-  const [suspendDialogOpen, setSuspendDialogOpen] = useState<boolean>(false)
   const [subscriptionDialogOpen, setSubscriptionDialogOpen] = useState<boolean>(false)
-
-  // Handle Upgrade Plan dialog
-  const handlePlansClickOpen = () => setOpenPlans(true)
-  const handlePlansClose = () => setOpenPlans(false)
 
   const auth = useAuth()
   const currentAddress = auth.currentAddress
@@ -128,6 +77,8 @@ const UserViewLeft = () => {
   const [avatarFilesUrl, setAvatarFilesUrl] = useState<string>('/images/avatars/1.png')
   const [bannerFilesUrl, setBannerFilesUrl] = useState<string>('/images/misc/upload.png')
   const [agentLevel, setAgentLevel] = useState<string>("")
+
+  console.log("bannerFilesUrl", bannerFilesUrl)
   
   const handleGetProfile = async () => {
     const getWalletProfileData: any = await getWalletProfile(currentAddress)

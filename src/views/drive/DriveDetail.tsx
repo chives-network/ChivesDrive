@@ -26,7 +26,6 @@ import OptionsMenu from 'src/@core/components/option-menu'
 import { OptionType } from 'src/@core/components/option-menu/types'
 import {
   LabelType,
-  FolderType,
   FileDetailType
 } from 'src/types/apps/emailTypes'
 
@@ -41,7 +40,7 @@ import { TxRecordType } from 'src/types/apps/Chivesweave'
 
 import { getContentTypeAbbreviation, formatTimestampMemo } from 'src/configs/functions';
 
-import { TrashMultiFiles, SpamMultiFiles, GetFileCacheStatus } from 'src/functions/ChivesweaveWallets'
+import { GetFileCacheStatus } from 'src/functions/ChivesweaveWallets'
 
 
 const toggleImagesPreviewDrawer = () => {
@@ -94,12 +93,10 @@ const DriveDetail = (props: FileDetailType) => {
     hidden,
     direction,
     labelColors,
-    folderColors,
     routeParams,
     handleStarDrive,
     driveFileOpen,
     handleLabelUpdate,
-    handleFolderUpdate,
     setFileDetailOpen,
     handleMoveToTrash,
     handleMoveToSpam
@@ -150,7 +147,8 @@ const DriveDetail = (props: FileDetailType) => {
 
     return array
   }
-
+  
+  /*
   const handleFoldersMenu = () => {
     const array: OptionType[] = []
     Object.entries(folderColors).map(([key, value]: any) => {
@@ -171,6 +169,7 @@ const DriveDetail = (props: FileDetailType) => {
 
     return array
   }
+  */
 
   const prevMailIcon = direction === 'rtl' ? 'mdi:chevron-right' : 'mdi:chevron-left'
   const goBackIcon = prevMailIcon

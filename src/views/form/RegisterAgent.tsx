@@ -224,7 +224,6 @@ const RegisterAgent = () => {
             selected={selected}
             icon={icons[index].icon}
             name='custom-radios-icons'
-            disabled={isDisabledButton}
             handleChange={handleChange}
             gridProps={{ sm: 4, xs: 12 }}
             iconProps={icons[index].iconProps}

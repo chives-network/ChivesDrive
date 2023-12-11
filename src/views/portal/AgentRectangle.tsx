@@ -28,6 +28,8 @@ const AgentRectangle = ( {item, backEndApi, FileType} : any) => {
   const timestamp = item?.Block?.timestamp;
   const date = new Date(timestamp * 1000);
 
+  console.log("FileType", FileType)
+
   let ImageUrl = ""
   if(item && item.Profile.Avatar && item.Profile.Avatar && item.Profile.Avatar.length == 43) {
     ImageUrl = `${backEndApi}/${item.Profile.Avatar}/thumbnail`

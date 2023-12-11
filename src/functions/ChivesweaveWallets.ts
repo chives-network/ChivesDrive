@@ -896,6 +896,7 @@ export async function checkNodeStatus() {
 export function GetFileCacheStatus(Drive: any) {
     const CacheStatus: any = {}
     const FullStatus: any = {}
+    
     //Step 1: Database
     if(Drive && Drive.table && Drive.table.item_star && Drive.table.item_star=="Star")  {
         FullStatus['Star'] = true
