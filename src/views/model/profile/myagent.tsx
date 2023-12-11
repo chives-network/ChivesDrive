@@ -98,10 +98,17 @@ const MyAgentApp = () => {
         setIsAgentDisabledButton(true)
         setIsHaveSettingMyAgent(true)
         setInputAgent(Profile['Referee'])
-    }    
+    }
+
+    //Need Setting Profile First
+    if(Profile == undefined) {
+        setIsAgentDisabledButton(true)
+        setIsHaveSettingMyAgent(true)
+        setInputAgent(`${t('Please set up your profile first')}`)
+    }
 
     const checkNodeStatusData: any = await checkNodeStatus()
-    if(checkNodeStatusData == false) {
+    if(!isAgentDisabledButton && checkNodeStatusData == false) {
         setIsAgentDisabledButton(true)
         setInputAgent(`${t('Blockchain is currently syncing data. Please wait for a few hours before trying again')}`)
     }

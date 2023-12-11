@@ -400,11 +400,11 @@ const ProfileApp = () => {
                                     {isDisabledButton ?
                                     <Fragment>
                                         {avatarFiles && avatarFiles.length ? (
-                                            <Box  sx={{ alignItems: 'center'}}>
+                                            <Box  sx={{ width: '200px', height: '200px', alignItems: 'center'}}>
                                                 <Img alt={`${t(`Upload Avatar image`)}`} src={URL.createObjectURL(avatarFiles[0] as any)}  sx={{width: '200px', height: '200px', borderRadius: '5px'}}/>
                                             </Box>
                                         ) : (
-                                            <Box sx={{alignItems: 'center'}}>
+                                            <Box sx={{width: '200px', height: '200px', alignItems: 'center'}}>
                                                 <Img alt={`${t(`Upload Avatar image`)}`} src={avatarFilesUrl} sx={{width: '200px', height: '200px', borderRadius: '5px'}}/>
                                             </Box>
                                         )}
@@ -424,7 +424,7 @@ const ProfileApp = () => {
                                     </Box>
                                     }
                                 </Fragment>
-                                <Typography sx={{ mt: 3 }}>
+                                <Typography sx={{ mt: 3, textAlign: 'center'  }}>
                                     {avatarName}
                                 </Typography>
                             </CardContent>
@@ -657,11 +657,11 @@ const ProfileApp = () => {
                                 {isDisabledButton ?
                                 <Fragment>
                                     {bannerFiles && bannerFiles.length ? (
-                                        <Box  sx={{ alignItems: 'center'}}>
+                                        <Box  sx={{ width: '100%', height: '200px', alignItems: 'center'}}>
                                             <Img alt={`${t(`Upload banner image`)}`} src={URL.createObjectURL(bannerFiles[0] as any)} sx={{height: '160px', borderRadius: '5px'}}/>
                                         </Box>
                                     ) : (
-                                        <Box sx={{alignItems: 'center'}}>
+                                        <Box sx={{ width: '100%', height: '200px', alignItems: 'center'}}>
                                             <Img alt={`${t(`Upload banner image`)}`} src={bannerFilesUrl}/>
                                         </Box>
                                     )}

@@ -1171,7 +1171,7 @@ export async function ActionsSubmitToBlockchain(setUploadProgress: React.Dispatc
             'Entity-Type': "Action",
             'Entity-Action': FileTx.Action,
             'Entity-Target': FileTx.Target,
-            'Last-Tx-Change': TxRecord.table.last_tx_action,
+            'Last-Tx-Change': "",
             'Unix-Time': String(Date.now())
           })
       }
@@ -1209,6 +1209,9 @@ export async function ActionsSubmitToBlockchain(setUploadProgress: React.Dispatc
     chivesTxStatusList.push({TxResult,ChivesDriveActionsMap})
     console.log("chivesTxStatusList", chivesTxStatusList)
     window.localStorage.setItem(chivesTxStatus, JSON.stringify(chivesTxStatusList))
+
+    //Cleae ChivesDriveActions LocalStorage
+    ResetToDoTask()
 
     return TxResult;
 };

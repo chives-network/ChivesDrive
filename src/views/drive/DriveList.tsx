@@ -366,7 +366,6 @@ const DriveList = (props: DriveListType) => {
         setOpen(false);
         setIsSubmitBlockchainDialog(false);
         setIsProgress(false);
-        ResetToDoTask();
         setIsHaveTaskToDo(isHaveTaskToDo + 1);
         toast.success(t(`Submitted successfully`), {
           duration: 2000

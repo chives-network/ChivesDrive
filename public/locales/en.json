@@ -199,5 +199,6 @@
   "Syncing": "Syncing",
   "After creating the folder, you need to manually submit it to the blockchain network": "After creating the folder, you need to manually submit it to the blockchain network",
   "FolderName": "FolderName",
-  "Cancel": "Cancel"
+  "Cancel": "Cancel",
+  "Please set up your profile first": "Please set up your profile first"
 }
