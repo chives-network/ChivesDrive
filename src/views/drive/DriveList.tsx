@@ -287,7 +287,6 @@ const DriveList = (props: DriveListType) => {
   }
 
   const handleMoveToSpam = (id: string | null) => {
-    console.log("store.selectedFiles", store)
     if( id == null && store.selectedFiles && store.selectedFiles.length > 0 && store.data && store.data.length > 0) {
       setIsHaveTaskToDo(isHaveTaskToDo + 1);
       const TargetFiles: TxRecordType[] = store.data.filter((Item: TxRecordType)  => store.selectedFiles.includes(Item.id));
@@ -318,8 +317,7 @@ const DriveList = (props: DriveListType) => {
     }
   }
 
-  const handleLabelUpdate = (id: string | string[], label: LabelType) => {
-    console.log("store.selectedFiles", store)
+  const handleLabelUpdate = (id: string | null, label: LabelType) => {
     if( id == null && store.selectedFiles && store.selectedFiles.length > 0 && store.data && store.data.length > 0) {
       setIsHaveTaskToDo(isHaveTaskToDo + 1);
       const TargetFiles: TxRecordType[] = store.data.filter((Item: TxRecordType)  => store.selectedFiles.includes(Item.id));
@@ -334,8 +332,7 @@ const DriveList = (props: DriveListType) => {
     }
   }
 
-  const handleFolderUpdate = (id: string | string[], folder: any) => {
-    console.log("store.selectedFiles", store)
+  const handleFolderUpdate = (id: string | null, folder: any) => {
     if( id == null && store.selectedFiles && store.selectedFiles.length > 0 && store.data && store.data.length > 0) {
       setIsHaveTaskToDo(isHaveTaskToDo + 1);
       const TargetFiles: TxRecordType[] = store.data.filter((Item: TxRecordType)  => store.selectedFiles.includes(Item.id));
@@ -355,7 +352,7 @@ const DriveList = (props: DriveListType) => {
     setOpen(true);
   }
 
-  const handleActionsSubmitToBlockchainYes = async () => {
+  const handleActionsSubmitToBlockchainYes: any = async () => {
     setIsProgress(true)
     const ActionsSubmitToBlockchainResult = await ActionsSubmitToBlockchain(setUploadProgress);
     console.log("ActionsSubmitToBlockchainResult", ActionsSubmitToBlockchainResult)
@@ -435,7 +432,7 @@ const DriveList = (props: DriveListType) => {
         ),
         menuItemProps: {
           onClick: () => {
-            handleLabelUpdate(store.selectedFiles, key as LabelType)
+            handleLabelUpdate(null, key as LabelType)
             dispatch(handleSelectAllFile(false))
           }
         }
@@ -457,7 +454,7 @@ const DriveList = (props: DriveListType) => {
         ),
         menuItemProps: {
           onClick: () => {
-            handleFolderUpdate(store.selectedFiles, Item)
+            handleFolderUpdate(null, Item)
             dispatch(handleSelectAllFile(false))
           }
         }

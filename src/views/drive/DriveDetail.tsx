@@ -139,7 +139,7 @@ const DriveDetail = (props: FileDetailType) => {
         ),
         menuItemProps: {
           onClick: () => {
-            handleLabelUpdate([currentFile.id], key as LabelType)
+            handleLabelUpdate(currentFile.id, key as LabelType)
           }
         }
       })
