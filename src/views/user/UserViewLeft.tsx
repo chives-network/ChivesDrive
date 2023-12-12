@@ -9,9 +9,6 @@ import Divider from '@mui/material/Divider'
 import Typography from '@mui/material/Typography'
 import CardContent from '@mui/material/CardContent'
 
-// ** Icon Imports
-import Icon from 'src/@core/components/icon'
-
 // ** Custom Components
 import CustomChip from 'src/@core/components/mui/chip'
 import CustomAvatar from 'src/@core/components/mui/avatar'
@@ -26,7 +23,6 @@ import { getInitials } from 'src/@core/utils/get-initials'
 
 // ** Hooks
 import { getWalletProfile } from 'src/functions/ChivesweaveWallets'
-import { useAuth } from 'src/hooks/useAuth'
 import authConfig from 'src/configs/auth'
 import { useTranslation } from 'react-i18next'
 
@@ -78,6 +74,8 @@ const UserViewLeft = ({ address }: Props) => {
   const [bannerFilesUrl, setBannerFilesUrl] = useState<string>('/images/misc/upload.png')
   const [agentLevel, setAgentLevel] = useState<string>("")
 
+  console.log("bannerFilesUrl", bannerFilesUrl)
+  
   const handleGetProfile = async () => {
     const getWalletProfileData: any = await getWalletProfile(address)
     console.log("getWalletProfileData", getWalletProfileData)

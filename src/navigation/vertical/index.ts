@@ -96,9 +96,9 @@ const DriveNavMenus = [
     path: '/task/introduction'
   },
   {
-    title: 'Today Task',
+    title: 'Task List',
     icon: 'material-symbols:calendar-today',
-    path: '/task/today'
+    path: '/task/list'
   },
   {
     title: 'My Task',

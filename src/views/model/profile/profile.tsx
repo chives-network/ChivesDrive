@@ -176,7 +176,6 @@ const ProfileApp = () => {
     }
   }
 
-  
   const [inputName, setInputName] = useState<string>("")
   const [inputNameError, setInputNameError] = useState<string | null>(null)
   const handleInputNameChange = (event: any) => {

@@ -7,7 +7,7 @@ import CardContent from '@mui/material/CardContent'
 // ** Third Party Import
 import { useTranslation } from 'react-i18next'
 
-const Subscription = () => {
+const Projects = () => {
     // ** Hook
     const { t } = useTranslation()
     
@@ -15,12 +15,12 @@ const Subscription = () => {
         <Grid container spacing={6}>
         <Grid item xs={12}>
             <Card>
-                <CardHeader title={`${t('Subscription')}`} />
-                <CardContent>{`${t('user_subscribe_intro')}`}</CardContent>
+                <CardHeader title={`${t('Task List')}`} />
+                <CardContent>{`${t('task_list')}`}</CardContent>
             </Card>
         </Grid>
         </Grid>
     )
 }
 
-export default Subscription
+export default Projects

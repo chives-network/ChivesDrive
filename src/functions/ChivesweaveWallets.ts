@@ -1034,7 +1034,6 @@ export async function ActionsSubmitToBlockchain(setUploadProgress: React.Dispatc
       if(FileTx.Action=="Label") {
         setBaseTags(tags, {          
             'App-Name': TagsMap['App-Name'],
-            'App-Platform': TagsMap['App-Platform'],
             'App-Version': TagsMap['App-Version'],
             'Agent-Name': TagsMap['Agent-Name'],
             'Content-Type': TagsMap['Content-Type'],
@@ -1058,7 +1057,6 @@ export async function ActionsSubmitToBlockchain(setUploadProgress: React.Dispatc
         console.log("FolderListFolderListFolderListFolderListFolderList",FolderList)
         setBaseTags(tags, {          
             'App-Name': TagsMap['App-Name'],
-            'App-Platform': TagsMap['App-Platform'],
             'App-Version': TagsMap['App-Version'],
             'Agent-Name': TagsMap['Agent-Name'],
             'Content-Type': TagsMap['Content-Type'],
@@ -1082,7 +1080,6 @@ export async function ActionsSubmitToBlockchain(setUploadProgress: React.Dispatc
       if(FileTx.Action=="Star") {
         setBaseTags(tags, {          
             'App-Name': TagsMap['App-Name'],
-            'App-Platform': TagsMap['App-Platform'],
             'App-Version': TagsMap['App-Version'],
             'Agent-Name': TagsMap['Agent-Name'],
             'Content-Type': TagsMap['Content-Type'],
@@ -1105,8 +1102,8 @@ export async function ActionsSubmitToBlockchain(setUploadProgress: React.Dispatc
       if(FileTx.Action=="CreateFolder") {
         setBaseTags(tags, {          
             'App-Name': authConfig['App-Name'],
-            'App-Platform': authConfig['App-Platform'],
             'App-Version': authConfig['App-Version'],
+            'App-Instance': authConfig['App-Instance'],
             'Agent-Name': "",
             'Content-Type': "text/plain",
             'File-Name': FileTx.Target,
@@ -1127,7 +1124,6 @@ export async function ActionsSubmitToBlockchain(setUploadProgress: React.Dispatc
       if(FileTx.Action=="Agent") {
         setBaseTags(tags, {          
             'App-Name': TagsMap['App-Name'],
-            'App-Platform': TagsMap['App-Platform'],
             'App-Version': TagsMap['App-Version'],
             'Agent-Name': TagsMap['Agent-Name'],
             'Content-Type': TagsMap['Content-Type'],
@@ -1150,7 +1146,6 @@ export async function ActionsSubmitToBlockchain(setUploadProgress: React.Dispatc
       if(FileTx.Action=="Referee") {
         setBaseTags(tags, {          
             'App-Name': TagsMap['App-Name'],
-            'App-Platform': TagsMap['App-Platform'],
             'App-Version': TagsMap['App-Version'],
             'Agent-Name': TagsMap['Agent-Name'],
             'Content-Type': TagsMap['Content-Type'],
@@ -1246,9 +1241,8 @@ export async function ProfileSubmitToBlockchain(setUploadProgress: React.Dispatc
             'File-Pages': '',
             'Entity-Type': 'File',
             'App-Name': authConfig['App-Name'],
-            'App-Platform': authConfig['App-Platform'],
             'App-Version': authConfig['App-Version'],
-            'Agent-Name': '',
+            'App-Instance': authConfig['App-Instance'],
             'Unix-Time': String(Date.now())
         })
       }
@@ -1267,9 +1261,8 @@ export async function ProfileSubmitToBlockchain(setUploadProgress: React.Dispatc
             'File-Pages': '',
             'Entity-Type': 'File',
             'App-Name': authConfig['App-Name'],
-            'App-Platform': authConfig['App-Platform'],
             'App-Version': authConfig['App-Version'],
-            'Agent-Name': '',
+            'App-Instance': authConfig['App-Instance'],
             'Unix-Time': String(Date.now())
         })
       }
@@ -1292,9 +1285,8 @@ export async function ProfileSubmitToBlockchain(setUploadProgress: React.Dispatc
             'Entity-Avatar': "",
             'Entity-Banner': "",
             'App-Name': authConfig['App-Name'],
-            'App-Platform': authConfig['App-Platform'],
             'App-Version': authConfig['App-Version'],
-            'Agent-Name': '',
+            'App-Instance': authConfig['App-Instance'],
             'Last-Tx-Change': lastTxAction,
             'Unix-Time': String(Date.now())
         })

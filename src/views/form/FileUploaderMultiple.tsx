@@ -187,7 +187,6 @@ const FileUploaderMultiple = () => {
         console.log("FileEncrypt", FileEncrypt)
         setBaseTags(tags, {          
           'App-Name': FileEncrypt['App-Name'],
-          'App-Platform': FileEncrypt['App-Platform'],
           'App-Version': FileEncrypt['App-Version'],
           'Content-Type': file.type,
           'File-Name': FileEncrypt['File-Name'],
@@ -217,9 +216,8 @@ const FileUploaderMultiple = () => {
           'File-Pages': '',
           'Entity-Type': 'File',
           'App-Name': authConfig['App-Name'],
-          'App-Platform': authConfig['App-Platform'],
           'App-Version': authConfig['App-Version'],
-          'Agent-Name': '',
+          'App-Instance': authConfig['App-Instance'],
           'Unix-Time': String(Date.now())
         })
       }

@@ -23,7 +23,6 @@ import { RootState, AppDispatch } from 'src/store'
 // ** Third Party Import
 import { useTranslation } from 'react-i18next'
 import { isMobile } from 'src/configs/functions'
-import { useAuth } from 'src/hooks/useAuth'
 import authConfig from 'src/configs/auth'
 import { formatTimestampAge } from 'src/configs/functions'
 
@@ -67,6 +66,7 @@ const UserAgentMembersListTable = () => {
   useEffect(() => {
     console.log("paginationModel", paginationModel)
     if(id != undefined) {
+      setValue("")
       dispatch(
         fetchAgentMembersData({
           pageId: paginationModel.page,

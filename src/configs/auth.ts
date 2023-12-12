@@ -15,6 +15,6 @@ export default {
   chivesLanguage: 'ChivesLanguage',
   chivesProfile: 'ChivesProfile',
   'App-Name': 'ChivesDrive',
-  'App-Platform': 'web',
-  'App-Version': '0.1'
+  'App-Version': '0.1',
+  'App-Instance': ''
 }
