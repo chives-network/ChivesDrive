@@ -63,19 +63,20 @@ const RegisterAgent = () => {
   const currentAddress = auth.currentAddress
   
   useEffect(() => {
-    setIsDisabledButton(false)
-    setIsDisabledProfileButton(false)
-    setIsDisabledBalanceButton(false)
-    setBalanceText("")
-
-    handleCheckGetWalletProfile()
+    if(currentAddress && currentAddress.length ==43) {
+      setIsDisabledButton(false)
+      setIsDisabledProfileButton(false)
+      setIsDisabledBalanceButton(false)
+      setBalanceText("")
+      handleCheckGetWalletProfile()
+    }
   }, [currentAddress])
 
   const handleCheckGetWalletProfile = async () => {
     const getLockStatusData = getLockStatus("Agent")
     const Profile: any = await getWalletProfile(currentAddress)
-    console.log("Profile", Profile)
-    if((getLockStatusData && getLockStatusData == currentAddress) || (Profile['Profile'] !== undefined && Profile['Profile']['Name'] !== undefined && Profile['Profile']['Email'] !== undefined && Profile['Profile']['Twitter'] !== undefined) ) {
+    console.log("Profile00000000000000000000000000000", getLockStatusData)
+    if((getLockStatusData && getLockStatusData == currentAddress) || (Profile['AgentLevel'] > 0) ) {
       setIsDisabledButton(true)
       setIsDisabledProfileButton(true)
       setIsDisabledBalanceButton(true)

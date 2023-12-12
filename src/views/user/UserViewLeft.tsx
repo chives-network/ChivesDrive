@@ -74,12 +74,10 @@ const UserViewLeft = ({ address }: Props) => {
   const [inputReddit, setInputReddit] = useState<string>("")
   const [inputYoutube, setInputYoutube] = useState<string>("")
   const [inputBio, setInputBio] = useState<string>("")
-  const [avatarFilesUrl, setAvatarFilesUrl] = useState<string>('/images/avatars/1.png')
+  const [avatarFilesUrl, setAvatarFilesUrl] = useState<string>('')
   const [bannerFilesUrl, setBannerFilesUrl] = useState<string>('/images/misc/upload.png')
   const [agentLevel, setAgentLevel] = useState<string>("")
 
-  console.log("bannerFilesUrl", bannerFilesUrl)
-  
   const handleGetProfile = async () => {
     const getWalletProfileData: any = await getWalletProfile(address)
     console.log("getWalletProfileData", getWalletProfileData)

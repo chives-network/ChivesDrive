@@ -879,14 +879,9 @@ export async function getWalletProfile(currentAddress: string) {
 
 export async function checkNodeStatus() {
     const response = await axios.get(authConfig.backEndApi + '/info' );
-    if(response && response.data && response.data.Profile && response.data.Profile.Name) {
-        const Node = response.data
-        if(Node.height < Node.blocks) {
-            return true
-        }
-        else {
-            return false
-        }
+    const Node = response.data
+    if(Node.height < Node.blocks) {
+        return true
     }
     else {
         return false
@@ -1148,7 +1143,7 @@ export async function ActionsSubmitToBlockchain(setUploadProgress: React.Dispatc
             'Entity-Type': "Action",
             'Entity-Action': FileTx.Action,
             'Entity-Target': FileTx.Target,
-            'Last-Tx-Change': TxRecord.table.last_tx_action,
+            'Last-Tx-Change': "",
             'Unix-Time': String(Date.now())
           })
       }
@@ -1216,7 +1211,7 @@ export async function ActionsSubmitToBlockchain(setUploadProgress: React.Dispatc
     return TxResult;
 };
 
-export async function ProfileSubmitToBlockchain(setUploadProgress: React.Dispatch<React.SetStateAction<{ [key: string]: number }>>, chivesProfileMap: any, FileTxList: string[]) {
+export async function ProfileSubmitToBlockchain(setUploadProgress: React.Dispatch<React.SetStateAction<{ [key: string]: number }>>, chivesProfileMap: any, FileTxList: string[], lastTxAction: string) {
     
     const currentWallet = getCurrentWallet()
     const currentAddress = getCurrentWalletAddress()
@@ -1230,8 +1225,7 @@ export async function ProfileSubmitToBlockchain(setUploadProgress: React.Dispatc
     delete AllData['AvatarTxId']
     delete AllData['BannerTxId']
     FileTxMap['Data'] = AllData
-    console.log("FileTxList", FileTxList)
-
+    
     //Make Tx List
     const formData = (await Promise.all(FileTxList?.map(async (FileTxKey: string) => { 
       const tags = [] as Tag[]    
@@ -1301,9 +1295,11 @@ export async function ProfileSubmitToBlockchain(setUploadProgress: React.Dispatc
             'App-Platform': authConfig['App-Platform'],
             'App-Version': authConfig['App-Version'],
             'Agent-Name': '',
+            'Last-Tx-Change': lastTxAction,
             'Unix-Time': String(Date.now())
         })
       }
+
       console.log("tags", tags)
       console.log("data", data)
 

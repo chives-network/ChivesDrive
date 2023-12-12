@@ -83,6 +83,7 @@ const ProfileApp = () => {
   const [bannerFilesUrl, setBannerFilesUrl] = useState<string>('/images/misc/upload.png')
   const [avatarFilesTxId, setAvatarFilesTxId] = useState<string>('')
   const [bannerFilesTxId, setBannerFilesTxId] = useState<string>('')
+  const [lastTxAction, setLastTxAction] = useState<string>('')
 
   const auth = useAuth()
   const currentAddress = auth.currentAddress
@@ -164,7 +165,10 @@ const ProfileApp = () => {
         setBannerFilesTxId(getWalletProfileData['Profile']['Banner']);
         setBannerFilesUrl(authConfig.backEndApi + '/' + getWalletProfileData['Profile']['Banner']);
     }
-
+    if(getWalletProfileData && getWalletProfileData['TxId'] && getWalletProfileData['TxId'].length == 43) {
+        setLastTxAction(getWalletProfileData['LastTxAction']);
+    }
+    
     const checkNodeStatusData: any = await checkNodeStatus()
     if(checkNodeStatusData == false) {
         setIsDisabledButton(true)
@@ -334,7 +338,7 @@ const ProfileApp = () => {
     }
     FileTxList.push('Data')
     
-    const TxResult: any = await ProfileSubmitToBlockchain(setUploadProgress, chivesProfileMap, FileTxList);
+    const TxResult: any = await ProfileSubmitToBlockchain(setUploadProgress, chivesProfileMap, FileTxList, lastTxAction);
 
     //Save Tx Records Into LocalStorage
     const chivesTxStatus: string = authConfig.chivesTxStatus

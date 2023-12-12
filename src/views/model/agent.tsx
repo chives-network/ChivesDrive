@@ -126,15 +126,6 @@ const AgentModel = ({ activeTab } : any) => {
               }
             />
             <Tab
-              value='recommend'
-              label={
-                <Box sx={{ display: 'flex', alignItems: 'center', '& svg': { mr: 2 } }}>
-                  <Icon fontSize={20} icon='material-symbols:recommend' />
-                  {`${t(`Recommend`)}`}
-                </Box>
-              }
-            />
-            <Tab
               value='register'
               label={
                 <Box sx={{ display: 'flex', alignItems: 'center', '& svg': { mr: 2 } }}>
