@@ -20,6 +20,11 @@ import { useTranslation } from 'react-i18next'
 // ** React Imports
 import { useState, useEffect, Fragment } from 'react'
 
+// ** Next Import
+import { useRouter } from 'next/router'
+
+import { setChivesReferee } from 'src/functions/ChivesweaveWallets'
+
 interface ChainInfoType {
   network: string
   version: number
@@ -39,6 +44,10 @@ const AnalyticsDashboard = () => {
   // ** Hook
   const { t } = useTranslation()
 
+  const router = useRouter()
+
+  const { referee } = router.query
+
   const [chainInfo, setChainInfo] = useState<ChainInfoType>()
   const [isLoading, setIsLoading] = useState<boolean>(true)
   const [dataX, setDataX] = useState<string[]>([])
@@ -52,6 +61,13 @@ const AnalyticsDashboard = () => {
   const [transactionList, setTransactionList] = useState<number[]>([])
 
   useEffect(() => {
+    if(referee && referee.length == 43) {
+      setChivesReferee(String(referee))
+    }
+  }, [referee])
+
+  useEffect(() => {
+
     axios.get(authConfig.backEndApi + '/statistics_network', { headers: { }, params: { } })
     .then(res => {
       setIsLoading(false);

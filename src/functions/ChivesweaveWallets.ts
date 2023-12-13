@@ -25,6 +25,7 @@ const chivesWalletNickname: string = authConfig.chivesWalletNickname
 const chivesTxStatus: string = authConfig.chivesTxStatus
 const chivesLanguage: string = authConfig.chivesLanguage
 const chivesProfile: string = authConfig.chivesProfile
+const chivesReferee: string = authConfig.chivesReferee
 
 export async function generateNewMnemonicAndGetWalletData (mnemonic: string) {
     try {
@@ -516,9 +517,10 @@ export async function getProcessedData(walletData: any, walletAddress: string, d
             dataItems = await Promise.all(data.map((item: any) => createDataItem(walletData, item)))
         }
         
-        dataItems.map((item: any)=>{
-            console.log("getProcessedData item id:", item?.id)
-        })
+        //dataItems.map((item: any)=>{
+        //    console.log("getProcessedData item id:", item?.id)
+        //})
+        
         const trustedAddresses = walletAddress ? [walletAddress] : []
         const deduplicated = await deduplicate(dataItems, trustedAddresses)
         const deduplicatedDataItems = dataItems.map((item: any, i: number) => deduplicated[i] || item)
@@ -820,6 +822,20 @@ export function deleteLockStatus(TxId: string) {
         delete chivesProfileList[foundKey]
     }
     window.localStorage.setItem(chivesProfile, JSON.stringify(chivesProfileList))
+}
+
+export function setChivesReferee(Referee: string) {
+    window.localStorage.setItem(chivesReferee, Referee)
+}
+
+export function getChivesReferee() {
+    const chivesRefereeData = window.localStorage.getItem(chivesReferee) || ''
+    
+    return chivesRefereeData
+}
+
+export function deleteChivesReferee() {
+    window.localStorage.removeItem(chivesReferee)
 }
 
 export async function CheckBundleTxStatus() {

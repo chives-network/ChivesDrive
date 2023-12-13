@@ -18,7 +18,7 @@ import Icon from 'src/@core/components/icon'
 import { useAuth } from 'src/hooks/useAuth'
 
 // ** Hooks
-import { getWalletProfile, getLockStatus, setLockStatus, RegisterRefereeAction, ActionsSubmitToBlockchain, checkNodeStatus } from 'src/functions/ChivesweaveWallets'
+import { getWalletProfile, getLockStatus, setLockStatus, RegisterRefereeAction, ActionsSubmitToBlockchain, checkNodeStatus, getChivesReferee } from 'src/functions/ChivesweaveWallets'
 
 // ** Styled Component
 import DropzoneWrapper from 'src/@core/styles/libs/react-dropzone'
@@ -98,6 +98,10 @@ const MyAgentApp = () => {
         setIsAgentDisabledButton(true)
         setIsHaveSettingMyAgent(true)
         setInputAgent(Profile['Referee'])
+    }
+    else if(Profile) {
+        const getChivesRefereeData = getChivesReferee()
+        setInputAgent(getChivesRefereeData)
     }
 
     //Need Setting Profile First
