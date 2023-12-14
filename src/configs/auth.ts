@@ -1,4 +1,7 @@
 export default {
+  systemType: 'drive',
+  productName: 'ChivesDrive',
+  tokenName: 'XWE',
   backEndApi: 'https://api.chivesweave.net:1986',
   faucetApi: 'https://faucet.chivesweave.org/faucet.php',
   meEndpoint: '/auth/me',
@@ -6,7 +9,6 @@ export default {
   registerEndpoint: '/jwt/register',
   storageTokenKeyName: 'accessToken',
   onTokenExpiration: 'refreshToken', // logout | refreshToken
-  systemType: 'drive',
   chivesWallets: 'ChivesWallets',
   chivesCurrentWallet: 'ChivesCurrentWallet',
   chivesWalletNickname: 'ChivesWalletNickname',
