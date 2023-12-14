@@ -206,5 +206,7 @@
   "user_subscribe_intro": "The websites, DAOs, and creators you subscribe to. Manual subscription is required every month for now, and auto-renewal is not supported temporarily. It allows one-time subscriptions for multiple months (Not Finished)",
   "task_introduction": "Task to earn: Earn coins by completing various tasks, such as: 1. Daily check-ins 2. Retweeting on Twitter 3. Writing articles, and more (Not Finished)",
   "task_list": "It will list all the tasks, and the main tasks for the first phase are: check-in and retweeting on Twitter. Other tasks will be added for everyone to choose from in the future (Not Finished)",
-  "task_my_dashboard": "All tasks I've participated in (Not Finished)"
+  "task_my_dashboard": "All tasks I've participated in (Not Finished)",
+  "Task List": "Task List",
+  "My Address": "My Address"
 }

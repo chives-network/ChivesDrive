@@ -32,8 +32,6 @@ const LanguageDropdown = ({ settings, saveSettings }: Props) => {
     setChivesLanguage(lang)
   }
 
-  console.log("i18n.language", i18n.language)
-
   // ** Change html `lang` attribute when changing locale
   useEffect(() => {
     const localLanguage = getChivesLanguage()

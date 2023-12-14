@@ -42,6 +42,7 @@ const MyAgentApp = () => {
   const [isAgentDisabledButton, setIsAgentDisabledButton] = useState<boolean>(false)
   const [uploadingAgentButton, setUploadingAgentButton] = useState<string>(`${t('Submit')}`)
   const [isHaveSettingMyAgent, setIsHaveSettingMyAgent] = useState<boolean>(false)
+  const [agentTxId, setAgentTxId] = useState<string>("")
 
   const auth = useAuth()
   const currentAddress = auth.currentAddress
@@ -86,6 +87,8 @@ const MyAgentApp = () => {
   }, [currentAddress])
 
   const handleGetProfile = async () => {
+    setIsAgentDisabledButton(false)
+    setIsHaveSettingMyAgent(false)
     const getLockStatusReferee = getLockStatus("Referee")
     if(getLockStatusReferee && getLockStatusReferee.length == 43) {
         setIsAgentDisabledButton(true)
@@ -98,6 +101,7 @@ const MyAgentApp = () => {
         setIsAgentDisabledButton(true)
         setIsHaveSettingMyAgent(true)
         setInputAgent(Profile['Referee'])
+        setAgentTxId(Profile['TxId'])
     }
     else if(Profile) {
         const getChivesRefereeData = getChivesReferee()
@@ -190,14 +194,45 @@ const MyAgentApp = () => {
                 <CardContent>
                     {inputAgent && inputAgent.length == 43 && isHaveSettingMyAgent ?
                     <Grid container spacing={5}>
-                        <Grid item xs={12}>
-                            <Typography>{`${t('Address')}`}:</Typography>
+                        <Grid item xs={4}>
+                            <Typography>{`${t('My Address')}`}:</Typography>
+                        </Grid>
+                        <Grid item xs={8}>
+                            <Typography>{currentAddress}</Typography>
+                        </Grid>
+                        <Grid item xs={4}>
+                            <Typography>{`${t('My Agent')}`}:</Typography>
+                        </Grid>
+                        <Grid item xs={8}>
                             <Typography>{inputAgent}</Typography>
+                        </Grid>
+                        <Grid item xs={4}>
+                            <Typography>{`${t('TxId')}`}:</Typography>
+                        </Grid>
+                        <Grid item xs={8}>
+                            <Typography>{agentTxId}</Typography>
                         </Grid>
                     </Grid>
                     :
                     <Grid container spacing={5}>
-                        <Grid item xs={7}>
+                        <Grid item xs={12}>
+                            <TextField
+                                fullWidth
+                                label={`${t('My Address')}`}
+                                placeholder={`${t('My Address')}`}
+                                value={currentAddress}
+                                InputProps={{
+                                    startAdornment: (
+                                        <InputAdornment position='start'>
+                                        <Icon icon='mdi:account-outline' />
+                                        </InputAdornment>
+                                    )
+                                }} 
+                                size='small' 
+                                disabled={true}
+                            />
+                        </Grid>
+                        <Grid item xs={12}>
                             <TextField
                                 fullWidth
                                 label={`${t('My Agent')}`}
@@ -217,7 +252,7 @@ const MyAgentApp = () => {
                                 helperText={inputAgentError}
                             />
                         </Grid>
-                        <Grid item xs={5}>
+                        <Grid item xs={12}>
                             <Typography>{`${t('Each person can set up a agent only once, and after successful setup, it cannot be modified')}`}</Typography>
                         </Grid>
                         <Grid item xs={12} container justifyContent="flex-end">

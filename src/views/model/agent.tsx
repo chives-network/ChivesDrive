@@ -20,7 +20,7 @@ import { TxRecordType } from 'src/types/apps/Chivesweave'
 import Pagination from '@mui/material/Pagination'
 
 import AgentRectangle from 'src/views/portal/AgentRectangle'
-import RegisterBroker from 'src/views/form/RegisterAgent';
+import RegisterAgent from 'src/views/form/RegisterAgent';
 
 
 // ** Next Import
@@ -154,7 +154,7 @@ const AgentModel = ({ activeTab } : any) => {
             </Fragment>
           ) : null}
           {activeTab == "register" ? (
-            <RegisterBroker />
+            <RegisterAgent />
           ) : null}
         </Card>
       </Grid>

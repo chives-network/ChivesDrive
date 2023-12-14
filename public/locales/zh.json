@@ -206,5 +206,7 @@
     "user_subscribe_intro": "您订阅的网站、DAO和创作者。目前需要每月手动订阅，暂不支持自动续订。它允许一次性订阅多个月（未完成）",
     "task_introduction": "任务赚取：通过完成各种任务赚取代币，例如：1. 每日签到 2. 在Twitter上转发 3. 撰写文章等（未完成）",
     "task_list": "它将列出所有任务，第一阶段的主要任务包括：签到和在Twitter上转发。未来将添加其他任务供大家选择（未完成）",
-    "task_my_dashboard": "我参与的所有任务（未完成）"
+    "task_my_dashboard": "我参与的所有任务（未完成）",
+    "Task List": "任务列表",
+    "My Address": "我的地址"
 }

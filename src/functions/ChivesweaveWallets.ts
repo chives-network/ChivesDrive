@@ -870,11 +870,11 @@ export async function CheckBundleTxStatus() {
 }
 
 export async function parseBundleTx() {
-    const response = await axios.get(authConfig.backEndApi + '/bundletx/0/30' );
+    const response = await axios.get(authConfig.backEndApi + '/bundletx/0/60' );
     if(response && response.data && response.data.data && response.data.data.length>0) {
         for (const item of response.data.data) {
             try {
-              await axios.get(authConfig.backEndApi + '/tx/' + item.id + '/unbundle/0/5');
+              await axios.get(authConfig.backEndApi + '/tx/' + item.id + '/unbundle/0/6');
             } 
             catch (error) {
             }

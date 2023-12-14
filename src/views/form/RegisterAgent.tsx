@@ -57,7 +57,7 @@ const RegisterAgent = () => {
   const [balanceText, setBalanceText] = useState<string>("")
 
   // ** State
-  const [selected, setSelected] = useState<string>('1')
+  const [selected, setSelected] = useState<string>('')
   
   const auth = useAuth()
   const currentAddress = auth.currentAddress
@@ -75,12 +75,14 @@ const RegisterAgent = () => {
   const handleCheckGetWalletProfile = async () => {
     const getLockStatusData = getLockStatus("Agent")
     const Profile: any = await getWalletProfile(currentAddress)
-    console.log("Profile00000000000000000000000000000", getLockStatusData)
     if((getLockStatusData && getLockStatusData == currentAddress) || (Profile['AgentLevel'] > 0) ) {
       setIsDisabledButton(true)
       setIsDisabledProfileButton(true)
       setIsDisabledBalanceButton(true)
       console.log("uploadProgress", uploadProgress)
+    }
+    if(Profile['AgentLevel'] > 0) {
+      setSelected(String(Profile['AgentLevel']))
     }
   }
 
