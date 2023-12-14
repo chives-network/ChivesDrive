@@ -190,7 +190,7 @@ const FileResourceModel = ({ activeTab } : any) => {
                             {`${t(`Balance`)}`}:
                           </Typography>
                         </TableCell>
-                        <TableCell>{formatXWE(addressBalance, 8)} XWE</TableCell>
+                        <TableCell>{formatXWE(addressBalance, 8)} {authConfig.tokenName}</TableCell>
                       </TableRow>
 
                       <TableRow>

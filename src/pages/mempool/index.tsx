@@ -142,7 +142,7 @@ const Mempool = () => {
                           <TableRow>
                             <TableCell>
                               <Typography variant='body2' sx={{ color: 'text.primary' }}>
-                              {`${t(`Fee`)}`}：{formatXWE(item.fee.winston, 6)} XWE
+                              {`${t(`Fee`)}`}：{formatXWE(item.fee.winston, 6)} {authConfig.tokenName}
                               </Typography>
                             </TableCell>
                           </TableRow>
@@ -195,7 +195,7 @@ const Mempool = () => {
                         <TableCell>{formatHash(item.id, 7)}</TableCell>
                         <TableCell>{formatHash(item.owner.address, 7)}</TableCell>
                         <TableCell>{formatStorageSize(item.data.size)}</TableCell>
-                        <TableCell>{formatXWE(item.fee.winston, 6)} XWE</TableCell>
+                        <TableCell>{formatXWE(item.fee.winston, 6)} {authConfig.tokenName}</TableCell>
                         <TableCell><FormatTxInfoInRow TxRecord={item}/></TableCell>
                     </TableRow>
                     ))}

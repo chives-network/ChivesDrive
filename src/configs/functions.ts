@@ -1,4 +1,5 @@
 import { TxRecordType } from 'src/types/apps/Chivesweave'
+import authConfig from 'src/configs/auth'
 
 export function formatHash(inputString: string, spliceSize: number): string {
   if(inputString == undefined) {
@@ -192,7 +193,7 @@ export function parseTxAndGetMemoFileType(TxRecord: TxRecordType): string {
 export function parseTxAndGetMemoInfo(TxRecord: TxRecordType): string {
   if(TxRecord.recipient!="" && TxRecord.quantity.winston > 0) {
     
-    return formatXWE(TxRecord.quantity.winston, 6) + " XWE -> " + formatHash(TxRecord.recipient, 6);
+    return formatXWE(TxRecord.quantity.winston, 6) + " " + authConfig.tokenName + " -> " + formatHash(TxRecord.recipient, 6);
   }
   const FileInfo: { [key: string]: string } = {}
   TxRecord.tags.map((Item: { [key: string]: string }) => {

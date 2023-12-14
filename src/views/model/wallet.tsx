@@ -354,7 +354,7 @@ const MyWalletModel = ({ activeTab } : any) => {
                           {`${t(`Balance`)}`}:
                           </Typography>
                         </TableCell>
-                        <TableCell>{addressBalance} XWE</TableCell>
+                        <TableCell>{addressBalance} {authConfig.tokenName}</TableCell>
                       </TableRow>
 
                       <TableRow>
