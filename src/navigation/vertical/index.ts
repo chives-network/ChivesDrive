@@ -140,10 +140,81 @@ const DriveNavMenus = [
   }
 ]
 
-const navigation = (): VerticalNavItemsType => {
+const ArDriveNavMenus = [
+  {
+    title: 'Dashboards',
+    icon: 'mdi:home-outline',
+    badgeContent: 'new',
+    badgeColor: 'error',
+    path: '/overview'
+  },
+  {
+    sectionTitle: 'My Portal'
+  },
+  {
+    title: 'Resources',
+    icon: 'material-symbols:captive-portal-rounded',
+    path: '/files/image'
+  },
+  {
+    title: 'My Drive',
+    icon: 'streamline:hard-disk-solid',
+    path: '/drive'
+  },
+  {
+    title: 'My Wallet',
+    icon: 'clarity:wallet-solid',
+    path: '/wallet'
+  },
+  {
+    title: 'My Files',
+    icon: 'mdi:file-multiple',
+    path: '/myfiles'
+  },
+  {
+    sectionTitle: 'Blockchain'
+  },
+  {
+    title: 'Blocks',
+    icon: 'clarity:blocks-group-line',
+    path: '/blocks'
+  },
+  {
+    title: 'Transactions',
+    icon: 'grommet-icons:transaction',
+    path: '/txs'
+  },
+  {
+    title: 'Addresses',
+    icon: 'clarity:wallet-solid',
+    path: '/addresses'
+  },
+  {
+    title: 'Nodes',
+    icon: 'fa6-solid:share-nodes',
+    path: '/nodes'
+  },
+  {
+    title: 'Memory Pool',
+    icon: 'mdi:pool',
+    path: '/mempool'
+  }
+]
 
+const navigation = (): VerticalNavItemsType => {
+  let MenuList = null
+
+  switch(authConfig.productName) {
+    case 'ChivesDrive':
+      MenuList = DriveNavMenus
+    case 'ChivesExplorer':
+      MenuList =  ExplorerNavMenus
+    case 'ArDrive':
+      MenuList =  ArDriveNavMenus
+  }
+  
   // @ts-ignore
-  return authConfig.systemType == "drive" ? DriveNavMenus : ExplorerNavMenus
+  return MenuList
 }
 
 export default navigation

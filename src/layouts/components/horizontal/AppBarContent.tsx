@@ -132,7 +132,7 @@ const AppBarContent = (props: Props) => {
       <Autocomplete hidden={hidden} settings={settings} />
       <LanguageDropdown settings={settings} saveSettings={saveSettings} />
       <ModeToggler settings={settings} saveSettings={saveSettings} />
-      {auth.user && authConfig.systemType=="drive" && (
+      {auth.user && authConfig.productName=="ChivesDrive" && (
         <>
           <ShortcutsDropdown settings={settings} shortcuts={shortcuts} />
           <NotificationDropdown settings={settings} notifications={notifications} />

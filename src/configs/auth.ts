@@ -1,5 +1,4 @@
 export default {
-  systemType: 'drive',
   productName: 'ChivesDrive',
   tokenName: 'XWE',
   backEndApi: 'https://api.chivesweave.net:1986',
