@@ -17,11 +17,13 @@ import Icon from 'src/@core/components/icon'
 import CustomAvatar from 'src/@core/components/mui/avatar'
 import ReactAudioPlayer from 'react-audio-player';
 
-import { formatHash } from 'src/configs/functions';
+import { formatHash, formatTimestamp, formatTimestampAge } from 'src/configs/functions';
 import { Fragment } from 'react'
 
 // ** Third Party Import
 import { useTranslation } from 'react-i18next'
+
+import authConfig from 'src/configs/auth'
 
 const ImageRectangle = ( {item, backEndApi, FileType} : any) => {
   // ** Hook
@@ -54,7 +56,6 @@ const ImageRectangle = ( {item, backEndApi, FileType} : any) => {
 
   console.log("FileType", FileType)
 
-
   return (
     <Card>
       {FileType && (FileType=="png" || FileType=="jpeg" || FileType=="gif" || FileType=="image" || FileType=="word" || FileType=="excel" || FileType=="pptx") ?
@@ -64,23 +65,44 @@ const ImageRectangle = ( {item, backEndApi, FileType} : any) => {
         :
         <Fragment></Fragment>
       }
-      {FileType && FileType=="video" ?
+      {FileType && FileType=="video" && authConfig.productName != "ArDrive" ?
         <Link href={`/txs/view/${ImageUrl}`}>
           <CardMedia image={`${backEndApi}/${ImageUrl}/thumbnail`} sx={{ height: '11.25rem', objectFit: 'contain' }}/>
         </Link>
         :
         <Fragment></Fragment>
+      }      
+      {FileType && FileType=="video" && authConfig.productName == "ArDrive" ?
+        <Link href={`/txs/view/${ImageUrl}`}>
+          <CardMedia image={`/images/icons/video.jpg`} sx={{ height: '11.25rem', objectFit: 'contain' }}/>
+        </Link>
+        :
+        <Fragment></Fragment>
       }
-      {FileType && FileType=="audio" ?
+      {FileType && FileType=="audio" && authConfig.productName != "ArDrive" ?
         <Link href={`/txs/view/${ImageUrl}`}>
           <ReactAudioPlayer src={`${backEndApi}/${ImageUrl}`} controls style={{width: '100%'}}/>
         </Link>
         :
         <Fragment></Fragment>
       }
-      {FileType && FileType=="pdf" ?
+      {FileType && FileType=="audio" && authConfig.productName == "ArDrive" ?
+        <Link href={`/txs/view/${ImageUrl}`}>
+          <ReactAudioPlayer src={`${authConfig.nodeApi}/${ImageUrl}`} controls style={{width: '100%'}}/>
+        </Link>
+        :
+        <Fragment></Fragment>
+      }
+      {FileType && FileType=="pdf" && authConfig.productName != "ArDrive" ?
         <Link href={`/txs/view/${ImageUrl}`}>
           <CardMedia image={`${backEndApi}/${ImageUrl}/thumbnail`} sx={{ height: '11.25rem', objectFit: 'contain' }}/>
+        </Link>
+        :
+        <Fragment></Fragment>
+      }
+      {FileType && FileType=="pdf" && authConfig.productName == "ArDrive" ?
+        <Link href={`/txs/view/${ImageUrl}`}>
+          <CardMedia image={`/images/icons/pdf.png`} sx={{ height: '11.25rem', objectFit: 'contain' }}/>
         </Link>
         :
         <Fragment></Fragment>
@@ -93,28 +115,34 @@ const ImageRectangle = ( {item, backEndApi, FileType} : any) => {
         <Fragment></Fragment>
       }
       <CardContent>
-        <Box sx={{ display: 'flex', alignItems: 'center' }}>
-          <CustomAvatar skin='light' variant='rounded' sx={{ mr: 3, width: '3rem', height: '3.375rem' }}>
-            <Box sx={{ mt: 1.5, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-              <Typography
-                variant='body2'
-                sx={{ fontWeight: 500, lineHeight: 1.29, color: 'primary.main', letterSpacing: '0.47px' }}
-              >
-                {monthAbbreviation}
-              </Typography>
-              <Typography variant='h6' sx={{ mt: -0.75, fontWeight: 600, color: 'primary.main' }}>
-                {day}
-              </Typography>
+        {authConfig.productName != "ArDrive" ?
+        <Fragment>
+          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+            <CustomAvatar skin='light' variant='rounded' sx={{ mr: 3, width: '3rem', height: '3.375rem' }}>
+              <Box sx={{ mt: 1.5, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                <Typography
+                  variant='body2'
+                  sx={{ fontWeight: 500, lineHeight: 1.29, color: 'primary.main', letterSpacing: '0.47px' }}
+                >
+                  {monthAbbreviation}
+                </Typography>
+                <Typography variant='h6' sx={{ mt: -0.75, fontWeight: 600, color: 'primary.main' }}>
+                  {day}
+                </Typography>
+              </Box>
+            </CustomAvatar>
+            <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+              <Typography sx={{ fontWeight: 600 }}>{formatHash(FileName, 12)}</Typography>
             </Box>
-          </CustomAvatar>
-          <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-            <Typography sx={{ fontWeight: 600 }}>{formatHash(FileName, 12)}</Typography>
           </Box>
+          <Divider sx={{ mb: theme => `${theme.spacing(4)} !important`, mt: theme => `${theme.spacing(4.75)} !important` }} />
+        </Fragment>
+        :
+        <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+          <Typography sx={{ fontWeight: 600 }}>{formatHash(FileName, 12)}</Typography>
         </Box>
-
-        <Divider
-          sx={{ mb: theme => `${theme.spacing(4)} !important`, mt: theme => `${theme.spacing(4.75)} !important` }}
-        />
+        }
+        
 
         <Box sx={{ display: 'flex', '& svg': { mr: 3, mt: 1, fontSize: '1.375rem', color: 'text.secondary' } }}>
           <Icon icon='mdi:user' />
@@ -164,6 +192,17 @@ const ImageRectangle = ( {item, backEndApi, FileType} : any) => {
           </Box>
           :
           <Fragment></Fragment>
+        }
+        {authConfig.productName == "ArDrive" ?
+          <Box sx={{ display: 'flex', '& svg': { mr: 3, mt: 1, fontSize: '1.375rem', color: 'text.secondary' } }}>
+            <Icon icon='mdi:user' />
+            <Box sx={{ display: 'flex', flexDirection: 'row', mt:'4px' }}>
+              <Typography sx={{ fontSize: '0.9rem' }}>{`${t(`Time`)}`}: </Typography>
+              <Typography variant='caption' sx={{ ml: '4px', mt: '2px' }}>{formatTimestampAge(item.block.timestamp)}</Typography>
+            </Box>
+          </Box>
+        :
+        null
         }
 
       </CardContent>

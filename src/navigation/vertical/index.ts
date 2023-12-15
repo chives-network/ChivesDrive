@@ -170,34 +170,6 @@ const ArDriveNavMenus = [
     title: 'My Files',
     icon: 'mdi:file-multiple',
     path: '/myfiles'
-  },
-  {
-    sectionTitle: 'Blockchain'
-  },
-  {
-    title: 'Blocks',
-    icon: 'clarity:blocks-group-line',
-    path: '/blocks'
-  },
-  {
-    title: 'Transactions',
-    icon: 'grommet-icons:transaction',
-    path: '/txs'
-  },
-  {
-    title: 'Addresses',
-    icon: 'clarity:wallet-solid',
-    path: '/addresses'
-  },
-  {
-    title: 'Nodes',
-    icon: 'fa6-solid:share-nodes',
-    path: '/nodes'
-  },
-  {
-    title: 'Memory Pool',
-    icon: 'mdi:pool',
-    path: '/mempool'
   }
 ]
 

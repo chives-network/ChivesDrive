@@ -272,7 +272,7 @@ const TxView = () => {
   const store = useSelector((state: RootState) => state.transactionbundles)
 
   useEffect(() => {
-    if(id!=undefined) {
+    if(id!=undefined && authConfig.productName=="ChivesDrive") {
       dispatch(
         fetchData({
           tx: String(id),
@@ -281,7 +281,7 @@ const TxView = () => {
         })
       )
     }
-  }, [dispatch, paginationModel, id])
+  }, [dispatch, paginationModel, id, authConfig])
 
   useEffect(() => {
     if(id != undefined) {
@@ -302,13 +302,6 @@ const TxView = () => {
           res.data && res.data.tags && res.data && res.data.tags.map((Item: { [key: string]: string }) => {
             FileMap[Item.name] = Item.value;
           });
-          const FileName = FileMap['File-Name']; 
-          if(FileName) {
-            setFileName(FileMap[FileName]);
-          }
-          else {
-            setFileName("Data");
-          }
           const BundleFormat = FileMap['Bundle-Format']; 
           if(BundleFormat) {
             setIsBundleTx(true);
@@ -318,7 +311,7 @@ const TxView = () => {
           }
           const ContentType = FileMap['Content-Type']; 
           if(ContentType) {
-            setFileContenType(FileMap[ContentType]);
+            setFileContenType(ContentType);
           }
           else {
             setFileContenType("");
@@ -330,6 +323,22 @@ const TxView = () => {
           }
           else {
             ImageUrl = res.data.id
+          }
+          const FileName = FileMap['File-Name']; 
+          if(FileName) {
+            setFileName(FileName);
+          }
+          else {
+            const fileType = getContentTypeAbbreviation(FileMap['Content-Type']);
+            if(fileType!="") {
+              setFileName(ImageUrl + "." + fileType.toLowerCase());
+            }
+            else {
+              setFileName(ImageUrl);
+            }
+          }
+          if(authConfig.productName == "ArDrive") {
+            ImageUrl = ImageUrl + "/thumbnail"
           }
           setFileUrl(`${authConfig.backEndApi}/${ImageUrl}`);
           if(TempFileName == '') {
@@ -356,7 +365,10 @@ const TxView = () => {
     else {
       ImageUrl = TxRecord.id
     }
-    
+    if(authConfig.productName == "ArDrive") {
+      ImageUrl = ImageUrl + "/thumbnail"
+    }
+
     console.log("FileType", FileType)
     switch(FileType) {
       case 'PNG':
