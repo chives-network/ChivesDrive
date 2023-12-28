@@ -179,10 +179,13 @@ const navigation = (): VerticalNavItemsType => {
   switch(authConfig.productName) {
     case 'ChivesDrive':
       MenuList = DriveNavMenus
+      break;
     case 'ChivesExplorer':
       MenuList =  ExplorerNavMenus
+      break;
     case 'ArDrive':
       MenuList =  ArDriveNavMenus
+      break;
   }
   
   // @ts-ignore

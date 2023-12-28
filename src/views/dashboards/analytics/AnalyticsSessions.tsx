@@ -62,8 +62,6 @@ const CardStatsDistributedColumnChart = () => {
         horizontal: false,
         columnWidth: '20%',
         borderRadius: 4,
-        startingShape: 'rounded',
-        endingShape: 'rounded',
         distributed: true,
         colors: {
           backgroundBarRadius: 5,

@@ -47,8 +47,7 @@ const ApexBarChart = () => {
       bar: {
         borderRadius: 8,
         barHeight: '30%',
-        horizontal: true,
-        startingShape: 'rounded'
+        horizontal: true
       }
     },
     grid: {

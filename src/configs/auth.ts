@@ -1,8 +1,7 @@
 export default {
-  productName: 'ArDrive',
-  tokenName: 'AR',
-  nodeApi: 'https://arweave.net',
-  backEndApi: 'http://react.admin.chives/api/arweave',
+  productName: 'ChivesDrive',
+  tokenName: 'XWE',
+  backEndApi: 'http://localhost:3030',
   faucetApi: 'https://faucet.chivesweave.org/faucet.php',
   meEndpoint: '/auth/me',
   loginEndpoint: '/jwt/login',
@@ -23,9 +22,10 @@ export default {
 }
 /*
 export default {
-  productName: 'ChivesDrive',
-  tokenName: 'XWE',
-  backEndApi: 'https://api.chivesweave.net:1986',
+  productName: 'ArDrive',
+  tokenName: 'AR',
+  nodeApi: 'https://arweave.net',
+  backEndApi: 'http://react.admin.chives/api/arweave',
   faucetApi: 'https://faucet.chivesweave.org/faucet.php',
   meEndpoint: '/auth/me',
   loginEndpoint: '/jwt/login',

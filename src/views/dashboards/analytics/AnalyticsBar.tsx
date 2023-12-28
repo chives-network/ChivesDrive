@@ -37,9 +37,7 @@ const AnalyticsBar = (props: propsType) => {
       bar: {
         borderRadius: 9,
         distributed: true,
-        columnWidth: '40%',
-        endingShape: 'rounded',
-        startingShape: 'rounded'
+        columnWidth: '40%'
       }
     },
     stroke: {

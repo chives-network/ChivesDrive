@@ -84,7 +84,8 @@ function ImagePreview(ImageSource: string) {
 
 function FormatTxInfoInRow({ TxRecord }: any) {
     const FileMap: { [key: string]: string } = {}
-    TxRecord?.tags.map((Item: { [key: string]: string }) => {
+    console.log("TxRecord-----------------", TxRecord)
+    TxRecord?.tags?.map((Item: { [key: string]: string }) => {
       FileMap[Item.name] = Item.value;
     });
     const FileType = getContentTypeAbbreviation(FileMap['Content-Type']);
