@@ -50,6 +50,7 @@ const AnalyticsTrophy = (props: propsType) => {
   
   // ** Props
   const { data } = props
+  console.log("data", data)
 
   // ** Hook
   const theme = useTheme()
@@ -63,7 +64,7 @@ const AnalyticsTrophy = (props: propsType) => {
         <Typography variant='body2' sx={{ letterSpacing: '0.25px' }}>
         {`${t(`A PERMANENT STORAGE PUBLIC CHAIN!`)}`}
         </Typography>
-        {data.height > data.blocks ? 
+        {Number(data.height) > Number(data.blocks) ? 
         <Tooltip title={`${t(`Blockchain is currently syncing data. Please wait for a few hours before trying again`)}`} placement='bottom'>
           <Typography variant='h5' sx={{ my: 4, color: 'error.main' }}>
             {`${t(`Syncing`)}`} {Math.ceil(data.blocks*100/data.height)}%

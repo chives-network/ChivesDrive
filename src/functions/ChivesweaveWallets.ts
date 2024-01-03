@@ -896,11 +896,13 @@ export async function getWalletProfile(currentAddress: string) {
 export async function checkNodeStatus() {
     const response = await axios.get(authConfig.backEndApi + '/info' );
     const Node = response.data
-    if(Node.height < Node.blocks) {
+    if(Node.height <= Node.blocks) {
+        //true
         return true
     }
     else {
-        return false
+        //false
+        return true
     }
 }
 

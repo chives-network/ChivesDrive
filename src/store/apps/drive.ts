@@ -33,14 +33,15 @@ export const fetchData = createAsyncThunk('appMyFiles/fetchData', async (params:
   
   const response = await axios.get(Url)
   const NewData: any[] = response.data.data.filter((record: any) => record.id)
-  const TableData: any = {}
-  response.data.table.map((Item: any)=>{
-    TableData[Item.id] = Item
-  })
-  const NewDataTable: TxRecordType[] = NewData.map((Item: TxRecordType)  => {
-    return {...Item, ['table']:TableData[Item.id]}
-  } );
-  response.data.data = NewDataTable
+  
+  //const TableData: any = {}
+  //response.data.table.map((Item: any)=>{
+  //  TableData[Item.id] = Item
+  //})
+  //const NewDataTable: TxRecordType[] = NewData.map((Item: TxRecordType)  => {
+  //  return {...Item, ['table']:TableData[Item.id]}
+  //} );
+  response.data.data = NewData
   
   return { ...response.data, filter: params }
 })

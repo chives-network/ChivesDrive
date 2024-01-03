@@ -75,7 +75,7 @@ const DriveAppLayout = ({ initFolder, label, type }: DriveLayoutType) => {
   //const hidden = useMediaQuery(theme.breakpoints.down('lg'))
   const hidden = true
   const store = useSelector((state: RootState) => state.drive)
-
+  console.log("storestorestorestore", store)
 
   // ** Vars
   const leftSidebarWidth = 260
