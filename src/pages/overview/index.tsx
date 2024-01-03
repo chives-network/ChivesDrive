@@ -68,51 +68,14 @@ const AnalyticsDashboard = () => {
 
   useEffect(() => {
 
-    axios.get(authConfig.backEndApi + '/statistics_network', { headers: { }, params: { } })
-    .then(res => {
-      setIsLoading(false);
-      const dataMap: any = {};
-      const dataX: any[] = [];
-      const dataWeaveSize: any[] = [];
-      const difficulty: any[] = [];
-      const endowment: any[] = [];
-      res.data.map((Item: {[key:string]:any}) => {
-        dataX.push(Item.Date.substring(5));
-        dataMap[Item.Date.substring(5)] = Item;
-      })
-      dataX.sort((a, b) => a - b);
-      const newDataX = dataX.slice(1).slice().slice(1).slice(-21, -1);
-      setDataX(newDataX)
-      newDataX.map((Item: string)=>{
-        dataWeaveSize.push((dataMap[Item].Weave_Size/(1024*1024*1024*1024)).toFixed(1))
-        difficulty.push((dataMap[Item].Difficulty/(1024*1024*1024)).toFixed(1))
-        endowment.push(Math.floor(dataMap[Item].Cumulative_Endowment/1000000000000))
-      })
-      setDataWeaveSize(dataWeaveSize)
-      setDifficulty(difficulty)
-      console.log("isLoading", isLoading)
-    })
-
     axios.get(authConfig.backEndApi + '/statistics_block', { headers: { }, params: { } })
-    .then(res => {
+    .then((res) => {
       setIsLoading(false);
-      const dataMap: any = {};
-      const dataX: any[] = [];
-      const blocksnumber: any[] = [];
-      const Block_Rewards: any[] = [];
-      res.data.map((Item: {[key:string]:any}) => {
-        dataX.push(Item.Date.substring(5));
-        dataMap[Item.Date.substring(5)] = Item;
-      })
-      dataX.sort((a, b) => a - b);
-      const newDataX = dataX.slice(1).slice().slice(1).slice(-21, -1);
-      setDataX(newDataX)
-      newDataX.map((Item: string)=>{
-        blocksnumber.push(dataMap[Item].Blocks);
-        Block_Rewards.push(Math.floor(dataMap[Item].Block_Rewards/1000000000000));
-      })
-      setblocksnumber(blocksnumber)
-      setBlock_Rewards(Block_Rewards)
+      setDataX(res.data.block_date)
+      setblocksnumber(res.data.block_count)
+      setBlock_Rewards(res.data.reward)
+      setDataWeaveSize(res.data.weave_size)
+      setDifficulty(res.data.cumulative_diff)
     })
 
     //Frist Time Api Fetch
