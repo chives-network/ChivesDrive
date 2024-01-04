@@ -17,7 +17,7 @@ import Icon from 'src/@core/components/icon'
 import CustomAvatar from 'src/@core/components/mui/avatar'
 import ReactAudioPlayer from 'react-audio-player';
 
-import { formatHash, formatTimestamp, formatTimestampAge } from 'src/configs/functions';
+import { formatHash } from 'src/configs/functions';
 import { Fragment } from 'react'
 
 // ** Third Party Import
@@ -71,13 +71,6 @@ const ImageRectangle = ( {item, backEndApi, FileType} : any) => {
         </Link>
         :
         <Fragment></Fragment>
-      }      
-      {FileType && FileType=="video" && authConfig.productName == "ArDrive" ?
-        <Link href={`/txs/view/${ImageUrl}`}>
-          <CardMedia image={`/images/icons/video.jpg`} sx={{ height: '11.25rem', objectFit: 'contain' }}/>
-        </Link>
-        :
-        <Fragment></Fragment>
       }
       {FileType && FileType=="audio" && authConfig.productName != "ArDrive" ?
         <Link href={`/txs/view/${ImageUrl}`}>
@@ -86,23 +79,9 @@ const ImageRectangle = ( {item, backEndApi, FileType} : any) => {
         :
         <Fragment></Fragment>
       }
-      {FileType && FileType=="audio" && authConfig.productName == "ArDrive" ?
-        <Link href={`/txs/view/${ImageUrl}`}>
-          <ReactAudioPlayer src={`${authConfig.nodeApi}/${ImageUrl}`} controls style={{width: '100%'}}/>
-        </Link>
-        :
-        <Fragment></Fragment>
-      }
       {FileType && FileType=="pdf" && authConfig.productName != "ArDrive" ?
         <Link href={`/txs/view/${ImageUrl}`}>
           <CardMedia image={`${backEndApi}/${ImageUrl}/thumbnail`} sx={{ height: '11.25rem', objectFit: 'contain' }}/>
-        </Link>
-        :
-        <Fragment></Fragment>
-      }
-      {FileType && FileType=="pdf" && authConfig.productName == "ArDrive" ?
-        <Link href={`/txs/view/${ImageUrl}`}>
-          <CardMedia image={`/images/icons/pdf.png`} sx={{ height: '11.25rem', objectFit: 'contain' }}/>
         </Link>
         :
         <Fragment></Fragment>
@@ -192,17 +171,6 @@ const ImageRectangle = ( {item, backEndApi, FileType} : any) => {
           </Box>
           :
           <Fragment></Fragment>
-        }
-        {authConfig.productName == "ArDrive" ?
-          <Box sx={{ display: 'flex', '& svg': { mr: 3, mt: 1, fontSize: '1.375rem', color: 'text.secondary' } }}>
-            <Icon icon='mdi:user' />
-            <Box sx={{ display: 'flex', flexDirection: 'row', mt:'4px' }}>
-              <Typography sx={{ fontSize: '0.9rem' }}>{`${t(`Time`)}`}: </Typography>
-              <Typography variant='caption' sx={{ ml: '4px', mt: '2px' }}>{formatTimestampAge(item.block.timestamp)}</Typography>
-            </Box>
-          </Box>
-        :
-        null
         }
 
       </CardContent>

@@ -49,7 +49,6 @@ const AnalyticsDashboard = () => {
   const { referee } = router.query
 
   const [chainInfo, setChainInfo] = useState<ChainInfoType>()
-  const [isLoading, setIsLoading] = useState<boolean>(true)
   const [dataX, setDataX] = useState<string[]>([])
   const [dataWeaveSize, setDataWeaveSize] = useState<number[]>([])
   const [difficulty, setDifficulty] = useState<number[]>([])
@@ -70,7 +69,6 @@ const AnalyticsDashboard = () => {
 
     axios.get(authConfig.backEndApi + '/statistics_block', { headers: { }, params: { } })
     .then((res) => {
-      setIsLoading(false);
       setDataX(res.data.block_date)
       setblocksnumber(res.data.block_count)
       setBlock_Rewards(res.data.reward)

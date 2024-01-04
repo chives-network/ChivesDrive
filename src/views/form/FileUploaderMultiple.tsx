@@ -82,6 +82,7 @@ const FileUploaderMultiple = () => {
 
   // ** Hooks
   const { getRootProps, getInputProps } = useDropzone({
+    maxFiles: 120,
     onDrop: (acceptedFiles: File[]) => {
       if(currentAddress == undefined || currentAddress.length != 43) {
         toast.success(t(`Please create a wallet first`), {
@@ -95,6 +96,11 @@ const FileUploaderMultiple = () => {
       setIsDisabledButton(false)
       setUploadingButton(`${t(`Upload Files`)}`)      
       setRemoveAllButton(`${t(`Remove All`)}`)
+    },
+    onDropRejected: () => {
+      toast.error('You can only upload 120 files', {
+        duration: 4000
+      })
     }
   })
 

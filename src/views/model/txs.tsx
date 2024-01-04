@@ -337,9 +337,6 @@ const TxView = () => {
               setFileName(ImageUrl);
             }
           }
-          if(authConfig.productName == "ArDrive") {
-            ImageUrl = ImageUrl + "/thumbnail"
-          }
           setFileUrl(`${authConfig.backEndApi}/${ImageUrl}`);
           if(TempFileName == '') {
           }
@@ -364,9 +361,6 @@ const TxView = () => {
     }
     else {
       ImageUrl = TxRecord.id
-    }
-    if(authConfig.productName == "ArDrive") {
-      ImageUrl = ImageUrl + "/thumbnail"
     }
 
     console.log("FileType", FileType)

@@ -1,3 +1,4 @@
+
 export default {
   productName: 'ChivesDrive',
   tokenName: 'XWE',
@@ -20,6 +21,7 @@ export default {
   'App-Version': '0.1',
   'App-Instance': ''
 }
+
 /*
 export default {
   productName: 'ArDrive',
