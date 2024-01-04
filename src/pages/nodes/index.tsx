@@ -57,11 +57,6 @@ const FileTypeObj: FileTypeObj = {
   WAV: { color: 'primary', icon: 'teenyicons:wav-outline' }
 }
 
-interface NodeInfoType {
-  ip: string
-  result: any
-}
-
 interface ChainInfoType {
   network: string
   version: number
@@ -81,7 +76,7 @@ const PeersInfo = () => {
   // ** Hook
   const { t } = useTranslation()
   
-  const [peers, setPeers] = useState<NodeInfoType[]>()
+  const [peers, setPeers] = useState<any[]>()
 
   const [chainInfo, setChainInfo] = useState<ChainInfoType>()
 
@@ -245,7 +240,7 @@ const PeersInfo = () => {
           
           {isMobileData ?
             <Fragment>
-              {peers.map((item: NodeInfoType, index: number) => (
+              {peers.map((item: any, index: number) => (
                 <Grid item xs={12} sx={{ py: 1 }} key={index}>
                   <Card>
                     <CardContent> 
@@ -333,18 +328,20 @@ const PeersInfo = () => {
                       <TableCell>{`${t(`Country`)}`}</TableCell>
                       <TableCell>{`${t(`Region`)}`}</TableCell>
                       <TableCell>{`${t(`City`)}`}</TableCell>
+                      <TableCell>{`${t(`Status`)}`}</TableCell>
                     </TableRow>
                   </TableHead>
 
                   <TableBody>
-                    {peers.map((item: NodeInfoType, index: number) => (
+                    {peers.map((item: any, index: number) => (
                       <TableRow hover key={index} sx={{ '&:last-of-type td': { border: 0 } }}>
                         <TableCell>{item.ip}</TableCell>
-                        <TableCell>{item.result.location}</TableCell>
-                        <TableCell>{item.result.isp}</TableCell>
-                        <TableCell>{item.result.country}</TableCell>
-                        <TableCell>{item.result.region}</TableCell>
-                        <TableCell>{item.result.city}</TableCell>
+                        <TableCell>{item.location}</TableCell>
+                        <TableCell>{item.isp}</TableCell>
+                        <TableCell>{item.country}</TableCell>
+                        <TableCell>{item.region}</TableCell>
+                        <TableCell>{item.city}</TableCell>
+                        <TableCell>{item.status}</TableCell>
                       </TableRow>
                     ))}
                   </TableBody>

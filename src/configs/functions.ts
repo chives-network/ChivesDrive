@@ -32,7 +32,7 @@ export function formatXWE(dividend: number, precision: number) {
 }
 
 export function formatXWEAddress(dividend: number, precision: number) {
-  const divisor = 10000;
+  const divisor = 1000000000000;
   const result = (dividend / divisor).toFixed(precision);
   
   return result;
