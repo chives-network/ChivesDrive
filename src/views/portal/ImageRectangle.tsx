@@ -65,21 +65,21 @@ const ImageRectangle = ( {item, backEndApi, FileType} : any) => {
         :
         <Fragment></Fragment>
       }
-      {FileType && FileType=="video" && authConfig.productName != "ArDrive" ?
+      {FileType && FileType=="video" ?
         <Link href={`/txs/view/${ImageUrl}`}>
           <CardMedia image={`${backEndApi}/${ImageUrl}/thumbnail`} sx={{ height: '11.25rem', objectFit: 'contain' }}/>
         </Link>
         :
         <Fragment></Fragment>
       }
-      {FileType && FileType=="audio" && authConfig.productName != "ArDrive" ?
+      {FileType && FileType=="audio" ?
         <Link href={`/txs/view/${ImageUrl}`}>
           <ReactAudioPlayer src={`${backEndApi}/${ImageUrl}`} controls style={{width: '100%'}}/>
         </Link>
         :
         <Fragment></Fragment>
       }
-      {FileType && FileType=="pdf" && authConfig.productName != "ArDrive" ?
+      {FileType && FileType=="pdf" ?
         <Link href={`/txs/view/${ImageUrl}`}>
           <CardMedia image={`${backEndApi}/${ImageUrl}/thumbnail`} sx={{ height: '11.25rem', objectFit: 'contain' }}/>
         </Link>
@@ -94,7 +94,7 @@ const ImageRectangle = ( {item, backEndApi, FileType} : any) => {
         <Fragment></Fragment>
       }
       <CardContent>
-        {authConfig.productName != "ArDrive" ?
+        {authConfig.productName ?
         <Fragment>
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
             <CustomAvatar skin='light' variant='rounded' sx={{ mr: 3, width: '3rem', height: '3.375rem' }}>

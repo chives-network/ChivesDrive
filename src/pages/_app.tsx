@@ -123,7 +123,7 @@ const App = (props: ExtendedAppProps) => {
           <title>{`${themeConfig.templateName} - A PERMANENT STORAGE PUBLIC CHAIN!`}</title>
           <meta
             name='description'
-            content={`${themeConfig.templateName} – A PERMANENT STORAGE PUBLIC CHAIN!`}
+            content={`${themeConfig.templateName} - A PERMANENT STORAGE PUBLIC CHAIN!`}
           />
           <meta name='keywords' content='Chivesweave, A PERMANENT STORAGE PUBLIC CHAIN!' />
           <meta name='viewport' content='initial-scale=1, width=device-width' />

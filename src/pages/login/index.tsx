@@ -247,7 +247,6 @@ const LoginPage = () => {
                   ml: 3,
                   lineHeight: 1,
                   fontWeight: 550,
-                  textTransform: 'uppercase',
                   fontSize: '1.5rem !important'
                 }}
               >

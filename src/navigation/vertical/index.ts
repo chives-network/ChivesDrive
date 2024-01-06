@@ -65,6 +65,29 @@ const DriveNavMenus = [
     path: '/overview'
   },
   {
+    sectionTitle: 'Chives Light Node'
+  },
+  {
+    title: 'Settings',
+    icon: 'mdi:cog',
+    path: '/lightnode/settings'
+  },
+  {
+    title: 'Running Status',
+    icon: 'pajamas:status-health',
+    path: '/lightnode/runningstatus'
+  },
+  {
+    title: 'Rewards',
+    icon: 'material-symbols:rewarded-ads',
+    path: '/lightnode/rewards'
+  },
+  {
+    title: 'All Nodes',
+    icon: 'clarity:nodes-line',
+    path: '/lightnode/rewards'
+  },
+  {
     sectionTitle: 'My Portal'
   },
   {
@@ -140,39 +163,6 @@ const DriveNavMenus = [
   }
 ]
 
-const ArDriveNavMenus = [
-  {
-    title: 'Dashboards',
-    icon: 'mdi:home-outline',
-    badgeContent: 'new',
-    badgeColor: 'error',
-    path: '/overview'
-  },
-  {
-    sectionTitle: 'My Portal'
-  },
-  {
-    title: 'Resources',
-    icon: 'material-symbols:captive-portal-rounded',
-    path: '/files/image'
-  },
-  {
-    title: 'My Drive',
-    icon: 'streamline:hard-disk-solid',
-    path: '/drive'
-  },
-  {
-    title: 'My Wallet',
-    icon: 'clarity:wallet-solid',
-    path: '/wallet'
-  },
-  {
-    title: 'My Files',
-    icon: 'mdi:file-multiple',
-    path: '/myfiles'
-  }
-]
-
 const navigation = (): VerticalNavItemsType => {
   let MenuList = null
 
@@ -182,9 +172,6 @@ const navigation = (): VerticalNavItemsType => {
       break;
     case 'ChivesExplorer':
       MenuList =  ExplorerNavMenus
-      break;
-    case 'ArDrive':
-      MenuList =  ArDriveNavMenus
       break;
   }
   
