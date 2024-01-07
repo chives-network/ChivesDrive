@@ -24,9 +24,6 @@ import { useAuth } from 'src/hooks/useAuth'
 // ** Hooks
 import { LightNodeSubmitToBlockchain, getWalletLightNode, chivesLightNodeUrl, getLockStatus, setLockStatus, checkNodeStatus, getWalletBalance } from 'src/functions/ChivesweaveWallets'
 
-// ** Styled Component
-import DropzoneWrapper from 'src/@core/styles/libs/react-dropzone'
-
 // ** Third Party Components
 import toast from 'react-hot-toast'
 
@@ -216,93 +213,91 @@ const LightNodeApp = () => {
   }, [uploadProgress])
 
   return (
-    <DropzoneWrapper>
-      <Grid container spacing={6} className='match-height'>
-        <Grid item xs={12}>
-            <Card>
-                <CardHeader title={`${t('Setting Chives Light Node Host And Port')}`} />
-                <CardContent>
-                    <Grid container spacing={5}>
-                        <Grid item xs={12}>
-                            <TextField
-                                fullWidth
-                                label={`${t('ChivesLightNode Address')}`}
-                                placeholder={`${t('ChivesLightNode Address')}`}
-                                value={currentAddress}
-                                InputProps={{
-                                    startAdornment: (
-                                        <InputAdornment position='start'>
-                                        <Icon icon='bx:wallet' />
-                                        </InputAdornment>
-                                    )
-                                }} 
-                                disabled={true}
-                            />
-                        </Grid>
-                        <Grid item xs={12}>
-                            <TextField
-                                fullWidth
-                                label={`${t('ChivesLightNode Balance')}`}
-                                placeholder={`${t('ChivesLightNode Balance')}`}
-                                value={walletBalance}
-                                InputProps={{
-                                    startAdornment: (
-                                        <InputAdornment position='start'>
-                                        <Icon icon='clarity:wallet-solid' />
-                                        </InputAdornment>
-                                    )
-                                }} 
-                                disabled={true}
-                            />
-                        </Grid>
-                        <Grid item xs={12}>
-                            <TextField
-                                fullWidth
-                                label={`${t('ChivesLightNodeHostAndPort')}`}
-                                placeholder={`${t('ChivesLightNodeHostAndPort')}`}
-                                value={inputHostAndPort}
-                                onChange={handleinputHostAndPortChange}
-                                InputProps={{
-                                    startAdornment: (
-                                        <InputAdornment position='start'>
-                                        <Icon icon='carbon:url' />
-                                        </InputAdornment>
-                                    )
-                                }} 
-                                disabled={isDisabledButton} 
-                                error={!!inputHostAndPortError}
-                                helperText={inputHostAndPortHelpText}
-                            />
-                        </Grid>
+    <Grid container spacing={6} className='match-height'>
+      <Grid item xs={12}>
+          <Card>
+              <CardHeader title={`${t('Setting Chives Light Node Host And Port')}`} />
+              <CardContent>
+                  <Grid container spacing={5}>
+                      <Grid item xs={12}>
+                          <TextField
+                              fullWidth
+                              label={`${t('ChivesLightNode Address')}`}
+                              placeholder={`${t('ChivesLightNode Address')}`}
+                              value={currentAddress}
+                              InputProps={{
+                                  startAdornment: (
+                                      <InputAdornment position='start'>
+                                      <Icon icon='bx:wallet' />
+                                      </InputAdornment>
+                                  )
+                              }} 
+                              disabled={true}
+                          />
+                      </Grid>
+                      <Grid item xs={12}>
+                          <TextField
+                              fullWidth
+                              label={`${t('ChivesLightNode Balance')}`}
+                              placeholder={`${t('ChivesLightNode Balance')}`}
+                              value={walletBalance}
+                              InputProps={{
+                                  startAdornment: (
+                                      <InputAdornment position='start'>
+                                      <Icon icon='clarity:wallet-solid' />
+                                      </InputAdornment>
+                                  )
+                              }} 
+                              disabled={true}
+                          />
+                      </Grid>
+                      <Grid item xs={12}>
+                          <TextField
+                              fullWidth
+                              label={`${t('ChivesLightNodeHostAndPort')}`}
+                              placeholder={`${t('ChivesLightNodeHostAndPort')}`}
+                              value={inputHostAndPort}
+                              onChange={handleinputHostAndPortChange}
+                              InputProps={{
+                                  startAdornment: (
+                                      <InputAdornment position='start'>
+                                      <Icon icon='carbon:url' />
+                                      </InputAdornment>
+                                  )
+                              }} 
+                              disabled={isDisabledButton} 
+                              error={!!inputHostAndPortError}
+                              helperText={inputHostAndPortHelpText}
+                          />
+                      </Grid>
 
-                        <Grid item xs={12} container justifyContent="flex-end">
-                            <Button 
-                                type='submit' 
-                                variant='contained' 
-                                size='small' 
-                                onClick={handleSubmitToBlockchain} 
-                                disabled={isDisabledButton} 
-                                >
-                                {uploadingButton}
-                            </Button>
-                        </Grid>
+                      <Grid item xs={12} container justifyContent="flex-end">
+                          <Button 
+                              type='submit' 
+                              variant='contained' 
+                              size='small' 
+                              onClick={handleSubmitToBlockchain} 
+                              disabled={isDisabledButton} 
+                              >
+                              {uploadingButton}
+                          </Button>
+                      </Grid>
 
-                        <Grid item xs={12} container>
-                          <Typography sx={{ mb: 2 }}>{t('1. Each wallet can only submit a public URL once, and it cannot be modified after submission.') as string}</Typography>
-                          <Typography sx={{ mb: 2 }}>{t('2. If you need to change the public URL, please switch to another wallet and then proceed with the binding.') as string}</Typography>
-                          <Typography sx={{ mb: 2 }}>{t('3. The public URL must be accessible on the internet and can use either HTTP or HTTPS.') as string}</Typography>
-                          <Typography sx={{ mb: 2 }}>{t('4. The format of the public URL is: `http://ip:port` or `https://domain:port`.') as string}</Typography>
-                          <Typography sx={{ mb: 2 }}>{t('5. Wallet balance must not be less than 0.01 XWE. If there is no balance, you can use the faucet in the wallet management to obtain 0.05 XWE.') as string}</Typography>
-                          <Typography sx={{ mb: 2 }}>{t('6. The wallet will generate a heartbeat every hour, requiring some GAS to complete.') as string}</Typography>
-                          <Typography sx={{ mb: 2 }}>{t('7. Rewards will be distributed once daily.') as string}</Typography>
-                        </Grid>
+                      <Grid item xs={12} container>
+                        <Typography sx={{ mb: 2 }}>{t('1. Each wallet can only submit a public URL once, and it cannot be modified after submission.') as string}</Typography>
+                        <Typography sx={{ mb: 2 }}>{t('2. If you need to change the public URL, please switch to another wallet and then proceed with the binding.') as string}</Typography>
+                        <Typography sx={{ mb: 2 }}>{t('3. The public URL must be accessible on the internet and can use either HTTP or HTTPS.') as string}</Typography>
+                        <Typography sx={{ mb: 2 }}>{t('4. The format of the public URL is: `http://ip:port` or `https://domain:port`.') as string}</Typography>
+                        <Typography sx={{ mb: 2 }}>{t('5. Wallet balance must not be less than 0.01 XWE. If there is no balance, you can use the faucet in the wallet management to obtain 0.05 XWE.') as string}</Typography>
+                        <Typography sx={{ mb: 2 }}>{t('6. The wallet will generate a heartbeat every hour, requiring some GAS to complete.') as string}</Typography>
+                        <Typography sx={{ mb: 2 }}>{t('7. Rewards will be distributed once daily.') as string}</Typography>
+                      </Grid>
 
-                    </Grid>
-                </CardContent>
-            </Card>
-        </Grid>
+                  </Grid>
+              </CardContent>
+          </Card>
       </Grid>
-    </DropzoneWrapper>
+    </Grid>
   )
 }
 
