@@ -253,7 +253,7 @@ const MyAgentApp = () => {
                             />
                         </Grid>
                         <Grid item xs={12}>
-                            <Typography>{`${t('Each person can set up a agent only once, and after successful setup, it cannot be modified')}`}</Typography>
+                            <Typography>{`${t('Each person can set up an agent only once, and after successful setup, it cannot be modified')}`}</Typography>
                         </Grid>
                         <Grid item xs={12} container justifyContent="flex-end">
                             <Button 

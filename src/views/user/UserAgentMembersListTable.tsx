@@ -47,7 +47,7 @@ const UserAgentMembersListTable = () => {
   const [value, setValue] = useState<string>('')
   const [data, setData] = useState<ProjectListDataType[]>([])
 
-  console.log("datadatadata",data)
+  console.log("UserAgentMembersListTable data",data)
 
   // ** Hooks
   const dispatch = useDispatch<AppDispatch>()

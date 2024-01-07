@@ -922,7 +922,7 @@ export async function checkNodeStatus() {
     }
     else {
         //false
-        return true
+        return false
     }
 }
 

@@ -216,6 +216,7 @@
     "5. Wallet balance must not be less than 0.01 XWE. If there is no balance, you can use the faucet in the wallet management to obtain 0.05 XWE.": "5. 钱包余额不能小于0.01 XWE，如果没有余额，可以在钱包管理中使用水龙头来获得0.05 XWE",
     "6. The wallet will generate a heartbeat every hour, requiring some GAS to complete.": "6. 钱包会每一个小时产生一次心跳，需要花费一些GAS",
     "7. Rewards will be distributed once daily.": "7. 奖励会每天发放一次",
+    "8. Form can only fill out after block synchronization is complete.": "8. 在区块同步完成以后,才可以填写表单",
     "Please enter the external IP and port that your node can be accessed from the internet, such as http://112.170.68.77:1985 or https://xxx.xxx:1985. If the node is not accessible from the internet, you won't be able to receive rewards": "请输入你节点的外网可以访问的IP和端口，比如AAAA，如果外网不能访问，则无法获得收益",
     "Please enter your node url": "请输入你的节点URL",
     "Invalid URL": "无效的URL",
