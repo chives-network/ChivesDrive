@@ -387,7 +387,7 @@ export async function sendAmount(walletData: any, target: string, amount: string
 			console.log('Transaction sent', txResult);
             
             //Update the upload process
-            fileName && fileName.length > 0 && setUploadProgress((prevProgress) => {
+            fileName && fileName.length > 0 && setUploadProgress && setUploadProgress((prevProgress) => {
                 
                 return {
                 ...prevProgress,
@@ -422,7 +422,7 @@ export async function sendAmount(walletData: any, target: string, amount: string
 		UploadChunksStatus[tx.id].upload = uploader.pctComplete
         
         //Update the upload process
-        fileName && fileName.length > 0 && setUploadProgress((prevProgress) => {
+        fileName && fileName.length > 0 && setUploadProgress && setUploadProgress((prevProgress) => {
             
             return {
             ...prevProgress,
@@ -439,7 +439,7 @@ export async function sendAmount(walletData: any, target: string, amount: string
 		console.log('Transaction sent: ', tx)
         
         //Update the upload process
-        fileName && fileName.length > 0 && setUploadProgress((prevProgress) => {
+        fileName && fileName.length > 0 && setUploadProgress && setUploadProgress((prevProgress) => {
             
             return {
             ...prevProgress,
@@ -893,6 +893,26 @@ export async function getWalletProfile(currentAddress: string) {
     }
 }
 
+export async function getWalletLightNode() {
+    const response = await axios.get(authConfig.backEndApi + '/lightnode/status');
+    if(response && response.data && response.data.NodeApi) {
+        return response.data
+    }
+    else {
+        return {}
+    }
+}
+
+export async function chivesLightNodeUrl(Address: string) {
+    const response = await axios.get(authConfig.backEndApi + '/lightnode/nodeurl/' + Address);
+    if(response && response.data) {
+        return response.data
+    }
+    else {
+        return {}
+    }
+}
+
 export async function checkNodeStatus() {
     const response = await axios.get(authConfig.backEndApi + '/info' );
     const Node = response.data
@@ -1337,6 +1357,52 @@ export async function ProfileSubmitToBlockchain(setUploadProgress: React.Dispatc
     
     const TxResult: any = await sendAmount(currentWallet, target, amount, tags, data, "UploadBundleFile", setUploadProgress);
     
+    return TxResult;
+};
+
+export async function LightNodeSubmitToBlockchain(setUploadProgress: React.Dispatch<React.SetStateAction<{ [key: string]: number }>>, chivesLightNodeMap: any) {
+    
+    const currentWallet = getCurrentWallet()
+    const target = ""
+    const amount = ""
+    const data = "RegisterChivesLightNode"
+
+    //Make the tags
+    const tags: any = []
+    tags.push({name: "Content-Type", value: "text/plain"})
+    tags.push({name: "Entity-Type", value: "Action"})
+    tags.push({name: "Entity-Action", value: "RegisterChivesLightNode"})
+    tags.push({name: "Entity-NodeApi", value: chivesLightNodeMap['NodeApi']})
+    tags.push({name: "Entity-Address", value: chivesLightNodeMap['Address']})
+    tags.push({name: "App-Name", value: authConfig['App-Name']})
+    tags.push({name: "App-Version", value: authConfig['App-Version']})
+    tags.push({name: "App-Instance", value: authConfig['App-Instance']})
+    tags.push({name: "Unix-Time", value: String(Date.now())})
+    
+    const TxResult: any = await sendAmount(currentWallet, target, amount, tags, data, "UploadBundleFile", setUploadProgress);
+    
+    return TxResult;
+};
+
+export async function LightNodeHeartBeatToBlockchain(setUploadProgress: React.Dispatch<React.SetStateAction<{ [key: string]: number }>>) {
+    
+    const currentWallet = getCurrentWallet()
+    //const currentAddress = getCurrentWalletAddress()
+    const target = ""
+    const amount = ""
+    const data = "HeartBeatChivesLightNode"
+
+    //Make the tags
+    const tags: any = []
+    tags.push({name: "Content-Type", value: "text/plain"})
+    tags.push({name: "Entity-Type", value: "Action"})
+    tags.push({name: "Entity-Action", value: "HeartBeatChivesLightNode"})
+    tags.push({name: "App-Name", value: authConfig['App-Name']})
+    tags.push({name: "App-Version", value: authConfig['App-Version']})
+    tags.push({name: "App-Instance", value: authConfig['App-Instance']})
+    tags.push({name: "Unix-Time", value: String(Date.now())})
+
+    const TxResult: any = await sendAmount(currentWallet, target, amount, tags, data, "UploadBundleFile", setUploadProgress);    
     return TxResult;
 };
 

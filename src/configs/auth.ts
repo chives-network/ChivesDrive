@@ -4,6 +4,7 @@ export default {
   tokenName: 'XWE',
   backEndApi: 'http://localhost:3030',
   faucetApi: 'https://faucet.chivesweave.org/faucet.php',
+  checkNodeavAilability: 'https://faucet.chivesweave.org/checkNodeavAilability.php',
   meEndpoint: '/auth/me',
   loginEndpoint: '/jwt/login',
   registerEndpoint: '/jwt/register',

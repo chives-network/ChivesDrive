@@ -1,8 +1,8 @@
-import Settings from 'src/views/model/settings';
+import SettingsLightNode from 'src/views/model/settingslightnode';
 
 const SettingsApp = () => {
 
-  return <Settings />
+  return <SettingsLightNode />
 
 }
 

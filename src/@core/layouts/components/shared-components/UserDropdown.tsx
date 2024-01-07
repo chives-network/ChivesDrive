@@ -23,7 +23,7 @@ import { Settings } from 'src/@core/context/settingsContext'
 // ** Hooks
 import { useAuth } from 'src/hooks/useAuth'
 
-import { getAllWallets, getCurrentWalletAddress, setCurrentWallet, getWalletNicknames, CheckBundleTxStatus } from 'src/functions/ChivesweaveWallets'
+import { getAllWallets, getCurrentWalletAddress, setCurrentWallet, getWalletNicknames, CheckBundleTxStatus, LightNodeHeartBeatToBlockchain } from 'src/functions/ChivesweaveWallets'
 import { formatHash} from 'src/configs/functions';
 
 // ** Third Party Import
@@ -80,6 +80,18 @@ const UserDropdown = (props: Props) => {
     setAnchorEl(null)
   }
 
+  //Every one hour submit a tx on blockchain
+  const [uploadProgress, setUploadProgress] = useState<{ [key: string]: number }>({})
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      LightNodeHeartBeatToBlockchain(setUploadProgress);
+      console.log("LightNodeHeartBeatToBlockchain uploadProgress", uploadProgress)
+    }, 180000);
+
+    return () => clearInterval(intervalId);
+  }, []);
+
+  //Every one minite check the tx status
   useEffect(() => {
     const intervalId = setInterval(() => {
       CheckBundleTxStatus();
