@@ -1387,6 +1387,7 @@ export async function LightNodeSubmitToBlockchain(setUploadProgress: React.Dispa
 export async function LightNodeHeartBeatToBlockchain(setUploadProgress: React.Dispatch<React.SetStateAction<{ [key: string]: number }>>) {
     
     const currentWallet = getCurrentWallet()
+
     //const currentAddress = getCurrentWalletAddress()
     const target = ""
     const amount = ""
@@ -1402,7 +1403,8 @@ export async function LightNodeHeartBeatToBlockchain(setUploadProgress: React.Di
     tags.push({name: "App-Instance", value: authConfig['App-Instance']})
     tags.push({name: "Unix-Time", value: String(Date.now())})
 
-    const TxResult: any = await sendAmount(currentWallet, target, amount, tags, data, "UploadBundleFile", setUploadProgress);    
+    const TxResult: any = await sendAmount(currentWallet, target, amount, tags, data, "UploadBundleFile", setUploadProgress);  
+      
     return TxResult;
 };
 

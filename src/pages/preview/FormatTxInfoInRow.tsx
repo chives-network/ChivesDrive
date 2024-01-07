@@ -1,5 +1,5 @@
 // ** React Imports
-import { useState, useEffect } from 'react'
+import { useState, useEffect, Fragment } from 'react'
 
 // ** Next Imports
 import Link from 'next/link'
@@ -90,7 +90,7 @@ function FormatTxInfoInRow({ TxRecord }: any) {
     });
     const FileType = getContentTypeAbbreviation(FileMap['Content-Type']);
     
-    //console.log("FileMap", FileMap)
+    console.log("FileMap", FileMap)
     switch(FileType) {
         case 'PNG':
         case 'GIF':
@@ -118,7 +118,6 @@ function FormatTxInfoInRow({ TxRecord }: any) {
         case 'JSON':
             return <Tooltip title={FileMap['File-Name']}><LinkStyled href={`/txs/view/${TxRecord?.id}`}>{FileMap['File-Name']?FileMap['File-Name']:FileType}</LinkStyled></Tooltip>
         case 'EXE':
-        case 'TEXT': 
         case 'CSV':  
             return <Tooltip title={FileMap['File-Name']}><LinkStyled href={`/txs/view/${TxRecord?.id}`}>{FileMap['File-Name']}</LinkStyled></Tooltip>
     }
@@ -148,6 +147,10 @@ function FormatTxInfoInRow({ TxRecord }: any) {
             </Tooltip>
           </Typography>  
       )
+    }
+
+    if(FileMap['Entity-Action']) {
+      return <Fragment>{FileMap['Entity-Action'] as string}</Fragment>;
     }
     
     return <div>Unknown</div>;

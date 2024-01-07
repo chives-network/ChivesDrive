@@ -1,16 +1,14 @@
 // ** React Imports
-import { Fragment, useState, useEffect, useCallback, useRef } from 'react'
+import { useState, useEffect} from 'react'
 
 // ** MUI Imports
 import Button from '@mui/material/Button'
 import Card from '@mui/material/Card'
 import Grid from '@mui/material/Grid'
-import { styled } from '@mui/material/styles'
 import TextField from '@mui/material/TextField'
 import CardHeader from '@mui/material/CardHeader'
 import CardContent from '@mui/material/CardContent'
 import InputAdornment from '@mui/material/InputAdornment'
-import Typography, { TypographyProps } from '@mui/material/Typography'
 
 // ** Axios Imports
 import axios from 'axios'
@@ -36,36 +34,6 @@ import { useTranslation } from 'react-i18next'
 
 import { useRouter } from 'next/router'
 
-// ** Third Party Imports
-import { useDropzone } from 'react-dropzone'
-import CircularProgress from '@mui/material/CircularProgress'
-
-interface FileProp {
-    name: string
-    type: string
-    size: number
-}
-
-// Styled component for the upload image inside the dropzone area
-const Img = styled('img')(({ theme }) => ({
-    [theme.breakpoints.up('md')]: {
-        marginRight: theme.spacing(15.75)
-    },
-    [theme.breakpoints.down('md')]: {
-        marginBottom: theme.spacing(4)
-    },
-    [theme.breakpoints.down('sm')]: {
-        width: 160
-    }
-}))
-
-// Styled component for the heading inside the dropzone area
-const HeadingTypography = styled(Typography)<TypographyProps>(({ theme }) => ({
-    marginBottom: theme.spacing(5),
-    [theme.breakpoints.down('sm')]: {
-      marginBottom: theme.spacing(4)
-    }
-}))
 
 const LightNodeApp = () => {
   // ** Hook
@@ -74,7 +42,6 @@ const LightNodeApp = () => {
   const router = useRouter()
 
   // ** State
-  const [isLoading, setIsLoading] = useState<boolean>(false)
   const [uploadProgress, setUploadProgress] = useState<{ [key: string]: number }>({})
   const [uploadingButton, setUploadingButton] = useState<string>(`${t('Submit')}`)
   const [isDisabledButton, setIsDisabledButton] = useState<boolean>(false)
@@ -128,7 +95,7 @@ const LightNodeApp = () => {
 
   const [inputHostAndPort, setinputHostAndPort] = useState<string>("")
   const [inputHostAndPortError, setinputHostAndPortError] = useState<string | null>(null)
-  const [inputHostAndPortHelpText, setinputHostAndPortHelpText] = useState<string>(t("Please enter the external IP and port that your node can be accessed from the internet, such as http://112.170.68.77:1985 or https://xxx.xxx:1985. If the node is not accessible from the internet, you won't be able to receive rewards") as string)
+  const inputHostAndPortHelpText = t("Please enter the external IP and port that your node can be accessed from the internet, such as http://112.170.68.77:1985 or https://xxx.xxx:1985. If the node is not accessible from the internet, you won't be able to receive rewards") as string
   const handleinputHostAndPortChange = (event: any) => {  
     setinputHostAndPort(event.target.value);
   };
@@ -142,6 +109,7 @@ const LightNodeApp = () => {
 
         return
     }
+
     //Check Url Format
     try {
       if(inputHostAndPort == "") {
@@ -160,19 +128,23 @@ const LightNodeApp = () => {
       }
       else {
         toast.error(`${t('Invalid URL')}`, { duration: 3000 })
+        setinputHostAndPortError(`${t('Invalid URL')}`)
 
         return
       }
     } 
     catch (error) {
       toast.error(`${t('Invalid URL')}`, { duration: 3000 })
+      setinputHostAndPortError(`${t('Invalid URL')}`)
 
       return
     }
+
     //Check Url Availability
     const NodeAvailability: any = await axios.post(authConfig.checkNodeavAilability, {node: inputHostAndPort}).then(res=>res.data);
     console.log("NodeAvailability", NodeAvailability)
     if(NodeAvailability && NodeAvailability.height) {
+
       //Availability Passed
     }
     else {
@@ -182,7 +154,6 @@ const LightNodeApp = () => {
     }
 
     //Submit
-    setIsLoading(true)
     setIsDisabledButton(true)
     setUploadingButton(`${t('Submitting...')}`)
     toast.success(`${t('Submitting...')}`, { duration: 3000 })
@@ -208,7 +179,6 @@ const LightNodeApp = () => {
       setIsDisabledButton(false)
       setUploadingButton(`${t('Submit')}`)
     }
-    setIsLoading(false)
 
   }
 
@@ -308,12 +278,5 @@ const LightNodeApp = () => {
   )
 }
 
-declare module 'react' {
-    interface HTMLAttributes<T> extends AriaAttributes, DOMAttributes<T> {
-      // extends React's HTMLAttributes
-      directory?: string;        // remember to make these attributes optional....
-      webkitdirectory?: string;
-    }
-  }
 
 export default LightNodeApp
