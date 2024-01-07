@@ -208,5 +208,22 @@
   "task_list": "It will list all the tasks, and the main tasks for the first phase are: check-in and retweeting on Twitter. Other tasks will be added for everyone to choose from in the future (Not Finished)",
   "task_my_dashboard": "All tasks I've participated in (Not Finished)",
   "Task List": "Task List",
-  "My Address": "My Address"
+  "My Address": "My Address",
+  "1. Each wallet can only submit a public URL once, and it cannot be modified after submission.": "1. Each wallet can only submit a public URL once, and it cannot be modified after submission.",
+  "2. If you need to change the public URL, please switch to another wallet and then proceed with the binding.": "2. If you need to change the public URL, please switch to another wallet and then proceed with the binding.",
+  "3. The public URL must be accessible on the internet and can use either HTTP or HTTPS.": "3. The public URL must be accessible on the internet and can use either HTTP or HTTPS.",
+  "4. The format of the public URL is: `http: //ip:port` or `https://domain:port`.": "4. The format of the public URL is: `http: //ip:port` or `https://domain:port`.",
+  "5. Wallet balance must not be less than 0.01 XWE. If there is no balance, you can use the faucet in the wallet management to obtain 0.05 XWE.": "5. Wallet balance must not be less than 0.01 XWE. If there is no balance, you can use the faucet in the wallet management to obtain 0.05 XWE.",
+  "6. The wallet will generate a heartbeat every hour, requiring some GAS to complete.": "6. The wallet will generate a heartbeat every hour, requiring some GAS to complete.",
+  "7. Rewards will be distributed once daily.": "7. Rewards will be distributed once daily.",
+  "Please enter the external IP and port that your node can be accessed from the internet, such as http://112.170.68.77:1985 or https://xxx.xxx:1985. If the node is not accessible from the internet, you won't be able to receive rewards": "Please enter the external IP and port that your node can be accessed from the internet, such as http://112.170.68.77:1985 or https://xxx.xxx:1985. If the node is not accessible from the internet, you won't be able to receive rewards",
+  "Please enter your node url": "Please enter your node url",
+  "Invalid URL": "Invalid URL",
+  "Your entered URL is not accessible on the internet": "Your entered URL is not accessible on the internet",
+  "Setting Chives Light Node Host And Port": "Setting Chives Light Node Host And Port",
+  "ChivesLightNode Address": "Chives Light Node Address",
+  "ChivesLightNode Balance": "Chives Light Node Balance",
+  "ChivesLightNodeHostAndPort": "Chives Light Node Host And Port",
+  "Chives Light Node": "Chives Light Node",
+  "Running Status": "Running Status"
 }

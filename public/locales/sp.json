@@ -206,5 +206,22 @@
     "user_subscribe_intro": "Los sitios web, DAO y creadores a los que está suscrito. Actualmente se requiere una suscripción manual cada mes, y la renovación automática no es compatible temporalmente. Permite suscripciones únicas por varios meses (No completado)",
     "task_introduction": "Tarea para ganar: Gane monedas completando diversas tareas, como: 1. Registro diario 2. Retuitear en Twitter 3. Escribir artículos, y más (No completado)",
     "task_list": "Listará todas las tareas, y las principales tareas de la primera fase son: el registro y el retuiteo en Twitter. Se agregarán otras tareas para que todos puedan elegir en el futuro (No completado)",
-    "task_my_dashboard": "Todas las tareas en las que he participado (No completado)"
+    "task_my_dashboard": "Todas las tareas en las que he participado (No completado)",
+    "1. Each wallet can only submit a public URL once, and it cannot be modified after submission.": "1. Cada billetera solo puede enviar una URL pública una vez y no se puede modificar después de enviarla.",
+    "2. If you need to change the public URL, please switch to another wallet and then proceed with the binding.": "2. Si necesita cambiar la URL pública, cambie a otra billetera y luego continúe con la vinculación.",
+    "3. The public URL must be accessible on the internet and can use either HTTP or HTTPS.": "3. La URL pública debe ser accesible en Internet y puede usar tanto HTTP como HTTPS.",
+    "4. The format of the public URL is: `http://ip:port` or `https://domain:port`.": "4. El formato de la URL pública es: `http://ip:port` o `https://domain:port`.",
+    "5. Wallet balance must not be less than 0.01 XWE. If there is no balance, you can use the faucet in the wallet management to obtain 0.05 XWE.": "5. El saldo de la billetera no debe ser inferior a 0.01 XWE. Si no hay saldo, puede usar el grifo en la administración de la billetera para obtener 0.05 XWE.",
+    "6. The wallet will generate a heartbeat every hour, requiring some GAS to complete.": "6. La billetera generará un latido cada hora, requiriendo algo de GAS para completar.",
+    "7. Rewards will be distributed once daily.": "7. Las recompensas se distribuirán una vez al día.",
+    "Please enter the external IP and port that your node can be accessed from the internet, such as http://112.170.68.77:1985 or https://xxx.xxx:1985. If the node is not accessible from the internet, you won't be able to receive rewards": "Por favor, ingrese la IP externa y el puerto por el cual su nodo puede ser accedido desde Internet, como http://112.170.68.77:1985 o https://xxx.xxx:1985. Si el nodo no es accesible desde Internet, no podrá recibir recompensas.",
+    "Please enter your node url": "Por favor, ingrese la URL de su nodo",
+    "Invalid URL": "URL no válida",
+    "Your entered URL is not accessible on the internet": "La URL que ingresó no es accesible en Internet",
+    "Setting Chives Light Node Host And Port": "Configuración del host y puerto de Chives Light Node",
+    "ChivesLightNode Address": "Dirección de Chives Light Node",
+    "ChivesLightNode Balance": "Saldo de Chives Light Node",
+    "ChivesLightNodeHostAndPort": "Host y puerto de Chives Light Node",
+    "Chives Light Node": "Chives Light Node",
+    "Running Status": "Estado de ejecución"
 }

@@ -206,5 +206,22 @@
     "user_subscribe_intro": "您訂閱的網站、DAO和創作者。目前需要每月手動訂閱，暫不支持自動續訂。它允許一次性訂閱多個月（未完成）",
     "task_introduction": "任務賺取：通過完成各種任務賺取代幣，例如：1. 每日簽到 2. 在Twitter上轉發 3. 撰寫文章等（未完成）",
     "task_list": "它將列出所有任務，第一階段的主要任務包括：簽到和在Twitter上轉發。未來將添加其他任務供大家選擇（未完成）",
-    "task_my_dashboard": "我參與的所有任務（未完成）"
+    "task_my_dashboard": "我參與的所有任務（未完成）",
+    "1. Each wallet can only submit a public URL once, and it cannot be modified after submission.": "1. 每個錢包只能填寫一次公網URL，填寫以後不能修改",
+    "2. If you need to change the public URL, please switch to another wallet and then proceed with the binding.": "2. 如果需要更換公網URL，請更換為其他錢包，然後再來綁定",
+    "3. The public URL must be accessible on the internet and can use either HTTP or HTTPS.": "3. 公網URL要求在互聯網上面可以訪問，使用HTTP或HTTPS均可以",
+    "4. The format of the public URL is: `http://ip:port` or `https://domain:port`.": "4. 公網URL格式: `http://ip:port` 或 `https://domain:port`",
+    "5. Wallet balance must not be less than 0.01 XWE. If there is no balance, you can use the faucet in the wallet management to obtain 0.05 XWE.": "5. 錢包余額不能小於0.01 XWE，如果沒有余額，可以在錢包管理中使用水龍頭來獲得0.05 XWE",
+    "6. The wallet will generate a heartbeat every hour, requiring some GAS to complete.": "6. 錢包會每一個小時產生一次心跳，需要花費一些GAS",
+    "7. Rewards will be distributed once daily.": "7. 獎勵會每天發放一次",
+    "Please enter the external IP and port that your node can be accessed from the internet, such as http://112.170.68.77:1985 or https://xxx.xxx:1985. If the node is not accessible from the internet, you won't be able to receive rewards": "請輸入你節點的外網可以訪問的IP和端口，比如AAAA，如果外網不能訪問，則無法獲得收益",
+    "Please enter your node url": "請輸入你的節點URL",
+    "Invalid URL": "無效的URL",
+    "Your entered URL is not accessible on the internet": "您輸入的URL在互聯網上面訪問不到",
+    "Setting Chives Light Node Host And Port": "設置 Chives Light Node 主機和端口",
+    "ChivesLightNode Address": "Chives Light Node 地址",
+    "ChivesLightNode Balance": "Chives Light Node 餘額",
+    "ChivesLightNodeHostAndPort": "Chives Light Node 主機和端口",
+    "Chives Light Node": "Chives Light Node",
+    "Running Status": "運行狀態"
 }

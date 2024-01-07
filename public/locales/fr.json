@@ -206,5 +206,22 @@
   "user_subscribe_intro": "Les sites Web, DAO et créateurs auxquels vous êtes abonné. L'abonnement manuel est requis chaque mois pour le moment, et le renouvellement automatique n'est pas temporairement pris en charge. Il permet des abonnements ponctuels pour plusieurs mois (Non terminé)",
   "task_introduction": "Tâche pour gagner : Gagnez des jetons en accomplissant diverses tâches, telles que : 1. Check-ins quotidiens 2. Retweet sur Twitter 3. Écrire des articles, et plus encore (Non terminé)",
   "task_list": "Il listera toutes les tâches, et les principales tâches de la première phase sont : check-in et retweet sur Twitter. D'autres tâches seront ajoutées pour que chacun puisse choisir à l'avenir (Non terminé)",
-  "task_my_dashboard": "Toutes les tâches auxquelles j'ai participé (Non terminé)"
+  "task_my_dashboard": "Toutes les tâches auxquelles j'ai participé (Non terminé)",
+  "1. Each wallet can only submit a public URL once, and it cannot be modified after submission.": "1. Chaque portefeuille ne peut soumettre qu'une seule URL publique, et elle ne peut pas être modifiée après soumission.",
+  "2. If you need to change the public URL, please switch to another wallet and then proceed with the binding.": "2. Si vous avez besoin de changer l'URL publique, veuillez passer à un autre portefeuille, puis procéder à la liaison.",
+  "3. The public URL must be accessible on the internet and can use either HTTP or HTTPS.": "3. L'URL publique doit être accessible sur Internet et peut utiliser soit HTTP, soit HTTPS.",
+  "4. The format of the public URL is: `http://ip:port` or `https://domain:port`.": "4. Le format de l'URL publique est : `http://ip:port` ou `https://domain:port`.",
+  "5. Wallet balance must not be less than 0.01 XWE. If there is no balance, you can use the faucet in the wallet management to obtain 0.05 XWE.": "5. Le solde du portefeuille ne doit pas être inférieur à 0,01 XWE. S'il n'y a pas de solde, vous pouvez utiliser le robinet dans la gestion du portefeuille pour obtenir 0,05 XWE.",
+  "6. The wallet will generate a heartbeat every hour, requiring some GAS to complete.": "6. Le portefeuille générera un battement de cœur toutes les heures, nécessitant un peu de GAS pour être complet.",
+  "7. Rewards will be distributed once daily.": "7. Les récompenses seront distribuées une fois par jour.",
+  "Please enter the external IP and port that your node can be accessed from the internet, such as http://112.170.68.77:1985 or https://xxx.xxx:1985. If the node is not accessible from the internet, you won't be able to receive rewards": "Veuillez entrer l'IP externe et le port auxquels votre nœud peut être accédé depuis Internet, par exemple http://112.170.68.77:1985 ou https://xxx.xxx:1985. Si le nœud n'est pas accessible depuis Internet, vous ne pourrez pas recevoir de récompenses.",
+  "Please enter your node url": "Veuillez entrer l'URL de votre nœud",
+  "Invalid URL": "URL invalide",
+  "Your entered URL is not accessible on the internet": "Votre URL saisie n'est pas accessible sur Internet",
+  "Setting Chives Light Node Host And Port": "Paramétrage de l'hôte et du port de Chives Light Node",
+  "ChivesLightNode Address": "Adresse de Chives Light Node",
+  "ChivesLightNode Balance": "Solde de Chives Light Node",
+  "ChivesLightNodeHostAndPort": "Hôte et port de Chives Light Node",
+  "Chives Light Node": "Chives Light Node",
+  "Running Status": "État d'exécution"
 }

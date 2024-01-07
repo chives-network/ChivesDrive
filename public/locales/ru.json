@@ -206,5 +206,22 @@
     "user_subscribe_intro": "Список веб-сайтов, DAO и создателей, на которых вы подписаны. В настоящее время требуется ручная подписка каждый месяц, и автоматического продления временно не поддерживается. Это позволяет однократные подписки на несколько месяцев (Не завершено)",
     "task_introduction": "Задача для заработка: Зарабатывайте монеты, выполняя различные задачи, такие как: 1. Ежедневные регистрации 2. Ретвиты в Twitter 3. Написание статей и многое другое (Не завершено)",
     "task_list": "Здесь перечислены все задачи, и основные задачи первой фазы включают: регистрацию и ретвиты в Twitter. В будущем будут добавлены другие задачи, из которых каждый сможет выбрать (Не завершено)",
-    "task_my_dashboard": "Все задачи, в которых я участвовал (Не завершено)"
+    "task_my_dashboard": "Все задачи, в которых я участвовал (Не завершено)",
+    "1. Each wallet can only submit a public URL once, and it cannot be modified after submission.": "1. Каждый кошелек может отправить только один общедоступный URL, и его нельзя изменить после отправки.",
+    "2. If you need to change the public URL, please switch to another wallet and then proceed with the binding.": "2. Если вам нужно изменить общедоступный URL, переключитесь на другой кошелек и затем продолжите привязку.",
+    "3. The public URL must be accessible on the internet and can use either HTTP or HTTPS.": "3. Общедоступный URL должен быть доступен в Интернете и может использовать как HTTP, так и HTTPS.",
+    "4. The format of the public URL is: `http://ip:port` or `https://domain:port`.": "4. Формат общедоступного URL: `http://ip:port` или `https://domain:port`.",
+    "5. Wallet balance must not be less than 0.01 XWE. If there is no balance, you can use the faucet in the wallet management to obtain 0.05 XWE.": "5. Баланс кошелька не должен быть меньше 0,01 XWE. Если нет баланса, вы можете использовать кран в управлении кошельком, чтобы получить 0,05 XWE.",
+    "6. The wallet will generate a heartbeat every hour, requiring some GAS to complete.": "6. Кошелек будет генерировать сердцебиение каждый час, требуя некоторого объема GAS для завершения.",
+    "7. Rewards will be distributed once daily.": "7. Награды будут распределяться ежедневно.",
+    "Please enter the external IP and port that your node can be accessed from the internet, such as http://112.170.68.77:1985 or https://xxx.xxx:1985. If the node is not accessible from the internet, you won't be able to receive rewards": "Пожалуйста, введите внешний IP и порт, по которому ваш узел может быть доступен из Интернета, например, http://112.170.68.77:1985 или https://xxx.xxx:1985. Если узел не доступен из Интернета, вы не сможете получать вознаграждения.",
+    "Please enter your node url": "Пожалуйста, введите URL вашего узла",
+    "Invalid URL": "Недействительный URL",
+    "Your entered URL is not accessible on the internet": "Ваш введенный URL не доступен в Интернете",
+    "Setting Chives Light Node Host And Port": "Настройка хоста и порта Chives Light Node",
+    "ChivesLightNode Address": "Адрес Chives Light Node",
+    "ChivesLightNode Balance": "Баланс Chives Light Node",
+    "ChivesLightNodeHostAndPort": "Хост и порт Chives Light Node",
+    "Chives Light Node": "Chives Light Node",
+    "Running Status": "Статус выполнения"
 }

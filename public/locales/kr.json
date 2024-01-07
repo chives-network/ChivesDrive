@@ -206,5 +206,22 @@
     "user_subscribe_intro": "구독하는 웹사이트, DAO 및 크리에이터 목록입니다. 현재 수동으로 매월 구독해야하며 일시적으로 자동 갱신은 지원되지 않습니다. 여러 달에 걸친 일회성 구독을 허용합니다 (미완성)",
     "task_introduction": "수익을 위한 작업으로 다양한 작업을 완료하여 코인을 획득합니다. 예를 들어 일일 체크인, 트위터에서 리트윗, 글쓰기 등이 있습니다 (미완성)",
     "task_list": "수행한 모든 작업을 나열하며 초기 단계에서의 주요 작업은 체크인 및 트위터에서 리트윗입니다. 향후 다른 작업을 선택할 수 있도록 다른 작업이 추가될 예정입니다 (미완성)",
-    "task_my_dashboard": "참여한 모든 작업을 표시합니다 (미완성)"
+    "task_my_dashboard": "참여한 모든 작업을 표시합니다 (미완성)",
+    "1. Each wallet can only submit a public URL once, and it cannot be modified after submission.": "1. 각 지갑은 공개 URL을 한 번만 제출할 수 있으며 제출 후 수정할 수 없습니다.",
+    "2. If you need to change the public URL, please switch to another wallet and then proceed with the binding.": "2. 공개 URL을 변경해야 하는 경우 다른 지갑으로 전환한 다음 바인딩을 계속 진행하십시오.",
+    "3. The public URL must be accessible on the internet and can use either HTTP or HTTPS.": "3. 공개 URL은 인터넷에서 접근 가능해야 하며 HTTP 또는 HTTPS를 사용할 수 있습니다.",
+    "4. The format of the public URL is: `http://ip:port` or `https://domain:port`.": "4. 공개 URL의 형식은 `http://ip:port` 또는 `https://domain:port`입니다.",
+    "5. Wallet balance must not be less than 0.01 XWE. If there is no balance, you can use the faucet in the wallet management to obtain 0.05 XWE.": "5. 지갑 잔액은 0.01 XWE보다 작아서는 안되며 잔액이 없는 경우 지갑 관리의 수도꼭지를 사용하여 0.05 XWE를 얻을 수 있습니다.",
+    "6. The wallet will generate a heartbeat every hour, requiring some GAS to complete.": "6. 지갑은 매 시간마다 심장 박동을 생성하며 완료하려면 일부 GAS가 필요합니다.",
+    "7. Rewards will be distributed once daily.": "7. 보상은 매일 한 번 분배됩니다.",
+    "Please enter the external IP and port that your node can be accessed from the internet, such as http://112.170.68.77:1985 or https://xxx.xxx:1985. If the node is not accessible from the internet, you won't be able to receive rewards": "인터넷에서 액세스할 수 있는 노드의 외부 IP 및 포트를 입력하십시오. http://112.170.68.77:1985 또는 https://xxx.xxx:1985와 같습니다. 노드가 인터넷에서 접근할 수 없는 경우 보상을 받을 수 없습니다.",
+    "Please enter your node url": "노드 URL을 입력하세요",
+    "Invalid URL": "잘못된 URL",
+    "Your entered URL is not accessible on the internet": "입력한 URL은 인터넷에서 접근할 수 없습니다.",
+    "Setting Chives Light Node Host And Port": "Chives Light Node 호스트 및 포트 설정",
+    "ChivesLightNode Address": "Chives Light Node 주소",
+    "ChivesLightNode Balance": "Chives Light Node 잔액",
+    "ChivesLightNodeHostAndPort": "Chives Light Node 호스트 및 포트",
+    "Chives Light Node": "Chives Light Node",
+    "Running Status": "실행 상태"
 }

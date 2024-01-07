@@ -1385,27 +1385,35 @@ export async function LightNodeSubmitToBlockchain(setUploadProgress: React.Dispa
 };
 
 export async function LightNodeHeartBeatToBlockchain(setUploadProgress: React.Dispatch<React.SetStateAction<{ [key: string]: number }>>) {
-    
     const currentWallet = getCurrentWallet()
-
-    //const currentAddress = getCurrentWalletAddress()
-    const target = ""
-    const amount = ""
-    const data = "HeartBeatChivesLightNode"
-
-    //Make the tags
-    const tags: any = []
-    tags.push({name: "Content-Type", value: "text/plain"})
-    tags.push({name: "Entity-Type", value: "Action"})
-    tags.push({name: "Entity-Action", value: "HeartBeatChivesLightNode"})
-    tags.push({name: "App-Name", value: authConfig['App-Name']})
-    tags.push({name: "App-Version", value: authConfig['App-Version']})
-    tags.push({name: "App-Instance", value: authConfig['App-Instance']})
-    tags.push({name: "Unix-Time", value: String(Date.now())})
-
-    const TxResult: any = await sendAmount(currentWallet, target, amount, tags, data, "UploadBundleFile", setUploadProgress);  
-      
-    return TxResult;
+    const currentAddress = getCurrentWalletAddress()
+    const getWalletLightNodeData: any = await getWalletLightNode()
+    console.log("LightNodeHeartBeatToBlockchain synced", getWalletLightNodeData)
+    if(getWalletLightNodeData && getWalletLightNodeData.height && getWalletLightNodeData.blocks && getWalletLightNodeData.height <= getWalletLightNodeData.blocks) {      
+        if(currentAddress && currentAddress.length == 43) {
+            const chivesLightNodeUrlData = await chivesLightNodeUrl(currentAddress)
+            console.log("LightNodeHeartBeatToBlockchain have set chivesLightNodeUrl", chivesLightNodeUrlData)
+            if(chivesLightNodeUrlData && chivesLightNodeUrlData.chivesLightNodeUrl) {
+                const target = ""
+                const amount = ""
+                const data = "HeartBeatChivesLightNode"
+            
+                //Make the tags
+                const tags: any = []
+                tags.push({name: "Content-Type", value: "text/plain"})
+                tags.push({name: "Entity-Type", value: "Action"})
+                tags.push({name: "Entity-Action", value: "HeartBeatChivesLightNode"})
+                tags.push({name: "App-Name", value: authConfig['App-Name']})
+                tags.push({name: "App-Version", value: authConfig['App-Version']})
+                tags.push({name: "App-Instance", value: authConfig['App-Instance']})
+                tags.push({name: "Unix-Time", value: String(Date.now())})
+            
+                const TxResult: any = await sendAmount(currentWallet, target, amount, tags, data, "UploadBundleFile", setUploadProgress);  
+            
+                return TxResult;
+            }
+        }
+    }
 };
 
 function setBaseTags (tags: Tag[], set: { [key: string]: string }) {

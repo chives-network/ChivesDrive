@@ -56,6 +56,19 @@ const ExplorerNavMenus = [
   }
 ]
 
+  /*
+  {
+    title: 'Rewards',
+    icon: 'material-symbols:rewarded-ads',
+    path: '/lightnode/rewards'
+  },
+  {
+    title: 'All Nodes',
+    icon: 'clarity:nodes-line',
+    path: '/lightnode/rewards'
+  },
+  */
+
 const DriveNavMenus = [
   {
     title: 'Dashboards',
@@ -76,16 +89,6 @@ const DriveNavMenus = [
     title: 'Running Status',
     icon: 'pajamas:status-health',
     path: '/lightnode/runningstatus'
-  },
-  {
-    title: 'Rewards',
-    icon: 'material-symbols:rewarded-ads',
-    path: '/lightnode/rewards'
-  },
-  {
-    title: 'All Nodes',
-    icon: 'clarity:nodes-line',
-    path: '/lightnode/rewards'
   },
   {
     sectionTitle: 'My Portal'

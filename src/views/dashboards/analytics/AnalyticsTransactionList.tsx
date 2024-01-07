@@ -1,5 +1,5 @@
 // ** React Imports
-import { useState, useEffect } from 'react'
+import { useState, useEffect, Fragment } from 'react'
 
 // ** Next Imports
 import Link from 'next/link'
@@ -133,6 +133,10 @@ function parseTxAndGetMemoFileInfo(TxRecord: TxRecordType) {
   const BundleVersion = getContentTypeAbbreviation(FileMap['Bundle-Version']);
   if(BundleFormat == "binary") {
     return "Bundle " + BundleVersion;
+  }
+
+  if(FileMap['Entity-Action']) {
+    return <Fragment>{FileMap['Entity-Action'] as string}</Fragment>;
   }
 
   //Video Format

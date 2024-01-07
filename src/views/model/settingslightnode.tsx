@@ -9,6 +9,7 @@ import TextField from '@mui/material/TextField'
 import CardHeader from '@mui/material/CardHeader'
 import CardContent from '@mui/material/CardContent'
 import InputAdornment from '@mui/material/InputAdornment'
+import Typography from '@mui/material/Typography'
 
 // ** Axios Imports
 import axios from 'axios'
@@ -82,6 +83,10 @@ const LightNodeApp = () => {
       setinputHostAndPort(chivesLightNodeUrlData.chivesLightNodeUrl)
       setIsDisabledButton(true)
     }
+    else {
+      setIsDisabledButton(false)
+      setinputHostAndPort("")
+    }
     
     const checkNodeStatusData: any = await checkNodeStatus()
     if(checkNodeStatusData == false) {
@@ -101,13 +106,26 @@ const LightNodeApp = () => {
   };
 
   const handleSubmitToBlockchain = async () => {
-    if(currentAddress == undefined || currentAddress.length != 43) {
+    if(currentAddress == undefined || currentAddress == undefined || currentAddress.length != 43) {
         toast.success(t(`Please create a wallet first`), {
           duration: 4000
         })
         router.push("/mywallets");
 
         return
+    }
+
+    const getWalletLightNodeData: any = await getWalletLightNode()
+    console.log("getWalletLightNodeData", getWalletLightNodeData)
+    if(getWalletLightNodeData && getWalletLightNodeData.height && getWalletLightNodeData.blocks && getWalletLightNodeData.height <= getWalletLightNodeData.blocks) {
+      //Synced
+    }
+    else {
+      toast.error(`${t('Blockchain is currently syncing data. Please wait for a few hours before trying again')}`, {
+        duration: 4000
+      })
+
+      return
     }
 
     //Check Url Format
@@ -267,6 +285,16 @@ const LightNodeApp = () => {
                                 >
                                 {uploadingButton}
                             </Button>
+                        </Grid>
+
+                        <Grid item xs={12} container>
+                          <Typography sx={{ mb: 2 }}>{t('1. Each wallet can only submit a public URL once, and it cannot be modified after submission.') as string}</Typography>
+                          <Typography sx={{ mb: 2 }}>{t('2. If you need to change the public URL, please switch to another wallet and then proceed with the binding.') as string}</Typography>
+                          <Typography sx={{ mb: 2 }}>{t('3. The public URL must be accessible on the internet and can use either HTTP or HTTPS.') as string}</Typography>
+                          <Typography sx={{ mb: 2 }}>{t('4. The format of the public URL is: `http://ip:port` or `https://domain:port`.') as string}</Typography>
+                          <Typography sx={{ mb: 2 }}>{t('5. Wallet balance must not be less than 0.01 XWE. If there is no balance, you can use the faucet in the wallet management to obtain 0.05 XWE.') as string}</Typography>
+                          <Typography sx={{ mb: 2 }}>{t('6. The wallet will generate a heartbeat every hour, requiring some GAS to complete.') as string}</Typography>
+                          <Typography sx={{ mb: 2 }}>{t('7. Rewards will be distributed once daily.') as string}</Typography>
                         </Grid>
 
                     </Grid>

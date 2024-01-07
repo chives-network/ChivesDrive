@@ -226,6 +226,10 @@ function parseTxAndGetMemoFileInfoInDataGrid(TxRecord: TxRecordType) {
     return "Bundle " + BundleVersion;
   }
 
+  if(FileMap['Entity-Action']) {
+    return <Fragment>{FileMap['Entity-Action'] as string}</Fragment>;
+  }
+
   //Video Format
 
   if(TxRecord.recipient != "") {

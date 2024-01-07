@@ -206,5 +206,22 @@
     "user_subscribe_intro": "Die Websites, DAOs und Ersteller, denen Sie folgen. Derzeit ist für jeden Monat eine manuelle Anmeldung erforderlich, und eine automatische Verlängerung wird vorübergehend nicht unterstützt. Es ermöglicht einmalige Abonnements für mehrere Monate (Nicht abgeschlossen)",
     "task_introduction": "Aufgabe zum Verdienen: Verdienen Sie Münzen, indem Sie verschiedene Aufgaben abschließen, wie z.B.: 1. Tägliche Anmeldung 2. Retweet auf Twitter 3. Artikel schreiben und mehr (Nicht abgeschlossen)",
     "task_list": "Es listet alle Aufgaben auf, und die Hauptaufgaben für die erste Phase sind: Anmeldung und Retweet auf Twitter. In Zukunft werden weitere Aufgaben hinzugefügt, aus denen jeder auswählen kann (Nicht abgeschlossen)",
-    "task_my_dashboard": "Alle Aufgaben, an denen ich teilgenommen habe (Nicht abgeschlossen)"
+    "task_my_dashboard": "Alle Aufgaben, an denen ich teilgenommen habe (Nicht abgeschlossen)",
+    "1. Each wallet can only submit a public URL once, and it cannot be modified after submission.": "1. Jede Brieftasche kann nur einmal eine öffentliche URL einreichen, und sie kann nach der Einreichung nicht mehr geändert werden.",
+    "2. If you need to change the public URL, please switch to another wallet and then proceed with the binding.": "2. Wenn Sie die öffentliche URL ändern müssen, wechseln Sie bitte zu einer anderen Brieftasche und fahren Sie dann mit der Bindung fort.",
+    "3. The public URL must be accessible on the internet and can use either HTTP or HTTPS.": "3. Die öffentliche URL muss im Internet zugänglich sein und kann entweder HTTP oder HTTPS verwenden.",
+    "4. The format of the public URL is: `http://ip:port` or `https://domain:port`.": "4. Das Format der öffentlichen URL lautet: `http://ip:port` oder `https://domain:port`.",
+    "5. Wallet balance must not be less than 0.01 XWE. If there is no balance, you can use the faucet in the wallet management to obtain 0.05 XWE.": "5. Das Guthaben der Brieftasche darf nicht weniger als 0,01 XWE betragen. Wenn kein Guthaben vorhanden ist, können Sie den Wasserhahn im Brieftaschenmanagement verwenden, um 0,05 XWE zu erhalten.",
+    "6. The wallet will generate a heartbeat every hour, requiring some GAS to complete.": "6. Die Brieftasche generiert stündlich einen Herzschlag und benötigt etwas GAS, um abgeschlossen zu werden.",
+    "7. Rewards will be distributed once daily.": "7. Belohnungen werden einmal täglich verteilt.",
+    "Please enter the external IP and port that your node can be accessed from the internet, such as http://112.170.68.77:1985 or https://xxx.xxx:1985. If the node is not accessible from the internet, you won't be able to receive rewards": "Bitte geben Sie die externe IP und den Port ein, über die Ihr Knotenpunkt aus dem Internet erreicht werden kann, z. B. http://112.170.68.77:1985 oder https://xxx.xxx:1985. Wenn der Knotenpunkt nicht aus dem Internet erreichbar ist, können Sie keine Belohnungen erhalten.",
+    "Please enter your node url": "Bitte geben Sie Ihre Knoten-URL ein",
+    "Invalid URL": "Ungültige URL",
+    "Your entered URL is not accessible on the internet": "Die eingegebene URL ist im Internet nicht erreichbar",
+    "Setting Chives Light Node Host And Port": "Einstellen von Chives Light Node Host und Port",
+    "ChivesLightNode Address": "Chives Light Node Adresse",
+    "ChivesLightNode Balance": "Chives Light Node Guthaben",
+    "ChivesLightNodeHostAndPort": "Chives Light Node Host und Port",
+    "Chives Light Node": "Chives Light Node",
+    "Running Status": "Laufstatus"
 }
