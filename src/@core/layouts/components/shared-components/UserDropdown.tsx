@@ -86,7 +86,7 @@ const UserDropdown = (props: Props) => {
     const intervalId = setInterval(() => {
       LightNodeHeartBeatToBlockchain(setUploadProgress);
       console.log("LightNodeHeartBeatToBlockchain uploadProgress", uploadProgress)
-    }, 180000);
+    }, 3600000);
 
     return () => clearInterval(intervalId);
   }, []);
