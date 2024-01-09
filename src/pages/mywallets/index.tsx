@@ -112,7 +112,7 @@ const MyWallets = () => {
     console.log("Address", Address);
     const formData = new FormData();
     formData.append('Address',Address);
-    const Info = await axios.get(authConfig.backEndApi).then(res => {
+    const Info = await axios.get(authConfig.backEndApi+"/info").then(res => {
       return res.data
     });
     formData.append('current',Info.current);
