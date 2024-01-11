@@ -18,7 +18,16 @@ import { useState, useEffect, Fragment } from 'react'
 // ** Context
 import { useAuth } from 'src/hooks/useAuth'
 
+// ** Third Party Import
+import { useTranslation } from 'react-i18next'
+
+
+import Card from '@mui/material/Card'
+import CardHeader from '@mui/material/CardHeader'
+
 const AnalyticsDashboard = () => {
+  // ** Hook
+  const { t } = useTranslation()
 
   const auth = useAuth()
   const currentAddress = auth.currentAddress
@@ -26,9 +35,12 @@ const AnalyticsDashboard = () => {
   const [chainInfo, setChainInfo] = useState<any>()
   const [transactionHeartBeat, setTransactionHeartBeat] = useState<number[]>([])
   const [transactionReward, setTransactionReward] = useState<number[]>([])
+  const [haveWallet, setHaveWallet] = useState<boolean>(false)
 
   useEffect(() => {
     if(currentAddress && currentAddress.length == 43) {
+      setHaveWallet(true)
+      
       //Frist Time Api Fetch
       //heartbeat List 
       axios.get(authConfig.backEndApi + '/lightnode/heartbeat/' + currentAddress + '/0/10', { headers: { }, params: { } })
@@ -47,6 +59,7 @@ const AnalyticsDashboard = () => {
         .then(res => {
           setChainInfo(res.data);
         })
+
       const intervalId = setInterval(() => {
           
           //Interval Time Api Fetch
@@ -73,14 +86,22 @@ const AnalyticsDashboard = () => {
       return () => clearInterval(intervalId);
       
     }
-
+    else {
+      setHaveWallet(false)
+    }
   }, [currentAddress])
 
   return (
     <ApexChartWrapper>
       <Grid container spacing={6}>
-        <Grid item xs={12} md={12}>          
-          <AnalyticsTransactionsLightNode data={chainInfo}/>
+        <Grid item xs={12} md={12}>   
+          { haveWallet ?
+            <AnalyticsTransactionsLightNode data={chainInfo}/>
+          :
+          <Card>
+            <CardHeader title={t('Please create a wallet first') as string} />
+          </Card>
+          }       
         </Grid>
         <Grid item xs={12} md={6}>
           {transactionHeartBeat ?

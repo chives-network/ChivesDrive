@@ -5,6 +5,7 @@ export default {
   backEndApi: 'http://localhost:1985',
   faucetApi: 'https://faucet.chivesweave.org/faucet.php',
   checkNodeavAilability: 'https://faucet.chivesweave.org/checkNodeavAilability.php',
+  getNodeInternetIp: 'https://faucet.chivesweave.org/getNodeInternetIp.php',
   meEndpoint: '/auth/me',
   loginEndpoint: '/jwt/login',
   registerEndpoint: '/jwt/register',

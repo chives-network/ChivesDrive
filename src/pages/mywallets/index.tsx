@@ -23,6 +23,9 @@ import DialogContent from '@mui/material/DialogContent'
 import DialogActions from '@mui/material/DialogActions'
 import DialogContentText from '@mui/material/DialogContentText'
 
+// ** Hooks
+import { useAuth } from 'src/hooks/useAuth'
+
 // ** MUI Imports
 import Button from '@mui/material/Button'
 
@@ -60,10 +63,12 @@ const MyWallets = () => {
 
   const [currentAddress, setCurrentAddress] = useState<string>("")
   
+  const { setAuthContextCurrentAddress } = useAuth()
 
   useEffect(() => {
 
     const currentAddressTemp = getCurrentWalletAddress()
+    console.log("currentAddressTemp", currentAddressTemp)
     setCurrentAddress(currentAddressTemp)
 
     const myTask = () => {
@@ -75,6 +80,10 @@ const MyWallets = () => {
   }, []);
 
   useEffect(() => {
+    const currentAddressTemp = getCurrentWalletAddress()
+    setAuthContextCurrentAddress(currentAddressTemp)
+    setCurrentAddress(currentAddressTemp)
+
     if(createWalletWindow == false) {
       setGetAllWalletsData(getAllWallets())
       setGetWalletNicknamesData(getWalletNicknames())

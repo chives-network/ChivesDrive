@@ -44,6 +44,7 @@ const LightNodeApp = () => {
   const [uploadingButton, setUploadingButton] = useState<string>(`${t('Submit')}`)
   const [isDisabledButton, setIsDisabledButton] = useState<boolean>(true)
   const [walletBalance, setWalletBalance] = useState<string>('')
+  const [internetIp, setInternetIp] = useState<string>('')
 
   const auth = useAuth()
   const currentAddress = auth.currentAddress
@@ -91,16 +92,17 @@ const LightNodeApp = () => {
       }
     }
     
-    
-
     const Balance: string = await getWalletBalance(currentAddress)
     setWalletBalance(Balance)
+
+    const getNodeInternetIp: string = await axios.get(authConfig.getNodeInternetIp).then(res=>res.data);
+    setInternetIp(getNodeInternetIp)
 
   }
 
   const [inputHostAndPort, setinputHostAndPort] = useState<string>("")
   const [inputHostAndPortError, setinputHostAndPortError] = useState<string | null>(null)
-  const inputHostAndPortHelpText = t("Please enter the external IP and port that your node can be accessed from the internet, such as http://112.170.68.77:1985 or https://xxx.xxx:1985. If the node is not accessible from the internet, you won't be able to receive rewards") as string
+  const inputHostAndPortHelpText = t("Please enter the external IP and port that your node can be accessed from the internet, such as http://112.170.68.77:1985 or https://xxx.com:1985. If the node is not accessible from the internet, you won't be able to receive rewards") as string
   const handleinputHostAndPortChange = (event: any) => {  
     setinputHostAndPort(event.target.value);
   };
@@ -170,6 +172,11 @@ const LightNodeApp = () => {
 
       return
     }
+    if(NodeAvailability?.type!="lightnode") {
+      toast.error(`${t('This node is not a light node')}`, { duration: 3000 })
+
+      return
+    }
 
     //Submit
     setIsDisabledButton(true)
@@ -227,7 +234,7 @@ const LightNodeApp = () => {
                               fullWidth
                               label={`${t('ChivesLightNode Address')}`}
                               placeholder={`${t('ChivesLightNode Address')}`}
-                              value={currentAddress}
+                              value={currentAddress && currentAddress.length == 43 ? currentAddress : t('Please create a wallet first') as string}
                               InputProps={{
                                   startAdornment: (
                                       <InputAdornment position='start'>
@@ -244,6 +251,22 @@ const LightNodeApp = () => {
                               label={`${t('ChivesLightNode Balance')}`}
                               placeholder={`${t('ChivesLightNode Balance')}`}
                               value={walletBalance}
+                              InputProps={{
+                                  startAdornment: (
+                                      <InputAdornment position='start'>
+                                      <Icon icon='clarity:wallet-solid' />
+                                      </InputAdornment>
+                                  )
+                              }} 
+                              disabled={true}
+                          />
+                      </Grid>
+                      <Grid item xs={12}>
+                          <TextField
+                              fullWidth
+                              label={`${t('Your Internet Ip')}`}
+                              placeholder={`${t('Your Internet Ip')}`}
+                              value={internetIp}
                               InputProps={{
                                   startAdornment: (
                                       <InputAdornment position='start'>
