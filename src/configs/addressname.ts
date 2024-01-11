@@ -4,6 +4,7 @@ export default {
     'Z3GlNxIKHa-yLt2-0NxkgfIp-DKgOqGTRiT8M16AAr0': 'Project Team Wallet 3',
     'WXuUWhzLqDJ1A2zXGxCKty1rvSOxq9avAZQGsIvRojs': 'Project Team Wallet 4',
     'WqEab7Df5yrKP93ikffZMplCrFefZl0zWyGX5DyGiOw': 'Project Team Wallet 5',
-    'ZbWbvPzcFu3znB1Q-4sflIloVuNmhdxkgI1MgqPqWuk': 'Project Team Wallet 6',
+    'ZbWbvPzcFu3znB1Q-4sflIloVuNmhdxkgI1MgqPqWuk': 'Chives Light Node Reward Pool',
+    'xwA8HpOT9BI0iSKRDYTWhM7awHV6Xi_iTmtnGrAm4Xk': 'Chives Light Node Reward Send',
     'Ei-psc7SkN7kLsUNMLCUxA-Tk6AhtEDm90-czY20pbQ': 'Faucet Wallet'
 }
