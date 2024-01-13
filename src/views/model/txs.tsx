@@ -520,6 +520,8 @@ const TxView = () => {
     }
   ]
 
+  console.log("txViewInfo", txViewInfo)
+
   return (
     <Fragment>
       {txViewInfo && txViewInfo.block ? 
@@ -722,6 +724,52 @@ const TxView = () => {
                             } )}
                             
 
+                          </TableBody>
+                        </Table>
+                      </TableContainer>
+                    </Grid>
+
+                  </Grid>
+                </CardContent>
+
+              </Card>
+            </Grid>
+          :
+            <Fragment></Fragment>
+          }
+
+          {txViewInfo.data && txViewInfo.data.size > 0 && txViewInfo.data.content && txViewInfo.data.type == ""  ?
+            <Grid item xs={12}>
+              <Card>
+                <CardHeader title={`${t(fileName)}`} />
+                <CardContent>
+                  <Grid container spacing={6}>
+
+                    <Grid item xs={12} lg={12}>
+                      <TableContainer>
+                        <Table size='small' sx={{ width: '95%' }}>
+                          <TableBody
+                            sx={{
+                              '& .MuiTableCell-root': {
+                                border: 0,
+                                pt: 2,
+                                pb: 2.5,
+                                pl: '0 !important',
+                                pr: '0 !important',
+                                '&:first-of-type': {
+                                  width: 148
+                                }
+                              }
+                            }}
+                          >
+                            <TableRow>
+                              <TableCell>
+                                <Typography variant='subtitle2' sx={{ color: 'text.primary' }}>
+                                  { txViewInfo.data.content }                                  
+                                </Typography>
+                              </TableCell>
+                            </TableRow>
+                            
                           </TableBody>
                         </Table>
                       </TableContainer>
