@@ -1366,7 +1366,7 @@ export async function LightNodeSubmitToBlockchain(setUploadProgress: React.Dispa
     const currentWallet = getCurrentWallet()
     const target = ""
     const amount = ""
-    const data = "RegisterChivesLightNode"
+    const data = ""
 
     //Make the tags
     const tags: any = []
@@ -1397,7 +1397,7 @@ export async function LightNodeHeartBeatToBlockchain(setUploadProgress: React.Di
             if(chivesLightNodeUrlData && chivesLightNodeUrlData.chivesLightNodeUrl) {
                 const target = ""
                 const amount = ""
-                const data = "HeartBeatChivesLightNode"
+                const data = ""
             
                 //Make the tags
                 const tags: any = []
