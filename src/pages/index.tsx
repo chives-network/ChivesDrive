@@ -41,7 +41,7 @@ const Home = () => {
   useEffect(() => {
 
     //Block List 
-    axios.get(authConfig.backEndApi + '/blockpage/1/6', { headers: { }, params: { } })
+    axios.get(authConfig.backEndApi + '/blockpage/0/6', { headers: { }, params: { } })
     .then(res => {
       setBlockList(res.data.data)
     })

@@ -738,7 +738,7 @@ const TxView = () => {
             <Fragment></Fragment>
           }
 
-          {txViewInfo.data && txViewInfo.data.size > 0 && txViewInfo.data.content && txViewInfo.data.type == ""  ?
+          {txViewInfo.data && txViewInfo.data.size > 0 && txViewInfo.data.content && txViewInfo.data.type == "" && txViewInfo.tags && txViewInfo.tags.length == 0  ?
             <Grid item xs={12}>
               <Card>
                 <CardHeader title={`${t(fileName)}`} />

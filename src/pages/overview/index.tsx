@@ -78,7 +78,7 @@ const AnalyticsDashboard = () => {
 
     //Frist Time Api Fetch
     //Block List 
-    axios.get(authConfig.backEndApi + '/blockpage/1/6', { headers: { }, params: { } })
+    axios.get(authConfig.backEndApi + '/blockpage/0/6', { headers: { }, params: { } })
       .then(res => {
         setBlockList(res.data.data.filter((record: any) => record.id))
       })
@@ -98,7 +98,7 @@ const AnalyticsDashboard = () => {
         
         //Interval Time Api Fetch
         //Block List 
-        axios.get(authConfig.backEndApi + '/blockpage/1/6', { headers: { }, params: { } })
+        axios.get(authConfig.backEndApi + '/blockpage/0/6', { headers: { }, params: { } })
           .then(res => {
             setBlockList(res.data.data.filter((record: any) => record.id))
           })
