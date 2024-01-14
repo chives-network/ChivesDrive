@@ -65,7 +65,7 @@ const BlockList = () => {
   const paginationModelDefaultValue = { page: 0, pageSize: 15 }
   const [paginationModel, setPaginationModel] = useState(paginationModelDefaultValue)  
   const handlePageChange = (event: React.ChangeEvent<unknown>, page: number) => {
-    setPaginationModel({ ...paginationModel, page:page-1 });
+    setPaginationModel({ ...paginationModel, page:page });
     console.log("handlePageChange", event)
   }  
   const isMobileData = isMobile()
@@ -311,7 +311,7 @@ const BlockList = () => {
           <Box sx={{ pl: 5, py: 3 }}>
             <Box sx={{ display: 'flex', alignItems: 'center', width: '100%' }}>
               <Grid item key={"Pagination"} xs={12} sm={12} md={12} lg={12} sx={{ padding: '10px 0 10px 0' }}>
-                <Pagination count={Math.ceil(store.total/paginationModel.pageSize)} variant='outlined' color='primary' page={paginationModel.page+1} onChange={handlePageChange} siblingCount={1} boundaryCount={1} />
+                <Pagination count={Math.ceil(store.total/paginationModel.pageSize)} variant='outlined' color='primary' page={paginationModel.page} onChange={handlePageChange} siblingCount={1} boundaryCount={1} />
               </Grid>
             </Box>
           </Box>
