@@ -12,6 +12,7 @@ import files from 'src/store/apps/files'
 import myfiles from 'src/store/apps/myfiles'
 import drive from 'src/store/apps/drive'
 import agent from 'src/store/apps/agent'
+import chat from 'src/store/apps/chat'
 
 export const store = configureStore({
   reducer: {
@@ -24,7 +25,8 @@ export const store = configureStore({
     files,
     myfiles,
     drive,
-    agent
+    agent,
+    chat
   },
   middleware: getDefaultMiddleware =>
     getDefaultMiddleware({

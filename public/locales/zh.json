@@ -226,5 +226,8 @@
     "ChivesLightNode Balance": "Chives Light Node 余额",
     "ChivesLightNodeHostAndPort": "Chives Light Node 主机和端口",
     "Chives Light Node": "Chives Light Node",
-    "Running Status": "运行状态"
+    "Running Status": "运行状态",
+    "Type your message here...": "在这里输入你的消息...",
+    "Generating the answer...": "正在生成答案中...",
+    "Sending": "发送中"
 }

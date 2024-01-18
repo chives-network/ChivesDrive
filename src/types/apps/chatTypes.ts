@@ -89,13 +89,16 @@ export type ChatContentType = {
   mdAbove: boolean
   store: ChatStoreType
   sidebarWidth: number
-  dispatch: Dispatch<any>
   statusObj: StatusObjType
   userProfileRightOpen: boolean
   handleLeftSidebarToggle: () => void
   getInitials: (val: string) => string
   sendMsg: (params: SendMsgParamsType) => void
   handleUserProfileRightSidebarToggle: () => void
+  refreshChatCounter: number,
+  sendButtonDisable: boolean,
+  sendButtonText: string,
+  sendInputText: string
 }
 
 export type ChatSidebarLeftType = {
@@ -104,7 +107,6 @@ export type ChatSidebarLeftType = {
   store: ChatStoreType
   sidebarWidth: number
   userStatus: StatusType
-  dispatch: Dispatch<any>
   leftSidebarOpen: boolean
   statusObj: StatusObjType
   userProfileLeftOpen: boolean
@@ -140,8 +142,10 @@ export type UserProfileRightType = {
 
 export type SendMsgComponentType = {
   store: ChatStoreType
-  dispatch: Dispatch<any>
   sendMsg: (params: SendMsgParamsType) => void
+  sendButtonDisable: boolean
+  sendButtonText: string
+  sendInputText: string
 }
 
 export type ChatLogType = {

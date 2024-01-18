@@ -226,5 +226,7 @@
   "ChivesLightNode Balance": "Chives Light Node Balance",
   "ChivesLightNodeHostAndPort": "Chives Light Node Host And Port",
   "Chives Light Node": "Chives Light Node",
-  "Running Status": "Running Status"
+  "Type your message here...": "Type your message here...",
+  "Generating the answer...": "Generating the answer...",
+  "Sending": "Sending"
 }

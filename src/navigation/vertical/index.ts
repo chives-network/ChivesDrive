@@ -137,6 +137,11 @@ const DriveNavMenus = [
     path: '/agent/all'
   },
   {
+    title: 'Chat',
+    icon: 'mdi:message-outline',
+    path: '/chat'
+  },
+  {
     sectionTitle: 'Blockchain'
   },
   {
