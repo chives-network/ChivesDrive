@@ -154,6 +154,11 @@ const PeersInfo = () => {
 
   }, [])
 
+  const StatusList: any = {}
+  StatusList['1'] = "Mining Node"
+  StatusList['2'] = "Light Node"
+  StatusList['-1'] = "Offline"
+
   return (
     <Fragment>
       {peers ? 
@@ -341,7 +346,7 @@ const PeersInfo = () => {
                         <TableCell>{item.country}</TableCell>
                         <TableCell>{item.region}</TableCell>
                         <TableCell>{item.city}</TableCell>
-                        <TableCell>{item.status}</TableCell>
+                        <TableCell>{StatusList[item.status]}</TableCell>
                       </TableRow>
                     ))}
                   </TableBody>
