@@ -145,7 +145,7 @@ const GetImgLeft = (props: any) => {
     setSeedValue(event.target.value);
   };
 
-  const [CFGScaleValue, setCFGScaleValue] = useState<number>(1)
+  const [CFGScaleValue, setCFGScaleValue] = useState<number>(7)
   const handleCFGScaleChange = (event: any) => {
     setCFGScaleValue(event.target.value);
   };
@@ -368,6 +368,7 @@ const GetImgLeft = (props: any) => {
             <Button size='medium' type='button' onClick={handleSubmit} variant='contained' sx={{ mr: 4 }} disabled={sendButtonDisable} >
               {sendButtonText}
             </Button>
+            (5 xwe/image)
           </AccordionDetails>
         </Box>
         
