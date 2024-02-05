@@ -6,6 +6,7 @@ export default {
   faucetApi: 'https://faucet.chivesweave.org/faucet.php',
   checkNodeavAilability: 'https://faucet.chivesweave.org/checkNodeavAilability.php',
   getNodeInternetIp: 'https://faucet.chivesweave.org/getNodeInternetIp.php',
+  backEndApiChatBook: 'http://localhost:1988', // https://chatbookai.net
   meEndpoint: '/auth/me',
   loginEndpoint: '/jwt/login',
   registerEndpoint: '/jwt/register',

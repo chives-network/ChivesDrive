@@ -351,6 +351,33 @@ export async function readFileText(file: File): Promise<string> {
     });
 }
 
+export async function createTransaction(walletData: any, target: string, amount: string, tags: any, data: string | Uint8Array | ArrayBuffer | undefined) {
+    const quantity = amount && amount.length > 0 && amount != "" ? arweave.ar.arToWinston(new BigNumber(amount).toString()) : '0' ;
+
+    //Check Fee and Send Amount must smaller than wallet balance
+
+    const txSettings:any = {}
+    if(target && target.length == 43 && Number(quantity) > 0) {
+	    txSettings.target = target
+        txSettings.quantity = quantity
+    }
+	if (data && data != undefined && data != '') { txSettings.data = data }
+
+    //Make Tx Data
+    const tx = await arweave.createTransaction(txSettings)
+    
+    //Add Tags
+    for (const tag of tags || []) { tx.addTag(tag.name, tag.value) }
+    
+    await arweave.transactions.sign(tx, walletData.jwk);
+
+    console.log("tx", tx)
+
+    return tx
+
+    //const txResult = await arweave.transactions.post(tx);
+}
+
 export async function sendAmount(walletData: any, target: string, amount: string, tags: any, data: string | Uint8Array | ArrayBuffer | undefined, fileName: string, setUploadProgress: React.Dispatch<React.SetStateAction<{ [key: string]: number }>>) {
     const quantity = amount && amount.length > 0 && amount != "" ? arweave.ar.arToWinston(new BigNumber(amount).toString()) : '0' ;
 
@@ -576,6 +603,16 @@ async function deduplicate (transactions: ArDataItemParams[], trustedAddresses?:
 			}
 		})).results
 	})).results.flat().map(tx => tx?.node.id)
+}
+
+export async function ownerToAddress(owner: string) {
+    const pubJwk = {
+        kty: 'RSA',
+        e: 'AQAB',
+        n: owner,
+    }
+
+    return await arweave.wallets.getAddress(pubJwk)
 }
 
 
@@ -1414,6 +1451,43 @@ export async function LightNodeHeartBeatToBlockchain(setUploadProgress: React.Di
                 return TxResult;
             }
         }
+    }
+};
+
+export async function GenereateImageFeeToBlockchain(ImagesCount: number, GenereateImageData: string) {
+    const currentWallet = getCurrentWallet()
+    const currentAddress = getCurrentWalletAddress()
+    console.log("GenereateImageFeeToBlockchain currentAddress", currentAddress)
+    if(currentAddress && currentAddress.length == 43) {
+        const currentBalance = await getWalletBalance(currentAddress)
+
+        if(Number(currentBalance) < (Number(0.2) + Number(ImagesCount * 5)) )       {
+
+            return { status: 800, statusText: 'Insufficient balance, need: ' + (String(Number(0.2) + Number(ImagesCount * 5))) }
+        }
+        else {
+            const target = "72i2l5UJFwIb53gbUuiS9tKM-y1ooJnJFnyWltNEEBo"
+            const amount = String(ImagesCount * 5)
+            const data = GenereateImageData
+        
+            //Make the tags
+            const tags: any = []
+            tags.push({name: "Content-Type", value: "text/plain"})
+            tags.push({name: "Entity-Type", value: "Action"})
+            tags.push({name: "Entity-Action", value: "GenereateImageAiFee"})
+            tags.push({name: "App-Name", value: authConfig['App-Name']})
+            tags.push({name: "App-Version", value: authConfig['App-Version']})
+            tags.push({name: "App-Instance", value: authConfig['App-Instance']})
+            tags.push({name: "Unix-Time", value: String(Date.now())})
+            tags.push({name: "Random", value: String(Math.random())})
+        
+            const TxResult: any = await createTransaction(currentWallet, target, amount, tags, data);  
+        
+            return { status: 200, statusText: TxResult }
+        }
+    }
+    else {
+        return { status: 801, statusText: 'Not get your wallet address' }
     }
 };
 

@@ -114,6 +114,19 @@ const DriveNavMenus = [
     path: '/myfiles'
   },
   {
+    sectionTitle: 'AI Models'
+  },
+  {
+    title: 'Chat',
+    icon: 'mdi:message-outline',
+    path: '/chat/openai'
+  },
+  {
+    title: 'Image',
+    icon: 'material-symbols:imagesmode',
+    path: '/chat/image'
+  },
+  {
     sectionTitle: 'Task To Earn'
   },
   {
@@ -135,11 +148,6 @@ const DriveNavMenus = [
     title: 'Agent',
     icon: 'material-symbols:support-agent',
     path: '/agent/all'
-  },
-  {
-    title: 'Chat',
-    icon: 'mdi:message-outline',
-    path: '/chat'
   },
   {
     sectionTitle: 'Blockchain'
