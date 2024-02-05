@@ -2,7 +2,7 @@
 export default {
   productName: 'ChivesDrive',
   tokenName: 'XWE',
-  backEndApi: 'http://localhost:1985',
+  backEndApi: 'https://api.chivesweave.net:1986',
   faucetApi: 'https://faucet.chivesweave.org/faucet.php',
   checkNodeavAilability: 'https://faucet.chivesweave.org/checkNodeavAilability.php',
   getNodeInternetIp: 'https://faucet.chivesweave.org/getNodeInternetIp.php',
