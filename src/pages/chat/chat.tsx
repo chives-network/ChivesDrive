@@ -55,7 +55,7 @@ const AppChat = () => {
 
   const getChatLogList = async function (knowledgeId: number | string) {
     if (auth && auth.user) {
-      const RS = await axios.get(authConfig.backEndApiChatBook + '/api/chatlog/' + knowledgeId + '/' + auth.user.id + '/0/90', { headers: { Authorization: auth.user.token, 'Content-Type': 'application/json'} }).then(res=>res.data)
+      const RS = await axios.get(authConfig.backEndApiChatBook + '/api/chatlog/' + knowledgeId + '/' + auth.user.id + '/0/90', { headers: { Authorization: "", 'Content-Type': 'application/json'} }).then(res=>res.data)
       if(RS['data'])  {
         const ChatChatInitList = ChatChatInit(RS['data'].reverse())
         console.log("ChatChatInitList**************", ChatChatInitList)
@@ -150,13 +150,13 @@ const AppChat = () => {
 
 
   const sendMsg = async (Obj: any) => {
-    if(auth.user && auth.user.token)  {
+    if(auth.user)  {
       setSendButtonDisable(true)
       setSendButtonText(t("Sending") as string)
       setSendInputText(t("Generating the answer...") as string)
       ChatChatInput(Obj.message, auth.user.id)
       setRefreshChatCounter(refreshChatCounter + 1)
-      const ChatChatOutputStatus = await ChatChatOutput(Obj.message, auth.user.token, auth.user.id, chatId, setLastMessage)
+      const ChatChatOutputStatus = await ChatChatOutput(Obj.message, "auth.user.token", auth.user.id, chatId, setLastMessage)
       if(ChatChatOutputStatus) {
         setSendButtonDisable(false)
         setRefreshChatCounter(refreshChatCounter + 2)
