@@ -119,7 +119,7 @@ const DriveNavMenus = [
   {
     title: 'Chat',
     icon: 'mdi:message-outline',
-    path: '/chat/openai'
+    path: '/chat/chat'
   },
   {
     title: 'Image',

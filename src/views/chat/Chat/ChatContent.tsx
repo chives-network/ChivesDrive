@@ -1,5 +1,5 @@
 // ** React Imports
-import { Fragment, useState } from 'react'
+import { useState } from 'react'
 
 // ** MUI Imports
 import Badge from '@mui/material/Badge'
@@ -14,7 +14,6 @@ import Icon from 'src/@core/components/icon'
 // ** Custom Components Import
 import ChatLog from './ChatLog'
 import SendMsgForm from 'src/views/chat/Image/SendMsgForm'
-import OptionsMenu from 'src/@core/components/option-menu'
 
 import { GetAllLLMById } from 'src/functions/ChatBook'
 
@@ -110,19 +109,6 @@ const ChatContent = (props: any) => {
                 :
                 null
                 }
-
-                <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                  {mdAbove ? (
-                    <Fragment>
-                    </Fragment>
-                  ) : null}
-                  <OptionsMenu
-                    menuProps={{ sx: { mt: 2 } }}
-                    icon={<Icon icon='mdi:dots-vertical' fontSize='1.25rem' />}
-                    iconButtonProps={{ size: 'small', sx: { color: 'text.secondary' } }}
-                    options={['View Contact', 'Mute Notifications', 'Block Contact', 'Clear Chat', 'Report']}
-                  />
-                </Box>
               </Box>
 
               {store && store.selectedChat && store.userProfile ? (
