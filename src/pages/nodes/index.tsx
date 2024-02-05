@@ -23,6 +23,8 @@ import { formatTimestamp, formatStorageSize } from 'src/configs/functions';
 
 import { ThemeColor } from 'src/@core/layouts/types'
 import { isMobile } from 'src/configs/functions'
+import Link from 'next/link'
+import { styled } from '@mui/material/styles'
 
 // ** Third Party Import
 import { useTranslation } from 'react-i18next'
@@ -71,6 +73,17 @@ interface ChainInfoType {
   denomination: number
   diff: string
 }
+
+const LinkStyled = styled(Link)(({ theme }) => ({
+  fontWeight: 550,
+  fontSize: '1rem',
+  cursor: 'pointer',
+  textDecoration: 'none',
+  color: theme.palette.text.secondary,
+  '&:hover': {
+    color: theme.palette.primary.main
+  }
+}))
 
 const PeersInfo = () => {
   // ** Hook
@@ -158,6 +171,8 @@ const PeersInfo = () => {
   StatusList['1'] = "Mining Node"
   StatusList['2'] = "Light Node"
   StatusList['-1'] = "Offline"
+
+  
 
   return (
     <Fragment>
@@ -340,13 +355,19 @@ const PeersInfo = () => {
                   <TableBody>
                     {peers.map((item: any, index: number) => (
                       <TableRow hover key={index} sx={{ '&:last-of-type td': { border: 0 } }}>
-                        <TableCell>{item.ip}</TableCell>
+                        <TableCell>
+                          {(item.status == 1 || item.status == 2) ?
+                          <LinkStyled href={`http://${item.ip}/info`} target='_blank'>{item.ip}</LinkStyled>
+                          :
+                          <Fragment>{item.ip}</Fragment>
+                          }
+                        </TableCell>
                         <TableCell>{item.location}</TableCell>
                         <TableCell>{item.isp}</TableCell>
                         <TableCell>{item.country}</TableCell>
                         <TableCell>{item.region}</TableCell>
                         <TableCell>{item.city}</TableCell>
-                        <TableCell>{StatusList[item.status]}</TableCell>
+                        <TableCell>{StatusList[item.status] || 'Offline'}</TableCell>
                       </TableRow>
                     ))}
                   </TableBody>
