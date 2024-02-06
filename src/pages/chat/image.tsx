@@ -17,7 +17,7 @@ import { useTranslation } from 'react-i18next'
 
 import { ChatChatNameList, CheckPermission  } from 'src/functions/ChatBook'
 
-import { GenereateImageFeeToBlockchain } from 'src/functions/ChivesweaveWallets'
+import { sendAmount, getHash, getProcessedData, getChivesLanguage, GenereateImageFeeToBlockchain } from 'src/functions/ChivesweaveWallets'
 
 // ** Axios Imports
 import axios from 'axios'
@@ -36,6 +36,7 @@ const AppChat = () => {
     CheckPermission(auth, router)
   }, [])
   
+  const [uploadProgress, setUploadProgress] = useState<{ [key: string]: number }>({})
   const [refreshChatCounter, setRefreshChatCounter] = useState<number>(1)
 
   // ** States
@@ -139,6 +140,124 @@ const AppChat = () => {
   const handleGenerateSimilarGetImg = (showImg: any) => {
     setGenerateSimilarData(showImg)
   }
+
+  const currentWallet = auth.currentWallet
+  const currentAddress = auth.currentAddress
+
+  const handleUploadToBlockchainGetImg = async (showImg: any) => {
+    console.log("showImg.filename", showImg)
+    await uploadMultiFilesFromUrl([showImg])
+  }
+
+  const uploadMultiFilesFromUrl = async (files: any[]) => {
+    toast.success(t(`Start uploading files to the blockchain...`), { duration: 4000 })
+
+    const getChivesLanguageData: string = getChivesLanguage();
+
+    //Make the bundle data
+    const formData = (await Promise.all(files?.map(async file => {
+      const data = await readFileFromURL("https://chatbookai.net/api/image/" + file.filename)
+      const tags = [] as Tag[]
+
+      const FileData: any = JSON.parse(file.data)
+      console.log("FileData", FileData)
+
+      //Not Encrypt File Content
+      setBaseTags(tags, {
+        'Content-Type': 'image/png',
+        'File-Name': file.filename,
+        'File-Hash': await getHash(data),
+        'File-Public': 'Public',
+        'File-Summary': '',
+        'Cipher-ALG': '',
+        'File-Parent': 'Root',
+        'File-Language': getChivesLanguageData,
+        'File-Pages': '',
+        'Entity-Type': 'File',
+        'App-Name': String(authConfig['App-Name']),
+        'App-Version': String(authConfig['App-Version']),
+        'App-Instance': String(authConfig['App-Instance']),
+        'Unix-Time': String(Date.now()),
+        'AI-Model': file.model,
+        'AI-Prompt': file.prompt,
+        'AI-Negative-Prompt': file.negative_prompt,
+        'AI-Steps': String(file.steps),
+        'AI-Style': String(file.style),
+        'AI-Seed': String(FileData.seed),
+        'AI-CFG-Scale': String(FileData.cfg_scale),
+        'AI-Width': String(FileData.width),
+        'AI-Height': String(FileData.height)
+      })
+      
+      return { data, tags, path: file.name }
+    })))
+    
+    const getProcessedDataValue = await getProcessedData(currentWallet, currentAddress, formData, true, []);
+
+    const target = ""
+    const amount = ""
+    const data = getProcessedDataValue
+
+    console.log("getChivesLanguageData", getChivesLanguageData)
+    
+    //Make the tags
+    const tags: any = []
+    tags.push({name: "Bundle-Format", value: 'binary'})
+    tags.push({name: "Bundle-Version", value: '2.0.0'})
+    tags.push({name: "Entity-Type", value: "Bundle"})
+    tags.push({name: "Entity-Number", value: String(files.length)})
+
+    const TxResult: any = await sendAmount(currentWallet, target, amount, tags, data, "UploadBundleFile", setUploadProgress);
+    console.log("image-uploadMultiFiles-TxResult", TxResult)
+    console.log("image-uploadMultiFiles-uploadProgress", uploadProgress)
+    
+    if(TxResult.id && TxResult.signature && TxResult.data_root) {
+      toast.success(t(`Submitted successfully`), { duration: 4000 })
+    }
+    else {
+      toast.error(t(`Submitted failed`), { duration: 4000 })
+    }
+
+  };
+
+  function setBaseTags (tags: Tag[], set: { [key: string]: string }) {
+    const baseTags: { [key: string]: string } = {
+      'Content-Type': '',
+      'File-Hash': '',
+      'Bundle-Format': '',
+      'Bundle-Version': '',
+      ...set
+    }
+    for (const name in baseTags) { setTag(tags, name, baseTags[name]) }
+  }
+
+  function setTag (tags: Tag[], name: string, value?: string) {
+    let currentTag = tags.find(tag => tag.name === name)
+    if (value) {
+      if (!currentTag) {
+        currentTag = { name, value: '' }
+        tags.push(currentTag)
+      }
+      currentTag.value = value
+    } else {
+      const index = tags.indexOf(currentTag!)
+      if (index !== -1) { tags.splice(index, 1) }
+    }
+  }
+
+  async function readFileFromURL(url: string): Promise<Uint8Array> {
+    try {
+      const response = await fetch(url);  
+      if (!response.ok) {
+        throw new Error(`Failed to fetch file from ${url}`);
+      }  
+      const arrayBuffer = await response.arrayBuffer();
+
+      return new Uint8Array(arrayBuffer);
+    } catch (error) {
+      throw error;
+    }
+  }
   
 
   // ** Vars
@@ -171,6 +290,7 @@ const AppChat = () => {
         imageList={imageList}
         pendingImagesCount={pendingImagesCount}
         handleGenerateSimilarGetImg={handleGenerateSimilarGetImg}
+        handleUploadToBlockchainGetImg={handleUploadToBlockchainGetImg}
       />
       </Box>
       :
