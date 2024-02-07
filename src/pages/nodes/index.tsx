@@ -290,35 +290,42 @@ const PeersInfo = () => {
                             <TableRow>
                               <TableCell>
                                 <Typography variant='body2' sx={{ color: 'text.primary' }}>
-                                {`${t(`Location`)}`}：{item.result.location}
+                                {`${t(`Location`)}`}：{item.location}
                                 </Typography>
                               </TableCell>
                             </TableRow>
                             <TableRow>
                               <TableCell>
                                 <Typography variant='body2' sx={{ color: 'text.primary' }}>
-                                {`${t(`Isp`)}`}：{item.result.isp}
+                                {`${t(`Isp`)}`}：{item.isp}
                                 </Typography>
                               </TableCell>
                             </TableRow>
                             <TableRow>
                               <TableCell>
                                 <Typography variant='body2' sx={{ color: 'text.primary' }}>
-                                {`${t(`Country`)}`}：{item.result.country}
+                                {`${t(`Country`)}`}：{item.country}
                                 </Typography>
                               </TableCell>
                             </TableRow>
                             <TableRow>
                               <TableCell>
                                 <Typography variant='body2' sx={{ color: 'text.primary' }}>
-                                {`${t(`Region`)}`}：{item.result.region}
+                                {`${t(`Region`)}`}：{item.region}
                                 </Typography>
                               </TableCell>
                             </TableRow>
                             <TableRow>
                               <TableCell>
                                 <Typography variant='body2' sx={{ color: 'text.primary' }}>
-                                {`${t(`City`)}`}：{item.result.city}
+                                {`${t(`City`)}`}：{item.city}
+                                </Typography>
+                              </TableCell>
+                            </TableRow>
+                            <TableRow>
+                              <TableCell>
+                                <Typography variant='body2' sx={{ color: 'text.primary' }}>
+                                {`${t(`Status`)}`}：{StatusList[item.status] || 'Offline'}
                                 </Typography>
                               </TableCell>
                             </TableRow>
