@@ -101,7 +101,6 @@ function parseTxAndGetMemoFileInfo(TxRecord: TxRecordType) {
   });
   const FileType = getContentTypeAbbreviation(FileMap['Content-Type']);
   
-  //console.log("FileType", FileType)
   switch(FileType) {
     case 'PNG':
     case 'GIF':
@@ -136,7 +135,7 @@ function parseTxAndGetMemoFileInfo(TxRecord: TxRecordType) {
   }
 
   if(FileMap['Entity-Action']) {
-    return <Fragment>{FileMap['Entity-Action'] as string}</Fragment>;
+    return <Fragment>{formatHash(FileMap['Entity-Action'] as string, 8)}</Fragment>;
   }
 
   //Video Format
@@ -187,7 +186,7 @@ const AnalyticsTransactionList = (props: propsType) => {
       }
     },
     {
-      flex: 0.3,
+      flex: 0.2,
       minWidth: 200,
       field: 'Info',
       headerName: `${t(`Info`)}`,

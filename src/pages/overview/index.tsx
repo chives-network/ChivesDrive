@@ -145,7 +145,7 @@ const AnalyticsDashboard = () => {
             <Fragment></Fragment>
           }
         </Grid>
-        <Grid item xs={12} md={12} lg={8}>
+        <Grid item xs={12} md={8}>
           {blockList && blockList.length > 0 ?
             <AnalyticsBlockList data={blockList}/>
           :

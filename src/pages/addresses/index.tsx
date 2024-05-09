@@ -128,21 +128,6 @@ const AddressesList = () => {
       }
     },
     {
-      flex: 0.2,
-      minWidth: 110,
-      field: 'Txs',
-      headerName: `${t(`Txs`)}`,
-      sortable: false,
-      filterable: false,
-      renderCell: ({ row }: AddressCellType) => {
-        return (
-          <Typography noWrap variant='body2'>
-            {row.txs}
-          </Typography>
-        )
-      }
-    },
-    {
       flex: 0.1,
       minWidth: 110,
       field: 'Discovery',
