@@ -1,8 +1,13 @@
+import os from 'os'
+
+const hostname = os.hostname();
+
+console.log('Hostname:', hostname);
 
 export default {
   productName: 'ChivesDrive',
   tokenName: 'XWE',
-  backEndApi: 'https://api.chivesweave.org:1986',
+  backEndApi: (hostname == 'localhost') ? 'http://localhost:1985' : 'https://api.chivesweave.net:1986', //https://api.chivesweave.net:1986,
   faucetApi: 'https://faucet.chivesweave.org/faucet.php',
   checkNodeavAilability: 'https://faucet.chivesweave.org/checkNodeavAilability.php',
   getNodeInternetIp: 'https://faucet.chivesweave.org/getNodeInternetIp.php',

@@ -8,7 +8,6 @@ import ApexChartWrapper from 'src/@core/styles/libs/react-apexcharts'
 import AnalyticsBlockList from 'src/views/dashboards/analytics/AnalyticsBlockList'
 import AnalyticsTrophy from 'src/views/dashboards/analytics/AnalyticsTrophy'
 import AnalyticsLine from 'src/views/dashboards/analytics/AnalyticsLine'
-import AnalyticsTransactionList from 'src/views/dashboards/analytics/AnalyticsTransactionList'
 import AnalyticsTransactionsCard from 'src/views/dashboards/analytics/AnalyticsTransactionsCard'
 
 import axios from 'axios'
@@ -57,7 +56,6 @@ const AnalyticsDashboard = () => {
   const [Block_Rewards, setBlock_Rewards] = useState<number[]>([])
 
   const [blockList, setBlockList] = useState<number[]>([])
-  const [transactionList, setTransactionList] = useState<number[]>([])
 
   useEffect(() => {
     if(referee && referee.length == 43) {
@@ -82,13 +80,7 @@ const AnalyticsDashboard = () => {
       .then(res => {
         setBlockList(res.data.data.filter((record: any) => record.id))
       })
-    
-    //Transaction List 
-    axios.get(authConfig.backEndApi + '/transaction/0/6', { headers: { }, params: { } })
-      .then(res => {
-        setTransactionList(res.data.data.filter((record: any) => record.id))
-      })
-    
+        
     //Chain Info
     axios.get(authConfig.backEndApi + '/info', { headers: { }, params: { } })
       .then(res => {
@@ -102,13 +94,7 @@ const AnalyticsDashboard = () => {
           .then(res => {
             setBlockList(res.data.data.filter((record: any) => record.id))
           })
-        
-        //Transaction List 
-        axios.get(authConfig.backEndApi + '/transaction/0/6', { headers: { }, params: { } })
-          .then(res => {
-            setTransactionList(res.data.data.filter((record: any) => record.id))
-          })
-        
+                
         //Chain Info
         axios.get(authConfig.backEndApi + '/info', { headers: { }, params: { } })
           .then(res => {
@@ -138,14 +124,7 @@ const AnalyticsDashboard = () => {
             <Fragment></Fragment>
           }
         </Grid>
-        <Grid item xs={12} md={4}>
-          {transactionList && transactionList.length > 0 ?
-            <AnalyticsTransactionList data={transactionList}/>
-          :
-            <Fragment></Fragment>
-          }
-        </Grid>
-        <Grid item xs={12} md={8}>
+        <Grid item xs={12} md={12}>
           {blockList && blockList.length > 0 ?
             <AnalyticsBlockList data={blockList}/>
           :
