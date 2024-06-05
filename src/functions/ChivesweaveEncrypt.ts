@@ -71,22 +71,22 @@ export function EncryptDataWithKey(FileContent: string, FileName: string, wallet
     return FileEncrypt;
 }
 
-export function EncryptDataAES256GCM(text: string, IV: Buffer, key: string) {
+export function EncryptDataAES256GCM(text: string, key: string) {
     const iv = GetIV();
     const cipher = crypto.createCipheriv('aes-256-gcm', key, iv);
     let encrypted = cipher.update(text, 'utf-8', 'hex');
     encrypted += cipher.final('hex');
     const tag = cipher.getAuthTag();
-
+  
     return { iv: iv.toString('hex'), encrypted, tag: tag.toString('hex') };
 }
-
+  
 export function DecryptDataAES256GCM(encrypted: string, iv: string, tag: string, key: string) {
-    const decipher = crypto.createDecipheriv('aes-256-gcm', Buffer.from(key, 'hex'), Buffer.from(iv, 'hex'));
+    const decipher = crypto.createDecipheriv('aes-256-gcm', key, Buffer.from(iv, 'hex'));
     decipher.setAuthTag(Buffer.from(tag, 'hex'));
     let decrypted = decipher.update(encrypted, 'hex', 'utf-8');
     decrypted += decipher.final('utf-8');
-
+  
     return decrypted;
 }
 
