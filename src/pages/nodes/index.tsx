@@ -283,6 +283,13 @@ const PeersInfo = () => {
                             <TableRow>
                               <TableCell>
                                 <Typography variant='body2' sx={{ color: 'text.primary' }}>
+                                {(index+1)}
+                                </Typography>
+                              </TableCell>
+                            </TableRow>
+                            <TableRow>
+                              <TableCell>
+                                <Typography variant='body2' sx={{ color: 'text.primary' }}>
                                 {`${t(`Ip`)}`}：{item.ip}
                                 </Typography>
                               </TableCell>
@@ -362,6 +369,7 @@ const PeersInfo = () => {
                   <TableBody>
                     {peers.map((item: any, index: number) => (
                       <TableRow hover key={index} sx={{ '&:last-of-type td': { border: 0 } }}>
+                        <TableCell>{(index+1)}</TableCell>
                         <TableCell>
                           {(item.status == 1 || item.status == 2) ?
                           <LinkStyled href={`http://${item.ip}/info`} target='_blank'>{item.ip}</LinkStyled>

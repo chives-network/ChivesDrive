@@ -11,7 +11,7 @@ import { styled } from '@mui/material/styles'
 import Typography from '@mui/material/Typography'
 import { DataGrid, GridColDef } from '@mui/x-data-grid'
 
-import { formatHash, formatSecondToMinute, formatTimestampMemo } from 'src/configs/functions';
+import { formatHash, formatSecondToMinute, formatTimestampMemo, formatXWE } from 'src/configs/functions';
 
 // ** Third Party Import
 import { useTranslation } from 'react-i18next'
@@ -86,6 +86,21 @@ const AnalyticsBlockList = (props: propsType) => {
         return (
           <Typography noWrap variant='body2'>
             {row.txs_length}
+          </Typography>
+        )
+      }
+    },
+    {
+      flex: 0.1,
+      minWidth: 60,
+      headerName: `${t(`Reward`)}`,
+      field: 'Reward',
+      sortable: false,
+      filterable: false,
+      renderCell: ({ row }: BlockCellType) => {
+        return (
+          <Typography noWrap variant='body2'>
+            {formatXWE(row.reward, 2)}
           </Typography>
         )
       }
