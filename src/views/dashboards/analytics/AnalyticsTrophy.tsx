@@ -50,7 +50,6 @@ const AnalyticsTrophy = (props: propsType) => {
   
   // ** Props
   const { data } = props
-  console.log("data", data)
 
   // ** Hook
   const theme = useTheme()

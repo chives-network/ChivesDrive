@@ -283,7 +283,7 @@ const PeersInfo = () => {
                             <TableRow>
                               <TableCell>
                                 <Typography variant='body2' sx={{ color: 'text.primary' }}>
-                                {(index+1)}
+                                Id：{(index+1)}
                                 </Typography>
                               </TableCell>
                             </TableRow>
@@ -331,7 +331,7 @@ const PeersInfo = () => {
                             </TableRow>
                             <TableRow>
                               <TableCell>
-                                <Typography variant='body2' sx={{ color: 'text.primary' }}>
+                                <Typography variant='body2' sx={{ color: (item.status == 1 || item.status == 2) ? 'primary.main' : 'error.main' }}>
                                 {`${t(`Status`)}`}：{StatusList[item.status] || 'Offline'}
                                 </Typography>
                               </TableCell>
@@ -356,6 +356,7 @@ const PeersInfo = () => {
                 <Table sx={{ minWidth: 500 }}>
                   <TableHead >
                     <TableRow>
+                      <TableCell>{`${t(`Id`)}`}</TableCell>
                       <TableCell>{`${t(`Ip`)}`}</TableCell>
                       <TableCell>{`${t(`Location`)}`}</TableCell>
                       <TableCell>{`${t(`Isp`)}`}</TableCell>
@@ -382,7 +383,11 @@ const PeersInfo = () => {
                         <TableCell>{item.country}</TableCell>
                         <TableCell>{item.region}</TableCell>
                         <TableCell>{item.city}</TableCell>
-                        <TableCell>{StatusList[item.status] || 'Offline'}</TableCell>
+                        <TableCell>
+                          <Typography variant='body2' sx={{ color: (item.status == 1 || item.status == 2) ? 'primary.main' : 'error.main' }}>
+                            {StatusList[item.status] || 'Offline'}
+                          </Typography>
+                        </TableCell>
                       </TableRow>
                     ))}
                   </TableBody>

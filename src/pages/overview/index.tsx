@@ -131,18 +131,23 @@ const AnalyticsDashboard = () => {
             <Fragment></Fragment>
           }
         </Grid>
-        <Grid item xs={12} md={6} lg={6}>
-          <AnalyticsLine dataX={dataX} dataY={blocksnumber} title={`${t(`Blocks Number Per Day`)}`} bottomText={""}/>
-        </Grid>
-        <Grid item xs={12} md={6} lg={6}>
-          <AnalyticsLine dataX={dataX} dataY={Block_Rewards} title={`${t(`Block Rewards Per Day`)}`} bottomText={""}/>
-        </Grid>
-        <Grid item xs={12} md={6} lg={6}>
-          <AnalyticsLine dataX={dataX} dataY={dataWeaveSize} title={`${t(`Weave Size`)}`} bottomText={""}/>
-        </Grid>
-        <Grid item xs={12} md={6} lg={6}>
-          <AnalyticsLine dataX={dataX} dataY={difficulty} title={`${t(`Difficulty`)}`} bottomText={""}/>
-        </Grid>
+        {dataX && dataX.length>0 && (
+          <Fragment>
+            <Grid item xs={12} md={6} lg={6}>
+              <AnalyticsLine dataX={dataX} dataY={blocksnumber} title={`${t(`Blocks Number Per Day`)}`} bottomText={""}/>
+            </Grid>
+            <Grid item xs={12} md={6} lg={6}>
+              <AnalyticsLine dataX={dataX} dataY={Block_Rewards} title={`${t(`Block Rewards Per Day`)}`} bottomText={""}/>
+            </Grid>
+            <Grid item xs={12} md={6} lg={6}>
+              <AnalyticsLine dataX={dataX} dataY={dataWeaveSize} title={`${t(`Weave Size`)}`} bottomText={""}/>
+            </Grid>
+            <Grid item xs={12} md={6} lg={6}>
+              <AnalyticsLine dataX={dataX} dataY={difficulty} title={`${t(`Difficulty`)}`} bottomText={""}/>
+            </Grid>
+          </Fragment>
+        )}
+        
       </Grid>
     </ApexChartWrapper>
   )
