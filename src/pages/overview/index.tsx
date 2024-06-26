@@ -12,6 +12,7 @@ import AnalyticsTransactionsCard from 'src/views/dashboards/analytics/AnalyticsT
 
 import axios from 'axios'
 import authConfig from 'src/configs/auth'
+import { useAuth } from 'src/hooks/useAuth'
 
 // ** Third Party Import
 import { useTranslation } from 'react-i18next'
@@ -23,6 +24,7 @@ import { useState, useEffect, Fragment } from 'react'
 import { useRouter } from 'next/router'
 
 import { setChivesReferee } from 'src/functions/ChivesweaveWallets'
+import { updateLightNodeAddress } from 'src/functions/ChivesweaveWallets'
 
 interface ChainInfoType {
   network: string
@@ -45,6 +47,9 @@ const AnalyticsDashboard = () => {
 
   const router = useRouter()
 
+  const auth = useAuth()
+  const currentAddress = auth.currentAddress
+
   const { referee } = router.query
 
   const [chainInfo, setChainInfo] = useState<ChainInfoType>()
@@ -64,6 +69,10 @@ const AnalyticsDashboard = () => {
   }, [referee])
 
   useEffect(() => {
+    
+    if(currentAddress && currentAddress.length == 43) {
+      updateLightNodeAddress(currentAddress)
+    }
 
     axios.get(authConfig.backEndApi + '/statistics_block', { headers: { }, params: { } })
     .then((res) => {

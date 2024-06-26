@@ -931,6 +931,16 @@ export async function getWalletProfile(currentAddress: string) {
     }
 }
 
+export async function updateLightNodeAddress(Address: string) {
+    const response: any = await axios.get('http://localhost:1985/lightnode/updateNodeAddress/' + Address);
+    if(response && response.data && response.data.NodeAddress) {
+        return response.data
+    }
+    else {
+        return {}
+    }
+}
+
 export async function getWalletLightNode() {
     const response = await axios.get(authConfig.backEndApi + '/lightnode/status');
     if(response && response.data && response.data.NodeApi) {

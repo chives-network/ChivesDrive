@@ -24,6 +24,7 @@ import { useTranslation } from 'react-i18next'
 
 import Card from '@mui/material/Card'
 import CardHeader from '@mui/material/CardHeader'
+import { updateLightNodeAddress } from 'src/functions/ChivesweaveWallets'
 
 const AnalyticsDashboard = () => {
   // ** Hook
@@ -36,10 +37,12 @@ const AnalyticsDashboard = () => {
   const [transactionHeartBeat, setTransactionHeartBeat] = useState<number[]>([])
   const [transactionReward, setTransactionReward] = useState<number[]>([])
   const [haveWallet, setHaveWallet] = useState<boolean>(false)
+  const [nodeAmount, setNodeAmount] = useState<number>(0)
 
   useEffect(() => {
     if(currentAddress && currentAddress.length == 43) {
       setHaveWallet(true)
+      updateLightNodeAddress(currentAddress)
       
       //Frist Time Api Fetch
       //heartbeat List 
@@ -59,6 +62,10 @@ const AnalyticsDashboard = () => {
         .then(res => {
           setChainInfo(res.data);
         })
+
+        axios.get(authConfig.backEndApi + "/wallet/" + currentAddress + "/balance", {}).then((res)=>{
+          setNodeAmount(res.data)
+        });
 
       const intervalId = setInterval(() => {
           
@@ -96,7 +103,7 @@ const AnalyticsDashboard = () => {
       <Grid container spacing={6}>
         <Grid item xs={12} md={12}>   
           { haveWallet ?
-            <AnalyticsTransactionsLightNode data={chainInfo}/>
+            <AnalyticsTransactionsLightNode data={chainInfo} currentAddress={currentAddress} nodeAmount={nodeAmount}/>
           :
           <Card>
             <CardHeader title={t('Please create a wallet first') as string} />

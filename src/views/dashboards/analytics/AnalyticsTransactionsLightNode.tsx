@@ -21,6 +21,8 @@ import CustomAvatar from 'src/@core/components/mui/avatar'
 // ** Third Party Import
 import { useTranslation } from 'react-i18next'
 
+import { formatHash, formatXWE } from 'src/configs/functions';
+
 interface DataType {
   stats: string
   title: string
@@ -39,7 +41,7 @@ interface ChainInfoType {
   NodeApi: string
 }
 
-const renderStats = (data: ChainInfoType) => {
+const renderStats = (data: ChainInfoType, currentAddress: string, nodeAmount: number) => {
   const salesData: DataType[] = [
     {
       stats: String(data?.height || 0),
@@ -76,6 +78,18 @@ const renderStats = (data: ChainInfoType) => {
       title: 'Data Dir',
       color: 'info',
       icon: <Icon icon='material-symbols:folder' />
+    },
+    {
+      stats: String(formatHash(currentAddress, 6)),
+      title: 'Node Address',
+      color: 'success',
+      icon: <Icon icon='fa-solid:address-card' />
+    },
+    {
+      stats: String(formatXWE(nodeAmount ?? 0, 4)),
+      title: 'Node Amount',
+      color: 'primary',
+      icon: <Icon icon='mdi:dollar' />
     }
   ]
   
@@ -100,6 +114,8 @@ const renderStats = (data: ChainInfoType) => {
 
 export type propsType = {
   data: ChainInfoType
+  currentAddress: string
+  nodeAmount: number
 }
 
 const AnalyticsTransactionsLightNode = (props: propsType) => {
@@ -107,14 +123,14 @@ const AnalyticsTransactionsLightNode = (props: propsType) => {
   const { t } = useTranslation()
   
   // ** Props
-  const { data } = props
+  const { data, currentAddress, nodeAmount } = props
 
   return (
     <Card>
       <CardHeader title={`${t(`Chives Light Node`)}`} />
       <CardContent sx={{ pt: (theme: any) => `${theme.spacing(3)} !important` }}>
         <Grid container spacing={[5, 0]}>
-          {renderStats(data)}
+          {renderStats(data, currentAddress, nodeAmount)}
         </Grid>
       </CardContent>
     </Card>

@@ -23,7 +23,7 @@ import { Settings } from 'src/@core/context/settingsContext'
 // ** Hooks
 import { useAuth } from 'src/hooks/useAuth'
 
-import { getAllWallets, getCurrentWalletAddress, setCurrentWallet, getWalletNicknames, CheckBundleTxStatus, LightNodeHeartBeatToBlockchain } from 'src/functions/ChivesweaveWallets'
+import { getAllWallets, getCurrentWalletAddress, setCurrentWallet, getWalletNicknames, CheckBundleTxStatus, LightNodeHeartBeatToBlockchain, updateLightNodeAddress } from 'src/functions/ChivesweaveWallets'
 import { formatHash} from 'src/configs/functions';
 
 // ** Third Party Import
@@ -71,12 +71,14 @@ const UserDropdown = (props: Props) => {
     setAnchorEl(null)
   }
 
+  
   const handleSwitchWalletAndDropdownClose = (url: string, address: string) => {
     setCurrentWallet(address)
     setAuthContextCurrentAddress(address)
     if (url) {
       //router.push(url)
     }
+    updateLightNodeAddress(address)
     setAnchorEl(null)
   }
 
