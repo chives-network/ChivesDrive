@@ -1,6 +1,6 @@
 {
-  "name": "materio-mui-react-nextjs-admin-template",
-  "version": "2.2.0",
+  "name": "chivesdrive",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
