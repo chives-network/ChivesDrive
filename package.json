@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@capacitor/android": "^6.1.1",
+    "@capacitor/browser": "^6.0.1",
     "@capacitor/core": "^6.1.1",
     "@capacitor/ios": "^6.1.1",
     "@casl/ability": "6.5.0",
