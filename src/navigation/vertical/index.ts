@@ -114,14 +114,6 @@ const DriveNavMenus = [
     path: '/myfiles'
   },
   {
-    sectionTitle: 'AI Models'
-  },
-  {
-    title: 'Image',
-    icon: 'material-symbols:imagesmode',
-    path: '/chat/image'
-  },
-  {
     sectionTitle: 'Blockchain'
   },
   {
@@ -162,7 +154,7 @@ const navigation = (): VerticalNavItemsType => {
       MenuList =  ExplorerNavMenus
       break;
   }
-  
+
   // @ts-ignore
   return MenuList
 }

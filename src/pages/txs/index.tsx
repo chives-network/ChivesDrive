@@ -71,16 +71,16 @@ const LinkStyledNormal = styled(Link)(({ theme }) => ({
 const TransactionList = () => {
   // ** Hook
   const { t } = useTranslation()
-  
+
   // ** State
   const [isLoading, setIsLoading] = useState(false);
 
   const paginationModelDefaultValue = { page: 0, pageSize: 15 }
-  const [paginationModel, setPaginationModel] = useState(paginationModelDefaultValue)  
+  const [paginationModel, setPaginationModel] = useState(paginationModelDefaultValue)
   const handlePageChange = (event: React.ChangeEvent<unknown>, page: number) => {
     setPaginationModel({ ...paginationModel, page:page-1 });
     console.log("handlePageChange", event)
-  }  
+  }
   const isMobileData = isMobile()
 
   // ** Hooks
@@ -102,14 +102,14 @@ const TransactionList = () => {
 
   function parseTxFeeAndBundleId(TxRecord: TxRecordType) {
     if(TxRecord.bundleid && TxRecord.bundleid!="") {
-    
+
       return (
         <Tooltip title={`BundleId: ${TxRecord.bundleid}`}>
           <LinkStyledNormal href={`/txs/view/${TxRecord.bundleid}`}>{formatHash(TxRecord.bundleid, 5)}</LinkStyledNormal>
         </Tooltip>
       )
     }
-  
+
     return formatXWE(TxRecord.fee.winston, 6);
   }
 
@@ -122,7 +122,7 @@ const TransactionList = () => {
       sortable: false,
       filterable: false,
       renderCell: ({ row }: TransactionCellType) => {
-        
+
         return (
           <Typography noWrap variant='body2'>
             <Tooltip title={`${row.id}`}>
@@ -140,7 +140,7 @@ const TransactionList = () => {
       sortable: false,
       filterable: false,
       renderCell: ({ row }: TransactionCellType) => {
-        
+
         return (
           <Typography noWrap variant='body2'>
             <Tooltip title={`${row.owner.address}`}>
@@ -151,16 +151,41 @@ const TransactionList = () => {
       }
     },
     {
-      flex: 0.15,
+      flex: 0.18,
       minWidth: 100,
-      headerName: `${t(`Size`)}`,
+      headerName: `${t(`Size / Amount`)}`,
       field: 'Size',
+      sortable: false,
+      filterable: false,
+      renderCell: ({ row }: TransactionCellType) => {
+
+        return (
+          <>
+          {row.data.size == 0 && (
+            <Typography noWrap variant='body2'>
+              {formatXWE(row.quantity.winston, 4)}
+            </Typography>
+          )}
+          {row.data.size > 0 && (
+            <Typography noWrap variant='body2'>
+              {formatStorageSize(row.data.size)}
+            </Typography>
+          )}
+          </>
+        )
+      }
+    },
+    {
+      flex: 0.3,
+      minWidth: 200,
+      field: 'Info',
+      headerName: `${t(`Info`)}`,
       sortable: false,
       filterable: false,
       renderCell: ({ row }: TransactionCellType) => {
         return (
           <Typography noWrap variant='body2'>
-            {formatStorageSize(row.data.size)}
+            <FormatTxInfoInRow TxRecord={row}/>
           </Typography>
         )
       }
@@ -176,21 +201,6 @@ const TransactionList = () => {
         return (
           <Typography noWrap variant='body2'>
             {parseTxFeeAndBundleId(row)}
-          </Typography>
-        )
-      }
-    },
-    {
-      flex: 0.3,
-      minWidth: 200,
-      field: 'Info',
-      headerName: `${t(`Info`)}`,
-      sortable: false,
-      filterable: false,
-      renderCell: ({ row }: TransactionCellType) => {
-        return (
-          <Typography noWrap variant='body2'>
-            <FormatTxInfoInRow TxRecord={row}/>
           </Typography>
         )
       }
@@ -229,18 +239,18 @@ const TransactionList = () => {
 
   return (
     <Fragment>
-        {isMobileData ? 
+        {isMobileData ?
         <Grid container spacing={6}>
           <Grid item xs={12}>
             <Card>
-              <CardHeader title={`${t('Transactions')}`} sx={{ px: 5, py: 3 }}/>          
+              <CardHeader title={`${t('Transactions')}`} sx={{ px: 5, py: 3 }}/>
             </Card>
           </Grid>
           {store.data.map((row: any, index: number) => {
             return (
               <Grid item xs={12} sx={{ py: 0 }} key={index}>
                 <Card>
-                  <CardContent>      
+                  <CardContent>
                     <TableContainer>
                       <Table size='small' sx={{ width: '95%' }}>
                         <TableBody
@@ -279,15 +289,15 @@ const TransactionList = () => {
                           </TableRow>
                           <TableRow>
                             <TableCell>
-                              <Typography variant='body2' sx={{ color: 'text.primary' }}>
-                              {`${t(`Fee`)}`}：{parseTxFeeAndBundleId(row)}
+                              <Typography variant='body2' sx={{ color: 'text.primary', display: 'flex', alignItems: 'center' }}>
+                              {`${t(`Info`)}`}：<FormatTxInfoInRow TxRecord={row}/>
                               </Typography>
                             </TableCell>
                           </TableRow>
                           <TableRow>
                             <TableCell>
-                              <Typography variant='body2' sx={{ color: 'text.primary', display: 'flex', alignItems: 'center' }}>
-                              {`${t(`Info`)}`}：<FormatTxInfoInRow TxRecord={row}/>
+                              <Typography variant='body2' sx={{ color: 'text.primary' }}>
+                              {`${t(`Fee`)}`}：{parseTxFeeAndBundleId(row)}
                               </Typography>
                             </TableCell>
                           </TableRow>
@@ -309,7 +319,7 @@ const TransactionList = () => {
                         </TableBody>
                       </Table>
                     </TableContainer>
-                  </CardContent>      
+                  </CardContent>
                 </Card>
               </Grid>
             )
