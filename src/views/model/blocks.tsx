@@ -54,7 +54,7 @@ interface BlockViewInfoType {
   reward_addr: string
   reward_pool: number
   txs_length: number
-  currentheight: number
+  current_height: number
   height: number
   reward: number
   indep_hash: string
@@ -79,11 +79,11 @@ const LinkStyled = styled(Link)(({ theme }) => ({
 const BlockTransactionList = () => {
   // ** Hook
   const { t } = useTranslation()
-  
+
   const router = useRouter()
   const { id } = router.query
   const isMobileData = isMobile()
-  
+
   // ** State
   const [isLoading, setIsLoading] = useState(false);
   const [paginationModel, setPaginationModel] = useState({ page: 0, pageSize: 15 })
@@ -93,6 +93,8 @@ const BlockTransactionList = () => {
   const store = useSelector((state: RootState) => state.blocktransactions)
 
   const [blockViewInfo, setBlockViewInfo] = useState<BlockViewInfoType>()
+
+  console.log("blockViewInfo", blockViewInfo)
 
   useEffect(() => {
     if(id != undefined) {
@@ -136,7 +138,7 @@ const BlockTransactionList = () => {
       sortable: false,
       filterable: false,
       renderCell: ({ row }: TransactionCellType) => {
-        
+
         return (
           <Typography noWrap variant='body2'>
             <LinkStyled href={`/txs/view/${row.id}`}>{formatHash(row.id, 7)}</LinkStyled>
@@ -152,7 +154,7 @@ const BlockTransactionList = () => {
       sortable: false,
       filterable: false,
       renderCell: ({ row }: TransactionCellType) => {
-        
+
         return (
           <Typography noWrap variant='body2'>
             <LinkStyled href={`/addresses/all/${row.owner.address}`}>{formatHash(row.owner.address, 7)}</LinkStyled>
@@ -239,7 +241,7 @@ const BlockTransactionList = () => {
 
   return (
     <Grid container spacing={6}>
-    
+
     {blockViewInfo && blockViewInfo != undefined  && "timestamp" in blockViewInfo ?
       <Grid item xs={12}>
         <Card>
@@ -272,7 +274,7 @@ const BlockTransactionList = () => {
                         </TableCell>
                         <TableCell>
                           {blockViewInfo.indep_hash ?
-                            <Fragment>                              
+                            <Fragment>
                               {isMobileData == true ?
                                 <StringDisplay InputString={`${blockViewInfo.indep_hash}`} StringSize={12} href={null}/>
                                 :
@@ -417,7 +419,7 @@ const BlockTransactionList = () => {
                           {`${t(`Confirmations`)}`}:
                           </Typography>
                         </TableCell>
-                        <TableCell>{blockViewInfo.currentheight - blockViewInfo.height}</TableCell>
+                        <TableCell>{blockViewInfo.current_height - blockViewInfo.height}</TableCell>
                       </TableRow>
                       <TableRow>
                         <TableCell>
