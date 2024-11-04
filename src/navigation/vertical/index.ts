@@ -78,15 +78,7 @@ const DriveNavMenus = [
     path: '/overview'
   },
   {
-    sectionTitle: 'Chives Light Node'
-  },
-  {
-    title: 'Settings',
-    icon: 'mdi:cog',
-    path: '/lightnode/settings'
-  },
-  {
-    title: 'Running Status',
+    title: 'Node Status',
     icon: 'pajamas:status-health',
     path: '/lightnode/runningstatus'
   },
