@@ -17,6 +17,11 @@ const navigation = (): HorizontalNavItemsType => {
       path: '/blocks'
     },
     {
+      title: 'Blocks Reward',
+      icon: 'clarity:blocks-group-line',
+      path: '/blockreward'
+    },
+    {
       title: 'Transactions',
       icon: 'grommet-icons:transaction',
       path: '/txs'

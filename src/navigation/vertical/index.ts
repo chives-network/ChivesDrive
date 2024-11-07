@@ -20,6 +20,11 @@ const ExplorerNavMenus = [
     path: '/blocks'
   },
   {
+    title: 'Block Reward',
+    icon: 'material-symbols:rewarded-ads-outline',
+    path: '/blockreward'
+  },
+  {
     title: 'Transactions',
     icon: 'grommet-icons:transaction',
     path: '/txs'
@@ -107,6 +112,11 @@ const DriveNavMenus = [
   },
   {
     sectionTitle: 'Blockchain'
+  },
+  {
+    title: 'Block Reward',
+    icon: 'material-symbols:rewarded-ads-outline',
+    path: '/blockreward'
   },
   {
     title: 'Blocks',
