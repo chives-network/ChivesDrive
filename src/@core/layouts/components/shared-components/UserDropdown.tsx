@@ -45,7 +45,7 @@ const BadgeContentSpan = styled('span')(({ theme }) => ({
 const UserDropdown = (props: Props) => {
   // ** Props
   const { settings } = props
-  
+
   // ** Hook
   const { t } = useTranslation()
 
@@ -54,7 +54,7 @@ const UserDropdown = (props: Props) => {
 
   // ** Hooks
   const router = useRouter()
-  
+
   const { setAuthContextCurrentAddress } = useAuth()
 
   // ** Vars
@@ -71,7 +71,7 @@ const UserDropdown = (props: Props) => {
     setAnchorEl(null)
   }
 
-  
+
   const handleSwitchWalletAndDropdownClose = (url: string, address: string) => {
     setCurrentWallet(address)
     setAuthContextCurrentAddress(address)
@@ -105,7 +105,7 @@ const UserDropdown = (props: Props) => {
   const getAllWalletsData = getAllWallets()
   const getCurrentWalletAddressData = getCurrentWalletAddress()
   const getWalletNicknamesData = getWalletNicknames()
-  
+
   const styles = {
     py: 2,
     px: 4,
@@ -191,8 +191,8 @@ const UserDropdown = (props: Props) => {
                   <Icon icon='mdi:currency-usd' />
                   {getWalletNicknamesData[wallet.data.arweave.key] ? getWalletNicknamesData[wallet.data.arweave.key] : formatHash(wallet.data.arweave.key, 5)}
                 </Box>
-              }              
-            </MenuItem>          
+              }
+            </MenuItem>
           )
         })}
         <Divider />
@@ -217,16 +217,6 @@ const UserDropdown = (props: Props) => {
           <Box sx={styles}>
             <Icon icon='mdi:cog-outline' />
             {`${t(`Profile`)}`}
-          </Box>
-        </MenuItem>
-        :
-        null
-        }
-        { getAllWalletsData && getAllWalletsData.length > 0 ?
-        <MenuItem sx={{ p: 0 }} onClick={() => handleDropdownClose('/agent/register')}>
-          <Box sx={styles}>
-            <Icon icon='mdi:cog-outline' />
-            {`${t(`Register Agent`)}`}
           </Box>
         </MenuItem>
         :
