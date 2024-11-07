@@ -5,16 +5,11 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import axios from 'axios'
 import authConfig from 'src/configs/auth'
 
-interface DataParams {
-  pageId: number
-  pageSize: number
-}
-
 // ** Fetch Data
-export const fetchData = createAsyncThunk('appBlocks/fetchData', async (params: DataParams) => {
-  const response = await axios.get(authConfig.backEndApi + '/blockpage/'+ `${params.pageId}` + '/'+params.pageSize)
+export const fetchData = createAsyncThunk('appBlocks/fetchData', async () => {
+  const response = await axios.get(authConfig.backEndApi + '/blockreward/')
 
-  const NewData: any[] = response.data.data.filter((record: any) => record.id)
+  const NewData: any[] = response.data.data.filter((record: any) => record.reward_addr)
   response.data.data = NewData
 
   return response.data
