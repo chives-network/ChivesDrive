@@ -20,6 +20,7 @@ import CardContent from '@mui/material/CardContent'
 import TableContainer from '@mui/material/TableContainer'
 
 import { formatTimestamp, formatStorageSize } from 'src/configs/functions';
+import StringDisplay from 'src/pages/preview/StringDisplay'
 
 import { ThemeColor } from 'src/@core/layouts/types'
 import { isMobile } from 'src/configs/functions'
@@ -88,7 +89,7 @@ const LinkStyled = styled(Link)(({ theme }) => ({
 const PeersInfo = () => {
   // ** Hook
   const { t } = useTranslation()
-  
+
   const [peers, setPeers] = useState<any[]>()
 
   const [chainInfo, setChainInfo] = useState<ChainInfoType>()
@@ -107,10 +108,10 @@ const PeersInfo = () => {
         /*
         // 示例
         const plaintext = 'Hello, AES-GCM!Hello!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!';
-        
+
         const getCurrentWalletData = getCurrentWallet();
         const FileEncrypt = EncryptDataWithKey(plaintext, "FileName001", getCurrentWalletData.jwk);
-        
+
         console.log('EncryptDataWithKeyData:', FileEncrypt);
 
         const FileCipherKey = calculateSHA256(FileEncrypt['Cipher-IV'] + FileEncrypt['Cipher-UUID'] + getCurrentWalletData.jwk.d);
@@ -132,12 +133,12 @@ const PeersInfo = () => {
         console.log('FileContent:', FileContent);
 
         const encryptAndDecrypt = async () => {
-          const getCurrentWalletData = getCurrentWallet();      
-          const plaintext = 'Hello, World!!!!!!!!!!!!!!!!!!!!--!!!!0';      
+          const getCurrentWalletData = getCurrentWallet();
+          const plaintext = 'Hello, World!!!!!!!!!!!!!!!!!!!!--!!!!0';
           const encryptedData = await encryptWithPublicKey(getCurrentWalletData.jwk.n, plaintext);
-          console.log('Encrypted Data:', encryptedData);      
+          console.log('Encrypted Data:', encryptedData);
           const decryptedText = await decryptWithPrivateKey(getCurrentWalletData.jwk, encryptedData);
-          console.log('Decrypted Text:', decryptedText);      
+          console.log('Decrypted Text:', decryptedText);
         }
         encryptAndDecrypt();
 
@@ -148,7 +149,7 @@ const PeersInfo = () => {
 
 
   useEffect(() => {
-    
+
     //Frist Time Api Fetch
     axios.get(authConfig.backEndApi + '/peersinfo', { headers: { }, params: { } })
         .then(res => {
@@ -172,13 +173,13 @@ const PeersInfo = () => {
   StatusList['2'] = "Light Node"
   StatusList['-1'] = "Offline"
 
-  
+
 
   return (
     <Fragment>
-      {peers ? 
+      {peers ?
         <Grid container spacing={6}>
-          
+
           {chainInfo != undefined ?
             <Grid item xs={12}>
               <Card>
@@ -257,13 +258,13 @@ const PeersInfo = () => {
           :
             <Fragment></Fragment>
           }
-          
+
           {isMobileData ?
             <Fragment>
               {peers.map((item: any, index: number) => (
                 <Grid item xs={12} sx={{ py: 1 }} key={index}>
                   <Card>
-                    <CardContent> 
+                    <CardContent>
                       <TableContainer>
                         <Table size='small' sx={{ width: '95%' }}>
                           <TableBody
@@ -331,6 +332,13 @@ const PeersInfo = () => {
                             </TableRow>
                             <TableRow>
                               <TableCell>
+                                <Typography variant='body2' sx={{ color: 'text.primary', display: 'flex', alignItems: 'center' }}>
+                                {`${t(`Miner`)}`}：<StringDisplay InputString={`${item.mining_address}`} StringSize={7} href={`/addresses/all/${item.mining_address}`}/>
+                                </Typography>
+                              </TableCell>
+                            </TableRow>
+                            <TableRow>
+                              <TableCell>
                                 <Typography variant='body2' sx={{ color: (item.status == 1 || item.status == 2) ? 'primary.main' : 'error.main' }}>
                                 {`${t(`Status`)}`}：{StatusList[item.status] || 'Offline'}
                                 </Typography>
@@ -340,10 +348,10 @@ const PeersInfo = () => {
                           </TableBody>
                         </Table>
                       </TableContainer>
-                    </CardContent>    
+                    </CardContent>
                   </Card>
                 </Grid>
-              ))}              
+              ))}
             </Fragment>
           :
           <Grid item xs={12}>
@@ -359,10 +367,8 @@ const PeersInfo = () => {
                       <TableCell>{`${t(`Id`)}`}</TableCell>
                       <TableCell>{`${t(`Ip`)}`}</TableCell>
                       <TableCell>{`${t(`Location`)}`}</TableCell>
-                      <TableCell>{`${t(`Isp`)}`}</TableCell>
                       <TableCell>{`${t(`Country`)}`}</TableCell>
-                      <TableCell>{`${t(`Region`)}`}</TableCell>
-                      <TableCell>{`${t(`City`)}`}</TableCell>
+                      <TableCell>{`${t(`Miner`)}`}</TableCell>
                       <TableCell>{`${t(`Status`)}`}</TableCell>
                     </TableRow>
                   </TableHead>
@@ -379,10 +385,8 @@ const PeersInfo = () => {
                           }
                         </TableCell>
                         <TableCell>{item.location}</TableCell>
-                        <TableCell>{item.isp}</TableCell>
                         <TableCell>{item.country}</TableCell>
-                        <TableCell>{item.region}</TableCell>
-                        <TableCell>{item.city}</TableCell>
+                        <TableCell>{item.mining_address}</TableCell>
                         <TableCell>
                           <Typography variant='body2' sx={{ color: (item.status == 1 || item.status == 2) ? 'primary.main' : 'error.main' }}>
                             {StatusList[item.status] || 'Offline'}
@@ -393,11 +397,11 @@ const PeersInfo = () => {
                   </TableBody>
                 </Table>
               </TableContainer>
-              
+
             </Card>
           </Grid>
           }
-          
+
         </Grid>
       :
         <Fragment></Fragment>

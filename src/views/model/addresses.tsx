@@ -103,16 +103,16 @@ const LinkStyledNormal = styled(Link)(({ theme }) => ({
 const AddressTransactionListModel = ({ activeTab } : any) => {
   // ** Hook
   const { t } = useTranslation()
-  
+
   const router = useRouter()
   const { id } = router.query
 
   const paginationModelDefaultValue = { page: 0, pageSize: 15 }
-  const [paginationModel, setPaginationModel] = useState(paginationModelDefaultValue)  
+  const [paginationModel, setPaginationModel] = useState(paginationModelDefaultValue)
   const handlePageChange = (event: React.ChangeEvent<unknown>, page: number) => {
     setPaginationModel({ ...paginationModel, page:page-1 });
     console.log("handlePageChange", event)
-  }  
+  }
   const isMobileData = isMobile()
 
   // ** State
@@ -165,14 +165,14 @@ const AddressTransactionListModel = ({ activeTab } : any) => {
 
   function parseTxFeeAndBundleId(TxRecord: TxRecordType) {
     if(TxRecord.bundleid && TxRecord.bundleid!="") {
-    
+
       return (
         <Tooltip title={`BundleId: ${TxRecord.bundleid}`}>
           <LinkStyledNormal href={`/txs/view/${TxRecord.bundleid}`}>{formatHash(TxRecord.bundleid, 5)}</LinkStyledNormal>
         </Tooltip>
       )
     }
-  
+
     return formatXWE(TxRecord.fee.winston, 6);
   }
 
@@ -185,7 +185,7 @@ const AddressTransactionListModel = ({ activeTab } : any) => {
       sortable: false,
       filterable: false,
       renderCell: ({ row }: TransactionCellType) => {
-        
+
         return (
           <Typography noWrap variant='body2'>
             <LinkStyled href={`/txs/view/${row.id}`}>{formatHash(row.id, 7)}</LinkStyled>
@@ -201,7 +201,7 @@ const AddressTransactionListModel = ({ activeTab } : any) => {
       sortable: false,
       filterable: false,
       renderCell: ({ row }: TransactionCellType) => {
-        
+
         return (
           <Typography noWrap variant='body2'>
             <LinkStyled href={`/addresses/all/${row.owner.address}`}>{formatHash(row.owner.address, 7)}</LinkStyled>
@@ -321,9 +321,9 @@ const AddressTransactionListModel = ({ activeTab } : any) => {
                         </TableCell>
                         <TableCell>
                           {id && id.length == 43 ?
-                            <Fragment>                              
+                            <Fragment>
                               {isMobileData == true ?
-                                <StringDisplay InputString={String(id)} StringSize={12} href={null}/>
+                                <StringDisplay InputString={String(id)} StringSize={10} href={null}/>
                                 :
                                 <StringDisplay InputString={String(id)} StringSize={25} href={null}/>
                               }
@@ -346,7 +346,7 @@ const AddressTransactionListModel = ({ activeTab } : any) => {
                       <TableRow>
                         <TableCell>
                           <Typography variant='subtitle2' sx={{ color: 'text.primary' }}>
-                            {`${t(`Total transactions`)}`}:
+                            {`${t(`Total Txs`)}`}:
                           </Typography>
                         </TableCell>
                         <TableCell>{store.total}</TableCell>
@@ -366,7 +366,7 @@ const AddressTransactionListModel = ({ activeTab } : any) => {
       <Fragment></Fragment>
     }
 
-    
+
       <Grid item xs={12}>
         <TabContext value={activeTab}>
           <TabList
@@ -414,13 +414,13 @@ const AddressTransactionListModel = ({ activeTab } : any) => {
           </TabList>
         </TabContext>
 
-        {isMobileData ? 
-        <Grid container spacing={6}>
+        {isMobileData ?
+        <Grid container spacing={6} mt={-1}>
           {store.data.map((row: any, index: number) => {
             return (
               <Grid item xs={12} sx={{ py: 0 }} key={index}>
                 <Card>
-                  <CardContent>      
+                  <CardContent>
                     <TableContainer>
                       <Table size='small' sx={{ width: '95%' }}>
                         <TableBody
@@ -482,7 +482,7 @@ const AddressTransactionListModel = ({ activeTab } : any) => {
                         </TableBody>
                       </Table>
                     </TableContainer>
-                  </CardContent>      
+                  </CardContent>
                 </Card>
               </Grid>
             )
@@ -517,7 +517,7 @@ const AddressTransactionListModel = ({ activeTab } : any) => {
           :
             <Fragment></Fragment>
           }
-        </Card>        
+        </Card>
         }
       </Grid>
     </Grid>

@@ -37,8 +37,14 @@ const FooterContent = () => {
           <LinkStyled target='_blank' href='https://wallet.chivesweave.org/'>
             Web Wallet
           </LinkStyled>
-          <LinkStyled target='_blank' href='https://chivesweave.org/aboutchivesweave/'>
-            About Us
+          <LinkStyled target='_blank' href='https://web.aowallet.org/'>
+            App Wallet
+          </LinkStyled>
+          <LinkStyled target='_blank' href='https://chromewebstore.google.com/detail/aowallet-arweave-wallet/dcgmbfihnfgaaokeogiadpgllidjnkgm?hl=en-US&utm_source=ext_sidebar'>
+            Chrome Extension
+          </LinkStyled>
+          <LinkStyled target='_blank' href='https://play.google.com/store/apps/details?id=org.aowallet.app'>
+            Google Play
           </LinkStyled>
         </Box>
       )}

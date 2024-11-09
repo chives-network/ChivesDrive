@@ -142,6 +142,13 @@ const BlockReward = () => {
                             }
                           }}
                         >
+                        <TableRow>
+                          <TableCell>
+                            <Typography variant='body2' sx={{ color: 'text.primary', display: 'flex', alignItems: 'center' }}>
+                            {`${t(`Id`)}`}：{(index+1)}
+                            </Typography>
+                          </TableCell>
+                        </TableRow>
                           <TableRow>
                             <TableCell>
                               <Typography variant='body2' sx={{ color: 'text.primary', display: 'flex', alignItems: 'center' }}>
