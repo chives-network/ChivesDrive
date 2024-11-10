@@ -41,6 +41,7 @@ interface ChainInfoType {
   weave_size: number
   denomination: number
   diff: string
+  addresses?: string
 }
 
 const renderStats = (data: ChainInfoType) => {
