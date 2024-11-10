@@ -64,13 +64,13 @@ const renderStats = (data: ChainInfoType) => {
       icon: <Icon icon='mdi:cellphone-link' />
     },
     {
-      stats: String(data.release),
-      title: 'Release',
+      stats: String(data.addresses),
+      title: 'Addresses',
       color: 'info',
       icon: <Icon icon='mdi:currency-usd' />
     }
   ]
-  
+
   return salesData.map((item: DataType, index: number) => (
     <Grid item xs={12} sm={3} key={index}>
       <Box key={index} sx={{ display: 'flex', alignItems: 'center' }}>
@@ -97,7 +97,7 @@ export type propsType = {
 const AnalyticsTransactionsCard = (props: propsType) => {
   // ** Hook
   const { t } = useTranslation()
-  
+
   // ** Props
   const { data } = props
 
