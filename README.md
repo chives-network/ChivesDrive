@@ -17,3 +17,5 @@ Just the Chivesweave mining node http api to as the explorer api, serverless des
 2 Chivesweave Drive
 
 3 Chivesweave Decentralized database
+
+3 Chivesweave Email
