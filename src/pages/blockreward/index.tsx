@@ -81,6 +81,22 @@ const BlockReward = () => {
 
   const columns: GridColDef[] = [
     {
+      flex: 0.1,
+      minWidth: 40,
+      field: 'id',
+      headerName: `${t(`ID`)}`,
+      sortable: false,
+      filterable: false,
+      renderCell: ({ row }: any) => {
+
+        return (
+          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+            {row.index+1}
+          </Box>
+        )
+      }
+    },
+    {
       flex: 0.6,
       minWidth: 80,
       field: 'reward_addr',
@@ -113,16 +129,21 @@ const BlockReward = () => {
     }
   ]
 
+  const NewArray: any[] = store.data.map((item: any, index: number) => ({
+    ...item,
+    index,
+  }));
+
   return (
     <Fragment>
         {isMobileData ?
         <Grid container spacing={6}>
           <Grid item xs={12}>
             <Card>
-              <CardHeader title={`${t('Blocks Reward Address In Last 24 Hours')}`} sx={{ px: 5, py: 3 }}/>
+              <CardHeader title={`${t('Blocks Reward Address In Last 24 Hours')} : ${NewArray.length}`} sx={{ px: 5, py: 3 }}/>
             </Card>
           </Grid>
-          {store.data.map((row: any, index: number) => {
+          {NewArray.map((row: any, index: number) => {
             return (
               <Grid item xs={12} sx={{ py: 0 }} key={index}>
                 <Card>
@@ -184,11 +205,11 @@ const BlockReward = () => {
         <Grid container spacing={6}>
           <Grid item xs={12}>
             <Card>
-              <CardHeader title={`${t(`Blocks Reward Address In Last 24 Hours`)}`} />
+              <CardHeader title={`${t('Blocks Reward Address In Last 24 Hours')} : ${NewArray.length}`} />
               <Divider />
               <DataGrid
                 autoHeight
-                rows={store.data}
+                rows={NewArray}
                 rowCount={store.total as number}
                 columns={columns}
                 sortingMode='server'

@@ -83,11 +83,6 @@ const DriveNavMenus = [
     path: '/overview'
   },
   {
-    title: 'Node Status',
-    icon: 'pajamas:status-health',
-    path: '/lightnode/runningstatus'
-  },
-  {
     sectionTitle: 'My Portal'
   },
   {
