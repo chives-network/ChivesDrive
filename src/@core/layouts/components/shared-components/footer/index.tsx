@@ -5,9 +5,6 @@ import { useTheme } from '@mui/material/styles'
 // ** Type Import
 import { LayoutProps } from 'src/@core/layouts/types'
 
-// ** Footer Content Component
-import FooterContent from './FooterContent'
-
 interface Props {
   settings: LayoutProps['settings']
   saveSettings: LayoutProps['saveSettings']
@@ -17,7 +14,7 @@ interface Props {
 
 const Footer = (props: Props) => {
   // ** Props
-  const { settings, footerStyles, footerContent: userFooterContent } = props
+  const { settings, footerStyles } = props
 
   // ** Hook
   const theme = useTheme()
@@ -78,7 +75,6 @@ const Footer = (props: Props) => {
             : { px: [4, 6] })
         }}
       >
-        {userFooterContent ? userFooterContent(props) : <FooterContent />}
       </Box>
     </Box>
   )
