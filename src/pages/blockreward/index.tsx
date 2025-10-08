@@ -142,7 +142,7 @@ const BlockReward = () => {
 
   return (
     <Fragment>
-        {isMobileData || true ?
+        {isMobileData ?
         <Grid container spacing={6}>
           <Grid item xs={12}>
             <Card>
