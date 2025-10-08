@@ -37,6 +37,10 @@ import { isMobile } from 'src/configs/functions'
 import Pagination from '@mui/material/Pagination'
 import StringDisplay from 'src/pages/preview/StringDisplay'
 
+import addressName from 'src/configs/addressname'
+
+const addressMap: any = addressName
+
 const LinkStyled = styled(Link)(({ theme }) => ({
   fontWeight: 550,
   fontSize: '1rem',
@@ -107,7 +111,7 @@ const BlockReward = () => {
 
         return (
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
-            <LinkStyled href={`/addresses/all/${row.reward_addr}`}>{row.reward_addr}</LinkStyled>
+            <LinkStyled href={`/addresses/all/${row.reward_addr}`}>{addressMap[row.reward_addr] ? addressMap[row.reward_addr] : row.reward_addr}{}</LinkStyled>
           </Box>
         )
       }
@@ -134,9 +138,11 @@ const BlockReward = () => {
     index,
   }));
 
+  console.log("NewArray", NewArray)
+
   return (
     <Fragment>
-        {isMobileData ?
+        {isMobileData || true ?
         <Grid container spacing={6}>
           <Grid item xs={12}>
             <Card>
