@@ -39,6 +39,8 @@ import StringDisplay from 'src/pages/preview/StringDisplay'
 
 import addressName from 'src/configs/addressname'
 
+import { formatHash } from 'src/configs/functions'
+
 const addressMap: any = addressName
 
 const LinkStyled = styled(Link)(({ theme }) => ({
@@ -186,7 +188,7 @@ const BlockReward = () => {
                           <TableRow>
                             <TableCell>
                               <Typography variant='body2' sx={{ color: 'text.primary', display: 'flex', alignItems: 'center' }}>
-                              {`${t(`Address`)}`}：{addressMap[row.reward_addr] ? addressMap[row.reward_addr] : row.reward_addr}
+                              {`${t(`Address`)}`}：{addressMap[row.reward_addr] ? addressMap[row.reward_addr] : formatHash(row.reward_addr, 10)}
                               </Typography>
                             </TableCell>
                           </TableRow>
