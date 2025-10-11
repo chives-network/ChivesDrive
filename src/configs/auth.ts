@@ -7,7 +7,7 @@ console.log('Hostname:', hostname);
 export default {
   productName: 'ChivesDrive',
   tokenName: 'XWE',
-  backEndApi: (hostname == 'localhost') ? 'http://localhost:1985' : 'https://api2.chivesweave.org', //https://api2.chivesweave.org,
+  backEndApi: (hostname == 'localhost') ? 'http://localhost:1985' : 'https://api.chivesweave.org', //https://api.chivesweave.org,
   faucetApi: 'https://faucet.chivesweave.org/faucet.php',
   checkNodeavAilability: 'https://faucet.chivesweave.org/checkNodeavAilability.php',
   getNodeInternetIp: 'https://faucet.chivesweave.org/getNodeInternetIp.php',
