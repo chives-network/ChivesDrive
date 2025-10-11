@@ -197,6 +197,13 @@ const AddressesList = () => {
                           </TableRow>
                           <TableRow>
                             <TableCell>
+                              <Typography variant='body2' sx={{ color: 'text.primary', display: 'flex', alignItems: 'center' }}>
+                              {`${t(`Address`)}`}：{addressMap[item.id] ? addressMap[item.id] : formatHash(item.id, 10)}
+                              </Typography>
+                            </TableCell>
+                          </TableRow>
+                          <TableRow>
+                            <TableCell>
                               <Typography variant='body2' sx={{ color: 'text.primary' }}>
                               {`${t(`Balance`)}`}：{formatXWEAddress(item.balance, 4)}
                               </Typography>

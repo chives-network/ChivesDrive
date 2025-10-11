@@ -111,7 +111,7 @@ const BlockReward = () => {
 
         return (
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
-            <LinkStyled href={`/addresses/all/${row.reward_addr}`}>{addressMap[row.reward_addr] ? addressMap[row.reward_addr] : row.reward_addr}{}</LinkStyled>
+            <LinkStyled href={`/addresses/all/${row.reward_addr}`}>{addressMap[row.reward_addr] ? addressMap[row.reward_addr] : row.reward_addr}</LinkStyled>
           </Box>
         )
       }
@@ -169,17 +169,24 @@ const BlockReward = () => {
                             }
                           }}
                         >
-                        <TableRow>
-                          <TableCell>
-                            <Typography variant='body2' sx={{ color: 'text.primary', display: 'flex', alignItems: 'center' }}>
-                            {`${t(`Id`)}`}：{(index+1)}
-                            </Typography>
-                          </TableCell>
-                        </TableRow>
+                          <TableRow>
+                            <TableCell>
+                              <Typography variant='body2' sx={{ color: 'text.primary', display: 'flex', alignItems: 'center' }}>
+                              {`${t(`Id`)}`}：{(index+1)}
+                              </Typography>
+                            </TableCell>
+                          </TableRow>
                           <TableRow>
                             <TableCell>
                               <Typography variant='body2' sx={{ color: 'text.primary', display: 'flex', alignItems: 'center' }}>
                               {`${t(`Address`)}`}：<StringDisplay InputString={`${row.reward_addr}`} StringSize={7} href={`/addresses/all/${row.reward_addr}`}/>
+                              </Typography>
+                            </TableCell>
+                          </TableRow>
+                          <TableRow>
+                            <TableCell>
+                              <Typography variant='body2' sx={{ color: 'text.primary', display: 'flex', alignItems: 'center' }}>
+                              {`${t(`Address`)}`}：{addressMap[row.reward_addr] ? addressMap[row.reward_addr] : row.reward_addr}
                               </Typography>
                             </TableCell>
                           </TableRow>
