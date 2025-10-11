@@ -6,6 +6,7 @@ import Head from 'next/head'
 import { Router } from 'next/router'
 import type { NextPage } from 'next'
 import type { AppProps } from 'next/app'
+import { Analytics } from '@vercel/analytics/next'
 
 // ** Store Imports
 import { store } from 'src/store'
@@ -140,6 +141,7 @@ const App = (props: ExtendedAppProps) => {
                     <ReactHotToast>
                       <Toaster position={settings.toastPosition} toastOptions={{ className: 'react-hot-toast' }} />
                     </ReactHotToast>
+                    <Analytics />
                   </ThemeComponent>
                 )
               }}
